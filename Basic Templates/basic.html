@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" href="../logo.png">
+	<title>Jagrati | Alumni Association</title>
+	<link rel="stylesheet" type="text/css" href="../css/alumni.css">
+	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+</head>
+<body>
+	<!-- Header Starts -->
+	<header>
+		<div class="container">
+			<div id="branding">
+				<h1><span onclick="document.querySelector('.breadcrumb a').click()" style="cursor: pointer;">Jagrati</span></h1>
+				<div class="branding1">
+					<p>an initiative by iiitians</p>
+				</div>
+			</div>
+			<a href="../logo.jpg" target="_blank" style="float: right;"><img src="../logo.png" class="logo"></a>
+			
+		</div>
+	</header>
+	<!-- Header Ends -->
+
+	<!-- Navbar starts -->
+	<nav>
+		<div class="container">
+			<div class="breadcrumb">
+				<ul>
+					<li><a href="../index.html">Home</a></li>
+					<li>Alumni Association</li>
+				</ul>
+			</div>
+			<div class="navbar1">
+				<ul>
+					<li><a href="#" class="button" >Login</a></li>
+					<li><button class="button" onclick="donate_us()">Donate</button></li>
+					
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<!-- Navbar ends -->
+
+	<!-- Donate Us Modal begins -->
+	<div id="don-modal">
+		<div class="don-modal-contents">
+			<span class="close" id="don-close">&times</span>
+			<div class="don-box1">
+					<h2>Donate Us</h2>
+				</div>
+			<div class="container">
+				<div class="don-box2">
+					<h3>Bank Details</h3>
+					<h4>Account Name</h4>
+					<p>JAGRATI</p>
+					<h4>Account No.</h4>
+					<p>50267810033</p>
+					<h4>IFSC Code</h4>
+					<p>ALLA0212433</p>
+				</div>
+				<div class="don-box3">
+					<h3>Contact Details</h3>
+					<p><i class="fas fa-mobile fa-2x"></i>  +91-xxxxx-xxxxx</p>
+					<p><i class="fas fa-envelope fa-2x"></i>  jagrati@iiitdmj.ac.in</p>
+					<p><i class="fas fa-map-marker-alt fa-2x"></i>  PDPM IIITDM JABALPUR</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Donate Us Modal ends -->
+
+	<!-- Alumni Cards starts -->
+	<!-- Alumni Cards ends -->
+
+	<!-- Contact Us section starts -->
+	<section id="contact-us">
+		<div class="container">
+			<h1 data-aos="fade-up">Contact Us</h1>
+			<div id="googleMap" data-aos="fade" data-aos-delay="100" data-aos-duration="700" data-aos-easing="ease-in-back" data-aos-anchor="#contact-us h1"></div>
+			<p data-aos="zoom-in" data-aos-delay="100" data-aos-duration="700"><i class="fas fa-map-marker-alt fa-2x"></i>  Pandit Dwarka Prasad Mishra Indian Institute of Information Technology, Design and Manufacturing Jabalpur</p>
+			<div>
+				<div class="con-box1" data-aos="fade-down-right">
+					<p><i class="fas fa-mobile fa-2x"></i>  +91-xxxxx-xxxxx</p>
+				</div>
+				<div class="con-box1" data-aos="fade-down-left">
+					<p><i class="fas fa-envelope fa-2x"></i>  jagrati@iiitdmj.ac.in</p>
+				</div>
+			</div>
+			<div class="clr"></div>
+			<div class="con-box2">
+				<p>
+					<a href="https://www.facebook.com/JAGRATI.IIITDMJ/" target="_blank">
+						<i class="fab fa-facebook fa-2x" data-aos="fade-left" data-aos-delay="200" data-aos-anchor=".con-box1"></i>
+					</a>
+					<a href="https://www.instagram.com/jagrati.iiitdmj/" target="_blank">
+						<i class="fab fa-instagram fa-2x" data-aos="fade-left" data-aos-delay="550" data-aos-anchor=".con-box1"></i>
+					</a>
+					<a href="https://www.youtube.com/channel/UC0VyWk6o3XXGi1oq-XIbbJQ/" target="_blank">
+						<i class="fab fa-youtube fa-2x" data-aos="fade-left" data-aos-delay="900" data-aos-anchor=".con-box1"></i>
+					</a>
+				</p>
+			</div>
+		</div>
+	</section>
+	<div class="con-sidenav">
+		<a href="#contact-us">Contact Us</a>
+	</div>
+	<!-- Contact Us section ends -->
+
+	<!-- Footer starts -->
+	<footer>
+		<div class="container">
+			Jagrati Copyright &copy; 2019
+		</div>
+	</footer>
+	<!-- Footer ends -->
+
+	<script type="text/javascript" src="../js/alumni.js"></script>
+	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJuMBHnVGHzt-a1sfFWnffTefJSCAS2gU&callback=myMap"
+  	type="text/javascript"></script>
+  	<script>AOS.init({once: true});</script>
+
+</body>
+</html>

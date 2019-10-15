@@ -1,0 +1,345 @@
+body{
+	font: 15px/1.5 Arial ,Helvetica ,sans-serif;
+	margin : 0;
+	padding: 0;
+	background: #d4d4d4;
+}
+.container{
+	max-width:80%;
+	margin:auto;
+	overflow: hidden;
+}
+.clr{
+	clear: both;
+}
+a{
+	padding: 0px 0px;
+	text-decoration: none;
+	color: black;
+	/*display: inline-block;*/
+}
+
+/*HEADER STARTS*/
+
+header{
+	background: #666;
+	min-height: 60px;
+}
+#branding{
+	float: left;
+	margin: 15px 0;
+	/* align-content: space-between; */
+}
+#branding h1{
+	margin:0;
+	padding: 0;
+	color: orange;
+	font-size: 1.8em;
+	letter-spacing: -0.5px; 
+}
+.branding1{
+	/* float:left; */
+	margin-top: -22px;
+	/* padding-left: 5px; */
+	/*font-size: 0.9em;
+	word-spacing: -0.5px;
+	letter-spacing: -0.5px;*/
+	margin-left: 90px;
+}
+.branding1 p{
+	margin: 0;
+	color: white;
+}
+.logo{
+	background-image: url("logo.jpg");
+	margin: 5px 0px;
+	height: 60px;
+	float: right;
+}
+
+/*NAVBAR STARTS*/
+
+nav{
+	background-color: #ff8c00;
+	position: sticky;
+	top: 0;
+	z-index: 1;
+}
+.breadcrumb{
+	float: left;
+}
+.breadcrumb ul{
+	list-style: none;
+	margin: 0;
+	padding-left: 6.5px;
+}
+.breadcrumb li{
+	display: inline;
+}
+.breadcrumb li+li:before{
+	padding: 8px;
+	content: "/\00a0";
+}
+.breadcrumb a{
+	color: rgb(0,0,238);
+	display: inline-block;
+	text-decoration: none;
+	padding: 6.5px 0;
+}
+.breadcrumb a:hover{
+	/*color: #01447e;*/
+	text-decoration: underline;
+}
+/*Right Nav bar*/
+.navbar1{
+	float: right;
+	margin: 5px 0;
+}
+.navbar1 ul{
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.navbar1 li{
+	display: inline;
+	padding: 0 5px;
+	color: black;
+}
+.navbar1 .button{
+	position: relative;
+	padding: 3px 10px;
+	background-color: #ff8c00;
+	font-size: 15px;
+	overflow: hidden;
+	transition: 0.5s ease;
+	border: 1px red solid;
+	border-radius: 10px;
+	cursor: pointer;
+}
+.navbar1 .button:hover{
+	background-color: red;
+	color: white;
+	padding: 3px 12px;
+}
+
+/*DONATE-US MODAL BOX STARTS*/
+
+#don-modal{
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.4);
+	padding-top: 100px;
+}
+.don-modal-contents{
+	width: 80%;
+	margin: auto;
+	background-color: #ddd;
+	border: 1px #222 solid;
+	border-radius: 7px;
+	overflow: auto;
+	max-height: 65%;
+}
+.don-modal-contents .container{
+	max-width: 90%;
+}
+.don-modal-contents .container h4{
+	margin: 10px 0 5px;
+}
+.don-modal-contents h3{
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	font-weight: 100;
+}
+.don-modal-contents .close{
+	position: absolute;
+	top: 100px;
+	right: 10%;
+	float:right;
+	color: #333;
+	font-size: 28px;
+	font-weight: bold;
+	cursor: pointer;
+	/*transform: translateX(-13px);*/
+	padding-right: 13px; /*instead of transform property*/
+	/*z-index: 2;*/
+	/*margin-right: 13px; */
+}
+.don-box1{
+	background-color: #666;
+}
+.don-box1 h2{
+	margin: 0;
+	padding: 17px 0 5px;
+	text-align: center;
+}
+.don-box1::after{
+	content: "";
+	display: block;
+	width: 16%;
+	margin: auto;
+	height: 2px;
+	background-color: #ff8c00;
+}
+.don-box2, .don-box3{
+	float: left;
+	width: 50%;
+	box-sizing: border-box;
+	text-align: center;
+}
+.don-box2 p{
+	margin: 0 0 20px;
+}
+
+/*CONTACT US STARTS*/
+
+#contact-us{
+	text-align: center;
+	padding: 10px 0 0;
+	/*background-color: #616370;*/
+}
+#contact-us h1{
+	margin: 0;
+	padding: 5px 0 15px;
+}
+#contact-us h1::after{
+	content: "";
+	display: block;
+	width: 13%;
+	margin: auto;
+	margin-top: 2px;
+	height: 2px;
+	background-color: #ff8c00;
+}
+.con-box1{
+	float: left;
+	width: 50%;
+	box-sizing: border-box;
+	text-align: center;
+}
+.con-box1 p{
+	margin-top: 0;
+}
+.con-box2 a{
+	padding: 0 10px;
+}
+.con-box2 a:first-child:hover{
+	color: blue;
+}
+.con-box2 a:nth-child(2):hover{
+	color: #fb3958;
+}
+.con-box2 a:last-child:hover{
+	color: red;
+}
+#googleMap{
+	width: 100%;
+	height: 250px;
+	margin: auto;
+	box-sizing: border-box;
+}
+/*Contact Us Side Nav*/
+.con-sidenav a{
+	position: fixed;
+	bottom: 90px;
+	right: -90px;
+	width: 100px;
+	padding: 15px;
+	text-decoration: none;
+	color: white;
+	background-color: red;
+	border-radius: 5px 0 0 5px;
+	transition: 0.3s;
+	/*cursor: pointer;*/
+}
+.con-sidenav a:hover{
+	right:-10px;
+}
+/*FOOTER STARTS*/
+
+footer{
+	background-color: #1a1b1e;
+	color: white;
+	text-align: center;
+	padding: 5px 0;
+}
+
+/*MEDIA QUERIES*/
+
+@media(max-width: 500px){
+	/*For Donate Us modal box*/
+	.don-box2, .don-box3{
+		float: none;
+		width: 100%
+	}
+}
+@media(max-width: 450px){
+	/*For CONTACT US section*/
+	.con-box1{
+		float: none;
+		width: 100%;
+	}
+	.con-box2 p{
+		margin-top: 20px;
+	}
+}
+@media(max-width: 400px){
+	/*For Jagrati Branding*/
+	#branding{
+		margin: 11px 0;
+	}
+	.branding1{
+		float: none;
+		display: block;
+		margin-top: -4px;
+		margin-left: 03px;
+	}
+	.logo{
+		height: 70px;
+	}
+	
+	/*For BREADCRUMB*/
+	nav .container{
+		max-width: 90%;
+	}
+}
+
+
+@media(min-width: 800px){
+	/*For Donate Us modal box*/
+	.don-modal-contents{
+		width: 630px;
+	}
+	.don-modal-contents .close{
+		right: 50%;
+		transform: translateX(315px);
+	}
+}
+@media(min-width: 900px){
+	/*For CONTACT US section*/
+	#googleMap{
+		height: 300px;
+	}
+	.con-box1:first-child{
+		padding-left: 40px;
+	}
+	.con-box1:nth-child(2){
+		padding-right: 40px;
+	}
+}
+@media(min-width: 1080px){
+	/*For Contact Us section*/
+	.con-box1:first-child{
+		padding-left: 80px;
+	}
+	.con-box1:nth-child(2){
+		padding-right: 80px;
+	}
+	#contact-us .container{
+		width: 70%;
+	}
+}
