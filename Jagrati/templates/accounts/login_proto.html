@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %} Login | SignUp {% endblock %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+        <h3>User is Authenticated.</h3>
+        <a href="{% url 'logout' %}"> Logout </a>
+    {% else %}
+
+    <h1> Login </h1>
+    <form  method="post">
+        {% csrf_token %}
+        <p> {{ login_error }} </p>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type='submit' name='submit' value='login'>Login</button>
+    </form>
+
+    <h1> SignUp </h1>
+    <form  method="post">
+        {% csrf_token %}
+        <p> {{ signup_error }} </p>
+        <input type="email" name="email" placeholder="Email" required><br>
+        <input type="radio" name="desig" value="V" checked> Volunteer
+        <input type="radio" name="desig" value="F"> Faculty<br>
+        <input type="password" name="password1" placeholder="Password" required><br>
+        <input type="password" name="password2" placeholder="Confirm Password" required><br>
+        <button type='submit' name='submit' value='sign_up'>Sign Up</button>
+    </form>
+
+    {% endif %}
+
+{% endblock %}
