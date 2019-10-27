@@ -31,13 +31,15 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'home',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'home',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -123,3 +125,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     '/',
 ]
+
+AUTH_USER_MODEL = 'accounts.User'
+# LOGOUT_REDIRECT_URL = '/accounts/'
