@@ -13,7 +13,7 @@ body {
 	flex-direction: column;
 	font-family: 'Montserrat', sans-serif;
 	height: 100vh;
-	margin: -20px 0 50px;
+	margin: -20px 0 20px;
 }
 
 h1 {
@@ -232,4 +232,87 @@ input {
 
 .social-container {
 	margin: 20px 0;
+}
+
+
+@media screen and (max-width: 900px) {
+    .container{
+        max-width: 90%;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    form{
+        padding: 0 30px;
+	}
+	.radio-input-label1{
+		margin-right: 20px;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	body{
+		height: auto;
+		margin: 50px 0;
+	}
+
+	form{
+        padding: 0 50px;
+	}
+
+	.radio-input-label1{
+		margin-right: 25px;
+	}
+
+    .container{
+        min-height: 770px;
+	}
+
+	.form-container {
+		left: 0;
+		width: 100%;
+	}
+
+	.sign-in-container {
+		top: 0;
+		height: 50%;
+	}
+
+	.container.right-panel-active .sign-in-container {
+		transform: translateY(100%);
+	}
+
+	.sign-up-container {
+		top: 0;
+		height: 50%;
+	}
+	
+	.container.right-panel-active .sign-up-container {
+		transform: translateY(100%);
+	}
+
+	.overlay-container {
+		left: 0;
+		top: 50%;
+		height: 50%;
+		width: 100%;
+	}
+	
+	.container.right-panel-active .overlay-container{
+		transform: translateY(-100%);
+	}
+}
+
+@media screen and (max-width: 425px) {
+	.container{
+        min-height: 820px;
+	}
+
+	form{
+        padding: 0 30px;
+	}
+
+	.radio-input-label1{
+		margin-right: 20px;
+	}
 }
