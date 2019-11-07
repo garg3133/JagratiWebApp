@@ -1,7 +1,8 @@
 from django.urls import path
-from .views import login_signup, logout_fun
+from . import views
 
 urlpatterns = [
-    path('', login_signup, name = 'login_signup'),
-    path('logout/', logout_fun, name = 'logout'),
+    path('', views.login_signup, name = 'login_signup'),
+    path('logout/', views.logout_view, name = 'logout'),
+    path('activate/<slug:uidb64>/<slug:token>/', views.activate, name='activate'),
 ]

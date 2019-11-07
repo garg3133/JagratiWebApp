@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %} Login | SignUp {% endblock %}
+
+{% block content %}
+
+    <h1>Activate your account</h1>
+    <p>Account activation link has been sent to mail address: {{user}}</p>
+    <a href="{% url 'home' %}">Home</a>
+    <a href="#"> Resend Confirmation Mail</a>
+
+{% endblock %}
