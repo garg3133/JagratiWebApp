@@ -11,6 +11,9 @@ from .tokens import account_activation_token
 
 # Create your views here.
 def login_signup(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+        
     if request.method == 'POST':
         if request.POST.get('submit') == 'login':
             email = request.POST['email']
