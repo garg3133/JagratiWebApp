@@ -25,8 +25,6 @@ SECRET_KEY = '(8ty!=07t%td)i5%r8x4dh^tvb3sv+4e3zk1cq=(g)tcnn@nq8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
 ALLOWED_HOSTS = []
 
 
@@ -131,7 +129,8 @@ STATICFILES_DIRS = [
 AUTH_USER_MODEL = 'accounts.User'
 # LOGOUT_REDIRECT_URL = '/accounts/'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'jagrati123321@gmail.com'
