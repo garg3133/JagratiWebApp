@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}Volunteer Information{% endblock %}
+
+{% block content %}
+
+	<h3>Complete Signup</h3>
+	<div>
+		<form method="POST">
+			{% csrf_token %}
+			<input name="first_name" type="text" placeholder="First Name" required />
+			<input name="last_name" type="text" placeholder="Last Name" required />
+			<div class="drop-down-input">
+				<label for="gender" class="drop-down-input">Gender</label>
+				<select name="gender">
+					<option value="M">Male</option>
+					<option value="F">Female</option>
+					<option value="O">Other</option>
+				</select>
+			</div>
+			<input name="alt_email" type="email" placeholder="Alternate Email " required />
+			<input name="contact_no" type="text" placeholder="Contact Number" required />
+			<div class="drop-down-input">
+				<label for="programme" class="drop-down-input">Programme</label>
+				<select name="programme">
+					<option value="bt">B.Tech</option>
+					<option value="mt">M.Tech</option>
+					<option value="phd">phD</option>
+					<option value="bd">B.Des</option>
+					<option value="md">M.Des</option>
+				</select>
+			</div>
+			<div class="drop-down-input">
+					<label for="programme" class="drop-down-input">Batch</label>
+					<select name="batch">
+						{% for i in '43210'|make_list %}
+						<option value={{cur_year|add:i}}>{{cur_year|add:i}}</option>
+						{% endfor %}
+					</select>
+			</div>
+			<!-- <div class="drop-down-input">
+				<label for="schedule">Select Schedule</label>
+				<select name="schedule">
+					<optgroup label="Hindi">
+						{% for sch in schedule %}
+							{% if sch.subject == 'hin' %}
+								<option value={{sch.id}}>{{sch}}</option>
+							{% endif %}
+						{% endfor %}
+					</optgroup>
+					<optgroup label="English">
+							{% for sch in schedule %}
+								{% if sch.subject == 'eng' %}
+									<option value={{sch.id}}>{{sch}}</option>
+								{% endif %}
+							{% endfor %}
+					</optgroup>
+					<optgroup label="Math">
+							{% for sch in schedule %}
+								{% if sch.subject == 'mat' %}
+									<option value={{sch.id}}>{{sch}}</option>
+								{% endif %}
+							{% endfor %}
+					</optgroup>
+					<optgroup label="Science">
+							{% for sch in schedule %}
+								{% if sch.subject == 'sci' %}
+									<option value={{sch.id}}>{{sch}}</option>
+								{% endif %}
+							{% endfor %}
+					</optgroup>
+
+				</select>
+			</div> -->
+			<input name="dob" type="date" />
+			<input name="street_address1" type="text" placeholder="Address Line 1" required />
+			<input name="street_address2" type="text" placeholder="Address Line 2" required />
+			<input name="city" type="text" placeholder="City" required />
+			<input name="state" type="text" placeholder="State" required />
+			<input name="pincode" type="text" placeholder="Pincode" required/>
+			<button type="submit">Save</button>
+		</form>
+	</div>
+
+{% endblock %}  
