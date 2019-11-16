@@ -76,7 +76,7 @@ nav{
 	position: sticky;
 	top: 0;
 	background-color: #ff8c00;
-	z-index: 1;
+	z-index: 2;
 }
 .navbut{
 	border: 1px red solid;
@@ -216,7 +216,8 @@ nav{
 #showcase{
 	background: rgba(0,0,0,0.9) url("../images/02.jpg") no-repeat center -130px;
 	min-height: 500px; 
-	/* z-index: -1; */
+	z-index: 1;
+	position: relative;
 }
 .show-bg{
 	width: 100%;
@@ -245,6 +246,15 @@ nav{
 	color: #616370;
 	color: #818390;
 	font-size: 100%;
+}
+#about-us::before{
+	display: block;
+	content: "";
+	margin-top: -25px;
+	height: 25px;
+	visibility: hidden;
+	/* pointer-events: none;
+	position: relative;*/
 }
 #about-us h1, #about-us h2{
 	color: white;
@@ -706,6 +716,7 @@ nav{
 	background-color: red;
 	border-radius: 5px 0 0 5px;
 	transition: 0.3s;
+	z-index: 2;
 	/*cursor: pointer;*/
 }
 .con-sidenav a:hover{
