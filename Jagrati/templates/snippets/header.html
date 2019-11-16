@@ -1,0 +1,16 @@
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-dark border-bottom shadow-sm">
+	<h2 class="mb-3 my-md-0 mr-md-auto font-weight-normal" >
+		<a class="text-decoration-none" href="{% url 'home' %}" style="color:#ff8c00;">Jagrati</a>								<!--Change this-->
+	</h2>
+	<!-- <nav class="my-2 my-md-0 mr-md-3">
+		<a class="p-2 text-dark" href="#">Features</a>
+		<a class="p-2 text-dark" href="#">Enterprise</a>
+		<a class="p-2 text-dark" href="#">Support</a>
+		<a class="p-2 text-dark" href="#">Pricing</a>
+	</nav> -->
+	{% if user.is_authenticated and user.is_active%}
+	<a class="btn btn-outline-danger" href="{% url 'logout' %}">Sign Out</a>
+	{% else %}
+	<a class="btn btn-outline-danger" href="{% url 'login_signup' %}">Sign In</a>
+	{% endif %}
+</div>

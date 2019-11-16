@@ -1,12 +1,16 @@
-{% extends 'base.html' %}
+{% extends 'layout.html' %}
 
 {% block title %} Login | SignUp {% endblock %}
 
 {% block content %}
 
-    <h1>Activate your account</h1>
-    <p>Account activation link has been sent to mail address: {{user}}</p>
-    <a href="{% url 'home' %}">Home</a>
-    <a href="#"> Resend Confirmation Mail</a>
+    <div class="container">
+        <div class="d-flex flex-column">
+            <h1 class="m-auto">Activate your account</h1>
+            <p class="m-auto">Account activation link has been sent to mail address: {{user}}</p>
+            <p class="m-auto"><a href="{% url 'home' %}">Home</a></p>
+            <p class="m-auto"><a href="#"> Resend Confirmation Mail</a></p>
+        </div>
+    </div>
 
 {% endblock %}
