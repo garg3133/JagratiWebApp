@@ -1,10 +1,383 @@
 {% extends 'layout.html' %}
 
+{% load static %}
+
+{% block style %}
+	<style>
+		.main{
+			min-height: calc(100vh - 54px);   /* So that footer is at the bottom (without scroll) if screen is short*/
+		}
+
+		.sidebar {
+			position: fixed;
+			top: 71.4px;
+			bottom: 54px;
+			left: 0;
+			/* z-index: 100;  */
+			/* Behind the navbar */
+			/* padding: 28px 0 0; */
+			 /* Height of navbar */
+			box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+			overflow-y: auto;
+		}
+
+		/* .sidebar-sticky { */
+			/* position: relative; */
+			/* top: 0; */
+			/* height: calc(100vh - 48px); */
+			/* padding-top: .5rem; */
+			/* overflow-x: hidden; */
+			/* overflow-y: auto;  */
+			/* Scrollable contents if viewport is shorter than content. */
+		/* } */
+
+		/* @supports ((position: -webkit-sticky) or (position: sticky)) {
+			.sidebar-sticky {
+				position: -webkit-sticky;
+				position: sticky;
+			}
+		} */
+
+		/* .sidebar .nav-link {
+			font-weight: 500;
+			color: #333;
+		} */
+
+		/* .sidebar .nav-link.active {
+			color: #007bff;
+		} */
+
+		.sidebar-heading {
+			font-size: .75rem;
+			text-transform: uppercase;
+		}
+
+		.dash-img{
+			width: 100px;
+			height: 100px;
+		}
+		.dash-list li{
+			margin: 5px 0;
+		}
+
+
+		@media(max-width: 767px){
+			.sidebar{
+				position:static;
+			}
+			.main{
+				min-height: 100vh;
+			}
+		}
+
+	</style>
+
+{% endblock %}
+
 {% block content %}
-	<div class="container">
-		<div class="d-flex flex-column">
-			<h3 class="m-auto">Welcome {{user.email}}!</h3>
+
+	<div class="container-fluid">
+		<div class="row justify-content-end">
+			<nav class="col-md-4 col-lg-3 d-md-block bg-light sidebar">
+				<div class="sidebar-sticky">
+					<ul class="dash-list nav flex-column text-center">
+						<li class="nav-item">
+							<img class="dash-img rounded-circle my-3" src='{% static "logo.png" %}' alt="v">
+						</li>
+
+						{% if volunteer is not None %}
+							<li class="nav-item">
+								<h5>Name: <span class="lead"> {{volunteer.first_name}} {{volunteer.last_name}}</span> </h5>
+							</li>
+							<li class="nav-item">
+								<h5>Roll No: <span class="lead">{{volunteer.roll_no}}</span> </h5>
+							</li>
+						{% endif %}
+
+						<li class="nav-item">
+							<h5>Email: <span class="lead">{{user.email}}</span> </h5>
+						</li>
+						<li class="nav-item">
+							<h5 class="mt-3">Schedule</h5>
+						</li>
+						{% if vol_schedule is not None %}
+							<li class="nav-item">
+								<h5>Day: <span class="lead"> {{vol_schedule.day}}</span> </h5>
+							</li>
+							<li class="nav-item">
+								<h5>Section: <span class="lead">{{vol_schedule.schedule.get_section_display}}</span> </h5>
+							</li>
+							<li class="nav-item">
+								<h5>Subject: <span class="lead">{{vol_schedule.schedule.get_subject_display}}</span> </h5>
+							</li>
+						{% else %}
+							<li class="nav-item">
+								<h5>Day: <span class="lead"> -- </span> </h5>
+							</li>
+							<li class="nav-item">
+								<h5>Section: <span class="lead"> -- </span> </h5>
+							</li>
+							<li class="nav-item">
+								<h5>Subject: <span class="lead"> -- </span> </h5>
+							</li>
+						{% endif %}
+						<li class="nav-item">
+							<button type="button" class="btn btn-outline-primary mt-3"> Update Schedule</button>
+						</li>
+						<li class="nav-item">
+							<button type="button" class="btn btn-outline-primary" onclick="show_dash_update()" > Update Profile</button>
+						</li>
+						
+						
+					</ul>
+				</div>
+			</nav>
+
+			<div class="dash-main col-md-8 col-lg-9 mt-3">
+				<h3 class="text-center">Welcome {{user.email}}!</h3>
+				<form method="POST" class="needs-validation" novalidate>
+					{% csrf_token %}
+					<div class="row justify-content-center">
+						<div class="col-md-4 mb-3">
+							<label for="date">Date</label>
+							<!-- <input type="text" class="form-control" id="firstName" placeholder="" value="" required> -->
+							<input name="date" type="date" class="form-control" id="date" required>
+							<div class="invalid-feedback">
+								Plaese enter a valid date.
+							</div>
+						</div>
+						<div class="col-md-4 mb-3">
+							<label for="programme">Section</label>
+							<select name="programme" class="custom-select d-block w-100" id="programme" required>
+								<!-- <option value="bt">B.Tech</option>
+								<option value="mt">M.Tech</option>
+								<option value="phd">phD</option>
+								<option value="bd">B.Des</option>
+								<option value="md">M.Des</option> -->
+								{% for sec, display in choices %}
+									<option value="{{sec}}">{{display}}</option>
+								{% endfor %}
+							</select>
+							<!-- <div class="invalid-feedback">
+								Zip code required.
+							</div> -->
+						</div>
+					</div>
+					<div class="row justify-content-center mb-4">
+						<div class="col-md-4">
+							<button name="class-info" class="btn btn-primary btn-lg btn-block" type="submit">Continue</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="dash-update d-none col-md-8 col-lg-9 mt-3">
+				<h3 class="text-center">Update Profile</h3>
+				<div class="row justify-content-center">
+					<div class="col-lg-8">
+						<form method="POST" class="needs-validation" novalidate>
+							{% csrf_token %}
+							<div class="row">
+								<div class="col-md-6 mb-3">
+									<label for="rollNo">Roll No.</label>
+									<input name="roll_no" type="number" class="form-control" id="rollNo" placeholder="{{volunteer.roll_no}}" value="" required>
+									<div class="invalid-feedback">
+										Valid Roll No. is required.
+									</div>
+								</div>
+							</div>
+			
+							<div class="row">
+								<div class="col-md-6 mb-3">
+									<label for="firstName">First name</label>
+									<input name="first_name" type="text" class="form-control" id="firstName" placeholder="{{volunteer.first_name}}" value="" required>
+									<div class="invalid-feedback">
+										Valid First Name is required.
+									</div>
+								</div>
+								<div class="col-md-6 mb-3">
+									<label for="lastName">Last name</label>
+									<input name="last_name" type="text" class="form-control" id="lastName" placeholder="{{volunteer.last_name}}" value="" required>
+									<div class="invalid-feedback">
+										Valid Last Name is required.
+									</div>
+								</div>
+							</div>
+			
+							<div class="row">
+								<div class="col-md-4 mb-3">
+									<label for="gender">Gender</label>
+									<select name="gender" class="custom-select d-block w-100" id="gender" required>
+										<option value="M" {% if volunteer.gender == "M" %} selected {% endif %} >Male</option>
+										<option value="F" {% if volunteer.gender == "F" %} selected {% endif %} >Female</option>
+										<option value="O" {% if volunteer.gender == "O" %} selected {% endif %} >Other</option>
+									</select>
+									<!-- <div class="invalid-feedback">
+										Please select a valid country.
+									</div> -->
+								</div>
+								<div class="col-md-4 mb-3">
+									<label for="batch">Batch</label>
+									<select name="batch" class="custom-select d-block w-100" id="batch" required>
+										{% for i in '43210'|make_list %}
+										<option value={{cur_year|add:i}}>{{cur_year|add:i}}</option>
+										{% endfor %}
+									</select>
+									<!-- <div class="invalid-feedback">
+										Please provide a valid state.
+									</div> -->
+								</div>
+								<div class="col-md-4 mb-3">
+									<label for="programme">Programme</label>
+									<select name="programme" class="custom-select d-block w-100" id="programme" required>
+										<option value="bt" {% if volunteer.programme == "bt" %} selected {% endif %} >B.Tech</option>
+										<option value="mt" {% if volunteer.programme == "mt" %} selected {% endif %} >M.Tech</option>
+										<option value="phd" {% if volunteer.programme == "phd" %} selected {% endif %} >phD</option>
+										<option value="bd" {% if volunteer.programme == "bd" %} selected {% endif %} >B.Des</option>
+										<option value="md" {% if volunteer.programme == "md" %} selected {% endif %} >M.Des</option>
+									</select>
+									<!-- <div class="invalid-feedback">
+										Zip code required.
+									</div> -->
+								</div>
+							</div>
+			
+							<div class="row">
+								<div class="col-md-4 mb-3">
+									<label for="dob">Date of Birth</label>
+									<!-- <input type="text" class="form-control" id="firstName" placeholder="" value="" required> -->
+									<!-- <input name="dob" type="date" class="form-control" id="dob" required> -->
+									<input name="dob" data-date-format="yyyy-mm-dd" id="dob" class="form-control" required>
+									<div class="invalid-feedback">
+										Plaese enter a valid date.
+									</div>
+								</div>
+								<div class="col-md-8 mb-3">
+									<label for="contactNo">Contact No.</label>
+									<input name="contact_no" type="number" class="form-control" id="contactNo" placeholder="" value="" required>
+									<div class="invalid-feedback">
+										Valid Contact No. is required.
+									</div>
+								</div>
+							</div>
+						
+							<div class="mb-3">
+								<label for="altemail">Alternate Email <span class="text-muted">(Optional)</span></label>
+								<input name="alt_email" type="email" class="form-control" id="altemail" placeholder="you@example.com">
+								<!-- <div class="invalid-feedback">
+									Please enter a valid email address for shipping updates.
+								</div> -->
+							</div>
+						
+							<div class="mb-3">
+								<label for="address">Address</label>
+								<input name="street_address1" type="text" class="form-control" id="address" placeholder="1234 Main St" required>
+								<div class="invalid-feedback">
+									Please enter your shipping address.
+								</div>
+							</div>
+						
+							<div class="mb-3">
+								<label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
+								<input name="street_address2" type="text" class="form-control" id="address2" placeholder="Apartment or suite">
+							</div>
+						
+							<div class="row">
+								<div class="col-md-5 mb-3">
+								<label for="city">City</label>
+								<input name="city" type="text" class="form-control" id="city" placeholder="" value="" required>
+								<div class="invalid-feedback">
+									Please enter a valid city.
+								</div>
+								</div>
+								<div class="col-md-4 mb-3">
+								<label for="state">State</label>
+								<input name="state" type="text" class="form-control" id="state" placeholder="" value="" required>
+								<div class="invalid-feedback">
+									Please provide a valid state.
+								</div>
+								</div>
+								<div class="col-md-3 mb-3">
+								<label for="pinCode">PIN Code</label>
+								<input name="pincode" type="number" class="form-control" id="pinCode" placeholder="" required>
+								<div class="invalid-feedback">
+									PIN code required.
+								</div>
+								</div>
+							</div>
+							<hr class="mb-4">
+							<div class="row justify-content-center mb-4">
+								<div class="col-md-6">
+									<button type="submit" class="btn btn-primary btn-lg btn-block" type="submit">Continue</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="col-md-8 col-lg-9" style="height: 54px;"></div>
+
 		</div>
 	</div>
 
+{% endblock %}
+
+{% block scripts %}
+<style>
+	footer{
+		position: fixed;
+		bottom: 0;
+		width: 100vw;
+	}
+	@media(max-width: 767px){
+		footer{
+			position: static;
+		}
+	}
+</style>
+
+
+<script type="text/javascript">
+	(function () {
+		'use strict'
+		window.addEventListener('load', function () {
+			// Fetch all the forms we want to apply custom Bootstrap validation styles to
+			var forms = document.getElementsByClassName('needs-validation')
+
+			// Loop over them and prevent submission
+			Array.prototype.filter.call(forms, function (form) {
+				form.addEventListener('submit', function (event) {
+				if (form.checkValidity() === false) {
+					event.preventDefault()
+					event.stopPropagation()
+				}
+				form.classList.add('was-validated')
+				}, false)
+			})
+		}, false)
+	}())
+</script>
+
+<!-- Script for Date Pickers -->
+<script type="text/javascript">
+	$('#dob').datepicker({
+		weekStart: 1,
+		autoclose: true,
+		todayHighlight: true,
+	});
+	$('#dob').datepicker("setDate", "{{ volunteer.dob|date:'yyyy-m-d' }}");
+</script>
+
+
+<!-- Script for sidebar buttons -->
+<script>
+	let dash_main = document.querySelector(".dash-main");
+	let dash_update = document.querySelector(".dash-update");
+	function show_dash_update(){
+		dash_main.classList.add("d-none");
+		dash_update.classList.remove("d-none");
+	}
+
+</script>
 {% endblock %}

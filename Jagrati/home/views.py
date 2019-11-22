@@ -13,9 +13,16 @@ def index(request):
 def dashboard(request):
 	if request.user.is_authenticated:
 		email = request.user
+
 		if not Volunteer.objects.filter(email=email).exists():
 			return redirect('set_profile')
-		return render(request, 'home/dashboard.html')
+		
+		if request.method == 'POST':
+			if request.POST.get('submit') == 'class-info':
+				return render(request, 'home/dashboard.html')
+
+		else:
+			return render(request, 'home/dashboard.html', {'choices': Schedule.SECTION})
 	return redirect('home')
 
 def volunteerInformation(request):
@@ -25,9 +32,9 @@ def volunteerInformation(request):
 		if Volunteer.objects.filter(email=email).exists():
 			return redirect('dashboard')
 		if request.method == 'POST':
-			roll = str(email)
-			rollnum = roll.split('@')[0]
-			roll_no         = rollnum
+			# roll = str(email)
+			# rollnum = roll.split('@')[0]
+			roll_no         = request.POST['roll_no']
 			first_name      = request.POST['first_name']
 			last_name       = request.POST['last_name']
 			gender          = request.POST['gender']

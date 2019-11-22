@@ -18,7 +18,7 @@ class Volunteer(models.Model):
 	PROGRAMME = (
 		('bt'	, 'B.Tech'),
 		('mt'	, 'M.Tech'),
-		('phd'	, 'phD'),
+		('phd'	, 'PhD'),
 		('bd'	, 'B.Des'),
 		('md'	, 'M.Des'),
 	)
@@ -60,7 +60,7 @@ class Volunteer(models.Model):
 	city					= models.CharField(max_length=20)
 	state					= models.CharField(max_length=25)
 	pincode					= models.CharField(max_length=6)
-	alt_email 				= models.EmailField(verbose_name="Alternate Email", max_length=255, unique=True)
+	alt_email 				= models.EmailField(verbose_name="Alternate Email", max_length=255)
 	desig 					= models.CharField(verbose_name="Designation", choices=DESIG, default='v', max_length=5)
 	active 					= models.BooleanField(default=True)
 
