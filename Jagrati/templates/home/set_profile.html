@@ -70,7 +70,7 @@
 						<label for="batch">Batch</label>
 						<select name="batch" class="custom-select d-block w-100" id="batch" required>
 							{% for i in '43210'|make_list %}
-							<option value={{cur_year|add:i}}>{{cur_year|add:i}}</option>
+							<option value="{{cur_year|add:i}}">{{cur_year|add:i}}</option>
 							{% endfor %}
 						</select>
 						<!-- <div class="invalid-feedback">

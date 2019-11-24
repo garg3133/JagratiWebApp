@@ -46,7 +46,7 @@ class Volunteer(models.Model):
 		('O', 'Other')
 	)
 
-	roll_no 				= models.CharField(verbose_name="Roll Number", max_length=8, unique=True, primary_key=True)
+	roll_no 				= models.CharField(verbose_name="Roll Number", max_length=8, unique=True)
 	email 					= models.ForeignKey(User, on_delete=models.CASCADE, unique=True)
 	first_name 				= models.CharField(verbose_name="First Name",max_length=50)
 	last_name 				= models.CharField(verbose_name="Last name",max_length=50)
@@ -84,7 +84,7 @@ class Student(models.Model):
 	restricted 				= models.BooleanField(default=False)
 
 	def __str__(self):
-		return self.first_name+self.last_name
+		return self.first_name + " " + self.last_name
 
 
 class Schedule(models.Model):
@@ -130,13 +130,16 @@ class Schedule(models.Model):
 		unique_together = (('day', 'section'),)
 
 	def __str__(self):
-		return self.day.__str__() + " - " + self.section.__str__()
+		return self.day + " - " + self.get_section_display()
 
 
 class Calendar(models.Model):
 	date 					= models.DateField(primary_key=True)
 	remark 					= models.TextField(max_length=255, blank=True)
 	class_scheduled 		= models.BooleanField(default=True)
+
+	class Meta:
+		verbose_name_plural = 'Calendar'
 
 	def __str__(self):
 		s=str(self.date)
@@ -149,6 +152,8 @@ class Volunteer_schedule(models.Model):
 
 	class Meta:
 		unique_together = (('roll_no', 'day'),)
+		verbose_name = 'Volunteer Schedule'
+		verbose_name_plural = 'Volunteers Schedule'
 
 	def __str__(self):
 		return self.roll_no.__str__() + " - " + self.schedule.__str__()
@@ -165,6 +170,8 @@ class Student_schedule(models.Model):
 
 	class Meta:
 		unique_together = (('sid', 'day'),)
+		verbose_name = 'Student Schedule'
+		verbose_name_plural = 'Students Schedule'
 
 	def __str__(self):
 		return self.sid.__str__() + " - " + self.schedule.__str__()
@@ -173,7 +180,7 @@ class Student_schedule(models.Model):
 		self.day = Schedule.objects.get(id = self.schedule.id).day
 		super(Student_schedule, self).save(*args, **kwargs)
 
-class cw_hw(models.Model):
+class Cw_hw(models.Model):
 	date 					= models.ForeignKey(Calendar, on_delete=models.CASCADE)
 	section 				= models.ForeignKey(Schedule, on_delete=models.CASCADE)#, limit_choices_to={'day': limit(self)})
 	cw 						= models.TextField(max_length=255)
@@ -184,6 +191,8 @@ class cw_hw(models.Model):
 
 	class Meta:
 		unique_together = (('date', 'section'),)
+		verbose_name = 'ClassWork/HomeWork'
+		verbose_name_plural = 'ClassWork/HomeWork'
 
 	def __str__(self):
 		
@@ -193,18 +202,20 @@ class cw_hw(models.Model):
 		if self.date.date.strftime("%A") != Schedule.objects.get(id = self.section.id).day:
 			raise ValueError("dgdgdgdd")
 		else:
-			super(cw_hw, self).save(*args, **kwargs)
+			super(Cw_hw, self).save(*args, **kwargs)
 
 	# def limit(self):
 	# 	return {'day' : self.date.date.strftime("%A")}
 
 class Student_attended_on(models.Model):
-	sid 					= models.ForeignKey(Student, on_delete=models.CASCADE)
+	sid 					= models.ForeignKey(Student, on_delete=models.CASCADE, verbose_name="Student Name")
 	date 					= models.ForeignKey(Calendar, on_delete=models.CASCADE)
-	hw_dome 				= models.BooleanField(default=False)
+	hw_done 				= models.BooleanField(default=False, verbose_name="HomeWork Done")
 
 	class Meta:
 		unique_together = (('sid', 'date'),)
+		verbose_name = 'Student Attendence'
+		verbose_name_plural = 'Students Attendence'
 
 	def __str__(self):
 		return self.sid.__str__() + " - " + self.date.__str__()
@@ -216,6 +227,8 @@ class Volunteer_attended_on(models.Model):
 
 	class Meta:
 		unique_together = (('roll_no', 'date'),)
+		verbose_name = 'Volunteer Attendence'
+		verbose_name_plural = 'Volunteers Attendence'
 
 	def __str__(self):
 		return self.roll_no.__str__() + " - " + self.date.__str__()
