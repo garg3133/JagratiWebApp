@@ -7,7 +7,7 @@ from .models import(
 	Student_attended_on,
 	Calendar,
 	Schedule,
-	cw_hw,
+	Cw_hw,
 ) 
 
 def database_context(request):
