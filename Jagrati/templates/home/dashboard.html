@@ -163,7 +163,7 @@
 					</div>
 				</form>
 
-				{% if not submitted %}
+				{% if not class_info_submitted %}
 					{% if no_class_found %}
 					<p class="text-center mt-4">The chosen day is not yet updated in the Calendar.</p>
 					{% elif no_class_scheduled %}
@@ -206,6 +206,7 @@
 			</div>
 			<div class="dash-update d-none col-md-8 col-lg-9 mt-3">
 				<h3 class="text-center">Update Profile</h3>
+				<p class="text-center text-danger mb-1 mt-3">{{update_error}}</p>
 				<div class="row justify-content-center">
 					<div class="col-lg-8">
 						<form method="POST">
@@ -311,11 +312,26 @@
 					</div>
 				</div>
 			</div>
+		</div>
 
+		<!-- Toast -->
+		<div class="row justify-content-center">
+			<div style="position: fixed; bottom: 64px; left: 10px;">
+				<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000">
+					<div class="toast-header">
+						<strong class="mr-auto">{{toast}}</strong>
+						<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Other Tags -->
+		<div class="row">
 			<input type="hidden" id="extra-info-1" value="{{ selected_date|date:'Y-m-d' }}">
 			<div class="col-md-8 col-lg-9" style="height: 54px;"></div>
-			
-
 		</div>
 	</div>
 
@@ -386,10 +402,27 @@
 <script>
 	let dash_main = document.querySelector(".dash-main");
 	let dash_update = document.querySelector(".dash-update");
+
+	if("{{update_error}}"){
+		show_dash_update();
+		
+	} 
+
 	function show_dash_update(){
 		dash_main.classList.add("d-none");
 		dash_update.classList.remove("d-none");
 	}
 
+</script>
+
+<script>
+	if("{{toast}}"){
+		$('#alert_toast').toast('show');
+		if("{{update_error}}")
+			document.getElementById("alert_toast").classList.add("bg-danger");
+		else
+			document.getElementById("alert_toast").classList.add("bg-success");
+	}
+		
 </script>
 {% endblock %}
