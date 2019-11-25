@@ -56,11 +56,11 @@ class Volunteer(models.Model):
 	dob 					= models.DateField(verbose_name="Date of Birth", default=datetime.datetime.now)
 	contact_no 				= models.CharField(verbose_name="Contact Number", max_length=10)
 	street_address1			= models.CharField(verbose_name="Address Line 1", max_length=255)
-	street_address2			= models.CharField(verbose_name="Address Line 2", max_length=255)
+	street_address2			= models.CharField(verbose_name="Address Line 2", max_length=255, blank=True)
 	city					= models.CharField(max_length=20)
 	state					= models.CharField(max_length=25)
 	pincode					= models.CharField(max_length=6)
-	alt_email 				= models.EmailField(verbose_name="Alternate Email", max_length=255)
+	alt_email 				= models.EmailField(verbose_name="Alternate Email", max_length=255, blank=True)
 	desig 					= models.CharField(verbose_name="Designation", choices=DESIG, default='v', max_length=5)
 	active 					= models.BooleanField(default=True)
 

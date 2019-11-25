@@ -97,38 +97,52 @@
 						<li class="nav-item">
 							<h5>Email: <span class="lead">{{user.email}}</span> </h5>
 						</li>
-						<li class="nav-item">
-							<h5 class="mt-3">Schedule</h5>
-						</li>
-						{% if vol_schedule is not None %}
+
+						{% if volunteer.desig == 'v' %}
 							<li class="nav-item">
-								<h5>Day: <span class="lead"> {{vol_schedule.day}}</span> </h5>
+								<h5 class="mt-3">Schedule</h5>
 							</li>
+							{% if vol_schedule is not None %}
+								<li class="nav-item">
+									<h5>Day: <span class="lead"> {{vol_schedule.day}}</span> </h5>
+								</li>
+								<li class="nav-item">
+									<h5>Section: <span class="lead">{{vol_schedule.schedule.get_section_display}}</span> </h5>
+								</li>
+								<li class="nav-item">
+									<h5>Subject: <span class="lead">{{vol_schedule.schedule.get_subject_display}}</span> </h5>
+								</li>
+							{% else %}
+								<li class="nav-item">
+									<h5>Day: <span class="lead"> -- </span> </h5>
+								</li>
+								<li class="nav-item">
+									<h5>Section: <span class="lead"> -- </span> </h5>
+								</li>
+								<li class="nav-item">
+									<h5>Subject: <span class="lead"> -- </span> </h5>
+								</li>
+							{% endif %}
 							<li class="nav-item">
-								<h5>Section: <span class="lead">{{vol_schedule.schedule.get_section_display}}</span> </h5>
-							</li>
-							<li class="nav-item">
-								<h5>Subject: <span class="lead">{{vol_schedule.schedule.get_subject_display}}</span> </h5>
+								<button type="button" class="btn btn-outline-primary mt-3" onclick="show_dash_schedule()">Update Schedule</button>
 							</li>
 						{% else %}
 							<li class="nav-item">
-								<h5>Day: <span class="lead"> -- </span> </h5>
+								<h5 class="my-5">{{volunteer.get_desig_display}}</h5>
 							</li>
 							<li class="nav-item">
-								<h5>Section: <span class="lead"> -- </span> </h5>
+								<button type="button" class="btn btn-outline-primary" onclick="show_dash_cwhw()"> Update CW-HW </button>
 							</li>
 							<li class="nav-item">
-								<h5>Subject: <span class="lead"> -- </span> </h5>
+								<button type="button" class="btn btn-outline-primary" onclick=""> Student Attendence </button>
+							</li>
+							<li class="nav-item">
+								<button type="button" class="btn btn-outline-primary" onclick="">Volunteer Attendence </button>
 							</li>
 						{% endif %}
 						<li class="nav-item">
-							<button type="button" class="btn btn-outline-primary mt-3" onclick="show_dash_schedule()"> Update Schedule</button>
+							<button type="button" class="btn btn-outline-primary" onclick="show_dash_update()" > Update Profile </button>
 						</li>
-						<li class="nav-item">
-							<button type="button" class="btn btn-outline-primary" onclick="show_dash_update()" > Update Profile</button>
-						</li>
-						
-						
 					</ul>
 				</div>
 			</nav>
@@ -351,6 +365,54 @@
 				</form>
 			</div>
 
+			<div class="dash-cwhw d-none col-md-8 col-lg-9 mt-3">
+				<a href="" onclick="show_dash_main()">&larr; Back to Dashboard</a>
+				<h3 class="text-center">Update ClassWork-HomeWork</h3>
+				<form method="POST">
+					{% csrf_token %}
+					<div class="row">
+						<div class="col-md-3 offset-md-1 mb-3">
+							<label for="cwhw-date">Date</label>
+							<input name="date" data-date-format="yyyy-mm-dd" id="cwhw-date" class="form-control">
+						</div>
+						<div class="col-md-2 mb-3 pl-0 align-self-end">
+							<button name="submit" value="cwhw-date" class="btn btn-primary" type="submit">Continue</button>
+						</div>
+						<input type="hidden" name="selected-date" id="extra-info-2" value="{{ cwhw_selected_date|date:'Y-m-d' }}">
+						{% if cwhw_section %}
+						<div class="col-md-3 offset-md-1 mb-3">
+							<label for="cwhw-section">Section</label>
+							<select name="section" class="custom-select d-block w-100 disabled" id="cwhw-section">
+								{% for i in cwhw_section %}
+									<option value="{{i.section}}">{{i.get_section_display}}</option>
+								{% endfor %}
+							</select>
+						</div>
+						{% endif %}
+					</div>
+					<p class="text-center text-danger mt-1">{{cwhw_error}}</p>
+					{% if cwhw_section %}
+					<div class="row justify-content-center my-4">
+						<div class="col-md-6 col-lg-5 px-0 mr-5 mb-3">
+							<h4 class="text-center">ClassWork</h4>
+							<hr>
+							<textarea name="cw" class="form-control" rows="6"></textarea>
+						</div>
+						<div class="col-md-6 col-lg-5 px-0 mr-5 mb-3">
+							<h4 class="text-center">HomeWork</h4>
+							<hr>
+							<textarea name="hw" class="form-control" rows="6"></textarea>
+						</div>
+					</div>
+					<div class="row justify-content-center mb-4">
+						<div class="col-md-4">
+							<button name="submit" value="update-cwhw" class="btn btn-primary btn-lg btn-block" type="submit">Update</button>
+						</div>
+					</div>
+					{% endif %}
+				</form>
+			</div>
+
 		</div>
 
 		<!-- Toast -->
@@ -478,7 +540,7 @@
 		</div>
 
 		<!-- Other Tags -->
-		<div class="row">
+		<div class="row justify-content-end">
 			<input type="hidden" id="extra-info-1" value="{{ selected_date|date:'Y-m-d' }}">
 			<div class="col-md-8 col-lg-9" style="height: 54px;"></div>
 		</div>
@@ -514,7 +576,7 @@
 	
 </script>
 
-<!-- Script for Date Pickers -->
+<!-- Script for Update Profile Date Pickers -->
 <script type="text/javascript">
 	$('#dob').datepicker({
 		weekStart: 1,
@@ -524,12 +586,26 @@
 	$('#dob').datepicker("setDate", "{{ volunteer.dob|date:'Y-m-d' }}");
 </script>
 
+<!-- Script for Main CW_HW Date Picker -->
+<script type="text/javascript">
+	$('#cwhw-date').datepicker({
+		weekStart: 1,
+		autoclose: true,
+		todayHighlight: true,
+	});
+	if(document.getElementById("extra-info-2").value.length>0)
+		$('#cwhw-date').datepicker("setDate", "{{ cwhw_selected_date|date:'Y-m-d' }}");
+	else
+		$('#cwhw-date').datepicker("setDate", new Date());
+	
+</script>
 
 <!-- Script for sidebar buttons -->
 <script>
 	let dash_main = document.querySelector(".dash-main");
 	let dash_update = document.querySelector(".dash-update");
 	let dash_schedule = document.querySelector(".dash-schedule");
+	let dash_cwhw = document.querySelector(".dash-cwhw");
 
 	if("{{update_error}}"){
 		show_dash_update();
@@ -537,17 +613,22 @@
 	if("{{sch_error}}"){
 		show_dash_schedule();
 	}
+	if("{{cwhw_selected_date}}"){
+		show_dash_cwhw();
+	}
 
 	function show_dash_main(){
 		if(dash_main.classList.contains('d-none')) dash_main.classList.remove('d-none');
 		if(!dash_update.classList.contains('d-none')) dash_update.classList.add('d-none');
 		if(!dash_schedule.classList.contains('d-none')) dash_schedule.classList.add('d-none');
+		if(!dash_cwhw.classList.contains('d-none')) dash_cwhw.classList.add('d-none');
 	}
 
 	function show_dash_update(){
 		if(!dash_main.classList.contains('d-none')) dash_main.classList.add('d-none');
 		if(dash_update.classList.contains('d-none')) dash_update.classList.remove('d-none');
 		if(!dash_schedule.classList.contains('d-none')) dash_schedule.classList.add('d-none');
+		if(!dash_cwhw.classList.contains('d-none')) dash_cwhw.classList.add('d-none');
 	}
 
 	function show_dash_schedule(){
@@ -556,13 +637,19 @@
 		if(dash_schedule.classList.contains('d-none')) dash_schedule.classList.remove('d-none');
 	}
 
+	function show_dash_cwhw(){
+		if(!dash_main.classList.contains('d-none')) dash_main.classList.add('d-none');
+		if(!dash_update.classList.contains('d-none')) dash_update.classList.add('d-none');
+		if(dash_cwhw.classList.contains('d-none')) dash_cwhw.classList.remove('d-none');
+	}
+
 </script>
 
 <!-- Script for Toast -->
 <script>
 	if("{{toast}}"){
 		$('#alert_toast').toast('show');
-		if("{{update_error}}" || "{{sch_error}}")
+		if("{{update_error}}" || "{{sch_error}}" || "{{cwhw_error}}")
 			document.getElementById("alert_toast").classList.add("bg-danger");
 		else
 			document.getElementById("alert_toast").classList.add("bg-success");
