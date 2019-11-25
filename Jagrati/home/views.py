@@ -23,10 +23,11 @@ def index(request):
 def dashboard(request):
 	if request.user.is_authenticated:
 		email = request.user
-		volun = Volunteer.objects.get(email=email)
 
 		if not Volunteer.objects.filter(email=email).exists():
 			return redirect('set_profile')
+
+		volun = Volunteer.objects.get(email=email)
 		
 		if request.method == 'POST':
 			if request.POST.get('submit') == 'class-info':
@@ -251,6 +252,96 @@ def dashboard(request):
 						'toast' : "Failed to update schedule!",
 						'day': Schedule.DAY,
 						'section': Schedule.SECTION,
+					}
+					return render(request, 'home/dashboard.html', context)
+			elif request.POST.get('submit') == 'cwhw-date':
+				cwhw_date_str = request.POST['date']
+
+				cwhw_date = datetime.strptime(cwhw_date_str, '%Y-%m-%d').date()
+				cwhw_day = cwhw_date.strftime("%A")
+
+				calendar_date = Calendar.objects.filter(date = cwhw_date)
+
+				if calendar_date.exists():
+					context = {
+						#dash-main
+						'class_info_submitted' : "nopes",
+						'choices': Schedule.SECTION,
+
+						#dash-update
+						'last_4_year': datetime.now().year - 4,
+
+						#dash-cwhw
+						'cwhw_selected_date' : cwhw_date,
+						'cwhw_section': Schedule.objects.filter(day=cwhw_day),
+					}
+					return render(request, 'home/dashboard.html', context)
+				else:
+					context = {
+						#dash-main
+						'class_info_submitted' : "nopes",
+						'choices': Schedule.SECTION,
+
+						#dash-update
+						'last_4_year': datetime.now().year - 4,
+
+						#dash-cwhw
+						'cwhw_selected_date' : cwhw_date,
+						'cwhw_error' : "The chosen day is not yet updated in the Calender."
+					}
+					return render(request, 'home/dashboard.html', context)
+			elif request.POST.get('submit') == 'update-cwhw':
+				cwhw_date_str			= request.POST['date']
+				cwhw_selected_date_str	= request.POST['selected-date']
+				cwhw_section			= request.POST['section']
+				cw						= request.POST['cw']
+				hw						= request.POST['hw']
+
+				cwhw_date = datetime.strptime(cwhw_date_str, '%Y-%m-%d').date()
+				cwhw_day = cwhw_date.strftime("%A")
+
+				cwhw_selected_date = datetime.strptime(cwhw_selected_date_str, '%Y-%m-%d').date()
+
+				if cwhw_selected_date == cwhw_date:
+					cal_date = Calendar.objects.get(date = cwhw_date)
+					sch_section = Schedule.objects.get(day=cwhw_day, section=cwhw_section)
+
+					if Cw_hw.objects.filter(date=cal_date, section=sch_section).exists():
+						cw_hw = Cw_hw.objects.get(date=date, section=section)
+						if cw:
+							cw_hw.cw = cw
+						if hw:
+							cw_hw.hw = hw
+						cw_hw.save()
+					else:
+						cw_hw = Cw_hw(date = date, section = section, cw = cw, hw = hw)
+						cw_hw.save()
+
+					context = {
+						#dash-main
+						'class_info_submitted' : "nopes",
+						'choices': Schedule.SECTION,
+
+						#dash-update
+						'last_4_year': datetime.now().year - 4,
+
+						#dash-cwhw
+						'toast' : "CW_HW update successful!",
+					}
+					return render(request, 'home/dashboard.html', context)
+				else:
+					context = {
+						#dash-main
+						'class_info_submitted' : "nopes",
+						'choices': Schedule.SECTION,
+
+						#dash-update
+						'last_4_year': datetime.now().year - 4,
+
+						#dash-cwhw
+						'cwhw_selected_date' : cwhw_date,
+						'cwhw_error' : "You've changed the date! Kindly submit the chosen date before updating.",
+						'toast' : "CW_HW update failed!",
 					}
 					return render(request, 'home/dashboard.html', context)
 
