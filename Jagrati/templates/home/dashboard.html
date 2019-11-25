@@ -122,7 +122,7 @@
 							</li>
 						{% endif %}
 						<li class="nav-item">
-							<button type="button" class="btn btn-outline-primary mt-3"> Update Schedule</button>
+							<button type="button" class="btn btn-outline-primary mt-3" onclick="show_dash_schedule()"> Update Schedule</button>
 						</li>
 						<li class="nav-item">
 							<button type="button" class="btn btn-outline-primary" onclick="show_dash_update()" > Update Profile</button>
@@ -134,7 +134,7 @@
 			</nav>
 
 			<div class="dash-main col-md-8 col-lg-9 mt-3">
-				<h3 class="text-center">Welcome {{volunteer.first_name}} {{volunteer.last_name}}!</h3>
+				<h3 class="text-center mb-3">Dashboard</h3>
 				<form method="POST">
 					{% csrf_token %}
 					<div class="row justify-content-center">
@@ -205,6 +205,7 @@
 				{% endif %}
 			</div>
 			<div class="dash-update d-none col-md-8 col-lg-9 mt-3">
+				<a href="" onclick="show_dash_main()">&larr; Back to Dashboard</a>
 				<h3 class="text-center">Update Profile</h3>
 				<p class="text-center text-danger mb-1 mt-3">{{update_error}}</p>
 				<div class="row justify-content-center">
@@ -312,6 +313,44 @@
 					</div>
 				</div>
 			</div>
+
+			<div class="dash-schedule d-none col-md-8 col-lg-9 mt-3">
+				<a href="" onclick="show_dash_main()">&larr; Back to Dashboard</a>
+				<h3 class="text-center">Update Schedule</h3>
+				<p class="text-center text-danger mb-3 mt-3">{{sch_error}}</p>
+				<form method="POST">
+					{% csrf_token %}
+					<div class="row justify-content-center">
+						<div class="col-md-4 mb-3">
+							<label for="sch-day">Day</label>
+							<select name="day" class="custom-select d-block w-100" id="gender">
+								{% for j,i in day %}
+								<option value="{{j}}">{{i}}</option>
+								{% endfor %}
+							</select>
+						</div>
+						<div class="col-md-4 mb-3">
+							<label for="sch-section">Section</label>
+							<select name="section" class="custom-select d-block w-100" id="sch-section">
+									{% for j,i in section %}
+									<option value="{{j}}">{{i}}</option>
+									{% endfor %}
+							</select>
+						</div>
+					</div>
+					<div class="row justify-content-center mb-4">
+						<div class="col-md-4">
+							<button name="submit" value="update-schedule" class="btn btn-primary btn-lg btn-block" type="submit">Continue</button>
+						</div>
+					</div>
+					<div class="row justify-content-center mb-4">
+						<div class="col-md-4">
+							<a data-toggle="modal" href="#sch-modal" class="text-center d-block">Display Schedule</a>
+						</div>
+					</div>
+				</form>
+			</div>
+
 		</div>
 
 		<!-- Toast -->
@@ -324,6 +363,116 @@
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Schedule Modal -->
+		<div class="modal" id="sch-modal">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+			
+					<div class="modal-header">
+						<h4 class="modal-title">Schedule</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+				
+					<!-- Modal body -->
+					<div class="modal-body">
+						<form class="form-inline mb-2">
+							<label for="day" class="mr-sm-2">Day: </label>
+							<select name="day" class="custom-select d-block mr-sm-2" id="sch-modal-day">
+								{% for j,i in day %}
+								<option value="{{j}}">{{ i }}</option>
+								{% endfor %}
+							</select>
+							<button type="button" class="btn btn-primary" id="sch-modal-button" onclick="show_schedule()">Submit</button>
+						</form>
+
+						<table class="table d-none" id="sch-modal-table">
+							<thead>
+								<tr>
+									<th>Day</th>
+									<th>Section</th>
+									<th>Subject</th>
+								</tr>
+							</thead>
+							<!-- Monday -->
+							<tbody class="d-none" id="sch-monday">
+								{% for sch in schedules %}
+									{% if sch.day == 'Monday' %}
+									<tr>
+										<td>{{sch.day}}</td>
+										<td>{{sch.get_section_display}}</td>
+										<td>{{sch.get_subject_display}}</td>
+									</tr>
+									{% endif %}
+								{% endfor %}
+							</tbody>
+							<tbody class="d-none" id="sch-tuesday">
+								{% for sch in schedules %}
+									{% if sch.day == 'Tuesday' %}
+									<tr>
+										<td>{{sch.day}}</td>
+										<td>{{sch.get_section_display}}</td>
+										<td>{{sch.get_subject_display}}</td>
+									</tr>
+									{% endif %}
+								{% endfor %}
+							</tbody>
+							<tbody class="d-none" id="sch-wednesday">
+								{% for sch in schedules %}
+									{% if sch.day == 'Wednesday' %}
+									<tr>
+										<td>{{sch.day}}</td>
+										<td>{{sch.get_section_display}}</td>
+										<td>{{sch.get_subject_display}}</td>
+									</tr>
+									{% endif %}
+								{% endfor %}
+							</tbody>
+							<tbody class="d-none" id="sch-thursday">
+								{% for sch in schedules %}
+									{% if sch.day == 'Thursday' %}
+									<tr>
+										<td>{{sch.day}}</td>
+										<td>{{sch.get_section_display}}</td>
+										<td>{{sch.get_subject_display}}</td>
+									</tr>
+									{% endif %}
+								{% endfor %}
+							</tbody>
+							<tbody class="d-none" id="sch-friday">
+								{% for sch in schedules %}
+									{% if sch.day == 'Friday' %}
+									<tr>
+										<td>{{sch.day}}</td>
+										<td>{{sch.get_section_display}}</td>
+										<td>{{sch.get_subject_display}}</td>
+									</tr>
+									{% endif %}
+								{% endfor %}
+							</tbody>
+							<tbody class="d-none" id="sch-saturday">
+								{% for sch in schedules %}
+									{% if sch.day == 'Saturday' %}
+									<tr>
+										<td>{{sch.day}}</td>
+										<td>{{sch.get_section_display}}</td>
+										<td>{{sch.get_subject_display}}</td>
+									</tr>
+									{% endif %}
+								{% endfor %}
+							</tbody>
+						</table>
+						
+					</div>
+				
+					<!-- Modal footer -->
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					</div>
+				
 				</div>
 			</div>
 		</div>
@@ -350,28 +499,6 @@
 		}
 	}
 </style>
-
-
-<script type="text/javascript">
-	(function () {
-		'use strict'
-		window.addEventListener('load', function () {
-			// Fetch all the forms we want to apply custom Bootstrap validation styles to
-			var forms = document.getElementsByClassName('needs-validation')
-
-			// Loop over them and prevent submission
-			Array.prototype.filter.call(forms, function (form) {
-				form.addEventListener('submit', function (event) {
-				if (form.checkValidity() === false) {
-					event.preventDefault()
-					event.stopPropagation()
-				}
-				form.classList.add('was-validated')
-				}, false)
-			})
-		}, false)
-	}())
-</script>
 
 <!-- Script for Main Dashboard Date Picker -->
 <script type="text/javascript">
@@ -402,27 +529,75 @@
 <script>
 	let dash_main = document.querySelector(".dash-main");
 	let dash_update = document.querySelector(".dash-update");
+	let dash_schedule = document.querySelector(".dash-schedule");
 
 	if("{{update_error}}"){
 		show_dash_update();
-		
 	} 
+	if("{{sch_error}}"){
+		show_dash_schedule();
+	}
+
+	function show_dash_main(){
+		if(dash_main.classList.contains('d-none')) dash_main.classList.remove('d-none');
+		if(!dash_update.classList.contains('d-none')) dash_update.classList.add('d-none');
+		if(!dash_schedule.classList.contains('d-none')) dash_schedule.classList.add('d-none');
+	}
 
 	function show_dash_update(){
-		dash_main.classList.add("d-none");
-		dash_update.classList.remove("d-none");
+		if(!dash_main.classList.contains('d-none')) dash_main.classList.add('d-none');
+		if(dash_update.classList.contains('d-none')) dash_update.classList.remove('d-none');
+		if(!dash_schedule.classList.contains('d-none')) dash_schedule.classList.add('d-none');
+	}
+
+	function show_dash_schedule(){
+		if(!dash_main.classList.contains('d-none')) dash_main.classList.add('d-none');
+		if(!dash_update.classList.contains('d-none')) dash_update.classList.add('d-none');
+		if(dash_schedule.classList.contains('d-none')) dash_schedule.classList.remove('d-none');
 	}
 
 </script>
 
+<!-- Script for Toast -->
 <script>
 	if("{{toast}}"){
 		$('#alert_toast').toast('show');
-		if("{{update_error}}")
+		if("{{update_error}}" || "{{sch_error}}")
 			document.getElementById("alert_toast").classList.add("bg-danger");
 		else
 			document.getElementById("alert_toast").classList.add("bg-success");
+	}	
+</script>
+
+<script>
+	let sch_modal_day = document.getElementById("sch-modal-day");
+	let sch_modal_table = document.getElementById("sch-modal-table");
+
+	let sch_monday = document.getElementById("sch-monday")
+	let sch_tuesday = document.getElementById("sch-tuesday")
+	let sch_wednesday = document.getElementById("sch-wednesday")
+	let sch_thursday = document.getElementById("sch-thursday")
+	let sch_friday = document.getElementById("sch-friday")
+	let sch_saturday = document.getElementById("sch-saturday")
+
+	function show_schedule(){
+		let selected_day = sch_modal_day.options[sch_modal_day.selectedIndex].value;
+
+		if(sch_modal_table.classList.contains('d-none')) sch_modal_table.classList.remove('d-none');
+
+		if(!sch_monday.classList.contains('d-none')) sch_monday.classList.add('d-none');
+		if(!sch_tuesday.classList.contains('d-none')) sch_tuesday.classList.add('d-none');
+		if(!sch_wednesday.classList.contains('d-none')) sch_wednesday.classList.add('d-none');
+		if(!sch_thursday.classList.contains('d-none')) sch_thursday.classList.add('d-none');
+		if(!sch_friday.classList.contains('d-none')) sch_friday.classList.add('d-none');
+		if(!sch_saturday.classList.contains('d-none')) sch_saturday.classList.add('d-none');
+
+		if(selected_day == "Monday") sch_monday.classList.remove('d-none');
+		else if (selected_day == "Tuesday") sch_tuesday.classList.remove('d-none');
+		else if (selected_day == "Wednesday") sch_wednesday.classList.remove('d-none');
+		else if (selected_day == "Thursday") sch_thursday.classList.remove('d-none');
+		else if (selected_day == "Friday") sch_friday.classList.remove('d-none');
+		else if (selected_day == "Saturday") sch_saturday.classList.remove('d-none');
 	}
-		
 </script>
 {% endblock %}
