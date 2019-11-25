@@ -23,6 +23,7 @@ def index(request):
 def dashboard(request):
 	if request.user.is_authenticated:
 		email = request.user
+		volun = Volunteer.objects.get(email=email)
 
 		if not Volunteer.objects.filter(email=email).exists():
 			return redirect('set_profile')
@@ -61,6 +62,10 @@ def dashboard(request):
 
 									#dash-update
 									'last_4_year': datetime.now().year - 4,
+
+									#dash-schedule
+									'day': Schedule.DAY,
+									'section': Schedule.SECTION,
 								}
 								return render(request, 'home/dashboard.html', context)
 							else:
@@ -78,6 +83,10 @@ def dashboard(request):
 
 									#dash-update
 									'last_4_year': datetime.now().year - 4,
+
+									#dash-schedule
+									'day': Schedule.DAY,
+									'section': Schedule.SECTION,
 								}
 								return render(request, 'home/dashboard.html', context)
 						else:
@@ -90,6 +99,10 @@ def dashboard(request):
 
 								#dash-update
 								'last_4_year': datetime.now().year - 4,
+
+								#dash-schedule
+								'day': Schedule.DAY,
+								'section': Schedule.SECTION,
 							}
 							return render(request, 'home/dashboard.html', context)  # The chosen section is not taught on the chosen day
 					else:
@@ -103,6 +116,10 @@ def dashboard(request):
 
 							#dash-update
 							'last_4_year': datetime.now().year - 4,
+
+							#dash-schedule
+							'day': Schedule.DAY,
+							'section': Schedule.SECTION,
 						}
 						return render(request, 'home/dashboard.html', context)
 				else:
@@ -115,6 +132,10 @@ def dashboard(request):
 
 						#dash-update
 						'last_4_year': datetime.now().year - 4,
+
+						#dash-schedule
+						'day': Schedule.DAY,
+						'section': Schedule.SECTION,
 					}
 					return render(request, 'home/dashboard.html', context)
 			elif request.POST.get('submit') == 'update-profile':
@@ -133,7 +154,6 @@ def dashboard(request):
 				dob             = request.POST['dob']
 				contact_no      = request.POST['contact_no']
 
-				volun = Volunteer.objects.get(email = request.user)
 				update_error = ""
 				toast = ""
 				if roll_no:
@@ -181,8 +201,60 @@ def dashboard(request):
 					'update_error' : update_error,
 					'last_4_year': datetime.now().year - 4,
 					'toast': toast,
+
+					#dash-schedule
+					'day': Schedule.DAY,
+					'section': Schedule.SECTION,
 				}
 				return render(request, 'home/dashboard.html', context)
+			elif request.POST.get('submit') == 'update-schedule':
+				day			= request.POST['day']
+				section		= request.POST['section']
+
+				schedules = Schedule.objects.filter(day = day, section = section)
+
+				if schedules.exists():
+					volun_schedules = Volunteer_schedule.objects.filter(roll_no = volun)
+					if volun_schedules.exists():
+						volun_schedule = volun_schedules[0]
+						volun_schedule.schedule = schedules[0]
+					else:
+						volun_schedule = Volunteer_schedule(roll_no = volun, schedule = schedules[0])
+					volun_schedule.save()
+
+					context = {
+						#dash-main
+						'class_info_submitted' : "nopes",
+						'choices': Schedule.SECTION,
+
+						#dash-update
+						'last_4_year': datetime.now().year - 4,
+
+						#dash-schedule
+						'toast' : "Schedule updated successfully!",
+						'day': Schedule.DAY,
+						'section': Schedule.SECTION,
+					}
+					return render(request, 'home/dashboard.html', context)
+
+				else:
+					context = {
+						#dash-main
+						'class_info_submitted' : "nopes",
+						'choices': Schedule.SECTION,
+
+						#dash-update
+						'last_4_year': datetime.now().year - 4,
+
+						#dash-schedule
+						'sch_error' : "Selected schedule doesn't exists. Kindly refer to the Schedule.",
+						'toast' : "Failed to update schedule!",
+						'day': Schedule.DAY,
+						'section': Schedule.SECTION,
+					}
+					return render(request, 'home/dashboard.html', context)
+
+
 		else:
 			context = {
 				#dash-main
@@ -191,6 +263,10 @@ def dashboard(request):
 
 				#dash-update
 				'last_4_year': datetime.now().year - 4,
+
+				#dash-schedule
+				'day': Schedule.DAY,
+				'section': Schedule.SECTION,
 			}
 			return render(request, 'home/dashboard.html', context)
 	return redirect('home')

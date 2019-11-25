@@ -31,6 +31,7 @@ def database_context(request):
 			'volunteers': Volunteer.objects.all(),
 			'vol_schedule': vol_schedule,
 			'vol_schedules': Volunteer_schedule.objects.all(),
+			'schedules' : Schedule.objects.order_by('section'),
 		}
 
 	else:
