@@ -123,9 +123,15 @@
 									<h5>Subject: <span class="lead"> -- </span> </h5>
 								</li>
 							{% endif %}
+							{% if user.auth is True %}
 							<li class="nav-item">
 								<button type="button" class="btn btn-outline-primary mt-3" onclick="show_dash_schedule()">Update Schedule</button>
 							</li>
+							{% else %}
+							<li class="nav-item">
+								<button type="button" class="btn btn-outline-primary mt-3" onclick="show_dash_schedule()" disabled>Update Schedule</button>
+							</li>
+							{% endif %}
 						{% else %}
 							<li class="nav-item">
 								<h5 class="my-5">{{volunteer.get_desig_display}}</h5>
@@ -149,6 +155,7 @@
 
 			<div class="dash-main col-md-8 col-lg-9 mt-3">
 				<h3 class="text-center mb-3">Dashboard</h3>
+				{% if user.auth is True %}
 				<form method="POST">
 					{% csrf_token %}
 					<div class="row justify-content-center">
@@ -176,6 +183,13 @@
 						</div>
 					</div>
 				</form>
+				{% else %}
+				<div class="row justify-content-center">
+					<div class="col-md-8 mt-5">
+						<p class="text-center">You are not yet authorised to view any information on this <br> Kindly contact <a href="mailto:admin@admin.com">admin</a>.</p>
+					</div>
+				</div>
+				{% endif %}
 
 				{% if not class_info_submitted %}
 					{% if no_class_found %}
