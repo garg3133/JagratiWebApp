@@ -31,13 +31,15 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'home',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'home',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -63,6 +65,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'home.context_processors.database_context',       #for accessing models from templates... Or Use Inclusion Tags
             ],
         },
     },
@@ -123,3 +126,14 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     '/',
 ]
+
+AUTH_USER_MODEL = 'accounts.User'
+# LOGOUT_REDIRECT_URL = '/accounts/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'jagrati123321@gmail.com'
+EMAIL_HOST_PASSWORD = 'ucqdtiibkmfynmth'
+EMAIL_PORT = 587

@@ -1,4 +1,22 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} Jagrati | Home {% endblock %}
+
+{% block style %}
+
+	<link rel="stylesheet" type="text/css" href='{% static "home/css/style.css" %}'>
+	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.theme.min.css">
+
+{% endblock %}
+
+
+
+<!-- <!DOCTYPE html>
 <html>
 <head>
 
@@ -14,7 +32,16 @@
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.theme.min.css">
 	
 </head>
-<body>
+<body> -->
+
+{% block content %}
+
+	<!-- {% if user.is_authenticated %}
+
+		<h3>Welcome {{user.email}}!</h3>
+		<a href="{% url 'logout' %}"> Logout </a>
+
+	{% else %} -->
 
 	<!-- Header Starts -->
 	<header>
@@ -46,7 +73,7 @@
 			</div>
 			<div class="navbar1">
 				<ul>
-					<li><a href="./" class="button" >Login</a></li>
+					<li><a href="{% url 'login_signup' %}" class="button" >Login</a></li>
 					<li><button class="button" onclick="donate_us()">Donate</button></li>
 					
 				</ul>
@@ -407,4 +434,7 @@
   	type="text/javascript"></script>
   	<script>AOS.init({once: true});</script>
 
-</body></html>
+	  <!-- {% endif %} -->
+{% endblock %}
+
+<!-- </body></html> -->

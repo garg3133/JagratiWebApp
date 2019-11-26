@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	{% load static %}
+
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="shortcut icon" href='{% static "logo.png" %}'>
+	<title>{% block title %} {% endblock %} </title>
+	
+	{% block style %}
+	{% endblock %}
+
+</head>
+<body>
+
+	{% block content %}
+	{% endblock %}
+
+</body>
+</html>
