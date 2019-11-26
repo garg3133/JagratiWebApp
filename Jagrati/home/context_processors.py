@@ -8,7 +8,8 @@ from .models import(
 	Calendar,
 	Schedule,
 	Cw_hw,
-) 
+)
+from datetime import datetime, date
 
 def database_context(request):
 	if request.user.is_authenticated:
@@ -32,6 +33,8 @@ def database_context(request):
 			'vol_schedule': vol_schedule,
 			'vol_schedules': Volunteer_schedule.objects.all(),
 			'schedules' : Schedule.objects.order_by('section'),
+			'today_vol_att' : Volunteer_attended_on.objects.filter(date=date.today()),
+			'today_stu_att' : Student_attended_on.objects.filter(date=date.today()),
 		}
 
 	else:
