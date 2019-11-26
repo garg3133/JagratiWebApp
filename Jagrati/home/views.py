@@ -43,19 +43,29 @@ def dashboard(request):
 						schedule = Schedule.objects.filter(day = class_info_day, section = class_info_section)
 						if schedule.exists():
 							if class_info_date > date.today():
-								students_attended = "Not yet updated!"
+								students_attended = "Class not yet scheduled!"
+								vol_volunteered = "Class not yet scheduled!"
 							else:
 								students_attended = Student_attended_on.objects.filter(date = calendar[0])
+								vol_volunteered = Volunteer_attended_on.objects.filter(date = calendar[0])
+
 								if class_info_date == date.today() and not students_attended.exists():
 									students_attended = "Not yet updated!"
 								elif not students_attended.exists():
 									students_attended = "No student present."
+
+								if class_info_date == date.today() and not vol_volunteered.exists():
+									vol_volunteered = "Not yet updated!"
+								elif not vol_volunteered.exists():
+									vol_volunteered = "No volunteers were present."
+
 							cw_hw = Cw_hw.objects.filter(date = class_info_date, section = schedule[0])
 							if cw_hw.exists():
 								context = {
 									#dash-main
 									'schedule' : schedule,
 									'students_attended' : students_attended,
+									'vol_volunteered' : vol_volunteered,
 									'cw_hw' : cw_hw[0],
 									'selected_date' : class_info_date,
 									'selected_schedule' : class_info_section,
@@ -67,6 +77,13 @@ def dashboard(request):
 									#dash-schedule
 									'day': Schedule.DAY,
 									'section': Schedule.SECTION,
+
+									#dash-vol-att
+									'today_date' : date.today(),
+									'today_volun' : Volunteer_schedule.objects.filter(day=date.today().strftime("%A")),
+
+									#dash-atu-att
+									'today_stu' : Student_schedule.objects.filter(day=date.today().strftime("%A")),
 								}
 								return render(request, 'home/dashboard.html', context)
 							else:
@@ -74,6 +91,7 @@ def dashboard(request):
 									#dash-main
 									'schedule' : schedule,
 									'students_attended' : students_attended,
+									'vol_volunteered' : vol_volunteered,
 									'cw_hw' : {
 										'cw' : "Not yet updated!",
 										'hw' : "Not yet updated!",
@@ -88,6 +106,13 @@ def dashboard(request):
 									#dash-schedule
 									'day': Schedule.DAY,
 									'section': Schedule.SECTION,
+
+									#dash-vol-att
+									'today_date' : date.today(),
+									'today_volun' : Volunteer_schedule.objects.filter(day=date.today().strftime("%A")),
+
+									#dash-atu-att
+									'today_stu' : Student_schedule.objects.filter(day=date.today().strftime("%A")),
 								}
 								return render(request, 'home/dashboard.html', context)
 						else:
@@ -104,6 +129,13 @@ def dashboard(request):
 								#dash-schedule
 								'day': Schedule.DAY,
 								'section': Schedule.SECTION,
+
+								#dash-vol-att
+								'today_date' : date.today(),
+								'today_volun' : Volunteer_schedule.objects.filter(day=date.today().strftime("%A")),
+
+								#dash-atu-att
+								'today_stu' : Student_schedule.objects.filter(day=date.today().strftime("%A")),
 							}
 							return render(request, 'home/dashboard.html', context)  # The chosen section is not taught on the chosen day
 					else:
@@ -121,6 +153,13 @@ def dashboard(request):
 							#dash-schedule
 							'day': Schedule.DAY,
 							'section': Schedule.SECTION,
+
+							#dash-vol-att
+							'today_date' : date.today(),
+							'today_volun' : Volunteer_schedule.objects.filter(day=date.today().strftime("%A")),
+
+							#dash-atu-att
+							'today_stu' : Student_schedule.objects.filter(day=date.today().strftime("%A")),
 						}
 						return render(request, 'home/dashboard.html', context)
 				else:
@@ -137,6 +176,13 @@ def dashboard(request):
 						#dash-schedule
 						'day': Schedule.DAY,
 						'section': Schedule.SECTION,
+
+						#dash-vol-att
+						'today_date' : date.today(),
+						'today_volun' : Volunteer_schedule.objects.filter(day=date.today().strftime("%A")),
+
+						#dash-atu-att
+						'today_stu' : Student_schedule.objects.filter(day=date.today().strftime("%A")),
 					}
 					return render(request, 'home/dashboard.html', context)
 			elif request.POST.get('submit') == 'update-profile':
@@ -206,6 +252,13 @@ def dashboard(request):
 					#dash-schedule
 					'day': Schedule.DAY,
 					'section': Schedule.SECTION,
+
+					#dash-vol-att
+					'today_date' : date.today(),
+					'today_volun' : Volunteer_schedule.objects.filter(day=date.today().strftime("%A")),
+
+					#dash-atu-att
+					'today_stu' : Student_schedule.objects.filter(day=date.today().strftime("%A")),
 				}
 				return render(request, 'home/dashboard.html', context)
 			elif request.POST.get('submit') == 'update-schedule':
@@ -274,6 +327,13 @@ def dashboard(request):
 						#dash-cwhw
 						'cwhw_selected_date' : cwhw_date,
 						'cwhw_section': Schedule.objects.filter(day=cwhw_day),
+
+						#dash-vol-att
+						'today_date' : date.today(),
+						'today_volun' : Volunteer_schedule.objects.filter(day=date.today().strftime("%A")),
+
+						#dash-atu-att
+						'today_stu' : Student_schedule.objects.filter(day=date.today().strftime("%A")),
 					}
 					return render(request, 'home/dashboard.html', context)
 				else:
@@ -287,7 +347,14 @@ def dashboard(request):
 
 						#dash-cwhw
 						'cwhw_selected_date' : cwhw_date,
-						'cwhw_error' : "The chosen day is not yet updated in the Calender."
+						'cwhw_error' : "The chosen day is not yet updated in the Calender.",
+
+						#dash-vol-att
+						'today_date' : date.today(),
+						'today_volun' : Volunteer_schedule.objects.filter(day=date.today().strftime("%A")),
+
+						#dash-atu-att
+						'today_stu' : Student_schedule.objects.filter(day=date.today().strftime("%A")),
 					}
 					return render(request, 'home/dashboard.html', context)
 			elif request.POST.get('submit') == 'update-cwhw':
@@ -307,14 +374,14 @@ def dashboard(request):
 					sch_section = Schedule.objects.get(day=cwhw_day, section=cwhw_section)
 
 					if Cw_hw.objects.filter(date=cal_date, section=sch_section).exists():
-						cw_hw = Cw_hw.objects.get(date=date, section=section)
+						cw_hw = Cw_hw.objects.get(date=cal_date, section=sch_section)
 						if cw:
 							cw_hw.cw = cw
 						if hw:
 							cw_hw.hw = hw
 						cw_hw.save()
 					else:
-						cw_hw = Cw_hw(date = date, section = section, cw = cw, hw = hw)
+						cw_hw = Cw_hw(date=cal_date, section=sch_section, cw=cw, hw=hw)
 						cw_hw.save()
 
 					context = {
@@ -327,6 +394,13 @@ def dashboard(request):
 
 						#dash-cwhw
 						'toast' : "CW_HW update successful!",
+
+						#dash-vol-att
+						'today_date' : date.today(),
+						'today_volun' : Volunteer_schedule.objects.filter(day=date.today().strftime("%A")),
+
+						#dash-atu-att
+						'today_stu' : Student_schedule.objects.filter(day=date.today().strftime("%A")),
 					}
 					return render(request, 'home/dashboard.html', context)
 				else:
@@ -342,9 +416,66 @@ def dashboard(request):
 						'cwhw_selected_date' : cwhw_date,
 						'cwhw_error' : "You've changed the date! Kindly submit the chosen date before updating.",
 						'toast' : "CW_HW update failed!",
+
+						#dash-vol-att
+						'today_date' : date.today(),
+						'today_volun' : Volunteer_schedule.objects.filter(day=date.today().strftime("%A")),
+
+						#dash-atu-att
+						'today_stu' : Student_schedule.objects.filter(day=date.today().strftime("%A")),
 					}
 					return render(request, 'home/dashboard.html', context)
+			elif request.POST.get('submit') == 'vol-att':
+				today_date = Calendar.objects.get(date=date.today())
+				vol_array = request.POST.getlist('volunteered')
+				for i in vol_array:
+					roll_no = Volunteer.objects.get(roll_no=i) #i is first column of volun_array
+					vol_attendance = Volunteer_attended_on(roll_no = roll_no, date = today_date)
+					vol_attendance.save()
+				
+				context = {
+					#dash-main
+					'class_info_submitted' : "nopes",
+					'choices': Schedule.SECTION,
 
+					#dash-update
+					'last_4_year': datetime.now().year - 4,
+
+					#dash-vol-att
+					'today_date' : date.today(),
+					'today_volun' : Volunteer_schedule.objects.filter(day=date.today().strftime("%A")),
+					'toast' : "Attendence marked successfully!",
+
+					#dash-atu-att
+					'today_stu' : Student_schedule.objects.filter(day=date.today().strftime("%A")),
+				}
+				return render(request, 'home/dashboard.html', context)
+			elif request.POST.get('submit') == 'stu-att':
+					today_date = Calendar.objects.get(date=date.today())
+					stu_array = request.POST.getlist('attended')
+					for sid in stu_array:
+						stu = Student.objects.get(id=sid)
+						stu_attendance = Student_attended_on(sid = stu, date = today_date)
+						stu_attendance.save()
+					
+					context = {
+						#dash-main
+						'class_info_submitted' : "nopes",
+						'choices': Schedule.SECTION,
+
+						#dash-update
+						'last_4_year': datetime.now().year - 4,
+
+						#dash-vol-att
+						'today_date' : date.today(),
+						'today_volun' : Volunteer_schedule.objects.filter(day=date.today().strftime("%A")),
+
+						#dash-atu-att
+						'today_stu' : Student_schedule.objects.filter(day=date.today().strftime("%A")),
+						'toast' : "Attendence marked successfully!",
+
+					}
+					return render(request, 'home/dashboard.html', context)
 
 		else:
 			context = {
@@ -358,6 +489,13 @@ def dashboard(request):
 				#dash-schedule
 				'day': Schedule.DAY,
 				'section': Schedule.SECTION,
+
+				#dash-vol-att
+				'today_date' : date.today(),
+				'today_volun' : Volunteer_schedule.objects.filter(day=date.today().strftime("%A")),
+
+				#dash-atu-att
+				'today_stu' : Student_schedule.objects.filter(day=date.today().strftime("%A")),
 			}
 			return render(request, 'home/dashboard.html', context)
 	return redirect('home')

@@ -123,9 +123,15 @@
 									<h5>Subject: <span class="lead"> -- </span> </h5>
 								</li>
 							{% endif %}
+							{% if user.auth is True %}
 							<li class="nav-item">
 								<button type="button" class="btn btn-outline-primary mt-3" onclick="show_dash_schedule()">Update Schedule</button>
 							</li>
+							{% else %}
+							<li class="nav-item">
+								<button type="button" class="btn btn-outline-primary mt-3" onclick="show_dash_schedule()" disabled>Update Schedule</button>
+							</li>
+							{% endif %}
 						{% else %}
 							<li class="nav-item">
 								<h5 class="my-5">{{volunteer.get_desig_display}}</h5>
@@ -134,10 +140,10 @@
 								<button type="button" class="btn btn-outline-primary" onclick="show_dash_cwhw()"> Update CW-HW </button>
 							</li>
 							<li class="nav-item">
-								<button type="button" class="btn btn-outline-primary" onclick=""> Student Attendence </button>
+								<button type="button" class="btn btn-outline-primary" onclick="show_dash_stu_att()"> Student Attendence </button>
 							</li>
 							<li class="nav-item">
-								<button type="button" class="btn btn-outline-primary" onclick="">Volunteer Attendence </button>
+								<button type="button" class="btn btn-outline-primary" onclick="show_dash_vol_att()">Volunteer Attendence </button>
 							</li>
 						{% endif %}
 						<li class="nav-item">
@@ -149,6 +155,7 @@
 
 			<div class="dash-main col-md-8 col-lg-9 mt-3">
 				<h3 class="text-center mb-3">Dashboard</h3>
+				{% if user.auth is True %}
 				<form method="POST">
 					{% csrf_token %}
 					<div class="row justify-content-center">
@@ -176,6 +183,13 @@
 						</div>
 					</div>
 				</form>
+				{% else %}
+				<div class="row justify-content-center">
+					<div class="col-md-8 mt-5">
+						<p class="text-center">You are not yet authorised to view any information on this <br> Kindly contact <a href="mailto:admin@admin.com">admin</a>.</p>
+					</div>
+				</div>
+				{% endif %}
 
 				{% if not class_info_submitted %}
 					{% if no_class_found %}
@@ -215,6 +229,24 @@
 							</p>
 						</div>
 					</div>
+						{% if not volunteer.desig == 'v' %}
+						<div class="row justify-content-center mt-4">
+								<div class="col-md-8 border rounded">
+									<h4 class="text-center mt-3">Volunteers Present</h4>
+									<hr>
+									<p>
+										{% if vol_volunteered.count %}
+											{% for vol_att in vol_volunteered %}
+												<span class="text-monospace font-weight-lighter">{{vol_att.roll_no.first_name}} {{vol_att.roll_no.last_name}}</span>
+												<br>
+											{% endfor %}
+										{% else %}
+											<pre>{{vol_volunteered}}</pre>
+										{% endif %}
+									</p>
+								</div>
+							</div>
+							{% endif %}
 					{% endif %}
 				{% endif %}
 			</div>
@@ -412,6 +444,117 @@
 					{% endif %}
 				</form>
 			</div>
+			<div class="dash-vol-att d-none col-md-8 col-lg-9 mt-3">
+					<a href="" onclick="show_dash_main()">&larr; Back to Dashboard</a>
+					<h3 class="text-center">Volunteers Attendence</h3>
+					<p class="text-center mt-3"><span class="font-weight-bold">Date: </span>{{today_date}}</p>
+					{% if today_vol_att.count %}
+					<p class="text-center text-danger mb-3">Today's Volunteer attendence already submitted! Contact admin in case of discripencies.</p>
+					<div class="row justify-content-center mt-4">
+						<div class="col-md-8 border rounded">
+							<h5 class="text-center mt-3">Volunteers Present Today</h5>
+							<hr>
+							<p>
+								{% for vol_att in today_vol_att %}
+									<span class="text-monospace font-weight-lighter">{{vol_att.roll_no.first_name}} {{vol_att.roll_no.last_name}}</span>
+									<br>
+								{% endfor %}
+							</p>
+						</div>
+					</div>
+					{% else %}
+					<form method="POST">
+						{% csrf_token %}
+						<div class="row justify-content-center mt-5">
+							<div class="col-sm-6 mb-2">
+								<table class="table">
+									<thead>
+										<tr>
+											<th>Volunteer Name</th>
+											<th>Mark Present</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for vol in today_volun %}
+										<tr>
+											<td>{{vol.roll_no.first_name}} {{vol.roll_no.last_name}}</td>
+											<td>
+												<div class="custom-control custom-switch">
+													<input type="checkbox" name="volunteered" value="{{vol.roll_no}}" class="custom-control-input" id="v{{vol.id}}">
+													<label class="custom-control-label" for="v{{vol.id}}"></label>
+												</div>
+											</td>
+										</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<!-- <p class="text-center text-danger mt-1">{{cwhw_error}}</p> -->
+						<div class="row justify-content-center mb-4">
+							<div class="col-md-4">
+								<button name="submit" value="vol-att" class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
+							</div>
+						</div>
+					</form>
+					{% endif %}
+				</div>
+
+				<div class="dash-stu-att d-none col-md-8 col-lg-9 mt-3">
+						<a href="" onclick="show_dash_main()">&larr; Back to Dashboard</a>
+						<h3 class="text-center">Students Attendence</h3>
+						<p class="text-center mt-3"><span class="font-weight-bold">Date: </span>{{today_date}}</p>
+						{% if today_stu_att.count %}
+						<p class="text-center text-danger mb-3">Today's Student attendence already submitted! Contact admin in case of discripencies.</p>
+						<div class="row justify-content-center mt-4">
+							<div class="col-md-8 border rounded">
+								<h5 class="text-center mt-3">Students Present Today</h5>
+								<hr>
+								<p>
+									{% for stu_att in today_stu_att %}
+										<span class="text-monospace font-weight-lighter">{{stu_att.sid.first_name}} {{stu_att.sid.last_name}}</span>
+										<br>
+									{% endfor %}
+								</p>
+							</div>
+						</div>
+						{% else %}
+						<form method="POST">
+							{% csrf_token %}
+							<div class="row justify-content-center mt-5">
+								<div class="col-sm-6 mb-2">
+									<table class="table">
+										<thead>
+											<tr>
+												<th>Student Name</th>
+												<th>Mark Present</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for stu in today_stu %}
+											<tr>
+												<td>{{stu.sid.first_name}} {{stu.sid.last_name}}</td>
+												<td>
+													<div class="custom-control custom-switch">
+														<input type="checkbox" name="attended" value="{{stu.sid.id}}" class="custom-control-input" id="s{{stu.id}}">
+														<label class="custom-control-label" for="s{{stu.id}}"></label>
+													</div>
+												</td>
+											</tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<!-- <p class="text-center text-danger mt-1">{{cwhw_error}}</p> -->
+							<div class="row justify-content-center mb-4">
+								<div class="col-md-4">
+									<button name="submit" value="stu-att" class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
+								</div>
+							</div>
+						</form>
+						{% endif %}
+					</div>
 
 		</div>
 
@@ -606,6 +749,9 @@
 	let dash_update = document.querySelector(".dash-update");
 	let dash_schedule = document.querySelector(".dash-schedule");
 	let dash_cwhw = document.querySelector(".dash-cwhw");
+	let dash_vol_att = document.querySelector(".dash-vol-att");
+	let dash_stu_att = document.querySelector(".dash-stu-att");
+
 
 	if("{{update_error}}"){
 		show_dash_update();
@@ -622,6 +768,8 @@
 		if(!dash_update.classList.contains('d-none')) dash_update.classList.add('d-none');
 		if(!dash_schedule.classList.contains('d-none')) dash_schedule.classList.add('d-none');
 		if(!dash_cwhw.classList.contains('d-none')) dash_cwhw.classList.add('d-none');
+		if(!dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.add('d-none');
+		if(!dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.add('d-none');
 	}
 
 	function show_dash_update(){
@@ -629,6 +777,8 @@
 		if(dash_update.classList.contains('d-none')) dash_update.classList.remove('d-none');
 		if(!dash_schedule.classList.contains('d-none')) dash_schedule.classList.add('d-none');
 		if(!dash_cwhw.classList.contains('d-none')) dash_cwhw.classList.add('d-none');
+		if(!dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.add('d-none');
+		if(!dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.add('d-none');
 	}
 
 	function show_dash_schedule(){
@@ -641,6 +791,24 @@
 		if(!dash_main.classList.contains('d-none')) dash_main.classList.add('d-none');
 		if(!dash_update.classList.contains('d-none')) dash_update.classList.add('d-none');
 		if(dash_cwhw.classList.contains('d-none')) dash_cwhw.classList.remove('d-none');
+		if(!dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.add('d-none');
+		if(!dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.add('d-none');
+	}
+
+	function show_dash_vol_att(){
+		if(!dash_main.classList.contains('d-none')) dash_main.classList.add('d-none');
+		if(!dash_update.classList.contains('d-none')) dash_update.classList.add('d-none');
+		if(!dash_cwhw.classList.contains('d-none')) dash_cwhw.classList.add('d-none');
+		if(dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.remove('d-none');
+		if(!dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.add('d-none');
+	}
+
+	function show_dash_stu_att(){
+		if(!dash_main.classList.contains('d-none')) dash_main.classList.add('d-none');
+		if(!dash_update.classList.contains('d-none')) dash_update.classList.add('d-none');
+		if(!dash_cwhw.classList.contains('d-none')) dash_cwhw.classList.add('d-none');
+		if(!dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.add('d-none');
+		if(dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.remove('d-none');
 	}
 
 </script>
