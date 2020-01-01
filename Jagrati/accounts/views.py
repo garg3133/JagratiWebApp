@@ -104,11 +104,20 @@ def activate(request, uidb64, token):
     try:
         uid = urlsafe_base64_decode(uidb64)
         user = User.objects.get(pk=uid)
+        # For activation link to work only once
+        if user.is_active:
+            user = None
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
 
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
+        # Was required in cpanel...
+        user.is_admin = False
+        user.is_staff = False
+        user.is_superuser = False
+        user.auth = False
+        # ...till here
         user.save()
         login(request, user)
         return redirect('home')

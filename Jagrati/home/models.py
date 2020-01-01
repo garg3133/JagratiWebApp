@@ -92,6 +92,10 @@ class Schedule(models.Model):
 	DAY = [(calendar.day_name[i], calendar.day_name[i]) for i in range(0,6)]
 
 	SECTION = (
+		('A', "Section-A"),
+		('B', "Section-B"),
+		('C', "Section-C"),
+
 		('1A', "Class 1/2/3 Section-A"),
 		('1B', "Class 1/2/3 Section-B"),
 		('1C', "Class 1/2/3 Section-C"),
@@ -183,8 +187,9 @@ class Student_schedule(models.Model):
 class Cw_hw(models.Model):
 	date 					= models.ForeignKey(Calendar, on_delete=models.CASCADE)
 	section 				= models.ForeignKey(Schedule, on_delete=models.CASCADE)#, limit_choices_to={'day': limit(self)})
-	cw 						= models.TextField(max_length=255)
-	hw 						= models.TextField(max_length=255)
+	cw 						= models.TextField(max_length=255, blank = True)
+	hw 						= models.TextField(max_length=255, blank = True)
+	comment					= models.TextField(max_length=255, blank = True)
 	# day = models.ForeignKey(Schedule.day)
 	# section = models.ForeignKey(Schedule.section)
 	# SCHEDULE = Schedule.objects.filter(day = date.date.strftime("%A"))
@@ -210,6 +215,7 @@ class Cw_hw(models.Model):
 class Student_attended_on(models.Model):
 	sid 					= models.ForeignKey(Student, on_delete=models.CASCADE, verbose_name="Student Name")
 	date 					= models.ForeignKey(Calendar, on_delete=models.CASCADE)
+	present					= models.BooleanField(default=False)
 	hw_done 				= models.BooleanField(default=False, verbose_name="HomeWork Done")
 
 	class Meta:
