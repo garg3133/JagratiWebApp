@@ -387,7 +387,10 @@
 	<section id="contact-us">
 		<div class="container">
 			<h1 data-aos="fade-up">Contact Us</h1>
-			<div id="googleMap" data-aos="fade" data-aos-delay="100" data-aos-duration="700" data-aos-easing="ease-in-back" data-aos-anchor="#contact-us h1"></div>
+			<div data-aos="fade" data-aos-delay="100" data-aos-duration="700" data-aos-easing="ease-in-back" data-aos-anchor="#contact-us h1">
+				<iframe id="googleMap" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8475.584685004593!2d80.0213485541703!3d23.176553282566513!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3981a9413d9835fd%3A0xffe30099d058452e!2sIndian%20Institute%20of%20Information%20Technology%20Design%20%26%20Manufacturing%20Jabalpur!5e0!3m2!1sen!2sin!4v1575215351789!5m2!1sen!2sin" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+			</div>
+			<!-- <div id="googleMap" data-aos="fade" data-aos-delay="100" data-aos-duration="700" data-aos-easing="ease-in-back" data-aos-anchor="#contact-us h1"></div> -->
 			<p data-aos="zoom-in" data-aos-delay="100" data-aos-duration="700"><i class="fas fa-map-marker-alt fa-2x"></i>  Pandit Dwarka Prasad Mishra Indian Institute of Information Technology, Design and Manufacturing Jabalpur</p>
 			<div>
 				<div class="con-box1" data-aos="fade-down-right">
@@ -430,9 +433,8 @@
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/glide.js"></script>
 	<script type="text/javascript" src='{% static "home/js/glide.js" %}'></script>
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJuMBHnVGHzt-a1sfFWnffTefJSCAS2gU&callback=myMap"
-  	type="text/javascript"></script>
-  	<script>AOS.init({once: true});</script>
+	<!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJuMBHnVGHzt-a1sfFWnffTefJSCAS2gU&callback=myMap" type="text/javascript"></script> -->
+	<script>AOS.init({once: true});</script>
 
 	  <!-- {% endif %} -->
 {% endblock %}
