@@ -39,6 +39,28 @@ def showSectionInUpdateSchedule(request):
 	json_schedule = serializers.serialize("json", schedule)
 	return HttpResponse(json_schedule, content_type='application/json')
 
+def studentAttendenceAjax(request):
+	stu_class = request.GET.get('stu_class', None)
+
+	today_date = Calendar.objects.get(date=date.today())
+
+	class_range_min = 1
+	class_range_max = 14
+	if stu_class == '1-8':
+		class_range_min = 1
+		class_range_max = 8
+	elif stu_class == '9-10':
+		class_range_min = 9
+		class_range_max = 10
+	elif stu_class == '13-14':
+		class_range_min = 13
+		class_range_max = 14
+
+	stu_to_show = Student_attended_on.objects.filter(date = today_date, sid__school_class__range = (class_range_min, class_range_max)).order_by('sid__school_class')
+
+	json_stu_to_show = serializers.serialize("json", stu_to_show)
+	return HttpResponse(json_stu_to_show, content_type='application/json')
+
 # @register.filter
 # def get_item(choices, key):
 # 	dictionary = {key: value for key, value in choices}
@@ -73,6 +95,13 @@ def dashboard(request):
 			for stu_sch in today_stu_sch:
 				stu_attendance = Student_attended_on(sid = stu_sch.sid, date = today_cal)
 				stu_attendance.save()
+
+		if Student_attended_on.objects.filter(date__date = date.today()).count() != Student_schedule.objects.filter(day=date.today().strftime("%A")).count():
+			today_stu_sch = Student_schedule.objects.filter(day=date.today().strftime("%A"))
+			for stu_sch in today_stu_sch:
+				if not Student_attended_on.objects.filter(sid = stu_sch.sid, date = today_cal).exists():
+					stu_attendance = Student_attended_on(sid = stu_sch.sid, date = today_cal)
+					stu_attendance.save()
 
 		# If no Class is Scheduled
 		no_class_today = ''
@@ -416,9 +445,22 @@ def dashboard(request):
 			elif request.POST.get('submit') == 'stu-att':
 					today_date = Calendar.objects.get(date=date.today())
 					stu_array = request.POST.getlist('attended')
+					selected_class = request.POST['selected_class']
+
+					class_range_min = 1
+					class_range_max = 14
+					if selected_class == '1-8':
+						class_range_min = 1
+						class_range_max = 8
+					elif selected_class == '9-10':
+						class_range_min = 9
+						class_range_max = 10
+					elif selected_class == '13-14':
+						class_range_min = 13
+						class_range_max = 14
 
 					# Mark everyone's absent
-					stu_today = Student_attended_on.objects.filter(date = today_date)
+					stu_today = Student_attended_on.objects.filter(date = today_date, sid__school_class__range = (class_range_min, class_range_max))
 					for stu in stu_today:
 						stu.present = False
 						stu.hw_done = False

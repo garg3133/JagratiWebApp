@@ -10,6 +10,8 @@ from .models import(
 	Cw_hw,
 )
 from datetime import datetime, date
+import json
+from django.forms.models import model_to_dict
 
 def database_context(request):
 	if request.user.is_authenticated:
@@ -26,6 +28,14 @@ def database_context(request):
 			volunteer = None
 			vol_schedule = None
 
+		# Student's dictionary for AJAX
+		students = Student.objects.all()
+		stu_dict = {}
+		
+		for stu in students:
+			stu_dict[stu.id] = model_to_dict(stu)
+
+		stu_dict_json = json.dumps(stu_dict)
 
 		return {
 			'volunteer': volunteer,
@@ -35,6 +45,8 @@ def database_context(request):
 			'schedules' : Schedule.objects.order_by('section'),
 			'today_vol_att' : Volunteer_attended_on.objects.filter(date=date.today()),
 			'today_stu_att' : Student_attended_on.objects.filter(date=date.today()),
+			'students' : students,
+			'stu_dict_json' : stu_dict_json,
 		}
 
 	else:

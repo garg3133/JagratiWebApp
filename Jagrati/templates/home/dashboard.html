@@ -619,6 +619,16 @@
 					{% csrf_token %}
 					<div class="row justify-content-center mt-5">
 						<div class="col-sm-6 mb-2 text-center">
+							<div class="row justify-content-center">
+								<div class="col mb-4">
+									<select name="selected_class" class="custom-select d-block w-100" id="stu-att-class">
+										<option value="all" selected>All Classes</option>
+										<option value="1-8">Class 1-8</option>
+										<option value="9-10">Class 9-10</option>
+										<option value="13-14">Navodaya Wing</option>
+									</select>
+								</div>
+							</div>
 							<input type="text" id="filter-students" class="form-control mb-3 mx-auto" onkeyup="filterStudents()" placeholder="Search for names..">
 							<table class="table" id="stu-att-table">
 								<thead>
@@ -632,7 +642,15 @@
 									{% for stu in today_stu %}
 									<tr>
 										<td>{{stu.sid.first_name}} {{stu.sid.last_name}}</td>
-										<td>{{stu.sid.school_class}}</td>
+
+										{% if stu.sid.school_class == 13 %}
+											<td>JNV_4</td>
+										{% elif stu.sid.school_class == 14 %}
+											<td>JNV_5</td>
+										{% else %}
+											<td>{{stu.sid.school_class}}</td>
+										{% endif %}
+
 										<td>
 											<div class="custom-control custom-switch">
 												{% if stu.present %}
@@ -864,6 +882,44 @@
 					options += '<option value="' + data[i].fields['section'] + '" >' + choices_display + '</option>';
 				}
 				$("#sch-section").html(options);
+			}
+		});
+	});
+</script>
+
+<!-- AJAX for Student Attendence -->
+
+<script>
+	$("#stu-att-class").change(function () {
+		let stu_class = $(this).val();
+
+		$.ajax({
+			url: '/ajax/student_attendence/',
+			data: {
+				'stu_class': stu_class
+			},
+			dataType: 'json',
+			success: function (data) {
+				let stu_att_table = '<thead><tr><th>Student Name</th><th>Class</th><th>Mark Present</th></tr></thead><tbody>';
+				let checked = '';
+				let stu_dict = {{stu_dict_json | safe}};
+				// console.log(stu_dict)
+				for (var i = 0; i < data.length; i++) {
+					if (data[i].fields['present']) checked = 'checked';
+					else checked = '';
+
+					let first_name = stu_dict[data[i].fields['sid']]['first_name']
+					let last_name = stu_dict[data[i].fields['sid']]['last_name']
+					let school_class = stu_dict[data[i].fields['sid']]['school_class']
+					
+					if(school_class == 13) school_class = "JNV_4"
+					else if(school_class == 14) school_class = "JNV_5"
+
+					stu_att_table += '<tr><td>' + first_name + ' ' + last_name + '</td><td>' + school_class + '</td><td><div class="custom-control custom-switch"><input type="checkbox" name="attended" value="' + data[i].fields['sid'] + '" class="custom-control-input" id="s' + data[i].pk + '" ' + checked + '><label class="custom-control-label" for="s' + data[i].pk + '"></label></div></td></tr>';
+					
+				}
+				stu_att_table += '</tbody>';
+				$("#stu-att-table").html(stu_att_table);
 			}
 		});
 	});
