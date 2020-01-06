@@ -9,7 +9,14 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from .tokens import account_activation_token
 
+# from django.contrib.auth.views import PasswordResetConfirmView
+# from .forms import CustomSetPasswordForm
+
 # Create your views here.
+
+# class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+#     form_class = CustomSetPasswordForm
+
 def login_signup(request):
     if request.user.is_authenticated:
         return redirect('home')
@@ -97,8 +104,9 @@ def login_signup(request):
     return render(request, 'accounts/login_signup.html')
 
 def logout_view(request):
+    next_site = request.GET['next']
     logout(request)
-    return redirect('home')
+    return redirect(next_site)
 
 def activate(request, uidb64, token):
     try:
