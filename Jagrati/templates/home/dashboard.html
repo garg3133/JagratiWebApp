@@ -281,8 +281,16 @@
 									<tbody>
 										{% for stu_att in students_attended %}
 										<tr class="text-center">
-											<td class="text-monospace font-weight-lighter">{{stu_att.sid.first_name}} {{stu_att.sid.last_name}}</tdclass="text-monospace font-weight-lighter">
-											<td class="text-monospace font-weight-lighter">{{stu_att.sid.school_class}}</td>
+											<td class="text-monospace font-weight-lighter">{{stu_att.sid.first_name}} {{stu_att.sid.last_name}}</td>
+
+											{% if stu_att.sid.school_class == 13 %}
+												<td class="text-monospace font-weight-lighter">JNV_4</td>
+											{% elif stu_att.sid.school_class == 14 %}
+												<td class="text-monospace font-weight-lighter">JNV_5</td>
+											{% else %}
+												<td class="text-monospace font-weight-lighter">{{stu_att.sid.school_class}}</td>
+											{% endif %}
+											
 										</tr>
 										{% endfor %}
 									</tbody>

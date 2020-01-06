@@ -10,7 +10,13 @@
 	</nav> -->
 	{% if user.is_authenticated and user.is_active%}
 	<a class="btn btn-outline-success mr-md-3 mb-2 mb-md-0" href="{% url 'password_change' %}">Change Password</a>
-	<a class="btn btn-outline-danger" href="{% url 'logout' %}">Sign Out</a>
+
+	{% if logout_redirect_site %}
+	<a class="btn btn-outline-danger" href="{% url 'logout' %}?next={{ logout_redirect_site }}">Sign Out</a>
+	{% else %}
+	<a class="btn btn-outline-danger" href="{% url 'logout' %}?next=/">Sign Out</a>
+	{% endif %}
+	
 	{% else %}
 	<a class="btn btn-outline-danger" href="{% url 'login_signup' %}">Sign In</a>
 	{% endif %}

@@ -238,3 +238,13 @@ class Volunteer_attended_on(models.Model):
 
 	def __str__(self):
 		return self.roll_no.__str__() + " - " + self.date.__str__()
+
+class Feedback(models.Model):
+	name 					= models.CharField(max_length=50)
+	roll_no					= models.CharField(max_length=10, blank=True)
+	email 					= models.EmailField(max_length=255, blank=True)
+	feedback 				= models.TextField(max_length=1023)
+	date					= models.DateTimeField(verbose_name='Date', auto_now_add=True)
+
+	def __str__(self):
+		return self.name.__str__()

@@ -10,6 +10,7 @@ from .models import(
 	Calendar,
 	Volunteer_attended_on,
 	Student_attended_on,
+	Feedback,
 )
 from django.http import HttpResponse
 from datetime import datetime, date
@@ -554,4 +555,24 @@ def volunteerInformation(request):
 	else:
 		return redirect('login_signup')
 
-		
+def feedback(request):
+	submitted = ''
+	if request.method == 'POST':
+		anonymous_array	= request.POST.getlist('anonymousCheck')
+		name			= request.POST['name']
+		roll_no			= request.POST['rollNo']
+		email			= request.POST['email']
+		feedback		= request.POST['feedback']
+		if len(anonymous_array) != 0:
+			feedback = Feedback(name = 'Anonymous', feedback = feedback)
+			feedback.save()
+		else:
+			feedback = Feedback(name = name, roll_no = roll_no, email = email, feedback = feedback)
+			feedback.save()
+
+		submitted = "yesssss!"
+	context = {
+		'logout_redirect_site' : 'feedback',
+		'submitted' : submitted,
+	}
+	return render(request, 'home/feedback.html', context)
