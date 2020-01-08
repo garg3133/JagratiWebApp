@@ -11,6 +11,7 @@ from .models import(
 )
 from datetime import datetime, date
 import json
+from django.core.serializers.json import DjangoJSONEncoder
 from django.forms.models import model_to_dict
 
 def database_context(request):
@@ -37,12 +38,32 @@ def database_context(request):
 
 		stu_dict_json = json.dumps(stu_dict)
 
+		# Volunteer's dictionary for AJAX
+		volunteers = Volunteer.objects.all()
+		vol_dict = {}
+		
+		for vol in volunteers:
+			vol_dict[vol.id] = model_to_dict(vol)
+
+		vol_dict_json = json.dumps(vol_dict, cls=DjangoJSONEncoder)
+
+		# Schedule dictionary for AJAX
+		schedules = Schedule.objects.all()
+		sch_dict = {}
+		
+		for sch in schedules:
+			sch_dict[sch.id] = model_to_dict(sch)
+
+		sch_dict_json = json.dumps(sch_dict)
+
 		return {
 			'volunteer': volunteer,
-			'volunteers': Volunteer.objects.all(),
+			'volunteers': volunteers,
+			'vol_dict_json' : vol_dict_json,
 			'vol_schedule': vol_schedule,
 			'vol_schedules': Volunteer_schedule.objects.all(),
 			'schedules' : Schedule.objects.order_by('section'),
+			'sch_dict_json' : sch_dict_json,
 			'today_vol_att' : Volunteer_attended_on.objects.filter(date=date.today()),
 			'today_stu_att' : Student_attended_on.objects.filter(date=date.today()),
 			'students' : students,

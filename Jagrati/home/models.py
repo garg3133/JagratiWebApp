@@ -230,6 +230,8 @@ class Student_attended_on(models.Model):
 class Volunteer_attended_on(models.Model):
 	roll_no 				= models.ForeignKey(Volunteer, on_delete=models.CASCADE)
 	date 					= models.ForeignKey(Calendar, on_delete=models.CASCADE)
+	present					= models.BooleanField(default=False)
+	extra 					= models.BooleanField(default=False)
 
 	class Meta:
 		unique_together = (('roll_no', 'date'),)

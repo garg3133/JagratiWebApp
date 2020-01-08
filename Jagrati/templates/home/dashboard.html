@@ -137,7 +137,7 @@
 								<h5 class="my-5">{{volunteer.get_desig_display}}</h5>
 							</li>
 							<li class="nav-item">
-								<button type="button" class="btn btn-outline-primary" onclick="show_dash_cwhw()" disabled> Update CW-HW </button>
+								<button type="button" class="btn btn-outline-primary" onclick="show_dash_vol_list()"> Volunteers </button>
 							</li>
 							<li class="nav-item">
 								<button type="button" class="btn btn-outline-primary" onclick="show_dash_stu_att()"> Student Attendence </button>
@@ -301,24 +301,37 @@
 							</p>
 						</div>
 					</div>
-						{% if not volunteer.desig == 'v' %}
-						<div class="row justify-content-center my-4 mx-0">
-								<div class="col-md-9 border rounded">
-									<h4 class="text-center mt-3">Volunteers Present</h4>
-									<hr>
-									<p>
-										{% if vol_volunteered.count %}
-											{% for vol_att in vol_volunteered %}
-												<span class="text-monospace font-weight-lighter">{{vol_att.roll_no.first_name}} {{vol_att.roll_no.last_name}}</span>
-												<br>
-											{% endfor %}
-										{% else %}
-											<pre>{{vol_volunteered}}</pre>
-										{% endif %}
-									</p>
-								</div>
-							</div>
+
+					{% if not volunteer.desig == 'v' %}
+					<div class="row justify-content-center my-4 mx-0">
+						<div class="col-md-9 border rounded">
+							<h4 class="text-center mt-3">Volunteers Present</h4>
+							<hr>
+							{% if vol_volunteered.count %}
+							<input type="text" id="filter-volunteers-dash" class="form-control mb-3 mx-auto" onkeyup="filterVolunteersOnDash()" placeholder="Search for roll no..">
+							<table class="table table-hover" id="vol-att-table-dash">
+								<thead>
+									<tr class="text-center">
+										<th>Roll No.</th>
+										<th>Name</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for vol_att in vol_volunteered %}
+									<tr class="text-center">
+										<td class="text-monospace font-weight-lighter">{{vol_att.roll_no.roll_no}}</td>
+										<td class="text-monospace font-weight-lighter">{{vol_att.roll_no.first_name}} {{vol_att.roll_no.last_name}} {% if vol_att.extra %}(E){% endif %}</td>
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+							{% else %}
+								<pre>{{vol_volunteered}}</pre>
 							{% endif %}
+						</div>
+					</div>
+					{% endif %}
+
 					{% endif %}
 				{% endif %}
 			</div>
@@ -592,12 +605,39 @@
 			{% endcomment %}
 
 
+			<!-- List of Volunteers -->
+
+			<div class="dash-vol-list d-none col-md-8 col-lg-9 mt-3">
+				<a href="" onclick="show_dash_main()">&larr; Back to Dashboard</a>
+				<h3 class="text-center">Volunteers Schedule</h3>
+				<div class="row justify-content-center">
+					<div class="col-md-4 my-3">
+						<select name="day" class="custom-select d-block w-100" id="vol-list-day">
+							<option value="">Select Day</option>
+							{% for j,i in day %}
+							<option value="{{j}}">{{i}}</option>
+							{% endfor %}
+						</select>
+					</div>
+				</div>
+				
+				<div class="row justify-content-center d-none my-4 mx-0" id="reg-vol">
+					<div class="col-md-9 border rounded">
+						<h4 class="text-center mt-3">Registered Volunteers</h4>
+						<hr>
+						<table class="table table-hover" id="vol-list-table"></table>
+					</div>
+				</div>
+			</div>
+
 			<!-- Volunteer Attendence -->
 
 			<div class="dash-vol-att d-none col-md-8 col-lg-9 mt-3">
 				<a href="" onclick="show_dash_main()">&larr; Back to Dashboard</a>
 				<h3 class="text-center">Volunteers Attendence</h3>
 				<p class="text-center mt-3"><span class="font-weight-bold">Date: </span>{{today_date}}</p>
+
+				{% comment %}
 				{% if today_vol_att.count %}
 				<p class="text-center text-danger mb-3">Today's Volunteer attendence already submitted! Contact admin in case of discripencies.</p>
 				<div class="row justify-content-center mt-4">
@@ -612,25 +652,37 @@
 						</p>
 					</div>
 				</div>
+				{% endcomment %}
+
+				{% if no_class_today %}
+				<p class="text-center text-danger mb-3">No class is scheduled for today.</p>
 				{% else %}
 				<form method="POST">
 					{% csrf_token %}
 					<div class="row justify-content-center mt-5">
-						<div class="col-sm-6 mb-2">
-							<table class="table">
+						<div class="col-sm-6 mb-2 text-center">
+							<input type="text" id="filter-volunteers" class="form-control mb-3 mx-auto" onkeyup="filterVolunteers()" placeholder="Search roll no..">
+							<table class="table" id="vol-att-table">
 								<thead>
 									<tr>
-										<th>Volunteer Name</th>
+										<th>Roll No.</th>
+										<th>Name</th>
 										<th>Mark Present</th>
 									</tr>
 								</thead>
 								<tbody>
 									{% for vol in today_volun %}
 									<tr>
+										<td>{{ vol.roll_no.roll_no }}</td>
 										<td>{{vol.roll_no.first_name}} {{vol.roll_no.last_name}}</td>
+
 										<td>
 											<div class="custom-control custom-switch">
-												<input type="checkbox" name="volunteered" value="{{vol.roll_no}}" class="custom-control-input" id="v{{vol.id}}">
+												{% if vol.present %}
+												<input type="checkbox" name="volunteered" value="{{vol.roll_no.id}}" class="custom-control-input" id="v{{vol.id}}" checked>
+												{% else %}
+												<input type="checkbox" name="volunteered" value="{{vol.roll_no.id}}" class="custom-control-input" id="v{{vol.id}}">
+												{% endif %}
 												<label class="custom-control-label" for="v{{vol.id}}"></label>
 											</div>
 										</td>
@@ -640,7 +692,14 @@
 							</table>
 						</div>
 					</div>
-					<!-- <p class="text-center text-danger mt-1">{{cwhw_error}}</p> -->
+					<div class="row justify-content-center" id="add-vol">
+
+					</div>
+					<div class="row justify-content-center mb-4">
+						<div class="col-5 col-sm-4 col-md-3 col-lg-2">
+							<button type="button" class="btn btn-primary btn-block" onclick="add_vol()">Add More</button>
+						</div>
+					</div>
 					<div class="row justify-content-center mb-4">
 						<div class="col-md-4">
 							<button name="submit" value="vol-att" class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
@@ -993,6 +1052,53 @@
 	});
 </script>
 
+<!-- AJAX for Volunteer's List -->
+
+<script>
+	$("#vol-list-day").change(function () {
+		let vol_list_day = $(this).val();
+
+		let reg_vol_div = document.getElementById('reg-vol');
+		if(vol_list_day == ""){
+			if(!reg_vol_div.classList.contains('d-none')) reg_vol_div.classList.add('d-none');
+		} 
+		else{
+			if(reg_vol_div.classList.contains('d-none')) reg_vol_div.classList.remove('d-none');
+		} 
+
+		$.ajax({
+			url: '/ajax/volunteer_list/',
+			data: {
+				'vol_list_day': vol_list_day
+			},
+			dataType: 'json',
+			success: function (data) {
+				let vol_list_table = '<thead><tr><th>Roll No.</th><th>Name</th><th>Section</th></tr></thead><tbody>';
+				let hello = '';
+				let vol_dict = {{vol_dict_json | safe}};
+				let sch_dict = {{sch_dict_json | safe}};
+				let sec_dict = {{ choices_dict|safe }};
+					
+				// console.log(vol_dict)
+				for (var i = 0; i < data.length; i++) {
+
+					let first_name = vol_dict[data[i].fields['roll_no']]['first_name'];
+					let last_name = vol_dict[data[i].fields['roll_no']]['last_name'];
+					let roll_no = vol_dict[data[i].fields['roll_no']]['roll_no'];
+					var sec_display = sec_dict[sch_dict[data[i].fields['schedule']]['section']];
+
+					if(true) hello = 'there'
+
+					vol_list_table += '<tr><td>' + roll_no + '</td><td>' + first_name + ' ' + last_name + '</td><td>' + sec_display + '</td></tr>';
+					
+				}
+				vol_list_table += '</tbody>';
+				$("#vol-list-table").html(vol_list_table);
+			}
+		});
+	});
+</script>
+
 <!-- Search Filter for Student Present on Dashboard  -->
 
 <script>
@@ -1017,7 +1123,7 @@
 		}
 	  }
 	}
-	</script>
+</script>
 
 <!-- Search Filter for Student Attendence  -->
 
@@ -1043,7 +1149,77 @@
 		}
 	  }
 	}
-	</script>
+</script>
+
+<!-- Search Filter for Volunteers Present on Dashboard  -->
+
+<script>
+	function filterVolunteersOnDash() {
+	  // Declare variables
+	  let input, filter, table, tr, td, i, txtValue;
+	  input = document.getElementById("filter-volunteers-dash");
+	  filter = input.value.toUpperCase();
+	  table = document.getElementById("vol-att-table-dash");
+	  tr = table.getElementsByTagName("tr");
+	
+	  // Loop through all table rows, and hide those who don't match the search query
+	  for (i = 0; i < tr.length; i++) {
+		td = tr[i].getElementsByTagName("td")[0];
+		if (td) {
+		  txtValue = td.textContent || td.innerText;
+		  if (txtValue.toUpperCase().indexOf(filter) > -1) {
+			tr[i].style.display = "";
+		  } else {
+			tr[i].style.display = "none";
+		  }
+		}
+	  }
+	}
+</script>
+
+<!-- Search Filter for Volunteers Attendence  -->
+
+<script>
+	function filterVolunteers() {
+	  // Declare variables
+	  let input, filter, table, tr, td, i, txtValue;
+	  input = document.getElementById("filter-volunteers");
+	  filter = input.value.toUpperCase();
+	  table = document.getElementById("vol-att-table");
+	  tr = table.getElementsByTagName("tr");
+	
+	  // Loop through all table rows, and hide those who don't match the search query
+	  for (i = 0; i < tr.length; i++) {
+		td = tr[i].getElementsByTagName("td")[0];
+		if (td) {
+		  txtValue = td.textContent || td.innerText;
+		  if (txtValue.toUpperCase().indexOf(filter) > -1) {
+			tr[i].style.display = "";
+		  } else {
+			tr[i].style.display = "none";
+		  }
+		}
+	  }
+	}
+</script>
+
+<!-- Add Extra Volunteers in Volunteer Attendence -->
+
+<script>
+	function add_vol(){
+		let add_vol_div = document.getElementById('add-vol');
+		let div = document.createElement("div");
+		div.className = "col-7 col-sm-4 col-lg-3 mb-3";
+		let input = document.createElement("input");
+		input.name = "extra-vol";
+		input.type = "number";
+		input.className = "form-control";
+		input.placeholder = "Roll No.";
+		div.appendChild(input);
+		add_vol_div.appendChild(div);
+		// add_vol_div.innerHTML += '<div class="col-7 col-sm-4 col-lg-3 mb-3"><input name="extra-vol" type="number" class="form-control" placeholder="Roll No."></div>';
+	}
+</script>
 
 <!-- Script for Main Dashboard Date Picker -->
 <script type="text/javascript">
@@ -1091,6 +1267,7 @@
 	let dash_cwhw = document.querySelector(".dash-cwhw");
 	let dash_vol_att = document.querySelector(".dash-vol-att");
 	let dash_stu_att = document.querySelector(".dash-stu-att");
+	let dash_vol_list = document.querySelector(".dash-vol-list");
 
 
 	if("{{update_error}}"){
@@ -1110,6 +1287,7 @@
 		// if(!dash_cwhw.classList.contains('d-none')) dash_cwhw.classList.add('d-none');
 		if(!dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.add('d-none');
 		if(!dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.add('d-none');
+		if(!dash_vol_list.classList.contains('d-none')) dash_vol_list.classList.add('d-none');
 	}
 
 	function show_dash_update(){
@@ -1119,6 +1297,7 @@
 		// if(!dash_cwhw.classList.contains('d-none')) dash_cwhw.classList.add('d-none');
 		if(!dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.add('d-none');
 		if(!dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.add('d-none');
+		if(!dash_vol_list.classList.contains('d-none')) dash_vol_list.classList.add('d-none');
 	}
 
 	function show_dash_schedule(){
@@ -1142,6 +1321,7 @@
 		// if(!dash_cwhw.classList.contains('d-none')) dash_cwhw.classList.add('d-none');
 		if(dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.remove('d-none');
 		if(!dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.add('d-none');
+		if(!dash_vol_list.classList.contains('d-none')) dash_vol_list.classList.add('d-none');
 	}
 
 	function show_dash_stu_att(){
@@ -1150,6 +1330,16 @@
 		// if(!dash_cwhw.classList.contains('d-none')) dash_cwhw.classList.add('d-none');
 		if(!dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.add('d-none');
 		if(dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.remove('d-none');
+		if(!dash_vol_list.classList.contains('d-none')) dash_vol_list.classList.add('d-none');
+	}
+
+	function show_dash_vol_list(){
+		if(!dash_main.classList.contains('d-none')) dash_main.classList.add('d-none');
+		if(!dash_update.classList.contains('d-none')) dash_update.classList.add('d-none');
+		// if(!dash_cwhw.classList.contains('d-none')) dash_cwhw.classList.add('d-none');
+		if(!dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.add('d-none');
+		if(!dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.add('d-none');
+		if(dash_vol_list.classList.contains('d-none')) dash_vol_list.classList.remove('d-none');
 	}
 
 </script>

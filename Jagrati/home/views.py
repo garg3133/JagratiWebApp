@@ -63,6 +63,14 @@ def studentAttendenceAjax(request):
 	json_stu_to_show = serializers.serialize("json", stu_to_show)
 	return HttpResponse(json_stu_to_show, content_type='application/json')
 
+def volunteerListAjax(request):
+	vol_list_day = request.GET.get('vol_list_day', None)
+
+	vol_list = Volunteer_schedule.objects.filter(day = vol_list_day).order_by('schedule__section')
+
+	json_vol_list = serializers.serialize("json", vol_list)
+	return HttpResponse(json_vol_list, content_type='application/json')
+
 # @register.filter
 # def get_item(choices, key):
 # 	dictionary = {key: value for key, value in choices}
@@ -105,6 +113,13 @@ def dashboard(request):
 					stu_attendance = Student_attended_on(sid = stu_sch.sid, date = today_cal)
 					stu_attendance.save()
 
+		# For Volunteer Attendence
+		if not Volunteer_attended_on.objects.filter(date__date = date.today()).exists():
+			today_vol_sch = Volunteer_schedule.objects.filter(day=date.today().strftime("%A"))
+			for vol_sch in today_vol_sch:
+				vol_attendance = Volunteer_attended_on(roll_no = vol_sch.roll_no, date = today_cal)
+				vol_attendance.save()
+
 		# If no Class is Scheduled
 		no_class_today = ''
 		if not today_cal.class_scheduled:
@@ -129,7 +144,7 @@ def dashboard(request):
 
 			#dash-vol-att
 			'today_date' : date.today(),
-			'today_volun' : Volunteer_schedule.objects.filter(day=date.today().strftime("%A")),
+			'today_volun' : Volunteer_attended_on.objects.filter(date = today_cal).order_by('roll_no__roll_no'),
 
 			#dash-stu-att
 			'today_stu' : Student_attended_on.objects.filter(date = today_cal).order_by('sid__school_class'),
@@ -153,7 +168,7 @@ def dashboard(request):
 								vol_volunteered = "Class not yet scheduled!"
 							else:
 								students_attended = Student_attended_on.objects.filter(date = calendar[0], present = True).order_by('sid__school_class')
-								vol_volunteered = Volunteer_attended_on.objects.filter(date = calendar[0])
+								vol_volunteered = Volunteer_attended_on.objects.filter(date = calendar[0], present = True).order_by('roll_no__roll_no')
 
 								if class_info_date == date.today() and not students_attended.exists():
 									students_attended = "Not yet updated!"
@@ -462,10 +477,37 @@ def dashboard(request):
 			elif request.POST.get('submit') == 'vol-att':
 				today_date = Calendar.objects.get(date=date.today())
 				vol_array = request.POST.getlist('volunteered')
-				for i in vol_array:
-					roll_no = Volunteer.objects.get(roll_no=i) #i is first column of volun_array
-					vol_attendance = Volunteer_attended_on(roll_no = roll_no, date = today_date)
+				extra_vol_array = request.POST.getlist('extra-vol')
+
+				# Mark everyone's absent
+				vol_today = Volunteer_attended_on.objects.filter(date = today_date)
+				for vol in vol_today:
+					vol.present = False
+
+					# For cpanel
+					if vol.extra is None:
+						vol.extra = False
+
+					vol.save()
+
+				for vol in vol_array:
+					roll_no = Volunteer.objects.get(id=vol) #i is first column of volun_array
+					vol_attendance = Volunteer_attended_on.objects.get(roll_no = roll_no, date = today_date)
+					vol_attendance.present = True
+
+					# For cpanel
+					if vol_attendance.extra is None:
+						vol_attendance.extra = False
+
 					vol_attendance.save()
+
+				for extra_vol in extra_vol_array:
+					roll_no = Volunteer.objects.filter(roll_no = extra_vol)
+					if roll_no.exists():
+						extra_vol_att = Volunteer_attended_on.objects.filter(roll_no = roll_no[0], date = today_date)
+						if not extra_vol_att.exists():
+							extra_vol_att = Volunteer_attended_on(roll_no = roll_no[0], date = today_date, present = True, extra = True)
+							extra_vol_att.save()
 				
 				context1 = {
 					#dash-main
