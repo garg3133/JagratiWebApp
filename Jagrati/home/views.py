@@ -11,6 +11,7 @@ from .models import(
 	Volunteer_attended_on,
 	Student_attended_on,
 	Feedback,
+	UpdateScheduleRequest,
 )
 from django.http import HttpResponse
 from datetime import datetime, date
@@ -123,6 +124,8 @@ def dashboard(request):
 			#dash-schedule
 			'day': Schedule.DAY,
 			'section': Schedule.SECTION,
+			'update_req' : UpdateScheduleRequest.objects.filter(volunteer = volun).order_by('-date'),
+			'last_update_req' : UpdateScheduleRequest.objects.filter(volunteer = volun, approved = False, declined = False, by_admin = False, cancelled = False),
 
 			#dash-vol-att
 			'today_date' : date.today(),
@@ -294,41 +297,73 @@ def dashboard(request):
 				day			= request.POST['day']
 				section		= request.POST['section']
 
-				schedules = Schedule.objects.filter(day = day, section = section)
+				schedule = Schedule.objects.get(day = day, section = section)
 
-				if schedules.exists():
-					volun_schedules = Volunteer_schedule.objects.filter(roll_no = volun)
-					if volun_schedules.exists():
-						volun_schedule = volun_schedules[0]
-						volun_schedule.schedule = schedules[0]
-					else:
-						volun_schedule = Volunteer_schedule(roll_no = volun, schedule = schedules[0])
-					volun_schedule.save()
+				prev_update_req = UpdateScheduleRequest.objects.filter(volunteer = volun, approved = False, declined = False, by_admin = False, cancelled = False)
+				if prev_update_req.exists():
+					prev_update_req = prev_update_req[0]
+					prev_update_req.cancelled = True
+					# For cpanel
+					# prev_update_req.approved = False
+					# prev_update_req.declined = False
+					# prev_update_req.by_admin = False
+					prev_update_req.save()
 
-					context1 = {
-						#dash-main
-						'class_info_submitted' : "nopes",
-
-						#dash-schedule
-						'toast' : "Schedule updated successfully!",
-					}
-					context.update(context1)
-
-					return render(request, 'home/dashboard.html', context)
-
+				prev_vol_sch = Volunteer_schedule.objects.filter(roll_no = volun)
+				if prev_vol_sch.exists():
+					prev_sch = prev_vol_sch[0].schedule
+					update_req = UpdateScheduleRequest(volunteer = volun, previous_schedule = prev_sch, updated_schedule = schedule)
+					update_req.save()
 				else:
-					context1 = {
-						#dash-main
-						'class_info_submitted' : "nopes",
+					update_req = UpdateScheduleRequest(volunteer = volun, updated_schedule = schedule)
+					update_req.save()
 
-						#dash-schedule
-						'sch_error' : "Selected schedule doesn't exists. Kindly refer to the Schedule.",
-						'toast' : "Failed to update schedule!",
-					}
-					context.update(context1)
+				context1 = {
+					#dash-main
+					'class_info_submitted' : "nopes",
 
-					return render(request, 'home/dashboard.html', context)
-					
+					#dash-schedule
+					'toast' : "Schedule update requested successfully!",
+				}
+				context.update(context1)
+
+				return render(request, 'home/dashboard.html', context)
+
+				# else:
+				# 	context1 = {
+				# 		#dash-main
+				# 		'class_info_submitted' : "nopes",
+
+				# 		#dash-schedule
+				# 		'sch_error' : "Selected schedule doesn't exists. Kindly refer to the Schedule.",
+				# 		'toast' : "Failed to update schedule!",
+				# 	}
+				# 	context.update(context1)
+
+				# 	return render(request, 'home/dashboard.html', context)
+			
+			elif request.POST.get('submit') == 'cancel-last-req':
+				prev_update_req = UpdateScheduleRequest.objects.filter(volunteer = volun, approved = False, declined = False, by_admin = False, cancelled = False)
+				if prev_update_req.exists():
+					prev_update_req = prev_update_req[0]
+					prev_update_req.cancelled = True
+					# For cpanel
+					# prev_update_req.approved = False
+					# prev_update_req.declined = False
+					# prev_update_req.by_admin = False
+					prev_update_req.save()
+
+				context1 = {
+					#dash-main
+					'class_info_submitted' : "nopes",
+
+					#dash-schedule
+					'toast' : "Last request cancelled successfully!",
+				}
+				context.update(context1)
+
+				return render(request, 'home/dashboard.html', context)
+
 			# elif request.POST.get('submit') == 'cwhw-date':
 			# 	cwhw_date_str = request.POST['date']
 

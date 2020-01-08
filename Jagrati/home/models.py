@@ -248,3 +248,33 @@ class Feedback(models.Model):
 
 	def __str__(self):
 		return self.name.__str__()
+
+class UpdateScheduleRequest(models.Model):
+	volunteer 				= models.ForeignKey(Volunteer, on_delete=models.CASCADE)
+	previous_schedule 		= models.ForeignKey(Schedule, on_delete=models.CASCADE, related_name = 'previous_schedule', null = True, blank = True)
+	updated_schedule 		= models.ForeignKey(Schedule, on_delete=models.CASCADE, related_name = 'updated_schedule')
+	date 					= models.DateTimeField(verbose_name='Date', auto_now_add=True)
+
+	# Only one of the below booleans will be true. Request pending if all false!
+	approved				= models.BooleanField(default=False)
+	declined				= models.BooleanField(default=False)
+	by_admin				= models.BooleanField(default=False)   # If shedule is updated by admin without request by volunteer
+	cancelled				= models.BooleanField(default=False)
+
+	def __str__(self):
+		return self.volunteer.__str__()
+
+	def save(self, *args, **kwargs):
+
+		# Create Volunteer_schedule instance
+		if self.approved is True or self.by_admin is True:
+			prev_sch = Volunteer_schedule.objects.filter(roll_no = self.volunteer)
+			if prev_sch.exists():
+				prev_sch = prev_sch[0]
+				prev_sch.schedule = self.updated_schedule
+				prev_sch.save()
+			else:
+				vol_sch = Volunteer_schedule(roll_no = self.volunteer, schedule = self.updated_schedule)
+				vol_sch.save()
+		
+		super(UpdateScheduleRequest, self).save(*args, **kwargs)

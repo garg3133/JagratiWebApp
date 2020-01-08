@@ -4,7 +4,7 @@ from . import models
 
 class VolunteerAdmin(admin.ModelAdmin):
 	list_display = ('roll_no', 'get_name', 'get_auth')
-	search_fields = ('first_name', 'last_name')
+	search_fields = ('roll_no', 'first_name', 'last_name')
 	list_filter = ('desig', 'email__auth')
 	ordering = ('-email__date_joined',)
 
@@ -36,6 +36,18 @@ class FeedbackAdmin(admin.ModelAdmin):
 	ordering = ('-date',)
 
 admin.site.register(models.Feedback, FeedbackAdmin)
+
+class UpdateScheduleRequestAdmin(admin.ModelAdmin):
+	list_display = ('volunteer', 'get_name', 'date', 'approved', 'declined', 'by_admin', 'cancelled')
+	search_fields = ('volunteer__roll_no', 'volunteer__first_name', 'volunteer__last_name')
+	list_filter = ('approved', 'declined', 'by_admin', 'cancelled')
+	ordering = ('-date',)
+
+	def get_name(self, obj):
+		return obj.volunteer.first_name + ' ' + obj.volunteer.last_name
+	get_name.short_description = 'Name'
+
+admin.site.register(models.UpdateScheduleRequest, UpdateScheduleRequestAdmin)
 
 admin.site.register(models.Volunteer_schedule)
 admin.site.register(models.Student_schedule)

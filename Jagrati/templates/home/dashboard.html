@@ -466,13 +466,71 @@
 						</div>
 					</div>
 					<div class="row justify-content-center mb-4">
-						<div class="col-md-4">
-							<button name="submit" value="update-schedule" class="btn btn-primary btn-lg btn-block" type="submit">Continue</button>
+						<div class="col-md-6 col-lg-4 col-xl-3">
+							<button name="submit" value="update-schedule" class="btn btn-primary btn-lg btn-block" type="submit">Request Update</button>
 						</div>
 					</div>
-					<div class="row justify-content-center mb-4">
+					<!-- <div class="row justify-content-center mb-4">
 						<div class="col-md-4">
 							<a data-toggle="modal" href="#sch-modal" class="text-center d-block">Display Schedule</a>
+						</div>
+					</div> -->
+					<div class="row justify-content-center my-4 mx-0">
+						<div class="col-md-9 border rounded">
+							<h4 class="text-center mt-3">Previous Requests</h4>
+							<hr>
+							<p>
+								{% if update_req.count %}
+									<table class="table table-hover">
+										<thead>
+											<tr class="text-center">
+												<th>From</th>
+												<th>To</th>
+												<th>Status</th>
+											</tr class="text-center">
+										</thead>
+										<tbody>
+											{% for req in update_req %}
+											<tr class="text-center">
+												{% if req.previous_schedule is None %}
+													<td class="text-monospace font-weight-lighter">NA</td>
+												{% else %}
+													<td class="text-monospace font-weight-lighter">{{req.previous_schedule}}</td>
+												{% endif %}
+
+												<td class="text-monospace font-weight-lighter">{{req.updated_schedule}}</td>
+
+												{% if req.approved is True %}
+													<td class="text-monospace font-weight-lighter">Approved</td>
+												{% elif req.declined is True %}
+													<td class="text-monospace font-weight-lighter">Declined</td>
+												{% elif req.by_admin is True %}
+													<td class="text-monospace font-weight-lighter">By Admin</td>
+												{% elif req.cancelled is True %}
+													<td class="text-monospace font-weight-lighter">Cancelled</td>
+												{% else %}
+													<td class="text-monospace font-weight-lighter">Pending</td>
+												{% endif %}
+											</tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								{% else %}
+									<pre>No requests made yet!</pre>
+								{% endif %}
+							</p>
+						</div>
+					</div>
+				</form>
+				<form method="POST">
+					{% csrf_token %}
+					<div class="row justify-content-center mb-4">
+						<div class="col-md-6 col-lg-4 col-xl-3">
+							{% if last_update_req.count %}
+								<button name="submit" value="cancel-last-req" class="btn btn-primary btn-lg btn-block" type="submit">Cancel Last Request</button>
+							{% else %}
+								<button name="submit" value="cancel-last-req" class="btn btn-primary btn-lg btn-block" type="submit" disabled>Cancel Last Request</button>
+							{% endif %}
 						</div>
 					</div>
 				</form>
@@ -702,6 +760,7 @@
 		</div>
 
 		<!-- Schedule Modal -->
+		{% comment %}
 		<div class="modal" id="sch-modal">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
@@ -810,6 +869,7 @@
 				</div>
 			</div>
 		</div>
+		{% endcomment %}
 
 		<!-- Other Tags -->
 		<div class="row justify-content-end">
