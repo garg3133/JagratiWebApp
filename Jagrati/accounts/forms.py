@@ -1,3 +1,24 @@
+# For cpanel (False boolean field becomes null and true remains as it is)
+
+# from django.contrib.auth.forms import SetPasswordForm
+
+# class CustomSetPasswordForm(SetPasswordForm):
+
+#     def save(self, commit=True):
+#         password = self.cleaned_data["new_password1"]
+#         self.user.set_password(password)
+#         self.user.is_admin = False
+#         self.user.is_staff = False
+#         self.user.is_superuser = False
+#         if self.user.auth is None:
+#             self.user.auth = False
+#         if commit:
+#             self.user.save()
+#         return self.user
+
+
+
+
 # from django import forms
 # from django.contrib.auth.forms import ReadOnlyPasswordHashField
 # from .models import User

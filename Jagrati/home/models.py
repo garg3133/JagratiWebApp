@@ -54,7 +54,7 @@ class Volunteer(models.Model):
 	batch					= models.IntegerField(choices=BATCH)
 	programme				= models.CharField(max_length=2, choices=PROGRAMME)
 	dob 					= models.DateField(verbose_name="Date of Birth", default=datetime.datetime.now)
-	contact_no 				= models.CharField(verbose_name="Contact Number", max_length=10)
+	contact_no 				= models.CharField(verbose_name="Contact Number", max_length=13)
 	street_address1			= models.CharField(verbose_name="Address Line 1", max_length=255)
 	street_address2			= models.CharField(verbose_name="Address Line 2", max_length=255, blank=True)
 	city					= models.CharField(max_length=20)
@@ -77,9 +77,9 @@ class Student(models.Model):
 	)
 	first_name 				= models.CharField(max_length=30)
 	last_name 				= models.CharField(max_length=30)
-	school_class 			= models.CharField(max_length=2)
+	school_class 			= models.IntegerField()
 	village 				= models.CharField(max_length=30, choices=VILLAGE, default='Gadheri')
-	contact_no 				= models.CharField(max_length=10)
+	contact_no 				= models.CharField(max_length=13)
 	guardian_name 			= models.CharField(max_length=30)
 	restricted 				= models.BooleanField(default=False)
 
@@ -230,6 +230,8 @@ class Student_attended_on(models.Model):
 class Volunteer_attended_on(models.Model):
 	roll_no 				= models.ForeignKey(Volunteer, on_delete=models.CASCADE)
 	date 					= models.ForeignKey(Calendar, on_delete=models.CASCADE)
+	present					= models.BooleanField(default=False)
+	extra 					= models.BooleanField(default=False)
 
 	class Meta:
 		unique_together = (('roll_no', 'date'),)
@@ -238,3 +240,43 @@ class Volunteer_attended_on(models.Model):
 
 	def __str__(self):
 		return self.roll_no.__str__() + " - " + self.date.__str__()
+
+class Feedback(models.Model):
+	name 					= models.CharField(max_length=50)
+	roll_no					= models.CharField(max_length=10, blank=True)
+	email 					= models.EmailField(max_length=255, blank=True)
+	feedback 				= models.TextField(max_length=1023)
+	date					= models.DateTimeField(verbose_name='Date', auto_now_add=True)
+
+	def __str__(self):
+		return self.name.__str__()
+
+class UpdateScheduleRequest(models.Model):
+	volunteer 				= models.ForeignKey(Volunteer, on_delete=models.CASCADE)
+	previous_schedule 		= models.ForeignKey(Schedule, on_delete=models.CASCADE, related_name = 'previous_schedule', null = True, blank = True)
+	updated_schedule 		= models.ForeignKey(Schedule, on_delete=models.CASCADE, related_name = 'updated_schedule')
+	date 					= models.DateTimeField(verbose_name='Date', auto_now_add=True)
+
+	# Only one of the below booleans will be true. Request pending if all false!
+	approved				= models.BooleanField(default=False)
+	declined				= models.BooleanField(default=False)
+	by_admin				= models.BooleanField(default=False)   # If shedule is updated by admin without request by volunteer
+	cancelled				= models.BooleanField(default=False)
+
+	def __str__(self):
+		return self.volunteer.__str__()
+
+	def save(self, *args, **kwargs):
+
+		# Create Volunteer_schedule instance
+		if self.approved is True or self.by_admin is True:
+			prev_sch = Volunteer_schedule.objects.filter(roll_no = self.volunteer)
+			if prev_sch.exists():
+				prev_sch = prev_sch[0]
+				prev_sch.schedule = self.updated_schedule
+				prev_sch.save()
+			else:
+				vol_sch = Volunteer_schedule(roll_no = self.volunteer, schedule = self.updated_schedule)
+				vol_sch.save()
+		
+		super(UpdateScheduleRequest, self).save(*args, **kwargs)
