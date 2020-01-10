@@ -605,6 +605,7 @@
 			{% endcomment %}
 
 
+			{% if not volunteer.desig == 'v' %}
 			<!-- List of Volunteers -->
 
 			<div class="dash-vol-list d-none col-md-8 col-lg-9 mt-3">
@@ -801,6 +802,7 @@
 				</form>
 				{% endif %}
 			</div>
+			{% endif %}
 
 		</div>
 
@@ -968,15 +970,13 @@
 			success: function (data) {
 				var options = '';
 				var selected = '';
-				for (var i = 0; i < data.length; i++) {
-					// console.log(data[i].fields['section']);
-					var obj = {{ choices_dict|safe }};
-					var choices_display = obj[data[i].fields['section']];
-					// console.log(choices_display)
+				for (var i = 0; i < data.schedule.length; i++) {
+					var choices_display = data.choices[data.schedule[i]['section']];
+					// console.log(data.schedule[i]['section'])
 
-					if(data[i].fields['section'] == "{{selected_schedule}}") selected = 'selected';
+					if(data.schedule[i]['section'] == "{{selected_schedule}}") selected = 'selected';
 					else selected = '';
-					options += '<option value="' + data[i].fields['section'] + '"' + selected + '>' + choices_display + '</option>';
+					options += '<option value="' + data.schedule[i]['section'] + '"' + selected + '>' + choices_display + '</option>';
 				}
 				$("#class-section").html(options);
 				// $("#citylist option:first").attr('selected', 'selected');
@@ -1002,11 +1002,10 @@
 			dataType: 'json',
 			success: function (data) {
 				var options = '';
-				for (var i = 0; i < data.length; i++) {
-					var obj = {{ choices_dict|safe }};
-					var choices_display = obj[data[i].fields['section']];
+				for (var i = 0; i < data.schedule.length; i++) {
+					var choices_display = data.choices[data.schedule[i]['section']];
 
-					options += '<option value="' + data[i].fields['section'] + '" >' + choices_display + '</option>';
+					options += '<option value="' + data.schedule[i]['section'] + '" >' + choices_display + '</option>';
 				}
 				$("#sch-section").html(options);
 			}
@@ -1029,20 +1028,18 @@
 			success: function (data) {
 				let stu_att_table = '<thead><tr><th>Student Name</th><th>Class</th><th>Mark Present</th></tr></thead><tbody>';
 				let checked = '';
-				let stu_dict = {{stu_dict_json | safe}};
-				// console.log(stu_dict)
-				for (var i = 0; i < data.length; i++) {
-					if (data[i].fields['present']) checked = 'checked';
+				for (var i = 0; i < data.stu_today.length; i++) {
+					if (data.stu_today[i]['present']) checked = 'checked';
 					else checked = '';
 
-					let first_name = stu_dict[data[i].fields['sid']]['first_name']
-					let last_name = stu_dict[data[i].fields['sid']]['last_name']
-					let school_class = stu_dict[data[i].fields['sid']]['school_class']
+					let first_name = data.students[data.stu_today[i]['sid_id']]['first_name']
+					let last_name = data.students[data.stu_today[i]['sid_id']]['last_name']
+					let school_class = data.students[data.stu_today[i]['sid_id']]['school_class']
 					
 					if(school_class == 13) school_class = "JNV_4"
 					else if(school_class == 14) school_class = "JNV_5"
 
-					stu_att_table += '<tr><td>' + first_name + ' ' + last_name + '</td><td>' + school_class + '</td><td><div class="custom-control custom-switch"><input type="checkbox" name="attended" value="' + data[i].fields['sid'] + '" class="custom-control-input" id="s' + data[i].pk + '" ' + checked + '><label class="custom-control-label" for="s' + data[i].pk + '"></label></div></td></tr>';
+					stu_att_table += '<tr><td>' + first_name + ' ' + last_name + '</td><td>' + school_class + '</td><td><div class="custom-control custom-switch"><input type="checkbox" name="attended" value="' + data.stu_today[i]['sid_id'] + '" class="custom-control-input" id="s' + data.stu_today[i]['sid_id'] + '" ' + checked + '><label class="custom-control-label" for="s' + data.stu_today[i]['sid_id'] + '"></label></div></td></tr>';
 					
 				}
 				stu_att_table += '</tbody>';
@@ -1075,17 +1072,15 @@
 			success: function (data) {
 				let vol_list_table = '<thead><tr><th>Roll No.</th><th>Name</th><th>Section</th></tr></thead><tbody>';
 				let hello = '';
-				let vol_dict = {{vol_dict_json | safe}};
-				let sch_dict = {{sch_dict_json | safe}};
-				let sec_dict = {{ choices_dict|safe }};
 					
 				// console.log(vol_dict)
-				for (var i = 0; i < data.length; i++) {
+				for (var i = 0; i < data.stu_today.length; i++) {
 
-					let first_name = vol_dict[data[i].fields['roll_no']]['first_name'];
-					let last_name = vol_dict[data[i].fields['roll_no']]['last_name'];
-					let roll_no = vol_dict[data[i].fields['roll_no']]['roll_no'];
-					var sec_display = sec_dict[sch_dict[data[i].fields['schedule']]['section']];
+					let first_name = data.volunteers[data.stu_today[i]['roll_no_id']]['first_name'];
+					let last_name = data.volunteers[data.stu_today[i]['roll_no_id']]['last_name'];
+					let roll_no = data.volunteers[data.stu_today[i]['roll_no_id']]['roll_no'];
+					var sec_display = data.choices[data.schedule[data.stu_today[i]['schedule_id']]['section']];
+					// console.log(first_name)
 
 					if(true) hello = 'there'
 
@@ -1285,9 +1280,11 @@
 		if(!dash_update.classList.contains('d-none')) dash_update.classList.add('d-none');
 		if(!dash_schedule.classList.contains('d-none')) dash_schedule.classList.add('d-none');
 		// if(!dash_cwhw.classList.contains('d-none')) dash_cwhw.classList.add('d-none');
-		if(!dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.add('d-none');
-		if(!dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.add('d-none');
-		if(!dash_vol_list.classList.contains('d-none')) dash_vol_list.classList.add('d-none');
+		if("{{ volunteer.desig }}" != "v"){
+			if(!dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.add('d-none');
+			if(!dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.add('d-none');
+			if(!dash_vol_list.classList.contains('d-none')) dash_vol_list.classList.add('d-none');
+		}
 	}
 
 	function show_dash_update(){
@@ -1295,9 +1292,12 @@
 		if(dash_update.classList.contains('d-none')) dash_update.classList.remove('d-none');
 		if(!dash_schedule.classList.contains('d-none')) dash_schedule.classList.add('d-none');
 		// if(!dash_cwhw.classList.contains('d-none')) dash_cwhw.classList.add('d-none');
-		if(!dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.add('d-none');
-		if(!dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.add('d-none');
-		if(!dash_vol_list.classList.contains('d-none')) dash_vol_list.classList.add('d-none');
+
+		if("{{ volunteer.desig }}" != "v"){
+			if(!dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.add('d-none');
+			if(!dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.add('d-none');
+			if(!dash_vol_list.classList.contains('d-none')) dash_vol_list.classList.add('d-none');
+		}
 	}
 
 	function show_dash_schedule(){

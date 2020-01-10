@@ -13,11 +13,13 @@ from .models import(
 	Feedback,
 	UpdateScheduleRequest,
 )
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from datetime import datetime, date
 from django.core import serializers
 from django.template.defaulttags import register
 import json
+# from django.core.serializers.json import DjangoJSONEncoder
+from django.forms.models import model_to_dict
 
 # Create your views here.
 def index(request):
@@ -30,16 +32,38 @@ def showSectionInDashboard(request):
 	class_info_date = datetime.strptime(class_info_date_str, '%Y-%m-%d').date()
 	class_info_day = class_info_date.strftime("%A")
 
-	schedule = Schedule.objects.filter(day = class_info_day).order_by('section')
-	json_schedule = serializers.serialize("json", schedule)
-	return HttpResponse(json_schedule, content_type='application/json')
+	schedule = Schedule.objects.filter(day = class_info_day).order_by('section').values()
+
+	data = {}
+
+	sch_list = []
+	for sch in schedule:
+		sch_list.append(sch)
+
+	data['schedule'] = sch_list
+	data['choices'] = {key: value for key, value in Schedule.SECTION}
+	
+	# json_data = json.dumps(data)
+	# json_schedule = serializers.serialize("json", schedule)
+	return JsonResponse(data)
 
 def showSectionInUpdateSchedule(request):
 	sch_day = request.GET.get('sch_day', None)
 
-	schedule = Schedule.objects.filter(day = sch_day).order_by('section')
-	json_schedule = serializers.serialize("json", schedule)
-	return HttpResponse(json_schedule, content_type='application/json')
+	schedule = Schedule.objects.filter(day = sch_day).order_by('section').values()
+
+	data = {}
+
+	sch_list = []
+	for sch in schedule:
+		sch_list.append(sch)
+
+	data['schedule'] = sch_list
+	data['choices'] = {key: value for key, value in Schedule.SECTION}
+	
+	# json_data = json.dumps(data)
+	# json_schedule = serializers.serialize("json", schedule)
+	return JsonResponse(data)
 
 def studentAttendenceAjax(request):
 	stu_class = request.GET.get('stu_class', None)
@@ -58,18 +82,60 @@ def studentAttendenceAjax(request):
 		class_range_min = 13
 		class_range_max = 14
 
-	stu_to_show = Student_attended_on.objects.filter(date = today_date, sid__school_class__range = (class_range_min, class_range_max)).order_by('sid__school_class')
+	stu_to_show = Student_attended_on.objects.filter(date = today_date, sid__school_class__range = (class_range_min, class_range_max)).order_by('sid__school_class').values()
+	
+	data = {}
 
-	json_stu_to_show = serializers.serialize("json", stu_to_show)
-	return HttpResponse(json_stu_to_show, content_type='application/json')
+	stu_list = []
+	for stu in stu_to_show:
+		stu_list.append(stu)
+
+	students = Student.objects.all()
+	stu_dict = {}
+	
+	for stu in students:
+		stu_dict[stu.id] = model_to_dict(stu)
+
+	data['stu_today'] = stu_list
+	data['students'] = stu_dict
+	
+	
+	# json_data = json.dumps(data)
+	# json_stu_to_show = serializers.serialize("json", stu_to_show)
+	return JsonResponse(data)
 
 def volunteerListAjax(request):
 	vol_list_day = request.GET.get('vol_list_day', None)
 
-	vol_list = Volunteer_schedule.objects.filter(day = vol_list_day).order_by('schedule__section')
+	vol_to_show = Volunteer_schedule.objects.filter(day = vol_list_day).order_by('schedule__section').values()
 
-	json_vol_list = serializers.serialize("json", vol_list)
-	return HttpResponse(json_vol_list, content_type='application/json')
+	data = {}
+
+	vol_list = []
+	for vol in vol_to_show:
+		vol_list.append(vol)
+
+	volunteers = Volunteer.objects.all()
+	vol_dict = {}
+	
+	for vol in volunteers:
+		vol_dict[vol.id] = model_to_dict(vol)
+
+	schedules = Schedule.objects.all()
+	sch_dict = {}
+	
+	for sch in schedules:
+		sch_dict[sch.id] = model_to_dict(sch)
+
+	data['stu_today'] = vol_list
+	data['volunteers'] = vol_dict
+	data['schedule'] = sch_dict
+	data['choices'] = {key: value for key, value in Schedule.SECTION}
+	
+	
+	# json_data = json.dumps(data, cls=DjangoJSONEncoder)
+	# json_vol_list = serializers.serialize("json", vol_list)
+	return JsonResponse(data)
 
 # @register.filter
 # def get_item(choices, key):
@@ -96,8 +162,8 @@ def dashboard(request):
 		    today_cal = Calendar.objects.get(date=date.today())
 
 		# For main dash ajax section display names
-		choices_dict = {key: value for key, value in Schedule.SECTION}
-		choices_dict_json = json.dumps(choices_dict)
+		# choices_dict = {key: value for key, value in Schedule.SECTION}
+		# choices_dict_json = json.dumps(choices_dict)
 
 		# For Student Attendence
 		if not Student_attended_on.objects.filter(date__date = date.today()).exists():
@@ -131,7 +197,7 @@ def dashboard(request):
 
 			#dash-main
 			'choices': Schedule.SECTION,
-			'choices_dict': choices_dict_json,
+			# 'choices_dict': choices_dict_json,
 
 			#dash-update
 			'last_4_year': datetime.now().year - 4,
