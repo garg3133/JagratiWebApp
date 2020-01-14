@@ -8,6 +8,25 @@
 			min-height: calc(100vh - 54px);   /* So that footer is at the bottom (without scroll) if screen is short*/
 		}
 
+		.arrow{
+			border: solid black;
+			border-width: 0 3px 3px 0;
+			display: inline-block;
+			padding: 3px;
+		}
+
+		.up {
+			transform: rotate(-135deg);
+			-webkit-transform: rotate(-135deg);
+			/* transition-delay: 800ms; */
+		}
+
+		.down {
+			transform: rotate(45deg);
+			-webkit-transform: rotate(45deg);
+			/* transition-delay: 800ms; */
+		}
+
 		.sidebar {
 			position: fixed;
 			top: 71.4px;
@@ -78,7 +97,16 @@
 
 	<div class="container-fluid">
 		<div class="row justify-content-end">
-			<nav class="col-md-4 col-lg-3 d-md-block bg-light sidebar">
+			<a id="dash-accordion" class="btn btn-light w-100 border-0 d-md-none" data-toggle="collapse" href="#dash-sidebar" onclick="change_arrow()">
+				<div class="clearfix">
+					<div class="float-left font-weight-bold pt-1">User Info</div>
+					<div class="float-right">
+						<i class="arrow down"></i>
+					</div>
+				</div>
+				
+			</a>
+			<nav class="collapse col-md-4 col-lg-3 d-md-block bg-light sidebar" id="dash-sidebar">
 				<div class="sidebar-sticky pb-4 pb-md-0">
 					<ul class="dash-list nav flex-column text-center">
 						<li class="nav-item">
@@ -157,7 +185,7 @@
 			<!-- DASHBOARD -->
 
 			<div class="dash-main col-md-8 col-lg-9 mt-3">
-				<a href="" onclick="show_dash_main()">&#x27f3; Refresh Dashboard</a>
+				<a href="" onclick="show_dash_main()" class="d-inline-block mb-2 mb-md-0">&#x27f3; Refresh Dashboard</a>
 				<h3 class="text-center mb-3">Dashboard</h3>
 				{% if user.auth is True %}
 				<form method="POST">
@@ -339,7 +367,7 @@
 			<!-- UPDATE PROFILE -->
 
 			<div class="dash-update d-none col-md-8 col-lg-9 mt-3">
-				<a href="" onclick="show_dash_main()">&larr; Back to Dashboard</a>
+				<a href="" onclick="show_dash_main()" class="d-inline-block mb-2 mb-md-0">&larr; Back to Dashboard</a>
 				<h3 class="text-center">Update Profile</h3>
 				<p class="text-center text-danger mb-1 mt-3">{{update_error}}</p>
 				<div class="row justify-content-center">
@@ -452,7 +480,7 @@
 			<!-- UPDATE SCHEDULE -->
 
 			<div class="dash-schedule d-none col-md-8 col-lg-9 mt-3">
-				<a href="" onclick="show_dash_main()">&larr; Back to Dashboard</a>
+				<a href="" onclick="show_dash_main()" class="d-inline-block mb-2 mb-md-0">&larr; Back to Dashboard</a>
 				<h3 class="text-center">Update Schedule</h3>
 				<p class="text-center text-danger mb-3 mt-3">{{sch_error}}</p>
 				<form method="POST">
@@ -555,7 +583,7 @@
 			{% comment %}
 
 			<div class="dash-cwhw d-none col-md-8 col-lg-9 mt-3">
-				<a href="" onclick="show_dash_main()">&larr; Back to Dashboard</a>
+				<a href="" onclick="show_dash_main()" class="d-inline-block mb-2 mb-md-0">&larr; Back to Dashboard</a>
 				<h3 class="text-center">Update ClassWork-HomeWork</h3>
 				<form method="POST">
 					{% csrf_token %}
@@ -609,7 +637,7 @@
 			<!-- List of Volunteers -->
 
 			<div class="dash-vol-list d-none col-md-8 col-lg-9 mt-3">
-				<a href="" onclick="show_dash_main()">&larr; Back to Dashboard</a>
+				<a href="" onclick="show_dash_main()" class="d-inline-block mb-2 mb-md-0">&larr; Back to Dashboard</a>
 				<h3 class="text-center">Volunteers Schedule</h3>
 				<div class="row justify-content-center">
 					<div class="col-md-4 my-3">
@@ -634,7 +662,7 @@
 			<!-- Volunteer Attendence -->
 
 			<div class="dash-vol-att d-none col-md-8 col-lg-9 mt-3">
-				<a href="" onclick="show_dash_main()">&larr; Back to Dashboard</a>
+				<a href="" onclick="show_dash_main()" class="d-inline-block mb-2 mb-md-0">&larr; Back to Dashboard</a>
 				<h3 class="text-center">Volunteers Attendence</h3>
 				<p class="text-center mt-3"><span class="font-weight-bold">Date: </span>{{today_date}}</p>
 
@@ -714,7 +742,7 @@
 			<!-- Student Attendence -->
 
 			<div class="dash-stu-att d-none col-md-8 col-lg-9 mt-3">
-				<a href="" onclick="show_dash_main()">&larr; Back to Dashboard</a>
+				<a href="" onclick="show_dash_main()" class="d-inline-block mb-2 mb-md-0">&larr; Back to Dashboard</a>
 				<h3 class="text-center">Students Attendence</h3>
 				<p class="text-center mt-3"><span class="font-weight-bold">Date: </span>{{today_date}}</p>
 
@@ -946,7 +974,7 @@
 	footer{
 		position: fixed;
 		bottom: 0;
-		width: 100vw;
+		width: 100%;
 	}
 	@media(max-width: 767px){
 		footer{
@@ -1263,6 +1291,8 @@
 	let dash_vol_att = document.querySelector(".dash-vol-att");
 	let dash_stu_att = document.querySelector(".dash-stu-att");
 	let dash_vol_list = document.querySelector(".dash-vol-list");
+	let dash_sidebar = document.querySelector("#dash-sidebar");
+	let dash_accordion = document.querySelector("#dash-accordion i");
 
 
 	if("{{update_error}}"){
@@ -1275,6 +1305,17 @@
 		show_dash_cwhw();
 	}
 
+	function change_arrow(){
+		if(dash_sidebar.classList.contains('show')){
+			dash_accordion.classList.remove('up');
+			dash_accordion.classList.add('down');
+		}
+		else{
+			dash_accordion.classList.remove('down');
+			dash_accordion.classList.add('up');
+		}
+	}
+
 	function show_dash_main(){
 		if(dash_main.classList.contains('d-none')) dash_main.classList.remove('d-none');
 		if(!dash_update.classList.contains('d-none')) dash_update.classList.add('d-none');
@@ -1284,6 +1325,11 @@
 			if(!dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.add('d-none');
 			if(!dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.add('d-none');
 			if(!dash_vol_list.classList.contains('d-none')) dash_vol_list.classList.add('d-none');
+		}
+		if(dash_sidebar.classList.contains('show')){
+			dash_sidebar.classList.remove('show');
+			dash_accordion.classList.remove('up');
+			dash_accordion.classList.add('down');
 		}
 	}
 
@@ -1298,12 +1344,22 @@
 			if(!dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.add('d-none');
 			if(!dash_vol_list.classList.contains('d-none')) dash_vol_list.classList.add('d-none');
 		}
+		if(dash_sidebar.classList.contains('show')){
+			dash_sidebar.classList.remove('show');
+			dash_accordion.classList.remove('up');
+			dash_accordion.classList.add('down');
+		}
 	}
 
 	function show_dash_schedule(){
 		if(!dash_main.classList.contains('d-none')) dash_main.classList.add('d-none');
 		if(!dash_update.classList.contains('d-none')) dash_update.classList.add('d-none');
 		if(dash_schedule.classList.contains('d-none')) dash_schedule.classList.remove('d-none');
+		if(dash_sidebar.classList.contains('show')){
+			dash_sidebar.classList.remove('show');
+			dash_accordion.classList.remove('up');
+			dash_accordion.classList.add('down');
+		}
 	}
 
 	function show_dash_cwhw(){
@@ -1322,6 +1378,11 @@
 		if(dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.remove('d-none');
 		if(!dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.add('d-none');
 		if(!dash_vol_list.classList.contains('d-none')) dash_vol_list.classList.add('d-none');
+		if(dash_sidebar.classList.contains('show')){
+			dash_sidebar.classList.remove('show');
+			dash_accordion.classList.remove('up');
+			dash_accordion.classList.add('down');
+		}
 	}
 
 	function show_dash_stu_att(){
@@ -1331,6 +1392,11 @@
 		if(!dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.add('d-none');
 		if(dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.remove('d-none');
 		if(!dash_vol_list.classList.contains('d-none')) dash_vol_list.classList.add('d-none');
+		if(dash_sidebar.classList.contains('show')){
+			dash_sidebar.classList.remove('show');
+			dash_accordion.classList.remove('up');
+			dash_accordion.classList.add('down');
+		}
 	}
 
 	function show_dash_vol_list(){
@@ -1340,6 +1406,11 @@
 		if(!dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.add('d-none');
 		if(!dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.add('d-none');
 		if(dash_vol_list.classList.contains('d-none')) dash_vol_list.classList.remove('d-none');
+		if(dash_sidebar.classList.contains('show')){
+			dash_sidebar.classList.remove('show');
+			dash_accordion.classList.remove('up');
+			dash_accordion.classList.add('down');
+		}
 	}
 
 </script>
