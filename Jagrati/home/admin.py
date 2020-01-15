@@ -15,7 +15,7 @@ class VolunteerAdmin(admin.ModelAdmin):
 	def get_auth(self, obj):
 		return obj.email.auth
 	get_auth.short_description = 'Auth'
-	get_auth.admin_order_field = 'email__auth'   # Don't know the use
+	get_auth.admin_order_field = 'email__auth'
 	get_auth.boolean = True
 
 admin.site.register(models.Volunteer, VolunteerAdmin)

@@ -13,6 +13,7 @@ class Volunteer(models.Model):
 		(CURRENT_YEAR - 2	, CURRENT_YEAR - 2),
 		(CURRENT_YEAR - 3	, CURRENT_YEAR - 3),
 		(CURRENT_YEAR - 4	, CURRENT_YEAR - 4),
+		(CURRENT_YEAR - 5	, CURRENT_YEAR - 5),
 	)
 
 	PROGRAMME = (
@@ -79,8 +80,8 @@ class Student(models.Model):
 	last_name 				= models.CharField(max_length=30)
 	school_class 			= models.IntegerField()
 	village 				= models.CharField(max_length=30, choices=VILLAGE, default='Gadheri')
-	contact_no 				= models.CharField(max_length=13)
-	guardian_name 			= models.CharField(max_length=30)
+	contact_no 				= models.CharField(max_length=13, blank=True)
+	guardian_name 			= models.CharField(max_length=30, blank=True)
 	restricted 				= models.BooleanField(default=False)
 
 	def __str__(self):

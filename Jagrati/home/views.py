@@ -20,6 +20,7 @@ from django.template.defaulttags import register
 import json
 # from django.core.serializers.json import DjangoJSONEncoder
 from django.forms.models import model_to_dict
+from openpyxl import load_workbook
 
 # Create your views here.
 def index(request):
@@ -166,13 +167,13 @@ def dashboard(request):
 		# choices_dict_json = json.dumps(choices_dict)
 
 		# For Student Attendence
-		if not Student_attended_on.objects.filter(date__date = date.today()).exists():
+		if today_cal.class_scheduled is True and not Student_attended_on.objects.filter(date__date = date.today()).exists():
 			today_stu_sch = Student_schedule.objects.filter(day=date.today().strftime("%A"))
 			for stu_sch in today_stu_sch:
 				stu_attendance = Student_attended_on(sid = stu_sch.sid, date = today_cal)
 				stu_attendance.save()
 
-		if Student_attended_on.objects.filter(date__date = date.today()).count() != Student_schedule.objects.filter(day=date.today().strftime("%A")).count():
+		if today_cal.class_scheduled is True and Student_attended_on.objects.filter(date__date = date.today()).count() != Student_schedule.objects.filter(day=date.today().strftime("%A")).count():
 			today_stu_sch = Student_schedule.objects.filter(day=date.today().strftime("%A"))
 			for stu_sch in today_stu_sch:
 				if not Student_attended_on.objects.filter(sid = stu_sch.sid, date = today_cal).exists():
@@ -180,7 +181,7 @@ def dashboard(request):
 					stu_attendance.save()
 
 		# For Volunteer Attendence
-		if not Volunteer_attended_on.objects.filter(date__date = date.today()).exists():
+		if today_cal.class_scheduled is True and not Volunteer_attended_on.objects.filter(date__date = date.today()).exists():
 			today_vol_sch = Volunteer_schedule.objects.filter(day=date.today().strftime("%A"))
 			for vol_sch in today_vol_sch:
 				vol_attendance = Volunteer_attended_on(roll_no = vol_sch.roll_no, date = today_cal)
@@ -719,3 +720,34 @@ def feedback(request):
 		'submitted' : submitted,
 	}
 	return render(request, 'home/feedback.html', context)
+
+def update_students(request):
+	path = "/home/priyansh/Python Projects/JagratiWebApp/Jagrati/home/student.xlsx"
+
+	wb_obj = load_workbook(path)
+
+	sheet_obj = wb_obj.active 
+
+	max_row = sheet_obj.max_row
+
+	for i in range(3, max_row+1):
+		first_name = sheet_obj.cell(row = i, column = 2).value
+		last_name = sheet_obj.cell(row = i, column = 3).value
+		school_class = sheet_obj.cell(row = i, column = 4).value
+		village = sheet_obj.cell(row = i, column = 5).value
+		guardian_name = sheet_obj.cell(row = i, column = 6).value
+		contact_no = sheet_obj.cell(row = i, column = 7).value
+
+		if not Student.objects.filter(first_name = first_name, last_name = last_name, school_class = school_class, village = village, guardian_name = guardian_name).exists():
+			if contact_no is None:
+				student = Student(first_name = first_name, last_name = last_name, school_class = school_class, village = village, guardian_name = guardian_name)
+				student.save()
+			else:
+				student = Student(first_name = first_name, last_name = last_name, school_class = school_class, village = village, guardian_name = guardian_name, contact_no = int(contact_no))
+				student.save()
+			for day, day2 in Schedule.DAY:
+				print(day)
+				stu_sch = Student_schedule(sid = student, schedule = Schedule.objects.get(day = day, section = '4A'))
+				stu_sch.save()
+	
+	return HttpResponse('Updated successfully!')
