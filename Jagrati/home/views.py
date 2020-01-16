@@ -238,6 +238,40 @@ def dashboard(request):
 								students_attended = Student_attended_on.objects.filter(date = calendar[0], present = True).order_by('sid__school_class')
 								vol_volunteered = Volunteer_attended_on.objects.filter(date = calendar[0], present = True).order_by('roll_no__roll_no')
 
+								# Students present from each village
+								stu_att_g = 0
+								stu_att_a = 0
+								stu_att_c = 0
+								stu_att_m = 0
+								stu_att_s = 0
+								stu_att_ms = 0
+								if students_attended.exists():
+									for stu_att in students_attended:
+										stu_vill = stu_att.sid.village
+										if stu_vill == 'G':
+											stu_att_g += 1
+										elif stu_vill == 'A':
+											stu_att_a += 1
+											stu_att_ms += 1
+										elif stu_vill == 'C':
+											stu_att_c += 1
+											stu_att_ms += 1
+										elif stu_vill == 'M':
+											stu_att_m += 1
+											stu_att_ms += 1
+										elif stu_vill == 'S':
+											stu_att_s += 1
+											stu_att_ms += 1
+
+								stu_att_village = {
+									'stu_att_g': stu_att_g,
+									'stu_att_a': stu_att_a,
+									'stu_att_c': stu_att_c,
+									'stu_att_m': stu_att_m,
+									'stu_att_s': stu_att_s,
+									'stu_att_ms': stu_att_ms,
+								}
+
 								if class_info_date == date.today() and not students_attended.exists():
 									students_attended = "Not yet updated!"
 								elif not students_attended.exists():
@@ -254,6 +288,7 @@ def dashboard(request):
 									#dash-main
 									'schedule' : schedule,
 									'students_attended' : students_attended,
+									'stu_att_village' : stu_att_village,
 									'vol_volunteered' : vol_volunteered,
 									'cw_hw' : cw_hw[0],
 									'selected_date' : class_info_date,
@@ -267,6 +302,7 @@ def dashboard(request):
 									#dash-main
 									'schedule' : schedule,
 									'students_attended' : students_attended,
+									'stu_att_village' : stu_att_village,
 									'vol_volunteered' : vol_volunteered,
 									'cw_hw' : {
 										'cw' : "Not yet updated!",

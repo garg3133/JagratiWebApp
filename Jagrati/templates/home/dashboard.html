@@ -219,7 +219,7 @@
 				{% else %}
 				<div class="row justify-content-center">
 					<div class="col-md-8 mt-5">
-						<p class="text-center">You are not yet authorised to view any information on this site.<br> Kindly contact <a href="mailto:admin@admin.com">admin</a>.</p>
+						<p class="text-center">You are not yet authorised to view any information on this site.<br> Kindly contact <a href="mailto:2018196@iiitdmj.ac.in">admin</a>.</p>
 					</div>
 				</div>
 				{% endif %}
@@ -299,6 +299,32 @@
 							<hr>
 							<p>
 								{% if students_attended.count %}
+								<p class="mb-1">
+									<span class="font-weight-bolder">Total Students Present:</span> {{ students_attended.count }}
+								</p>
+								<p>
+									{% if stu_att_village.stu_att_g %}
+									<span class="font-weight-bolder">Gadheri:</span> {{ stu_att_village.stu_att_g }} &nbsp;&nbsp;
+									{% endif %}
+									{% if stu_att_village.stu_att_ms %}
+									<span class="font-weight-bolder">Mehgawan Side:</span> {{ stu_att_village.stu_att_ms }}
+									{% endif %}
+
+									{% comment %}
+										{% if stu_att_village.stu_att_m %}
+										<span class="font-weight-bolder">Mehgawan:</span> {{ stu_att_village.stu_att_m }} &nbsp;&nbsp;
+										{% endif %}
+										{% if stu_att_village.stu_att_a %}
+										<span class="font-weight-bolder">Amanala:</span> {{ stu_att_village.stu_att_a }} &nbsp;&nbsp;
+										{% endif %}
+										{% if stu_att_village.stu_att_c %}
+										<span class="font-weight-bolder">Chanditola:</span> {{ stu_att_village.stu_att_c }} &nbsp;&nbsp;
+										{% endif %}
+										{% if stu_att_village.stu_att_s %}
+										<span class="font-weight-bolder">Suarkol:</span> {{ stu_att_village.stu_att_s }}
+										{% endif %}
+									{% endcomment %}
+								</p>
 								<input type="text" id="filter-students-dash" class="form-control mb-3 mx-auto" onkeyup="filterStudentsOnDash()" placeholder="Search for names..">
 								<table class="table table-hover" id="stu-att-table-dash">
 									<thead>
