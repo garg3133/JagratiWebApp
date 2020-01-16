@@ -110,7 +110,8 @@
 				<div class="sidebar-sticky pb-4 pb-md-0">
 					<ul class="dash-list nav flex-column text-center">
 						<li class="nav-item">
-							<img class="dash-img rounded-circle my-3" src='{% static "logo.png" %}' alt="v">
+							<img class="dash-img my-3" src='{% static "logo.png" %}' alt="v"> 
+							<!--  rounded-circle -->
 						</li>
 
 						{% if volunteer is not None %}
@@ -776,8 +777,8 @@
 							<div class="row justify-content-center">
 								<div class="col mb-4">
 									<select name="selected_class" class="custom-select d-block w-100" id="stu-att-class">
-										<option value="all" selected>All Classes</option>
-										<option value="1-8">Class 1-8</option>
+										<option value="all">All Classes</option>
+										<option value="1-8" selected>Class 1-8</option>
 										<option value="9-10">Class 9-10</option>
 										<option value="13-14">Navodaya Wing</option>
 									</select>

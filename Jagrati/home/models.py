@@ -29,12 +29,16 @@ class Volunteer(models.Model):
 				('mcoco', 'Math Co-Convenor'),
 				('ecoco', 'English Co-Convenor'),
 				('hcoco', 'Hindi Co-Convenor'),
+				('9coco', '9-10 Co-Convenor'),
+				('navcoco', 'Navodaya Co-Convenor'),
 			)
 		),
 		('Convenor', (
 				('mco', 'Math Convenor'),
 				('eco', 'English Convenor'),
 				('hco', 'Hindi Convenor'),
+				('9co', '9-10 Convenor'),
+				('navco', 'Navodaya Convenor'),
 			)
 		),
 		('jac'	, 'Jagrati Advisory Commitee'),

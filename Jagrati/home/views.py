@@ -214,7 +214,8 @@ def dashboard(request):
 			'today_volun' : Volunteer_attended_on.objects.filter(date = today_cal).order_by('roll_no__roll_no'),
 
 			#dash-stu-att
-			'today_stu' : Student_attended_on.objects.filter(date = today_cal).order_by('sid__school_class'),
+			# 'today_stu' : Student_attended_on.objects.filter(date = today_cal).order_by('sid__school_class'),
+			'today_stu' : Student_attended_on.objects.filter(date = today_cal, sid__school_class__range = (1, 8)).order_by('sid__school_class'),
 		}
 		
 		if request.method == 'POST':
