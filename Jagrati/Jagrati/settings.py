@@ -117,6 +117,8 @@ USE_L10N = False   # Is false in AlumniConnect
 
 USE_TZ = True
 
+DATE_FORMAT = 'Y-m-d'
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/

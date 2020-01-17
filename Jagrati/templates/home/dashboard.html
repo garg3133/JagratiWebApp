@@ -8,6 +8,25 @@
 			min-height: calc(100vh - 54px);   /* So that footer is at the bottom (without scroll) if screen is short*/
 		}
 
+		.arrow{
+			border: solid black;
+			border-width: 0 3px 3px 0;
+			display: inline-block;
+			padding: 3px;
+		}
+
+		.up {
+			transform: rotate(-135deg);
+			-webkit-transform: rotate(-135deg);
+			/* transition-delay: 800ms; */
+		}
+
+		.down {
+			transform: rotate(45deg);
+			-webkit-transform: rotate(45deg);
+			/* transition-delay: 800ms; */
+		}
+
 		.sidebar {
 			position: fixed;
 			top: 71.4px;
@@ -78,11 +97,21 @@
 
 	<div class="container-fluid">
 		<div class="row justify-content-end">
-			<nav class="col-md-4 col-lg-3 d-md-block bg-light sidebar">
+			<a id="dash-accordion" class="btn btn-light w-100 border-0 d-md-none" data-toggle="collapse" href="#dash-sidebar" onclick="change_arrow()">
+				<div class="clearfix">
+					<div class="float-left font-weight-bold pt-1">User Info</div>
+					<div class="float-right">
+						<i class="arrow down"></i>
+					</div>
+				</div>
+				
+			</a>
+			<nav class="collapse col-md-4 col-lg-3 d-md-block bg-light sidebar" id="dash-sidebar">
 				<div class="sidebar-sticky pb-4 pb-md-0">
 					<ul class="dash-list nav flex-column text-center">
 						<li class="nav-item">
-							<img class="dash-img rounded-circle my-3" src='{% static "logo.png" %}' alt="v">
+							<img class="dash-img my-3" src='{% static "logo.png" %}' alt="v"> 
+							<!--  rounded-circle -->
 						</li>
 
 						{% if volunteer is not None %}
@@ -157,7 +186,7 @@
 			<!-- DASHBOARD -->
 
 			<div class="dash-main col-md-8 col-lg-9 mt-3">
-				<a href="" onclick="show_dash_main()">&#x27f3; Refresh Dashboard</a>
+				<a href="" onclick="show_dash_main()" class="d-inline-block mb-2 mb-md-0">&#x27f3; Refresh Dashboard</a>
 				<h3 class="text-center mb-3">Dashboard</h3>
 				{% if user.auth is True %}
 				<form method="POST">
@@ -190,7 +219,7 @@
 				{% else %}
 				<div class="row justify-content-center">
 					<div class="col-md-8 mt-5">
-						<p class="text-center">You are not yet authorised to view any information on this site.<br> Kindly contact <a href="mailto:admin@admin.com">admin</a>.</p>
+						<p class="text-center">You are not yet authorised to view any information on this site.<br> Kindly contact <a href="mailto:2018196@iiitdmj.ac.in">admin</a>.</p>
 					</div>
 				</div>
 				{% endif %}
@@ -270,6 +299,32 @@
 							<hr>
 							<p>
 								{% if students_attended.count %}
+								<p class="mb-1">
+									<span class="font-weight-bolder">Total Students Present:</span> {{ students_attended.count }}
+								</p>
+								<p>
+									{% if stu_att_village.stu_att_g %}
+									<span class="font-weight-bolder">Gadheri:</span> {{ stu_att_village.stu_att_g }} &nbsp;&nbsp;
+									{% endif %}
+									{% if stu_att_village.stu_att_ms %}
+									<span class="font-weight-bolder">Mehgawan Side:</span> {{ stu_att_village.stu_att_ms }}
+									{% endif %}
+
+									{% comment %}
+										{% if stu_att_village.stu_att_m %}
+										<span class="font-weight-bolder">Mehgawan:</span> {{ stu_att_village.stu_att_m }} &nbsp;&nbsp;
+										{% endif %}
+										{% if stu_att_village.stu_att_a %}
+										<span class="font-weight-bolder">Amanala:</span> {{ stu_att_village.stu_att_a }} &nbsp;&nbsp;
+										{% endif %}
+										{% if stu_att_village.stu_att_c %}
+										<span class="font-weight-bolder">Chanditola:</span> {{ stu_att_village.stu_att_c }} &nbsp;&nbsp;
+										{% endif %}
+										{% if stu_att_village.stu_att_s %}
+										<span class="font-weight-bolder">Suarkol:</span> {{ stu_att_village.stu_att_s }}
+										{% endif %}
+									{% endcomment %}
+								</p>
 								<input type="text" id="filter-students-dash" class="form-control mb-3 mx-auto" onkeyup="filterStudentsOnDash()" placeholder="Search for names..">
 								<table class="table table-hover" id="stu-att-table-dash">
 									<thead>
@@ -339,7 +394,7 @@
 			<!-- UPDATE PROFILE -->
 
 			<div class="dash-update d-none col-md-8 col-lg-9 mt-3">
-				<a href="" onclick="show_dash_main()">&larr; Back to Dashboard</a>
+				<a href="" onclick="show_dash_main()" class="d-inline-block mb-2 mb-md-0">&larr; Back to Dashboard</a>
 				<h3 class="text-center">Update Profile</h3>
 				<p class="text-center text-danger mb-1 mt-3">{{update_error}}</p>
 				<div class="row justify-content-center">
@@ -452,7 +507,7 @@
 			<!-- UPDATE SCHEDULE -->
 
 			<div class="dash-schedule d-none col-md-8 col-lg-9 mt-3">
-				<a href="" onclick="show_dash_main()">&larr; Back to Dashboard</a>
+				<a href="" onclick="show_dash_main()" class="d-inline-block mb-2 mb-md-0">&larr; Back to Dashboard</a>
 				<h3 class="text-center">Update Schedule</h3>
 				<p class="text-center text-danger mb-3 mt-3">{{sch_error}}</p>
 				<form method="POST">
@@ -555,7 +610,7 @@
 			{% comment %}
 
 			<div class="dash-cwhw d-none col-md-8 col-lg-9 mt-3">
-				<a href="" onclick="show_dash_main()">&larr; Back to Dashboard</a>
+				<a href="" onclick="show_dash_main()" class="d-inline-block mb-2 mb-md-0">&larr; Back to Dashboard</a>
 				<h3 class="text-center">Update ClassWork-HomeWork</h3>
 				<form method="POST">
 					{% csrf_token %}
@@ -605,10 +660,11 @@
 			{% endcomment %}
 
 
+			{% if not volunteer.desig == 'v' %}
 			<!-- List of Volunteers -->
 
 			<div class="dash-vol-list d-none col-md-8 col-lg-9 mt-3">
-				<a href="" onclick="show_dash_main()">&larr; Back to Dashboard</a>
+				<a href="" onclick="show_dash_main()" class="d-inline-block mb-2 mb-md-0">&larr; Back to Dashboard</a>
 				<h3 class="text-center">Volunteers Schedule</h3>
 				<div class="row justify-content-center">
 					<div class="col-md-4 my-3">
@@ -633,7 +689,7 @@
 			<!-- Volunteer Attendence -->
 
 			<div class="dash-vol-att d-none col-md-8 col-lg-9 mt-3">
-				<a href="" onclick="show_dash_main()">&larr; Back to Dashboard</a>
+				<a href="" onclick="show_dash_main()" class="d-inline-block mb-2 mb-md-0">&larr; Back to Dashboard</a>
 				<h3 class="text-center">Volunteers Attendence</h3>
 				<p class="text-center mt-3"><span class="font-weight-bold">Date: </span>{{today_date}}</p>
 
@@ -713,7 +769,7 @@
 			<!-- Student Attendence -->
 
 			<div class="dash-stu-att d-none col-md-8 col-lg-9 mt-3">
-				<a href="" onclick="show_dash_main()">&larr; Back to Dashboard</a>
+				<a href="" onclick="show_dash_main()" class="d-inline-block mb-2 mb-md-0">&larr; Back to Dashboard</a>
 				<h3 class="text-center">Students Attendence</h3>
 				<p class="text-center mt-3"><span class="font-weight-bold">Date: </span>{{today_date}}</p>
 
@@ -747,8 +803,8 @@
 							<div class="row justify-content-center">
 								<div class="col mb-4">
 									<select name="selected_class" class="custom-select d-block w-100" id="stu-att-class">
-										<option value="all" selected>All Classes</option>
-										<option value="1-8">Class 1-8</option>
+										<option value="all">All Classes</option>
+										<option value="1-8" selected>Class 1-8</option>
 										<option value="9-10">Class 9-10</option>
 										<option value="13-14">Navodaya Wing</option>
 									</select>
@@ -801,6 +857,7 @@
 				</form>
 				{% endif %}
 			</div>
+			{% endif %}
 
 		</div>
 
@@ -944,7 +1001,7 @@
 	footer{
 		position: fixed;
 		bottom: 0;
-		width: 100vw;
+		width: 100%;
 	}
 	@media(max-width: 767px){
 		footer{
@@ -968,15 +1025,13 @@
 			success: function (data) {
 				var options = '';
 				var selected = '';
-				for (var i = 0; i < data.length; i++) {
-					// console.log(data[i].fields['section']);
-					var obj = {{ choices_dict|safe }};
-					var choices_display = obj[data[i].fields['section']];
-					// console.log(choices_display)
+				for (var i = 0; i < data.schedule.length; i++) {
+					var choices_display = data.choices[data.schedule[i]['section']];
+					// console.log(data.schedule[i]['section'])
 
-					if(data[i].fields['section'] == "{{selected_schedule}}") selected = 'selected';
+					if(data.schedule[i]['section'] == "{{selected_schedule}}") selected = 'selected';
 					else selected = '';
-					options += '<option value="' + data[i].fields['section'] + '"' + selected + '>' + choices_display + '</option>';
+					options += '<option value="' + data.schedule[i]['section'] + '"' + selected + '>' + choices_display + '</option>';
 				}
 				$("#class-section").html(options);
 				// $("#citylist option:first").attr('selected', 'selected');
@@ -1002,11 +1057,10 @@
 			dataType: 'json',
 			success: function (data) {
 				var options = '';
-				for (var i = 0; i < data.length; i++) {
-					var obj = {{ choices_dict|safe }};
-					var choices_display = obj[data[i].fields['section']];
+				for (var i = 0; i < data.schedule.length; i++) {
+					var choices_display = data.choices[data.schedule[i]['section']];
 
-					options += '<option value="' + data[i].fields['section'] + '" >' + choices_display + '</option>';
+					options += '<option value="' + data.schedule[i]['section'] + '" >' + choices_display + '</option>';
 				}
 				$("#sch-section").html(options);
 			}
@@ -1029,20 +1083,18 @@
 			success: function (data) {
 				let stu_att_table = '<thead><tr><th>Student Name</th><th>Class</th><th>Mark Present</th></tr></thead><tbody>';
 				let checked = '';
-				let stu_dict = {{stu_dict_json | safe}};
-				// console.log(stu_dict)
-				for (var i = 0; i < data.length; i++) {
-					if (data[i].fields['present']) checked = 'checked';
+				for (var i = 0; i < data.stu_today.length; i++) {
+					if (data.stu_today[i]['present']) checked = 'checked';
 					else checked = '';
 
-					let first_name = stu_dict[data[i].fields['sid']]['first_name']
-					let last_name = stu_dict[data[i].fields['sid']]['last_name']
-					let school_class = stu_dict[data[i].fields['sid']]['school_class']
+					let first_name = data.students[data.stu_today[i]['sid_id']]['first_name']
+					let last_name = data.students[data.stu_today[i]['sid_id']]['last_name']
+					let school_class = data.students[data.stu_today[i]['sid_id']]['school_class']
 					
 					if(school_class == 13) school_class = "JNV_4"
 					else if(school_class == 14) school_class = "JNV_5"
 
-					stu_att_table += '<tr><td>' + first_name + ' ' + last_name + '</td><td>' + school_class + '</td><td><div class="custom-control custom-switch"><input type="checkbox" name="attended" value="' + data[i].fields['sid'] + '" class="custom-control-input" id="s' + data[i].pk + '" ' + checked + '><label class="custom-control-label" for="s' + data[i].pk + '"></label></div></td></tr>';
+					stu_att_table += '<tr><td>' + first_name + ' ' + last_name + '</td><td>' + school_class + '</td><td><div class="custom-control custom-switch"><input type="checkbox" name="attended" value="' + data.stu_today[i]['sid_id'] + '" class="custom-control-input" id="s' + data.stu_today[i]['sid_id'] + '" ' + checked + '><label class="custom-control-label" for="s' + data.stu_today[i]['sid_id'] + '"></label></div></td></tr>';
 					
 				}
 				stu_att_table += '</tbody>';
@@ -1075,17 +1127,15 @@
 			success: function (data) {
 				let vol_list_table = '<thead><tr><th>Roll No.</th><th>Name</th><th>Section</th></tr></thead><tbody>';
 				let hello = '';
-				let vol_dict = {{vol_dict_json | safe}};
-				let sch_dict = {{sch_dict_json | safe}};
-				let sec_dict = {{ choices_dict|safe }};
 					
 				// console.log(vol_dict)
-				for (var i = 0; i < data.length; i++) {
+				for (var i = 0; i < data.stu_today.length; i++) {
 
-					let first_name = vol_dict[data[i].fields['roll_no']]['first_name'];
-					let last_name = vol_dict[data[i].fields['roll_no']]['last_name'];
-					let roll_no = vol_dict[data[i].fields['roll_no']]['roll_no'];
-					var sec_display = sec_dict[sch_dict[data[i].fields['schedule']]['section']];
+					let first_name = data.volunteers[data.stu_today[i]['roll_no_id']]['first_name'];
+					let last_name = data.volunteers[data.stu_today[i]['roll_no_id']]['last_name'];
+					let roll_no = data.volunteers[data.stu_today[i]['roll_no_id']]['roll_no'];
+					var sec_display = data.choices[data.schedule[data.stu_today[i]['schedule_id']]['section']];
+					// console.log(first_name)
 
 					if(true) hello = 'there'
 
@@ -1268,6 +1318,8 @@
 	let dash_vol_att = document.querySelector(".dash-vol-att");
 	let dash_stu_att = document.querySelector(".dash-stu-att");
 	let dash_vol_list = document.querySelector(".dash-vol-list");
+	let dash_sidebar = document.querySelector("#dash-sidebar");
+	let dash_accordion = document.querySelector("#dash-accordion i");
 
 
 	if("{{update_error}}"){
@@ -1280,14 +1332,32 @@
 		show_dash_cwhw();
 	}
 
+	function change_arrow(){
+		if(dash_sidebar.classList.contains('show')){
+			dash_accordion.classList.remove('up');
+			dash_accordion.classList.add('down');
+		}
+		else{
+			dash_accordion.classList.remove('down');
+			dash_accordion.classList.add('up');
+		}
+	}
+
 	function show_dash_main(){
 		if(dash_main.classList.contains('d-none')) dash_main.classList.remove('d-none');
 		if(!dash_update.classList.contains('d-none')) dash_update.classList.add('d-none');
 		if(!dash_schedule.classList.contains('d-none')) dash_schedule.classList.add('d-none');
 		// if(!dash_cwhw.classList.contains('d-none')) dash_cwhw.classList.add('d-none');
-		if(!dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.add('d-none');
-		if(!dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.add('d-none');
-		if(!dash_vol_list.classList.contains('d-none')) dash_vol_list.classList.add('d-none');
+		if("{{ volunteer.desig }}" != "v"){
+			if(!dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.add('d-none');
+			if(!dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.add('d-none');
+			if(!dash_vol_list.classList.contains('d-none')) dash_vol_list.classList.add('d-none');
+		}
+		if(dash_sidebar.classList.contains('show')){
+			dash_sidebar.classList.remove('show');
+			dash_accordion.classList.remove('up');
+			dash_accordion.classList.add('down');
+		}
 	}
 
 	function show_dash_update(){
@@ -1295,15 +1365,28 @@
 		if(dash_update.classList.contains('d-none')) dash_update.classList.remove('d-none');
 		if(!dash_schedule.classList.contains('d-none')) dash_schedule.classList.add('d-none');
 		// if(!dash_cwhw.classList.contains('d-none')) dash_cwhw.classList.add('d-none');
-		if(!dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.add('d-none');
-		if(!dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.add('d-none');
-		if(!dash_vol_list.classList.contains('d-none')) dash_vol_list.classList.add('d-none');
+
+		if("{{ volunteer.desig }}" != "v"){
+			if(!dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.add('d-none');
+			if(!dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.add('d-none');
+			if(!dash_vol_list.classList.contains('d-none')) dash_vol_list.classList.add('d-none');
+		}
+		if(dash_sidebar.classList.contains('show')){
+			dash_sidebar.classList.remove('show');
+			dash_accordion.classList.remove('up');
+			dash_accordion.classList.add('down');
+		}
 	}
 
 	function show_dash_schedule(){
 		if(!dash_main.classList.contains('d-none')) dash_main.classList.add('d-none');
 		if(!dash_update.classList.contains('d-none')) dash_update.classList.add('d-none');
 		if(dash_schedule.classList.contains('d-none')) dash_schedule.classList.remove('d-none');
+		if(dash_sidebar.classList.contains('show')){
+			dash_sidebar.classList.remove('show');
+			dash_accordion.classList.remove('up');
+			dash_accordion.classList.add('down');
+		}
 	}
 
 	function show_dash_cwhw(){
@@ -1322,6 +1405,11 @@
 		if(dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.remove('d-none');
 		if(!dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.add('d-none');
 		if(!dash_vol_list.classList.contains('d-none')) dash_vol_list.classList.add('d-none');
+		if(dash_sidebar.classList.contains('show')){
+			dash_sidebar.classList.remove('show');
+			dash_accordion.classList.remove('up');
+			dash_accordion.classList.add('down');
+		}
 	}
 
 	function show_dash_stu_att(){
@@ -1331,6 +1419,11 @@
 		if(!dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.add('d-none');
 		if(dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.remove('d-none');
 		if(!dash_vol_list.classList.contains('d-none')) dash_vol_list.classList.add('d-none');
+		if(dash_sidebar.classList.contains('show')){
+			dash_sidebar.classList.remove('show');
+			dash_accordion.classList.remove('up');
+			dash_accordion.classList.add('down');
+		}
 	}
 
 	function show_dash_vol_list(){
@@ -1340,6 +1433,11 @@
 		if(!dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.add('d-none');
 		if(!dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.add('d-none');
 		if(dash_vol_list.classList.contains('d-none')) dash_vol_list.classList.remove('d-none');
+		if(dash_sidebar.classList.contains('show')){
+			dash_sidebar.classList.remove('show');
+			dash_accordion.classList.remove('up');
+			dash_accordion.classList.add('down');
+		}
 	}
 
 </script>

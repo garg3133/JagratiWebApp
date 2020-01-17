@@ -13,11 +13,14 @@ from .models import(
 	Feedback,
 	UpdateScheduleRequest,
 )
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from datetime import datetime, date
 from django.core import serializers
 from django.template.defaulttags import register
 import json
+# from django.core.serializers.json import DjangoJSONEncoder
+from django.forms.models import model_to_dict
+from openpyxl import load_workbook
 
 # Create your views here.
 def index(request):
@@ -30,16 +33,38 @@ def showSectionInDashboard(request):
 	class_info_date = datetime.strptime(class_info_date_str, '%Y-%m-%d').date()
 	class_info_day = class_info_date.strftime("%A")
 
-	schedule = Schedule.objects.filter(day = class_info_day).order_by('section')
-	json_schedule = serializers.serialize("json", schedule)
-	return HttpResponse(json_schedule, content_type='application/json')
+	schedule = Schedule.objects.filter(day = class_info_day).order_by('section').values()
+
+	data = {}
+
+	sch_list = []
+	for sch in schedule:
+		sch_list.append(sch)
+
+	data['schedule'] = sch_list
+	data['choices'] = {key: value for key, value in Schedule.SECTION}
+	
+	# json_data = json.dumps(data)
+	# json_schedule = serializers.serialize("json", schedule)
+	return JsonResponse(data)
 
 def showSectionInUpdateSchedule(request):
 	sch_day = request.GET.get('sch_day', None)
 
-	schedule = Schedule.objects.filter(day = sch_day).order_by('section')
-	json_schedule = serializers.serialize("json", schedule)
-	return HttpResponse(json_schedule, content_type='application/json')
+	schedule = Schedule.objects.filter(day = sch_day).order_by('section').values()
+
+	data = {}
+
+	sch_list = []
+	for sch in schedule:
+		sch_list.append(sch)
+
+	data['schedule'] = sch_list
+	data['choices'] = {key: value for key, value in Schedule.SECTION}
+	
+	# json_data = json.dumps(data)
+	# json_schedule = serializers.serialize("json", schedule)
+	return JsonResponse(data)
 
 def studentAttendenceAjax(request):
 	stu_class = request.GET.get('stu_class', None)
@@ -58,18 +83,60 @@ def studentAttendenceAjax(request):
 		class_range_min = 13
 		class_range_max = 14
 
-	stu_to_show = Student_attended_on.objects.filter(date = today_date, sid__school_class__range = (class_range_min, class_range_max)).order_by('sid__school_class')
+	stu_to_show = Student_attended_on.objects.filter(date = today_date, sid__school_class__range = (class_range_min, class_range_max)).order_by('sid__school_class').values()
+	
+	data = {}
 
-	json_stu_to_show = serializers.serialize("json", stu_to_show)
-	return HttpResponse(json_stu_to_show, content_type='application/json')
+	stu_list = []
+	for stu in stu_to_show:
+		stu_list.append(stu)
+
+	students = Student.objects.all()
+	stu_dict = {}
+	
+	for stu in students:
+		stu_dict[stu.id] = model_to_dict(stu)
+
+	data['stu_today'] = stu_list
+	data['students'] = stu_dict
+	
+	
+	# json_data = json.dumps(data)
+	# json_stu_to_show = serializers.serialize("json", stu_to_show)
+	return JsonResponse(data)
 
 def volunteerListAjax(request):
 	vol_list_day = request.GET.get('vol_list_day', None)
 
-	vol_list = Volunteer_schedule.objects.filter(day = vol_list_day).order_by('schedule__section')
+	vol_to_show = Volunteer_schedule.objects.filter(day = vol_list_day).order_by('schedule__section').values()
 
-	json_vol_list = serializers.serialize("json", vol_list)
-	return HttpResponse(json_vol_list, content_type='application/json')
+	data = {}
+
+	vol_list = []
+	for vol in vol_to_show:
+		vol_list.append(vol)
+
+	volunteers = Volunteer.objects.all()
+	vol_dict = {}
+	
+	for vol in volunteers:
+		vol_dict[vol.id] = model_to_dict(vol)
+
+	schedules = Schedule.objects.all()
+	sch_dict = {}
+	
+	for sch in schedules:
+		sch_dict[sch.id] = model_to_dict(sch)
+
+	data['stu_today'] = vol_list
+	data['volunteers'] = vol_dict
+	data['schedule'] = sch_dict
+	data['choices'] = {key: value for key, value in Schedule.SECTION}
+	
+	
+	# json_data = json.dumps(data, cls=DjangoJSONEncoder)
+	# json_vol_list = serializers.serialize("json", vol_list)
+	return JsonResponse(data)
 
 # @register.filter
 # def get_item(choices, key):
@@ -96,17 +163,17 @@ def dashboard(request):
 		    today_cal = Calendar.objects.get(date=date.today())
 
 		# For main dash ajax section display names
-		choices_dict = {key: value for key, value in Schedule.SECTION}
-		choices_dict_json = json.dumps(choices_dict)
+		# choices_dict = {key: value for key, value in Schedule.SECTION}
+		# choices_dict_json = json.dumps(choices_dict)
 
 		# For Student Attendence
-		if not Student_attended_on.objects.filter(date__date = date.today()).exists():
+		if today_cal.class_scheduled is True and not Student_attended_on.objects.filter(date__date = date.today()).exists():
 			today_stu_sch = Student_schedule.objects.filter(day=date.today().strftime("%A"))
 			for stu_sch in today_stu_sch:
 				stu_attendance = Student_attended_on(sid = stu_sch.sid, date = today_cal)
 				stu_attendance.save()
 
-		if Student_attended_on.objects.filter(date__date = date.today()).count() != Student_schedule.objects.filter(day=date.today().strftime("%A")).count():
+		if today_cal.class_scheduled is True and Student_attended_on.objects.filter(date__date = date.today()).count() != Student_schedule.objects.filter(day=date.today().strftime("%A")).count():
 			today_stu_sch = Student_schedule.objects.filter(day=date.today().strftime("%A"))
 			for stu_sch in today_stu_sch:
 				if not Student_attended_on.objects.filter(sid = stu_sch.sid, date = today_cal).exists():
@@ -114,7 +181,7 @@ def dashboard(request):
 					stu_attendance.save()
 
 		# For Volunteer Attendence
-		if not Volunteer_attended_on.objects.filter(date__date = date.today()).exists():
+		if today_cal.class_scheduled is True and not Volunteer_attended_on.objects.filter(date__date = date.today()).exists():
 			today_vol_sch = Volunteer_schedule.objects.filter(day=date.today().strftime("%A"))
 			for vol_sch in today_vol_sch:
 				vol_attendance = Volunteer_attended_on(roll_no = vol_sch.roll_no, date = today_cal)
@@ -131,7 +198,7 @@ def dashboard(request):
 
 			#dash-main
 			'choices': Schedule.SECTION,
-			'choices_dict': choices_dict_json,
+			# 'choices_dict': choices_dict_json,
 
 			#dash-update
 			'last_4_year': datetime.now().year - 4,
@@ -147,7 +214,8 @@ def dashboard(request):
 			'today_volun' : Volunteer_attended_on.objects.filter(date = today_cal).order_by('roll_no__roll_no'),
 
 			#dash-stu-att
-			'today_stu' : Student_attended_on.objects.filter(date = today_cal).order_by('sid__school_class'),
+			# 'today_stu' : Student_attended_on.objects.filter(date = today_cal).order_by('sid__school_class'),
+			'today_stu' : Student_attended_on.objects.filter(date = today_cal, sid__school_class__range = (1, 8)).order_by('sid__school_class'),
 		}
 		
 		if request.method == 'POST':
@@ -170,6 +238,40 @@ def dashboard(request):
 								students_attended = Student_attended_on.objects.filter(date = calendar[0], present = True).order_by('sid__school_class')
 								vol_volunteered = Volunteer_attended_on.objects.filter(date = calendar[0], present = True).order_by('roll_no__roll_no')
 
+								# Students present from each village
+								stu_att_g = 0
+								stu_att_a = 0
+								stu_att_c = 0
+								stu_att_m = 0
+								stu_att_s = 0
+								stu_att_ms = 0
+								if students_attended.exists():
+									for stu_att in students_attended:
+										stu_vill = stu_att.sid.village
+										if stu_vill == 'G':
+											stu_att_g += 1
+										elif stu_vill == 'A':
+											stu_att_a += 1
+											stu_att_ms += 1
+										elif stu_vill == 'C':
+											stu_att_c += 1
+											stu_att_ms += 1
+										elif stu_vill == 'M':
+											stu_att_m += 1
+											stu_att_ms += 1
+										elif stu_vill == 'S':
+											stu_att_s += 1
+											stu_att_ms += 1
+
+								stu_att_village = {
+									'stu_att_g': stu_att_g,
+									'stu_att_a': stu_att_a,
+									'stu_att_c': stu_att_c,
+									'stu_att_m': stu_att_m,
+									'stu_att_s': stu_att_s,
+									'stu_att_ms': stu_att_ms,
+								}
+
 								if class_info_date == date.today() and not students_attended.exists():
 									students_attended = "Not yet updated!"
 								elif not students_attended.exists():
@@ -186,6 +288,7 @@ def dashboard(request):
 									#dash-main
 									'schedule' : schedule,
 									'students_attended' : students_attended,
+									'stu_att_village' : stu_att_village,
 									'vol_volunteered' : vol_volunteered,
 									'cw_hw' : cw_hw[0],
 									'selected_date' : class_info_date,
@@ -199,6 +302,7 @@ def dashboard(request):
 									#dash-main
 									'schedule' : schedule,
 									'students_attended' : students_attended,
+									'stu_att_village' : stu_att_village,
 									'vol_volunteered' : vol_volunteered,
 									'cw_hw' : {
 										'cw' : "Not yet updated!",
@@ -653,3 +757,34 @@ def feedback(request):
 		'submitted' : submitted,
 	}
 	return render(request, 'home/feedback.html', context)
+
+def update_students(request):
+	path = "/home/priyansh/Python Projects/JagratiWebApp/Jagrati/home/student.xlsx"
+
+	wb_obj = load_workbook(path)
+
+	sheet_obj = wb_obj.active 
+
+	max_row = sheet_obj.max_row
+
+	for i in range(3, max_row+1):
+		first_name = sheet_obj.cell(row = i, column = 2).value
+		last_name = sheet_obj.cell(row = i, column = 3).value
+		school_class = sheet_obj.cell(row = i, column = 4).value
+		village = sheet_obj.cell(row = i, column = 5).value
+		guardian_name = sheet_obj.cell(row = i, column = 6).value
+		contact_no = sheet_obj.cell(row = i, column = 7).value
+
+		if not Student.objects.filter(first_name = first_name, last_name = last_name, school_class = school_class, village = village, guardian_name = guardian_name).exists():
+			if contact_no is None:
+				student = Student(first_name = first_name, last_name = last_name, school_class = school_class, village = village, guardian_name = guardian_name)
+				student.save()
+			else:
+				student = Student(first_name = first_name, last_name = last_name, school_class = school_class, village = village, guardian_name = guardian_name, contact_no = int(contact_no))
+				student.save()
+			for day, day2 in Schedule.DAY:
+				print(day)
+				stu_sch = Student_schedule(sid = student, schedule = Schedule.objects.get(day = day, section = '4A'))
+				stu_sch.save()
+	
+	return HttpResponse('Updated successfully!')

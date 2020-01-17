@@ -13,6 +13,7 @@ class Volunteer(models.Model):
 		(CURRENT_YEAR - 2	, CURRENT_YEAR - 2),
 		(CURRENT_YEAR - 3	, CURRENT_YEAR - 3),
 		(CURRENT_YEAR - 4	, CURRENT_YEAR - 4),
+		(CURRENT_YEAR - 5	, CURRENT_YEAR - 5),
 	)
 
 	PROGRAMME = (
@@ -28,12 +29,16 @@ class Volunteer(models.Model):
 				('mcoco', 'Math Co-Convenor'),
 				('ecoco', 'English Co-Convenor'),
 				('hcoco', 'Hindi Co-Convenor'),
+				('9coco', '9-10 Co-Convenor'),
+				('navcoco', 'Navodaya Co-Convenor'),
 			)
 		),
 		('Convenor', (
 				('mco', 'Math Convenor'),
 				('eco', 'English Convenor'),
 				('hco', 'Hindi Convenor'),
+				('9co', '9-10 Convenor'),
+				('navco', 'Navodaya Convenor'),
 			)
 		),
 		('jac'	, 'Jagrati Advisory Commitee'),
@@ -79,8 +84,8 @@ class Student(models.Model):
 	last_name 				= models.CharField(max_length=30)
 	school_class 			= models.IntegerField()
 	village 				= models.CharField(max_length=30, choices=VILLAGE, default='Gadheri')
-	contact_no 				= models.CharField(max_length=13)
-	guardian_name 			= models.CharField(max_length=30)
+	contact_no 				= models.CharField(max_length=13, blank=True)
+	guardian_name 			= models.CharField(max_length=30, blank=True)
 	restricted 				= models.BooleanField(default=False)
 
 	def __str__(self):
