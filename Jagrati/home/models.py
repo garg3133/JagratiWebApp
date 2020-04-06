@@ -29,6 +29,7 @@ class Volunteer(models.Model):
 				('mcoco', 'Math Co-Convenor'),
 				('ecoco', 'English Co-Convenor'),
 				('hcoco', 'Hindi Co-Convenor'),
+				('scoco', 'Science Co-Convenor'),
 				('9coco', '9-10 Co-Convenor'),
 				('navcoco', 'Navodaya Co-Convenor'),
 			)
@@ -37,6 +38,7 @@ class Volunteer(models.Model):
 				('mco', 'Math Convenor'),
 				('eco', 'English Convenor'),
 				('hco', 'Hindi Convenor'),
+				('sco', 'Science Convenor'),
 				('9co', '9-10 Convenor'),
 				('navco', 'Navodaya Convenor'),
 			)
@@ -101,16 +103,19 @@ class Schedule(models.Model):
 		('B', "Section-B"),
 		('C', "Section-C"),
 
+		('1', "Class 1/2/3"),
 		('1A', "Class 1/2/3 Section-A"),
 		('1B', "Class 1/2/3 Section-B"),
 		('1C', "Class 1/2/3 Section-C"),
 		('1I', "Class 1/2/3 Irregular"),
 
+		('2', "Class 4/5"),
 		('2A', "Class 4/5 Section-A"),
 		('2B', "Class 4/5 Section-B"),
 		('2C', "Class 4/5 Section-C"),
 		('2I', "Class 4/5 Irregular"),
 
+		('3', "Class 6/7/8"),
 		('3A', "Class 6/7/8 Section-A"),
 		('3B', "Class 6/7/8 Section-B"),
 		('3C', "Class 6/7/8 Section-C"),
