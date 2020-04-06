@@ -61,7 +61,27 @@ class UpdateScheduleRequestAdmin(admin.ModelAdmin):
 
 admin.site.register(models.UpdateScheduleRequest, UpdateScheduleRequestAdmin)
 
-admin.site.register(models.Volunteer_schedule)
+class VolunteerScheduleAdmin(admin.ModelAdmin):
+	list_display = ('get_roll', 'get_name', 'day', 'get_section')
+	search_fields = ('roll_no__roll_no', 'roll_no__first_name', 'roll_no__last_name')
+	list_filter = ('day',)
+	ordering = ('roll_no__roll_no',)
+
+	def get_roll(self, obj):
+		return obj.roll_no.roll_no
+	get_roll.short_description = 'Roll No.'
+	get_roll.admin_order_field = 'roll_no__roll_no'
+
+	def get_name(self, obj):
+		return obj.roll_no.first_name + ' ' + obj.roll_no.last_name
+	get_name.short_description = 'Name'
+
+	def get_section(self, obj):
+		return obj.schedule.get_section_display()
+	get_section.short_description = 'Section'
+
+admin.site.register(models.Volunteer_schedule, VolunteerScheduleAdmin)
+
 admin.site.register(models.Student_schedule)
 admin.site.register(models.Cw_hw)
 admin.site.register(models.Volunteer_attended_on)

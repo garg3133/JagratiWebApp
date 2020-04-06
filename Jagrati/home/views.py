@@ -13,7 +13,7 @@ from .models import(
 	Feedback,
 	UpdateScheduleRequest,
 )
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from datetime import datetime, date
 from django.core import serializers
 from django.template.defaulttags import register
@@ -21,6 +21,8 @@ import json
 # from django.core.serializers.json import DjangoJSONEncoder
 from django.forms.models import model_to_dict
 from openpyxl import load_workbook
+from django.contrib import messages
+from django.urls import reverse
 
 # Create your views here.
 def index(request):
@@ -71,17 +73,9 @@ def studentAttendenceAjax(request):
 
 	today_date = Calendar.objects.get(date=date.today())
 
-	class_range_min = 1
-	class_range_max = 14
-	if stu_class == '1-8':
-		class_range_min = 1
-		class_range_max = 8
-	elif stu_class == '9-10':
-		class_range_min = 9
-		class_range_max = 10
-	elif stu_class == '13-14':
-		class_range_min = 13
-		class_range_max = 14
+	class_range = stu_class.split('-')
+	class_range_min = class_range[0]
+	class_range_max = class_range[1]
 
 	stu_to_show = Student_attended_on.objects.filter(date = today_date, sid__school_class__range = (class_range_min, class_range_max)).order_by('sid__school_class').values()
 	
@@ -215,7 +209,7 @@ def dashboard(request):
 
 			#dash-stu-att
 			# 'today_stu' : Student_attended_on.objects.filter(date = today_cal).order_by('sid__school_class'),
-			'today_stu' : Student_attended_on.objects.filter(date = today_cal, sid__school_class__range = (1, 8)).order_by('sid__school_class'),
+			'today_stu' : Student_attended_on.objects.filter(date = today_cal, sid__school_class__range = (1, 3)).order_by('sid__school_class'),
 		}
 		
 		if request.method == 'POST':
@@ -613,33 +607,27 @@ def dashboard(request):
 							extra_vol_att = Volunteer_attended_on(roll_no = roll_no[0], date = today_date, present = True, extra = True)
 							extra_vol_att.save()
 				
-				context1 = {
-					#dash-main
-					'class_info_submitted' : "nopes",
+				# context1 = {
+				# 	#dash-main
+				# 	'class_info_submitted' : "nopes",
 
-					#dash-vol-att
-					'toast' : "Attendence marked successfully!",
-				}
-				context.update(context1)
+				# 	#dash-vol-att
+				# 	'toast' : "Attendence marked successfully!",
+				# }
+				# context.update(context1)
 
-				return render(request, 'home/dashboard.html', context)
+				# return render(request, 'home/dashboard.html', context)
+				messages.success(request, 'Attendence marked successfully!')
+				return HttpResponseRedirect(reverse('dashboard'))
 
 			elif request.POST.get('submit') == 'stu-att':
 					today_date = Calendar.objects.get(date=date.today())
 					stu_array = request.POST.getlist('attended')
 					selected_class = request.POST['selected_class']
 
-					class_range_min = 1
-					class_range_max = 14
-					if selected_class == '1-8':
-						class_range_min = 1
-						class_range_max = 8
-					elif selected_class == '9-10':
-						class_range_min = 9
-						class_range_max = 10
-					elif selected_class == '13-14':
-						class_range_min = 13
-						class_range_max = 14
+					class_range = selected_class.split('-')
+					class_range_min = class_range[0]
+					class_range_max = class_range[1]
 
 					# Mark everyone's absent
 					stu_today = Student_attended_on.objects.filter(date = today_date, sid__school_class__range = (class_range_min, class_range_max))
@@ -655,16 +643,18 @@ def dashboard(request):
 						stu_attendance.hw_done = False
 						stu_attendance.save()
 					
-					context1 = {
-						#dash-main
-						'class_info_submitted' : "nopes",
+					# context1 = {
+					# 	#dash-main
+					# 	'class_info_submitted' : "nopes",
 
-						#dash-atu-att
-						'toast' : "Attendence marked successfully!",
-					}
-					context.update(context1)
+					# 	#dash-atu-att
+					# 	'toast' : "Attendence marked successfully!",
+					# }
+					# context.update(context1)
 
-					return render(request, 'home/dashboard.html', context)
+					# return render(request, 'home/dashboard.html', context)
+					messages.success(request, 'Attendence marked successfully!')
+					return HttpResponseRedirect(reverse('dashboard'))
 
 		else:
 			context1 = {
