@@ -1,4 +1,7 @@
 /*GLOBAL*/
+html{
+	scroll-behavior: smooth;
+}
 body{
 	font: 15px/1.5 Arial ,Helvetica ,sans-serif;
 	margin : 0;

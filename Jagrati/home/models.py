@@ -69,6 +69,7 @@ class Volunteer(models.Model):
 	pincode					= models.CharField(max_length=6)
 	alt_email 				= models.EmailField(verbose_name="Alternate Email", max_length=255, blank=True)
 	desig 					= models.CharField(verbose_name="Designation", choices=DESIG, default='v', max_length=5)
+	# resp					= models.ForeignKey()
 	active 					= models.BooleanField(default=True)
 
 	def __str__(self):

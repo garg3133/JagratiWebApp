@@ -150,11 +150,11 @@ def dashboard(request):
 		today_cal = Calendar.objects.filter(date=date.today())
 		# Update today's date in Calendar if not already there
 		if today_cal.exists():
-		    today_cal = today_cal[0]
+			today_cal = today_cal[0]
 		else:
-		    today_cal_new = Calendar(date = date.today())
-		    today_cal_new.save()
-		    today_cal = Calendar.objects.get(date=date.today())
+			today_cal_new = Calendar(date = date.today())
+			today_cal_new.save()
+			today_cal = Calendar.objects.get(date=date.today())
 
 		# For main dash ajax section display names
 		# choices_dict = {key: value for key, value in Schedule.SECTION}
