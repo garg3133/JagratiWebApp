@@ -1,651 +1,111 @@
-{% extends 'layout.html' %}
+{% extends 'sidebar.html' %}
 
 {% load static %}
 
-{% block style %}
-	<style>
-		.main{
-			min-height: calc(100vh - 54px);   /* So that footer is at the bottom (without scroll) if screen is short*/
-		}
+{% block content-sidebar %}
 
-		.arrow{
-			border: solid black;
-			border-width: 0 3px 3px 0;
-			display: inline-block;
-			padding: 3px;
-		}
+<!-- DASHBOARD -->
 
-		.up {
-			transform: rotate(-135deg);
-			-webkit-transform: rotate(-135deg);
-			/* transition-delay: 800ms; */
-		}
-
-		.down {
-			transform: rotate(45deg);
-			-webkit-transform: rotate(45deg);
-			/* transition-delay: 800ms; */
-		}
-
-		.sidebar {
-			position: fixed;
-			top: 71.4px;
-			bottom: 54px;
-			left: 0;
-			/* z-index: 100;  */
-			/* Behind the navbar */
-			/* padding: 28px 0 0; */
-			 /* Height of navbar */
-			box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
-			overflow-y: auto;
-		}
-
-		/* .sidebar-sticky { */
-			/* position: relative; */
-			/* top: 0; */
-			/* height: calc(100vh - 48px); */
-			/* padding-top: .5rem; */
-			/* overflow-x: hidden; */
-			/* overflow-y: auto;  */
-			/* Scrollable contents if viewport is shorter than content. */
-		/* } */
-
-		/* @supports ((position: -webkit-sticky) or (position: sticky)) {
-			.sidebar-sticky {
-				position: -webkit-sticky;
-				position: sticky;
-			}
-		} */
-
-		/* .sidebar .nav-link {
-			font-weight: 500;
-			color: #333;
-		} */
-
-		/* .sidebar .nav-link.active {
-			color: #007bff;
-		} */
-
-		.sidebar-heading {
-			font-size: .75rem;
-			text-transform: uppercase;
-		}
-
-		.dash-img{
-			width: 100px;
-			height: 100px;
-		}
-		.dash-list li{
-			margin: 5px 0;
-		}
-
-
-		@media(max-width: 767px){
-			.sidebar{
-				position:static;
-			}
-			.main{
-				min-height: 100vh;
-			}
-		}
-
-	</style>
-
-{% endblock %}
-
-{% block content %}
-
-	<div class="container-fluid">
-		<div class="row justify-content-end">
-			<a id="dash-accordion" class="btn btn-light w-100 border-0 d-md-none" data-toggle="collapse" href="#dash-sidebar" onclick="change_arrow()">
-				<div class="clearfix">
-					<div class="float-left font-weight-bold pt-1">User Info</div>
-					<div class="float-right">
-						<i class="arrow down"></i>
-					</div>
-				</div>
-				
-			</a>
-			<nav class="collapse col-md-4 col-lg-3 d-md-block bg-light sidebar" id="dash-sidebar">
-				<div class="sidebar-sticky pb-4 pb-md-0">
-					<ul class="dash-list nav flex-column text-center">
-						<li class="nav-item">
-							<img class="dash-img my-3" src='{% static "logo.png" %}' alt="v"> 
-							<!--  rounded-circle -->
-						</li>
-
-						{% if volunteer is not None %}
-							<li class="nav-item">
-								<h5>Name: <span class="lead"> {{volunteer.first_name}} {{volunteer.last_name}}</span> </h5>
-							</li>
-							<li class="nav-item">
-								<h5>Roll No: <span class="lead">{{volunteer.roll_no}}</span> </h5>
-							</li>
-						{% endif %}
-
-						<li class="nav-item">
-							<h5>Email: <span class="lead">{{user.email}}</span> </h5>
-						</li>
-
-						{% if volunteer.desig == 'v' %}
-							<li class="nav-item">
-								<h5 class="mt-3">Schedule</h5>
-							</li>
-							{% if vol_schedule is not None %}
-								<li class="nav-item">
-									<h5>Day: <span class="lead"> {{vol_schedule.day}}</span> </h5>
-								</li>
-								<li class="nav-item">
-									<h5>Section: <span class="lead">{{vol_schedule.schedule.get_section_display}}</span> </h5>
-								</li>
-								<li class="nav-item">
-									<h5>Subject: <span class="lead">{{vol_schedule.schedule.get_subject_display}}</span> </h5>
-								</li>
-							{% else %}
-								<li class="nav-item">
-									<h5>Day: <span class="lead"> -- </span> </h5>
-								</li>
-								<li class="nav-item">
-									<h5>Section: <span class="lead"> -- </span> </h5>
-								</li>
-								<li class="nav-item">
-									<h5>Subject: <span class="lead"> -- </span> </h5>
-								</li>
-							{% endif %}
-							{% if user.auth is True %}
-							<li class="nav-item">
-								<button type="button" class="btn btn-outline-primary mt-3" onclick="show_dash_schedule()">Update Schedule</button>
-							</li>
-							{% else %}
-							<li class="nav-item">
-								<button type="button" class="btn btn-outline-primary mt-3" onclick="show_dash_schedule()" disabled>Update Schedule</button>
-							</li>
-							{% endif %}
+<div class="dash-main col-md-8 col-lg-9 mt-3">
+	<a href=""  class="d-inline-block mb-2 mb-md-0">&#x27f3; Refresh Dashboard</a>
+	<h3 class="text-center mb-3">Dashboard</h3>
+	{% if user.auth is True %}
+	<form method="POST">
+		{% csrf_token %}
+		<div class="row justify-content-center">
+			<div class="col-md-4 mb-3">
+				<label for="class-date">Date</label>
+				<!-- <input type="text" class="form-control" id="firstName" placeholder="" value="" required> -->
+				<input name="class-info-date" data-date-format="yyyy-mm-dd" id="class-date" class="form-control" required>
+			</div>
+			<div class="col-md-4 mb-3">
+				<label for="class-section">Section</label>
+				<select name="class-info-section" class="custom-select d-block w-100" id="class-section" required>
+					{% for sec, display in choices %}
+						{% if sec == selected_schedule %}
+						<option value="{{sec}}" selected>{{display}}</option>
 						{% else %}
-							<li class="nav-item">
-								<h5 class="my-5">{{volunteer.get_desig_display}}</h5>
-							</li>
-							<li class="nav-item">
-								<button type="button" class="btn btn-outline-primary" onclick="show_dash_vol_list()"> Volunteers </button>
-							</li>
-							<li class="nav-item">
-								<button type="button" class="btn btn-outline-primary" onclick="show_dash_stu_att()"> Student Attendence </button>
-							</li>
-							<li class="nav-item">
-								<button type="button" class="btn btn-outline-primary" onclick="show_dash_vol_att()">Volunteer Attendence </button>
-							</li>
+						<option value="{{sec}}">{{display}}</option>
 						{% endif %}
-						<li class="nav-item">
-							<button type="button" class="btn btn-outline-primary" onclick="show_dash_update()" > Update Profile </button>
-						</li>
-					</ul>
-				</div>
-			</nav>
+					{% endfor %}
+				</select>
+			</div>
 
+			<!-- Hidden Input -->
+			<input type="hidden" id="extra-info-1" value="{{ selected_date|date:'Y-m-d' }}">
+		</div>
+		<div class="row justify-content-center mb-4">
+			<div class="col-md-4">
+				<button name="submit" value="class-info" class="btn btn-primary btn-lg btn-block" type="submit">Continue</button>
+			</div>
+		</div>
+	</form>
+	{% else %}
+	<div class="row justify-content-center">
+		<div class="col-md-8 mt-5">
+			<p class="text-center">You are not yet authorised to view any information on this site.<br> Kindly contact <a href="mailto:2018196@iiitdmj.ac.in">admin</a>.</p>
+		</div>
+	</div>
+	{% endif %}
 
-			<!-- DASHBOARD -->
-
-			<div class="dash-main col-md-8 col-lg-9 mt-3">
-				<a href="" onclick="show_dash_main()" class="d-inline-block mb-2 mb-md-0">&#x27f3; Refresh Dashboard</a>
-				<h3 class="text-center mb-3">Dashboard</h3>
-				{% if user.auth is True %}
-				<form method="POST">
-					{% csrf_token %}
-					<div class="row justify-content-center">
-						<div class="col-md-4 mb-3">
-							<label for="class-date">Date</label>
-							<!-- <input type="text" class="form-control" id="firstName" placeholder="" value="" required> -->
-							<input name="class-info-date" data-date-format="yyyy-mm-dd" id="class-date" class="form-control" required>
-						</div>
-						<div class="col-md-4 mb-3">
-							<label for="class-section">Section</label>
-							<select name="class-info-section" class="custom-select d-block w-100" id="class-section" required>
-								{% for sec, display in choices %}
-									{% if sec == selected_schedule %}
-									<option value="{{sec}}" selected>{{display}}</option>
-									{% else %}
-									<option value="{{sec}}">{{display}}</option>
-									{% endif %}
-								{% endfor %}
-							</select>
-						</div>
-					</div>
-					<div class="row justify-content-center mb-4">
-						<div class="col-md-4">
-							<button name="submit" value="class-info" class="btn btn-primary btn-lg btn-block" type="submit">Continue</button>
-						</div>
-					</div>
-				</form>
+	{% if not class_info_submitted %}
+		{% if no_class_found %}
+		<p class="text-center mt-4">The chosen day is not yet updated in the Calendar.</p>
+		{% elif no_class_scheduled %}
+		<p class="text-center mt-4">No class was scheduled on the chosen day.</p>
+		<p class="text-center">{{calendar.remark}}</p>
+		{% elif no_schedule_found %}
+		<p class="text-center mt-4">The chosen section is not taught on the chosen date.</p>
+		{% else %}
+		<div class="row justify-content-center mt-4 mx-0">
+			<div class="col-md-9 col-lg-5 mr-lg-5 mb-3 border rounded">
+				<h4 class="text-center mt-2">ClassWork</h4>
+				<hr>
+				{% if cw_hw.cw %}
+				<p><pre style="overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;">{{cw_hw.cw}}</pre></p>
 				{% else %}
-				<div class="row justify-content-center">
-					<div class="col-md-8 mt-5">
-						<p class="text-center">You are not yet authorised to view any information on this site.<br> Kindly contact <a href="mailto:2018196@iiitdmj.ac.in">admin</a>.</p>
-					</div>
-				</div>
-				{% endif %}
-
-				{% if not class_info_submitted %}
-					{% if no_class_found %}
-					<p class="text-center mt-4">The chosen day is not yet updated in the Calendar.</p>
-					{% elif no_class_scheduled %}
-					<p class="text-center mt-4">No class was scheduled on the chosen day.</p>
-					<p class="text-center">{{calendar.remark}}</p>
-					{% elif no_schedule_found %}
-					<p class="text-center mt-4">The chosen section is not taught on the chosen date.</p>
-					{% else %}
-					<div class="row justify-content-center mt-4 mx-0">
-						<div class="col-md-9 col-lg-5 mr-lg-5 mb-3 border rounded">
-							<h4 class="text-center mt-2">ClassWork</h4>
-							<hr>
-							{% if cw_hw.cw %}
-							<p><pre style="overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;">{{cw_hw.cw}}</pre></p>
-							{% else %}
-							<p><pre>Not yet updated!</pre></p>
-							{% endif %}
-						</div>
-						<div class="col-md-9 col-lg-5 mb-3 border rounded">
-							<h4 class="text-center mt-2">HomeWork</h4>
-							<hr>
-							{% if cw_hw.hw %}
-							<p><pre style="overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;">{{cw_hw.hw}}</pre></p>
-							{% else %}
-							<p><pre>Not yet updated!</pre></p>
-							{% endif %}
-						</div>
-						{% if cw_hw.comment %}
-						<div class="col-md-9 col-lg-5 mb-3 border rounded">
-							<h4 class="text-center mt-2">Comments</h4>
-							<hr>
-							<p><pre style="overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;">{{cw_hw.comment}}</pre></p>
-						</div>
-						{% endif %}
-					</div>
-
-
-					<div class="text-center mt-3">
-						<button type="button" class="btn btn-outline-primary" onclick="show_dash_cwhw()"> Update CW-HW </button>
-					</div>
-					
-					<div class="row justify-content-center mt-3 px-3" style="background-color: #f7f7f7;">
-						<div class="dash-cwhw d-none col-12">
-							<form method="POST">
-								{% csrf_token %}
-								<p class="text-center text-danger mt-1">{{cwhw_error}}</p>
-								<input type="hidden" name="date" value="{{ selected_date|date:'Y-m-d' }}">
-								<input type="hidden" name="section" value="{{ selected_schedule }}">
-								<div class="row justify-content-center mb-2">
-									<div class="col-md-9 col-lg-5 px-0 mr-lg-5 mb-3">
-										<textarea name="cw" class="form-control" rows="6" placeholder="Class Work goes here..."></textarea>
-									</div>
-									<div class="col-md-9 col-lg-5 px-0 mb-3">
-										<textarea name="hw" class="form-control" rows="6" placeholder="Home Work goes here..."></textarea>
-									</div>
-									<div class="col-md-9 col-lg-5 px-0 mb-3">
-										<textarea name="comment" class="form-control" rows="6" placeholder="Comments goes here..."></textarea>
-									</div>
-								</div>
-								<div class="row justify-content-center mb-4">
-									<div class="col-md-4">
-										<button name="submit" value="update-cwhw" class="btn btn-primary btn-lg btn-block" type="submit">Update</button>
-									</div>
-								</div>
-							</form>
-						</div>
-					</div>
-
-					<div class="row justify-content-center my-4 mx-0">
-						<div class="col-md-9 border rounded">
-							<h4 class="text-center mt-3">Students Present</h4>
-							<hr>
-							<p>
-								{% if students_attended.count %}
-								<p class="mb-1">
-									<span class="font-weight-bolder">Total Students Present:</span> {{ students_attended.count }}
-								</p>
-								<p>
-									{% if stu_att_village.stu_att_g %}
-									<span class="font-weight-bolder">Gadheri:</span> {{ stu_att_village.stu_att_g }} &nbsp;&nbsp;
-									{% endif %}
-									{% if stu_att_village.stu_att_ms %}
-									<span class="font-weight-bolder">Mehgawan Side:</span> {{ stu_att_village.stu_att_ms }}
-									{% endif %}
-
-									{% comment %}
-										{% if stu_att_village.stu_att_m %}
-										<span class="font-weight-bolder">Mehgawan:</span> {{ stu_att_village.stu_att_m }} &nbsp;&nbsp;
-										{% endif %}
-										{% if stu_att_village.stu_att_a %}
-										<span class="font-weight-bolder">Amanala:</span> {{ stu_att_village.stu_att_a }} &nbsp;&nbsp;
-										{% endif %}
-										{% if stu_att_village.stu_att_c %}
-										<span class="font-weight-bolder">Chanditola:</span> {{ stu_att_village.stu_att_c }} &nbsp;&nbsp;
-										{% endif %}
-										{% if stu_att_village.stu_att_s %}
-										<span class="font-weight-bolder">Suarkol:</span> {{ stu_att_village.stu_att_s }}
-										{% endif %}
-									{% endcomment %}
-								</p>
-								<input type="text" id="filter-students-dash" class="form-control mb-3 mx-auto" onkeyup="filterStudentsOnDash()" placeholder="Search for names..">
-								<table class="table table-hover" id="stu-att-table-dash">
-									<thead>
-										<tr class="text-center">
-											<th>Name</th>
-											<th>Class</th>
-										</tr class="text-center">
-									</thead>
-									<tbody>
-										{% for stu_att in students_attended %}
-										<tr class="text-center">
-											<td class="text-monospace font-weight-lighter">{{stu_att.sid.first_name}} {{stu_att.sid.last_name}}</td>
-
-											{% if stu_att.sid.school_class == 13 %}
-												<td class="text-monospace font-weight-lighter">JNV_4</td>
-											{% elif stu_att.sid.school_class == 14 %}
-												<td class="text-monospace font-weight-lighter">JNV_5</td>
-											{% else %}
-												<td class="text-monospace font-weight-lighter">{{stu_att.sid.school_class}}</td>
-											{% endif %}
-											
-										</tr>
-										{% endfor %}
-									</tbody>
-								</table>
-								{% else %}
-									<pre>{{students_attended}}</pre>
-								{% endif %}
-							</p>
-						</div>
-					</div>
-
-					{% if not volunteer.desig == 'v' %}
-					<div class="row justify-content-center my-4 mx-0">
-						<div class="col-md-9 border rounded">
-							<h4 class="text-center mt-3">Volunteers Present</h4>
-							<hr>
-							{% if vol_volunteered.count %}
-							<input type="text" id="filter-volunteers-dash" class="form-control mb-3 mx-auto" onkeyup="filterVolunteersOnDash()" placeholder="Search for roll no..">
-							<table class="table table-hover" id="vol-att-table-dash">
-								<thead>
-									<tr class="text-center">
-										<th>Roll No.</th>
-										<th>Name</th>
-									</tr>
-								</thead>
-								<tbody>
-									{% for vol_att in vol_volunteered %}
-									<tr class="text-center">
-										<td class="text-monospace font-weight-lighter">{{vol_att.roll_no.roll_no}}</td>
-										<td class="text-monospace font-weight-lighter">{{vol_att.roll_no.first_name}} {{vol_att.roll_no.last_name}} {% if vol_att.extra %}(E){% endif %}</td>
-									</tr>
-									{% endfor %}
-								</tbody>
-							</table>
-							{% else %}
-								<pre>{{vol_volunteered}}</pre>
-							{% endif %}
-						</div>
-					</div>
-					{% endif %}
-
-					{% endif %}
+				<p><pre>Not yet updated!</pre></p>
 				{% endif %}
 			</div>
-
-			<!-- UPDATE PROFILE -->
-
-			<div class="dash-update d-none col-md-8 col-lg-9 mt-3">
-				<a href="" onclick="show_dash_main()" class="d-inline-block mb-2 mb-md-0">&larr; Back to Dashboard</a>
-				<h3 class="text-center">Update Profile</h3>
-				<p class="text-center text-danger mb-1 mt-3">{{update_error}}</p>
-				<div class="row justify-content-center">
-					<div class="col-lg-8">
-						<form method="POST">
-							{% csrf_token %}
-							<div class="row">
-								<div class="col-md-6 mb-3">
-									<label for="rollNo">Roll No.</label>
-									<input name="roll_no" type="number" class="form-control" id="rollNo" placeholder="{{volunteer.roll_no}}" value="">
-								</div>
-							</div>
-			
-							<div class="row">
-								<div class="col-md-6 mb-3">
-									<label for="firstName">First name</label>
-									<input name="first_name" type="text" class="form-control" id="firstName" placeholder="{{volunteer.first_name}}" value="">
-								</div>
-								<div class="col-md-6 mb-3">
-									<label for="lastName">Last name</label>
-									<input name="last_name" type="text" class="form-control" id="lastName" placeholder="{{volunteer.last_name}}" value="">
-								</div>
-							</div>
-			
-							<div class="row">
-								<div class="col-md-4 mb-3">
-									<label for="gender">Gender</label>
-									<select name="gender" class="custom-select d-block w-100" id="gender">
-										<option value="M" {% if volunteer.gender == "M" %} selected {% endif %} >Male</option>
-										<option value="F" {% if volunteer.gender == "F" %} selected {% endif %} >Female</option>
-										<option value="O" {% if volunteer.gender == "O" %} selected {% endif %} >Other</option>
-									</select>
-								</div>
-								<div class="col-md-4 mb-3">
-									<label for="batch">Batch</label>
-									<select name="batch" class="custom-select d-block w-100" id="batch">
-										{% for i in '43210'|make_list %}
-											{% if volunteer.batch == last_4_year|add:i %}
-											<option value="{{last_4_year|add:i}}" selected>{{last_4_year|add:i}}</option>
-											{% else %}
-											<option value="{{last_4_year|add:i}}">{{last_4_year|add:i}}</option>
-											{% endif %}
-										{% endfor %}
-									</select>
-								</div>
-								<div class="col-md-4 mb-3">
-									<label for="programme">Programme</label>
-									<select name="programme" class="custom-select d-block w-100" id="programme">
-										<option value="bt" {% if volunteer.programme == "bt" %} selected {% endif %} >B.Tech</option>
-										<option value="mt" {% if volunteer.programme == "mt" %} selected {% endif %} >M.Tech</option>
-										<option value="phd" {% if volunteer.programme == "phd" %} selected {% endif %} >phD</option>
-										<option value="bd" {% if volunteer.programme == "bd" %} selected {% endif %} >B.Des</option>
-										<option value="md" {% if volunteer.programme == "md" %} selected {% endif %} >M.Des</option>
-									</select>
-								</div>
-							</div>
-			
-							<div class="row">
-								<div class="col-md-4 mb-3">
-									<label for="dob">Date of Birth</label>
-									<input name="dob" data-date-format="yyyy-mm-dd" id="dob" class="form-control">
-								</div>
-								<div class="col-md-8 mb-3">
-									<label for="contactNo">Contact No.</label>
-									<input name="contact_no" type="number" class="form-control" id="contactNo" placeholder="{{volunteer.contact_no}}" value="">
-								</div>
-							</div>
-						
-							<div class="mb-3">
-								<label for="altemail">Alternate Email <span class="text-muted">(Optional)</span></label>
-								<input name="alt_email" type="email" class="form-control" id="altemail" placeholder="{{volunteer.alt_email}}">
-							</div>
-						
-							<div class="mb-3">
-								<label for="address">Address</label>
-								<input name="street_address1" type="text" class="form-control" id="address" placeholder="{{volunteer.street_address1}}">
-							</div>
-						
-							<div class="mb-3">
-								<label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
-								<input name="street_address2" type="text" class="form-control" id="address2" placeholder="{{volunteer.street_address2}}">
-							</div>
-						
-							<div class="row">
-								<div class="col-md-5 mb-3">
-								<label for="city">City</label>
-								<input name="city" type="text" class="form-control" id="city" placeholder="{{volunteer.city}}" value="">
-								</div>
-								<div class="col-md-4 mb-3">
-								<label for="state">State</label>
-								<input name="state" type="text" class="form-control" id="state" placeholder="{{volunteer.state}}" value="">
-								</div>
-								<div class="col-md-3 mb-3">
-								<label for="pinCode">PIN Code</label>
-								<input name="pincode" type="number" class="form-control" id="pinCode" placeholder="{{volunteer.pincode}}">
-								</div>
-							</div>
-							<hr class="mb-4">
-							<div class="row justify-content-center mb-4">
-								<div class="col-md-6">
-									<button name="submit" value="update-profile" class="btn btn-primary btn-lg btn-block" type="submit">Update</button>
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
+			<div class="col-md-9 col-lg-5 mb-3 border rounded">
+				<h4 class="text-center mt-2">HomeWork</h4>
+				<hr>
+				{% if cw_hw.hw %}
+				<p><pre style="overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;">{{cw_hw.hw}}</pre></p>
+				{% else %}
+				<p><pre>Not yet updated!</pre></p>
+				{% endif %}
 			</div>
-
-
-			<!-- UPDATE SCHEDULE -->
-
-			<div class="dash-schedule d-none col-md-8 col-lg-9 mt-3">
-				<a href="" onclick="show_dash_main()" class="d-inline-block mb-2 mb-md-0">&larr; Back to Dashboard</a>
-				<h3 class="text-center">Update Schedule</h3>
-				<p class="text-center text-danger mb-3 mt-3">{{sch_error}}</p>
-				<form method="POST">
-					{% csrf_token %}
-					<div class="row justify-content-center">
-						<div class="col-md-4 mb-3">
-							<label for="sch-day">Day</label>
-							<select name="day" class="custom-select d-block w-100" id="sch-day">
-								<option value="">Select Day</option>
-								{% for j,i in day %}
-								<option value="{{j}}">{{i}}</option>
-								{% endfor %}
-							</select>
-						</div>
-						<div class="col-md-4 mb-3">
-							<label for="sch-section">Section</label>
-							<select name="section" class="custom-select d-block w-100" id="sch-section" required>
-									{% comment %}
-										{% for j,i in section %}
-										<option value="{{j}}">{{i}}</option>
-										{% endfor %}
-									{% endcomment %}
-							</select>
-						</div>
-					</div>
-					<div class="row justify-content-center mb-4">
-						<div class="col-md-6 col-lg-4 col-xl-3">
-							<button name="submit" value="update-schedule" class="btn btn-primary btn-lg btn-block" type="submit">Request Update</button>
-						</div>
-					</div>
-					<!-- <div class="row justify-content-center mb-4">
-						<div class="col-md-4">
-							<a data-toggle="modal" href="#sch-modal" class="text-center d-block">Display Schedule</a>
-						</div>
-					</div> -->
-					<div class="row justify-content-center my-4 mx-0">
-						<div class="col-md-9 border rounded">
-							<h4 class="text-center mt-3">Previous Requests</h4>
-							<hr>
-							<p>
-								{% if update_req.count %}
-									<table class="table table-hover">
-										<thead>
-											<tr class="text-center">
-												<th>From</th>
-												<th>To</th>
-												<th>Status</th>
-											</tr class="text-center">
-										</thead>
-										<tbody>
-											{% for req in update_req %}
-											<tr class="text-center">
-												{% if req.previous_schedule is None %}
-													<td class="text-monospace font-weight-lighter">NA</td>
-												{% else %}
-													<td class="text-monospace font-weight-lighter">{{req.previous_schedule}}</td>
-												{% endif %}
-
-												<td class="text-monospace font-weight-lighter">{{req.updated_schedule}}</td>
-
-												{% if req.approved is True %}
-													<td class="text-monospace font-weight-lighter">Approved</td>
-												{% elif req.declined is True %}
-													<td class="text-monospace font-weight-lighter">Declined</td>
-												{% elif req.by_admin is True %}
-													<td class="text-monospace font-weight-lighter">By Admin</td>
-												{% elif req.cancelled is True %}
-													<td class="text-monospace font-weight-lighter">Cancelled</td>
-												{% else %}
-													<td class="text-monospace font-weight-lighter">Pending</td>
-												{% endif %}
-											</tr>
-											{% endfor %}
-										</tbody>
-									</table>
-								{% else %}
-									<pre>No requests made yet!</pre>
-								{% endif %}
-							</p>
-						</div>
-					</div>
-				</form>
-				<form method="POST">
-					{% csrf_token %}
-					<div class="row justify-content-center mb-4">
-						<div class="col-md-6 col-lg-4 col-xl-3">
-							{% if last_update_req.count %}
-								<button name="submit" value="cancel-last-req" class="btn btn-primary btn-lg btn-block" type="submit">Cancel Last Request</button>
-							{% else %}
-								<button name="submit" value="cancel-last-req" class="btn btn-primary btn-lg btn-block" type="submit" disabled>Cancel Last Request</button>
-							{% endif %}
-						</div>
-					</div>
-				</form>
+			{% if cw_hw.comment %}
+			<div class="col-md-9 col-lg-5 mb-3 border rounded">
+				<h4 class="text-center mt-2">Comments</h4>
+				<hr>
+				<p><pre style="overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;">{{cw_hw.comment}}</pre></p>
 			</div>
+			{% endif %}
+		</div>
 
 
-			<!-- UPDATE CW-HW -->
-			
-			{% comment %}
-
-			<div class="dash-cwhw d-none col-md-8 col-lg-9 mt-3">
-				<a href="" onclick="show_dash_main()" class="d-inline-block mb-2 mb-md-0">&larr; Back to Dashboard</a>
-				<h3 class="text-center">Update ClassWork-HomeWork</h3>
+		<div class="text-center mt-3">
+			<button type="button" class="btn btn-outline-primary" onclick="show_dash_cwhw()"> Update CW-HW </button>
+		</div>
+		
+		<div class="row justify-content-center mt-3 px-3" style="background-color: #f7f7f7;">
+			<div class="dash-cwhw d-none col-12">
 				<form method="POST">
 					{% csrf_token %}
-					<div class="row">
-						<div class="col-md-3 offset-md-1 mb-3">
-							<label for="cwhw-date">Date</label>
-							<input name="date" data-date-format="yyyy-mm-dd" id="cwhw-date" class="form-control">
-						</div>
-						<div class="col-md-2 mb-3 pl-0 align-self-end">
-							<button name="submit" value="cwhw-date" class="btn btn-primary" type="submit">Continue</button>
-						</div>
-						<input type="hidden" name="selected-date" id="extra-info-2" value="{{ cwhw_selected_date|date:'Y-m-d' }}">
-						{% if cwhw_section %}
-						<div class="col-md-3 offset-md-1 mb-3">
-							<label for="cwhw-section">Section</label>
-							<select name="section" class="custom-select d-block w-100 disabled" id="cwhw-section">
-								{% for i in cwhw_section %}
-									<option value="{{i.section}}">{{i.get_section_display}}</option>
-								{% endfor %}
-							</select>
-						</div>
-						{% endif %}
-					</div>
 					<p class="text-center text-danger mt-1">{{cwhw_error}}</p>
-					{% if cwhw_section %}
-					<div class="row justify-content-center my-4">
-						<div class="col-md-6 col-lg-5 px-0 mr-5 mb-3">
-							<h4 class="text-center">ClassWork</h4>
-							<hr>
-							<textarea name="cw" class="form-control" rows="6"></textarea>
+					<input type="hidden" name="date" value="{{ selected_date|date:'Y-m-d' }}">
+					<input type="hidden" name="section" value="{{ selected_schedule }}">
+					<div class="row justify-content-center mb-2">
+						<div class="col-md-9 col-lg-5 px-0 mr-lg-5 mb-3">
+							<textarea name="cw" class="form-control" rows="6" placeholder="Class Work goes here..."></textarea>
 						</div>
-						<div class="col-md-6 col-lg-5 px-0 mr-5 mb-3">
-							<h4 class="text-center">HomeWork</h4>
-							<hr>
-							<textarea name="hw" class="form-control" rows="6"></textarea>
+						<div class="col-md-9 col-lg-5 px-0 mb-3">
+							<textarea name="hw" class="form-control" rows="6" placeholder="Home Work goes here..."></textarea>
+						</div>
+						<div class="col-md-9 col-lg-5 px-0 mb-3">
+							<textarea name="comment" class="form-control" rows="6" placeholder="Comments goes here..."></textarea>
 						</div>
 					</div>
 					<div class="row justify-content-center mb-4">
@@ -653,368 +113,528 @@
 							<button name="submit" value="update-cwhw" class="btn btn-primary btn-lg btn-block" type="submit">Update</button>
 						</div>
 					</div>
-					{% endif %}
 				</form>
 			</div>
+		</div>
 
-			{% endcomment %}
+		<div class="row justify-content-center my-4 mx-0">
+			<div class="col-md-9 border rounded">
+				<h4 class="text-center mt-3">Students Present</h4>
+				<hr>
+				<p>
+					{% if students_attended.count %}
+					<p class="mb-1">
+						<span class="font-weight-bolder">Total Students Present:</span> {{ students_attended.count }}
+					</p>
+					<p>
+						{% if stu_att_village.stu_att_g %}
+						<span class="font-weight-bolder">Gadheri:</span> {{ stu_att_village.stu_att_g }} &nbsp;&nbsp;
+						{% endif %}
+						{% if stu_att_village.stu_att_ms %}
+						<span class="font-weight-bolder">Mehgawan Side:</span> {{ stu_att_village.stu_att_ms }}
+						{% endif %}
 
+						{% comment %}
+							{% if stu_att_village.stu_att_m %}
+							<span class="font-weight-bolder">Mehgawan:</span> {{ stu_att_village.stu_att_m }} &nbsp;&nbsp;
+							{% endif %}
+							{% if stu_att_village.stu_att_a %}
+							<span class="font-weight-bolder">Amanala:</span> {{ stu_att_village.stu_att_a }} &nbsp;&nbsp;
+							{% endif %}
+							{% if stu_att_village.stu_att_c %}
+							<span class="font-weight-bolder">Chanditola:</span> {{ stu_att_village.stu_att_c }} &nbsp;&nbsp;
+							{% endif %}
+							{% if stu_att_village.stu_att_s %}
+							<span class="font-weight-bolder">Suarkol:</span> {{ stu_att_village.stu_att_s }}
+							{% endif %}
+						{% endcomment %}
+					</p>
+					<input type="text" id="filter-students-dash" class="form-control mb-3 mx-auto" onkeyup="filterStudentsOnDash()" placeholder="Search for names..">
+					<table class="table table-hover" id="stu-att-table-dash">
+						<thead>
+							<tr class="text-center">
+								<th>Name</th>
+								<th>Class</th>
+							</tr class="text-center">
+						</thead>
+						<tbody>
+							{% for stu_att in students_attended %}
+							<tr class="text-center">
+								<td class="text-monospace font-weight-lighter">{{stu_att.sid.first_name}} {{stu_att.sid.last_name}}</td>
 
-			{% if not volunteer.desig == 'v' %}
-			<!-- List of Volunteers -->
+								{% if stu_att.sid.school_class == 13 %}
+									<td class="text-monospace font-weight-lighter">JNV_4</td>
+								{% elif stu_att.sid.school_class == 14 %}
+									<td class="text-monospace font-weight-lighter">JNV_5</td>
+								{% else %}
+									<td class="text-monospace font-weight-lighter">{{stu_att.sid.school_class}}</td>
+								{% endif %}
+								
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+					{% else %}
+						<pre>{{students_attended}}</pre>
+					{% endif %}
+				</p>
+			</div>
+		</div>
 
-			<div class="dash-vol-list d-none col-md-8 col-lg-9 mt-3">
-				<a href="" onclick="show_dash_main()" class="d-inline-block mb-2 mb-md-0">&larr; Back to Dashboard</a>
-				<h3 class="text-center">Volunteers Schedule</h3>
-				<div class="row justify-content-center">
-					<div class="col-md-4 my-3">
-						<select name="day" class="custom-select d-block w-100" id="vol-list-day">
-							<option value="">Select Day</option>
-							{% for j,i in day %}
-							<option value="{{j}}">{{i}}</option>
+		{% if not volunteer.desig == 'v' %}
+		<div class="row justify-content-center my-4 mx-0">
+			<div class="col-md-9 border rounded">
+				<h4 class="text-center mt-3">Volunteers Present</h4>
+				<hr>
+				{% if vol_volunteered.count %}
+				<input type="text" id="filter-volunteers-dash" class="form-control mb-3 mx-auto" onkeyup="filterVolunteersOnDash()" placeholder="Search for roll no..">
+				<table class="table table-hover" id="vol-att-table-dash">
+					<thead>
+						<tr class="text-center">
+							<th>Roll No.</th>
+							<th>Name</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for vol_att in vol_volunteered %}
+						<tr class="text-center">
+							<td class="text-monospace font-weight-lighter">{{vol_att.roll_no.roll_no}}</td>
+							<td class="text-monospace font-weight-lighter">{{vol_att.roll_no.first_name}} {{vol_att.roll_no.last_name}} {% if vol_att.extra %}(E){% endif %}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				{% else %}
+					<pre>{{vol_volunteered}}</pre>
+				{% endif %}
+			</div>
+		</div>
+		{% endif %}
+
+		{% endif %}
+	{% endif %}
+</div>
+
+<!-- UPDATE PROFILE -->
+
+<div class="dash-update d-none col-md-8 col-lg-9 mt-3">
+	<a href="" onclick="show_dash_main()" class="d-inline-block mb-2 mb-md-0">&larr; Back to Dashboard</a>
+	<h3 class="text-center">Update Profile</h3>
+	<p class="text-center text-danger mb-1 mt-3">{{update_error}}</p>
+	<div class="row justify-content-center">
+		<div class="col-lg-8">
+			<form method="POST">
+				{% csrf_token %}
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<label for="rollNo">Roll No.</label>
+						<input name="roll_no" type="number" class="form-control" id="rollNo" placeholder="{{volunteer.roll_no}}" value="">
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<label for="firstName">First name</label>
+						<input name="first_name" type="text" class="form-control" id="firstName" placeholder="{{volunteer.first_name}}" value="">
+					</div>
+					<div class="col-md-6 mb-3">
+						<label for="lastName">Last name</label>
+						<input name="last_name" type="text" class="form-control" id="lastName" placeholder="{{volunteer.last_name}}" value="">
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						<label for="gender">Gender</label>
+						<select name="gender" class="custom-select d-block w-100" id="gender">
+							<option value="M" {% if volunteer.gender == "M" %} selected {% endif %} >Male</option>
+							<option value="F" {% if volunteer.gender == "F" %} selected {% endif %} >Female</option>
+							<option value="O" {% if volunteer.gender == "O" %} selected {% endif %} >Other</option>
+						</select>
+					</div>
+					<div class="col-md-4 mb-3">
+						<label for="batch">Batch</label>
+						<select name="batch" class="custom-select d-block w-100" id="batch">
+							{% for i in '43210'|make_list %}
+								{% if volunteer.batch == last_4_year|add:i %}
+								<option value="{{last_4_year|add:i}}" selected>{{last_4_year|add:i}}</option>
+								{% else %}
+								<option value="{{last_4_year|add:i}}">{{last_4_year|add:i}}</option>
+								{% endif %}
 							{% endfor %}
 						</select>
 					</div>
-				</div>
-				
-				<div class="row justify-content-center d-none my-4 mx-0" id="reg-vol">
-					<div class="col-md-9 border rounded">
-						<h4 class="text-center mt-3">Registered Volunteers</h4>
-						<hr>
-						<table class="table table-hover" id="vol-list-table"></table>
+					<div class="col-md-4 mb-3">
+						<label for="programme">Programme</label>
+						<select name="programme" class="custom-select d-block w-100" id="programme">
+							<option value="bt" {% if volunteer.programme == "bt" %} selected {% endif %} >B.Tech</option>
+							<option value="mt" {% if volunteer.programme == "mt" %} selected {% endif %} >M.Tech</option>
+							<option value="phd" {% if volunteer.programme == "phd" %} selected {% endif %} >phD</option>
+							<option value="bd" {% if volunteer.programme == "bd" %} selected {% endif %} >B.Des</option>
+							<option value="md" {% if volunteer.programme == "md" %} selected {% endif %} >M.Des</option>
+						</select>
 					</div>
 				</div>
-			</div>
 
-			<!-- Volunteer Attendence -->
-
-			<div class="dash-vol-att d-none col-md-8 col-lg-9 mt-3">
-				<a href="" onclick="show_dash_main()" class="d-inline-block mb-2 mb-md-0">&larr; Back to Dashboard</a>
-				<h3 class="text-center">Volunteers Attendence</h3>
-				<p class="text-center mt-3"><span class="font-weight-bold">Date: </span>{{today_date}}</p>
-
-				{% comment %}
-				{% if today_vol_att.count %}
-				<p class="text-center text-danger mb-3">Today's Volunteer attendence already submitted! Contact admin in case of discripencies.</p>
-				<div class="row justify-content-center mt-4">
-					<div class="col-md-8 border rounded">
-						<h5 class="text-center mt-3">Volunteers Present Today</h5>
-						<hr>
-						<p>
-							{% for vol_att in today_vol_att %}
-								<span class="text-monospace font-weight-lighter">{{vol_att.roll_no.first_name}} {{vol_att.roll_no.last_name}}</span>
-								<br>
-							{% endfor %}
-						</p>
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						<label for="dob">Date of Birth</label>
+						<input name="dob" data-date-format="yyyy-mm-dd" id="dob" class="form-control">
+					</div>
+					<div class="col-md-8 mb-3">
+						<label for="contactNo">Contact No.</label>
+						<input name="contact_no" type="number" class="form-control" id="contactNo" placeholder="{{volunteer.contact_no}}" value="">
 					</div>
 				</div>
-				{% endcomment %}
-
-				{% if no_class_today %}
-				<p class="text-center text-danger mb-3">No class is scheduled for today.</p>
-				{% else %}
-				<form method="POST">
-					{% csrf_token %}
-					<div class="row justify-content-center mt-5">
-						<div class="col-sm-6 mb-2 text-center">
-							<input type="text" id="filter-volunteers" class="form-control mb-3 mx-auto" onkeyup="filterVolunteers()" placeholder="Search roll no..">
-							<table class="table" id="vol-att-table">
-								<thead>
-									<tr>
-										<th>Roll No.</th>
-										<th>Name</th>
-										<th>Mark Present</th>
-									</tr>
-								</thead>
-								<tbody>
-									{% for vol in today_volun %}
-									<tr>
-										<td>{{ vol.roll_no.roll_no }}</td>
-										<td>{{vol.roll_no.first_name}} {{vol.roll_no.last_name}}</td>
-
-										<td>
-											<div class="custom-control custom-switch">
-												{% if vol.present %}
-												<input type="checkbox" name="volunteered" value="{{vol.roll_no.id}}" class="custom-control-input" id="v{{vol.id}}" checked>
-												{% else %}
-												<input type="checkbox" name="volunteered" value="{{vol.roll_no.id}}" class="custom-control-input" id="v{{vol.id}}">
-												{% endif %}
-												<label class="custom-control-label" for="v{{vol.id}}"></label>
-											</div>
-										</td>
-									</tr>
-									{% endfor %}
-								</tbody>
-							</table>
-						</div>
-					</div>
-					<div class="row justify-content-center" id="add-vol">
-
-					</div>
-					<div class="row justify-content-center mb-4">
-						<div class="col-5 col-sm-4 col-md-3 col-lg-2">
-							<button type="button" class="btn btn-primary btn-block" onclick="add_vol()">Add More</button>
-						</div>
-					</div>
-					<div class="row justify-content-center mb-4">
-						<div class="col-md-4">
-							<button name="submit" value="vol-att" class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
-						</div>
-					</div>
-				</form>
-				{% endif %}
-			</div>
-
-
-			<!-- Student Attendence -->
-
-			<div class="dash-stu-att d-none col-md-8 col-lg-9 mt-3">
-				<a href="" onclick="show_dash_main()" class="d-inline-block mb-2 mb-md-0">&larr; Back to Dashboard</a>
-				<h3 class="text-center">Students Attendence</h3>
-				<p class="text-center mt-3"><span class="font-weight-bold">Date: </span>{{today_date}}</p>
-
-				{% comment %}
-				{% if today_stu_att.count %}
-				{% endcomment %}
-
-				{% if no_class_today %}
-				<!-- <p class="text-center text-danger mb-3">Today's Student attendence already submitted! Contact admin in case of discripencies.</p> -->
-				<p class="text-center text-danger mb-3">No class is scheduled for today.</p>
-				{% comment %}
-				<div class="row justify-content-center mt-4">
-					<div class="col-md-8 border rounded">
-						<h5 class="text-center mt-3">Students Present Today</h5>
-						<hr>
-						<p>
-							{% for stu_att in today_stu_att %}
-								<span class="text-monospace font-weight-lighter">{{stu_att.sid.first_name}} {{stu_att.sid.last_name}}</span>
-								<br>
-							{% endfor %}
-						</p>
-					</div>
-				</div>
-				{% endcomment %}
-				
-				{% else %}
-				<form method="POST">
-					{% csrf_token %}
-					<div class="row justify-content-center mt-5">
-						<div class="col-sm-6 mb-2 text-center">
-							<div class="row justify-content-center">
-								<div class="col mb-4">
-									<select name="selected_class" class="custom-select d-block w-100" id="stu-att-class">
-										<!-- <option value="all">Select Class</option> -->
-										<option value="1-3" selected>Class 1-3</option>
-										<option value="4-5">Class 4-5</option>
-										<option value="1-5">Class 1-5</option>
-										<option value="6-8">Class 6-8</option>
-										<option value="1-8">Class 1-8</option>
-										<option value="9-10">Class 9-10</option>
-										<option value="13-14">Navodaya Wing</option>
-									</select>
-								</div>
-							</div>
-							<input type="text" id="filter-students" class="form-control mb-3 mx-auto" onkeyup="filterStudents()" placeholder="Search for names..">
-							<table class="table" id="stu-att-table">
-								<thead>
-									<tr>
-										<th>Student Name</th>
-										<th>Class</th>
-										<th>Mark Present</th>
-									</tr>
-								</thead>
-								<tbody>
-									{% for stu in today_stu %}
-									<tr>
-										<td>{{stu.sid.first_name}} {{stu.sid.last_name}}</td>
-
-										{% if stu.sid.school_class == 13 %}
-											<td>JNV_4</td>
-										{% elif stu.sid.school_class == 14 %}
-											<td>JNV_5</td>
-										{% else %}
-											<td>{{stu.sid.school_class}}</td>
-										{% endif %}
-
-										<td>
-											<div class="custom-control custom-switch">
-												{% if stu.present %}
-												<input type="checkbox" name="attended" value="{{stu.sid.id}}" class="custom-control-input" id="s{{stu.id}}" checked>
-												{% else %}
-												<input type="checkbox" name="attended" value="{{stu.sid.id}}" class="custom-control-input" id="s{{stu.id}}">
-												{% endif %}
-												<label class="custom-control-label" for="s{{stu.id}}"></label>
-											</div>
-										</td>
-									</tr>
-									{% endfor %}
-								</tbody>
-							</table>
-						</div>
-					</div>
-					<!-- <p class="text-center text-danger mt-1">{{cwhw_error}}</p> -->
-					<div class="row justify-content-center mb-4">
-						<div class="col-md-4">
-							<button name="submit" value="stu-att" class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
-						</div>
-					</div>
-				</form>
-				{% endif %}
-			</div>
-			{% endif %}
-
-		</div>
-
-		<!-- Toast -->
-		{% for message in messages %}
-		<div class="row justify-content-center">
-			<div style="position: fixed; bottom: 64px; left: 10px;">
-				<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000">
-					<div class="toast-header">
-						<strong class="mr-auto">{{message}}</strong>
-						<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		{% endfor %}
-
-		<!-- Schedule Modal -->
-		{% comment %}
-		<div class="modal" id="sch-modal">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
 			
-					<div class="modal-header">
-						<h4 class="modal-title">Schedule</h4>
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<div class="mb-3">
+					<label for="altemail">Alternate Email <span class="text-muted">(Optional)</span></label>
+					<input name="alt_email" type="email" class="form-control" id="altemail" placeholder="{{volunteer.alt_email}}">
+				</div>
+			
+				<div class="mb-3">
+					<label for="address">Address</label>
+					<input name="street_address1" type="text" class="form-control" id="address" placeholder="{{volunteer.street_address1}}">
+				</div>
+			
+				<div class="mb-3">
+					<label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
+					<input name="street_address2" type="text" class="form-control" id="address2" placeholder="{{volunteer.street_address2}}">
+				</div>
+			
+				<div class="row">
+					<div class="col-md-5 mb-3">
+					<label for="city">City</label>
+					<input name="city" type="text" class="form-control" id="city" placeholder="{{volunteer.city}}" value="">
 					</div>
-				
-					<!-- Modal body -->
-					<div class="modal-body">
-						<form class="form-inline mb-2">
-							<label for="day" class="mr-sm-2">Day: </label>
-							<select name="day" class="custom-select d-block mr-sm-2" id="sch-modal-day">
-								{% for j,i in day %}
-								<option value="{{j}}">{{ i }}</option>
-								{% endfor %}
-							</select>
-							<button type="button" class="btn btn-primary" id="sch-modal-button" onclick="show_schedule()">Submit</button>
-						</form>
+					<div class="col-md-4 mb-3">
+					<label for="state">State</label>
+					<input name="state" type="text" class="form-control" id="state" placeholder="{{volunteer.state}}" value="">
+					</div>
+					<div class="col-md-3 mb-3">
+					<label for="pinCode">PIN Code</label>
+					<input name="pincode" type="number" class="form-control" id="pinCode" placeholder="{{volunteer.pincode}}">
+					</div>
+				</div>
+				<hr class="mb-4">
+				<div class="row justify-content-center mb-4">
+					<div class="col-md-6">
+						<button name="submit" value="update-profile" class="btn btn-primary btn-lg btn-block" type="submit">Update</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
 
-						<table class="table d-none" id="sch-modal-table">
+
+<!-- UPDATE SCHEDULE -->
+
+<div class="dash-schedule d-none col-md-8 col-lg-9 mt-3">
+	<a href="" onclick="show_dash_main()" class="d-inline-block mb-2 mb-md-0">&larr; Back to Dashboard</a>
+	<h3 class="text-center">Update Schedule</h3>
+	<p class="text-center text-danger mb-3 mt-3">{{sch_error}}</p>
+	<form method="POST">
+		{% csrf_token %}
+		<div class="row justify-content-center">
+			<div class="col-md-4 mb-3">
+				<label for="sch-day">Day</label>
+				<select name="day" class="custom-select d-block w-100" id="sch-day">
+					<option value="">Select Day</option>
+					{% for j,i in day %}
+					<option value="{{j}}">{{i}}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<div class="col-md-4 mb-3">
+				<label for="sch-section">Section</label>
+				<select name="section" class="custom-select d-block w-100" id="sch-section" required>
+						{% comment %}
+							{% for j,i in section %}
+							<option value="{{j}}">{{i}}</option>
+							{% endfor %}
+						{% endcomment %}
+				</select>
+			</div>
+		</div>
+		<div class="row justify-content-center mb-4">
+			<div class="col-md-6 col-lg-4 col-xl-3">
+				<button name="submit" value="update-schedule" class="btn btn-primary btn-lg btn-block" type="submit">Request Update</button>
+			</div>
+		</div>
+		<!-- <div class="row justify-content-center mb-4">
+			<div class="col-md-4">
+				<a data-toggle="modal" href="#sch-modal" class="text-center d-block">Display Schedule</a>
+			</div>
+		</div> -->
+		<div class="row justify-content-center my-4 mx-0">
+			<div class="col-md-9 border rounded">
+				<h4 class="text-center mt-3">Previous Requests</h4>
+				<hr>
+				<p>
+					{% if update_req.count %}
+						<table class="table table-hover">
 							<thead>
-								<tr>
-									<th>Day</th>
-									<th>Section</th>
-									<th>Subject</th>
-								</tr>
+								<tr class="text-center">
+									<th>From</th>
+									<th>To</th>
+									<th>Status</th>
+								</tr class="text-center">
 							</thead>
-							<!-- Monday -->
-							<tbody class="d-none" id="sch-monday">
-								{% for sch in schedules %}
-									{% if sch.day == 'Monday' %}
-									<tr>
-										<td>{{sch.day}}</td>
-										<td>{{sch.get_section_display}}</td>
-										<td>{{sch.get_subject_display}}</td>
-									</tr>
+							<tbody>
+								{% for req in update_req %}
+								<tr class="text-center">
+									{% if req.previous_schedule is None %}
+										<td class="text-monospace font-weight-lighter">NA</td>
+									{% else %}
+										<td class="text-monospace font-weight-lighter">{{req.previous_schedule}}</td>
 									{% endif %}
-								{% endfor %}
-							</tbody>
-							<tbody class="d-none" id="sch-tuesday">
-								{% for sch in schedules %}
-									{% if sch.day == 'Tuesday' %}
-									<tr>
-										<td>{{sch.day}}</td>
-										<td>{{sch.get_section_display}}</td>
-										<td>{{sch.get_subject_display}}</td>
-									</tr>
+
+									<td class="text-monospace font-weight-lighter">{{req.updated_schedule}}</td>
+
+									{% if req.approved is True %}
+										<td class="text-monospace font-weight-lighter">Approved</td>
+									{% elif req.declined is True %}
+										<td class="text-monospace font-weight-lighter">Declined</td>
+									{% elif req.by_admin is True %}
+										<td class="text-monospace font-weight-lighter">By Admin</td>
+									{% elif req.cancelled is True %}
+										<td class="text-monospace font-weight-lighter">Cancelled</td>
+									{% else %}
+										<td class="text-monospace font-weight-lighter">Pending</td>
 									{% endif %}
-								{% endfor %}
-							</tbody>
-							<tbody class="d-none" id="sch-wednesday">
-								{% for sch in schedules %}
-									{% if sch.day == 'Wednesday' %}
-									<tr>
-										<td>{{sch.day}}</td>
-										<td>{{sch.get_section_display}}</td>
-										<td>{{sch.get_subject_display}}</td>
-									</tr>
-									{% endif %}
-								{% endfor %}
-							</tbody>
-							<tbody class="d-none" id="sch-thursday">
-								{% for sch in schedules %}
-									{% if sch.day == 'Thursday' %}
-									<tr>
-										<td>{{sch.day}}</td>
-										<td>{{sch.get_section_display}}</td>
-										<td>{{sch.get_subject_display}}</td>
-									</tr>
-									{% endif %}
-								{% endfor %}
-							</tbody>
-							<tbody class="d-none" id="sch-friday">
-								{% for sch in schedules %}
-									{% if sch.day == 'Friday' %}
-									<tr>
-										<td>{{sch.day}}</td>
-										<td>{{sch.get_section_display}}</td>
-										<td>{{sch.get_subject_display}}</td>
-									</tr>
-									{% endif %}
-								{% endfor %}
-							</tbody>
-							<tbody class="d-none" id="sch-saturday">
-								{% for sch in schedules %}
-									{% if sch.day == 'Saturday' %}
-									<tr>
-										<td>{{sch.day}}</td>
-										<td>{{sch.get_section_display}}</td>
-										<td>{{sch.get_subject_display}}</td>
-									</tr>
-									{% endif %}
+								</tr>
 								{% endfor %}
 							</tbody>
 						</table>
-						
-					</div>
-				
-					<!-- Modal footer -->
-					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-					</div>
-				
-				</div>
+					{% else %}
+						<pre>No requests made yet!</pre>
+					{% endif %}
+				</p>
 			</div>
 		</div>
-		{% endcomment %}
+	</form>
+	<form method="POST">
+		{% csrf_token %}
+		<div class="row justify-content-center mb-4">
+			<div class="col-md-6 col-lg-4 col-xl-3">
+				{% if last_update_req.count %}
+					<button name="submit" value="cancel-last-req" class="btn btn-primary btn-lg btn-block" type="submit">Cancel Last Request</button>
+				{% else %}
+					<button name="submit" value="cancel-last-req" class="btn btn-primary btn-lg btn-block" type="submit" disabled>Cancel Last Request</button>
+				{% endif %}
+			</div>
+		</div>
+	</form>
+</div>
 
-		<!-- Other Tags -->
-		<div class="row justify-content-end">
-			<input type="hidden" id="extra-info-1" value="{{ selected_date|date:'Y-m-d' }}">
-			<div class="col-md-8 col-lg-9 d-none d-md-block" style="height: 54px;"></div>
+
+<!-- UPDATE CW-HW -->
+
+{% comment %}
+
+<div class="dash-cwhw d-none col-md-8 col-lg-9 mt-3">
+	<a href="" onclick="show_dash_main()" class="d-inline-block mb-2 mb-md-0">&larr; Back to Dashboard</a>
+	<h3 class="text-center">Update ClassWork-HomeWork</h3>
+	<form method="POST">
+		{% csrf_token %}
+		<div class="row">
+			<div class="col-md-3 offset-md-1 mb-3">
+				<label for="cwhw-date">Date</label>
+				<input name="date" data-date-format="yyyy-mm-dd" id="cwhw-date" class="form-control">
+			</div>
+			<div class="col-md-2 mb-3 pl-0 align-self-end">
+				<button name="submit" value="cwhw-date" class="btn btn-primary" type="submit">Continue</button>
+			</div>
+			<input type="hidden" name="selected-date" id="extra-info-2" value="{{ cwhw_selected_date|date:'Y-m-d' }}">
+			{% if cwhw_section %}
+			<div class="col-md-3 offset-md-1 mb-3">
+				<label for="cwhw-section">Section</label>
+				<select name="section" class="custom-select d-block w-100 disabled" id="cwhw-section">
+					{% for i in cwhw_section %}
+						<option value="{{i.section}}">{{i.get_section_display}}</option>
+					{% endfor %}
+				</select>
+			</div>
+			{% endif %}
+		</div>
+		<p class="text-center text-danger mt-1">{{cwhw_error}}</p>
+		{% if cwhw_section %}
+		<div class="row justify-content-center my-4">
+			<div class="col-md-6 col-lg-5 px-0 mr-5 mb-3">
+				<h4 class="text-center">ClassWork</h4>
+				<hr>
+				<textarea name="cw" class="form-control" rows="6"></textarea>
+			</div>
+			<div class="col-md-6 col-lg-5 px-0 mr-5 mb-3">
+				<h4 class="text-center">HomeWork</h4>
+				<hr>
+				<textarea name="hw" class="form-control" rows="6"></textarea>
+			</div>
+		</div>
+		<div class="row justify-content-center mb-4">
+			<div class="col-md-4">
+				<button name="submit" value="update-cwhw" class="btn btn-primary btn-lg btn-block" type="submit">Update</button>
+			</div>
+		</div>
+		{% endif %}
+	</form>
+</div>
+
+{% endcomment %}
+
+
+{% if not volunteer.desig == 'v' %}
+<!-- List of Volunteers -->
+
+<div class="dash-vol-list d-none col-md-8 col-lg-9 mt-3">
+	<a href="" onclick="show_dash_main()" class="d-inline-block mb-2 mb-md-0">&larr; Back to Dashboard</a>
+	<h3 class="text-center">Volunteers Schedule</h3>
+	<div class="row justify-content-center">
+		<div class="col-md-4 my-3">
+			<select name="day" class="custom-select d-block w-100" id="vol-list-day">
+				<option value="">Select Day</option>
+				{% for j,i in day %}
+				<option value="{{j}}">{{i}}</option>
+				{% endfor %}
+			</select>
 		</div>
 	</div>
+	
+	<div class="row justify-content-center d-none my-4 mx-0" id="reg-vol">
+		<div class="col-md-9 border rounded">
+			<h4 class="text-center mt-3">Registered Volunteers</h4>
+			<hr>
+			<table class="table table-hover" id="vol-list-table"></table>
+		</div>
+	</div>
+</div>
+
+{% endif %}
+
+		
+
+<!-- Schedule Modal -->
+{% comment %}
+<div class="modal" id="sch-modal">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+	
+			<div class="modal-header">
+				<h4 class="modal-title">Schedule</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+		
+			<!-- Modal body -->
+			<div class="modal-body">
+				<form class="form-inline mb-2">
+					<label for="day" class="mr-sm-2">Day: </label>
+					<select name="day" class="custom-select d-block mr-sm-2" id="sch-modal-day">
+						{% for j,i in day %}
+						<option value="{{j}}">{{ i }}</option>
+						{% endfor %}
+					</select>
+					<button type="button" class="btn btn-primary" id="sch-modal-button" onclick="show_schedule()">Submit</button>
+				</form>
+
+				<table class="table d-none" id="sch-modal-table">
+					<thead>
+						<tr>
+							<th>Day</th>
+							<th>Section</th>
+							<th>Subject</th>
+						</tr>
+					</thead>
+					<!-- Monday -->
+					<tbody class="d-none" id="sch-monday">
+						{% for sch in schedules %}
+							{% if sch.day == 'Monday' %}
+							<tr>
+								<td>{{sch.day}}</td>
+								<td>{{sch.get_section_display}}</td>
+								<td>{{sch.get_subject_display}}</td>
+							</tr>
+							{% endif %}
+						{% endfor %}
+					</tbody>
+					<tbody class="d-none" id="sch-tuesday">
+						{% for sch in schedules %}
+							{% if sch.day == 'Tuesday' %}
+							<tr>
+								<td>{{sch.day}}</td>
+								<td>{{sch.get_section_display}}</td>
+								<td>{{sch.get_subject_display}}</td>
+							</tr>
+							{% endif %}
+						{% endfor %}
+					</tbody>
+					<tbody class="d-none" id="sch-wednesday">
+						{% for sch in schedules %}
+							{% if sch.day == 'Wednesday' %}
+							<tr>
+								<td>{{sch.day}}</td>
+								<td>{{sch.get_section_display}}</td>
+								<td>{{sch.get_subject_display}}</td>
+							</tr>
+							{% endif %}
+						{% endfor %}
+					</tbody>
+					<tbody class="d-none" id="sch-thursday">
+						{% for sch in schedules %}
+							{% if sch.day == 'Thursday' %}
+							<tr>
+								<td>{{sch.day}}</td>
+								<td>{{sch.get_section_display}}</td>
+								<td>{{sch.get_subject_display}}</td>
+							</tr>
+							{% endif %}
+						{% endfor %}
+					</tbody>
+					<tbody class="d-none" id="sch-friday">
+						{% for sch in schedules %}
+							{% if sch.day == 'Friday' %}
+							<tr>
+								<td>{{sch.day}}</td>
+								<td>{{sch.get_section_display}}</td>
+								<td>{{sch.get_subject_display}}</td>
+							</tr>
+							{% endif %}
+						{% endfor %}
+					</tbody>
+					<tbody class="d-none" id="sch-saturday">
+						{% for sch in schedules %}
+							{% if sch.day == 'Saturday' %}
+							<tr>
+								<td>{{sch.day}}</td>
+								<td>{{sch.get_section_display}}</td>
+								<td>{{sch.get_subject_display}}</td>
+							</tr>
+							{% endif %}
+						{% endfor %}
+					</tbody>
+				</table>
+				
+			</div>
+		
+			<!-- Modal footer -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+			</div>
+		
+		</div>
+	</div>
+</div>
+{% endcomment %}
+
+<!-- Other Tags -->
+<!-- <div class="row justify-content-end">
+	<input type="hidden" id="extra-info-1" value="{{ selected_date|date:'Y-m-d' }}">
+	<div class="col-md-8 col-lg-9 d-none d-md-block" style="height: 54px;"></div>
+</div> -->
 
 {% endblock %}
 
-{% block scripts %}
-<style>
-	footer{
-		position: fixed;
-		bottom: 0;
-		width: 100%;
-	}
-	@media(max-width: 767px){
-		footer{
-			position: static;
-		}
-	}
-</style>
+{% block scripts-sidebar %}
 
 <!-- AJAX for Main Dashboard -->
 
@@ -1069,42 +689,6 @@
 					options += '<option value="' + data.schedule[i]['section'] + '" >' + choices_display + '</option>';
 				}
 				$("#sch-section").html(options);
-			}
-		});
-	});
-</script>
-
-<!-- AJAX for Student Attendence -->
-
-<script>
-	$("#stu-att-class").change(function () {
-		let stu_class = $(this).val();
-
-		$.ajax({
-			url: '/ajax/student_attendence/',
-			data: {
-				'stu_class': stu_class
-			},
-			dataType: 'json',
-			success: function (data) {
-				let stu_att_table = '<thead><tr><th>Student Name</th><th>Class</th><th>Mark Present</th></tr></thead><tbody>';
-				let checked = '';
-				for (var i = 0; i < data.stu_today.length; i++) {
-					if (data.stu_today[i]['present']) checked = 'checked';
-					else checked = '';
-
-					let first_name = data.students[data.stu_today[i]['sid_id']]['first_name']
-					let last_name = data.students[data.stu_today[i]['sid_id']]['last_name']
-					let school_class = data.students[data.stu_today[i]['sid_id']]['school_class']
-					
-					if(school_class == 13) school_class = "JNV_4"
-					else if(school_class == 14) school_class = "JNV_5"
-
-					stu_att_table += '<tr><td>' + first_name + ' ' + last_name + '</td><td>' + school_class + '</td><td><div class="custom-control custom-switch"><input type="checkbox" name="attended" value="' + data.stu_today[i]['sid_id'] + '" class="custom-control-input" id="s' + data.stu_today[i]['sid_id'] + '" ' + checked + '><label class="custom-control-label" for="s' + data.stu_today[i]['sid_id'] + '"></label></div></td></tr>';
-					
-				}
-				stu_att_table += '</tbody>';
-				$("#stu-att-table").html(stu_att_table);
 			}
 		});
 	});
@@ -1181,32 +765,6 @@
 	}
 </script>
 
-<!-- Search Filter for Student Attendence  -->
-
-<script>
-	function filterStudents() {
-	  // Declare variables
-	  let input, filter, table, tr, td, i, txtValue;
-	  input = document.getElementById("filter-students");
-	  filter = input.value.toUpperCase();
-	  table = document.getElementById("stu-att-table");
-	  tr = table.getElementsByTagName("tr");
-	
-	  // Loop through all table rows, and hide those who don't match the search query
-	  for (i = 0; i < tr.length; i++) {
-		td = tr[i].getElementsByTagName("td")[0];
-		if (td) {
-		  txtValue = td.textContent || td.innerText;
-		  if (txtValue.toUpperCase().indexOf(filter) > -1) {
-			tr[i].style.display = "";
-		  } else {
-			tr[i].style.display = "none";
-		  }
-		}
-	  }
-	}
-</script>
-
 <!-- Search Filter for Volunteers Present on Dashboard  -->
 
 <script>
@@ -1230,50 +788,6 @@
 		  }
 		}
 	  }
-	}
-</script>
-
-<!-- Search Filter for Volunteers Attendence  -->
-
-<script>
-	function filterVolunteers() {
-	  // Declare variables
-	  let input, filter, table, tr, td, i, txtValue;
-	  input = document.getElementById("filter-volunteers");
-	  filter = input.value.toUpperCase();
-	  table = document.getElementById("vol-att-table");
-	  tr = table.getElementsByTagName("tr");
-	
-	  // Loop through all table rows, and hide those who don't match the search query
-	  for (i = 0; i < tr.length; i++) {
-		td = tr[i].getElementsByTagName("td")[0];
-		if (td) {
-		  txtValue = td.textContent || td.innerText;
-		  if (txtValue.toUpperCase().indexOf(filter) > -1) {
-			tr[i].style.display = "";
-		  } else {
-			tr[i].style.display = "none";
-		  }
-		}
-	  }
-	}
-</script>
-
-<!-- Add Extra Volunteers in Volunteer Attendence -->
-
-<script>
-	function add_vol(){
-		let add_vol_div = document.getElementById('add-vol');
-		let div = document.createElement("div");
-		div.className = "col-7 col-sm-4 col-lg-3 mb-3";
-		let input = document.createElement("input");
-		input.name = "extra-vol";
-		input.type = "number";
-		input.className = "form-control";
-		input.placeholder = "Roll No.";
-		div.appendChild(input);
-		add_vol_div.appendChild(div);
-		// add_vol_div.innerHTML += '<div class="col-7 col-sm-4 col-lg-3 mb-3"><input name="extra-vol" type="number" class="form-control" placeholder="Roll No."></div>';
 	}
 </script>
 
@@ -1322,10 +836,10 @@
 	let dash_schedule = document.querySelector(".dash-schedule");
 	let dash_cwhw = document.querySelector(".dash-cwhw");
 	let dash_vol_att = document.querySelector(".dash-vol-att");
-	let dash_stu_att = document.querySelector(".dash-stu-att");
-	let dash_vol_list = document.querySelector(".dash-vol-list");
-	let dash_sidebar = document.querySelector("#dash-sidebar");
-	let dash_accordion = document.querySelector("#dash-accordion i");
+	// let dash_stu_att = document.querySelector(".dash-stu-att");
+	// let dash_vol_list = document.querySelector(".dash-vol-list");
+	// let dash_sidebar = document.querySelector("#dash-sidebar");
+	// let dash_accordion = document.querySelector("#dash-accordion i");
 
 
 	if("{{update_error}}"){
@@ -1338,16 +852,16 @@
 		show_dash_cwhw();
 	}
 
-	function change_arrow(){
-		if(dash_sidebar.classList.contains('show')){
-			dash_accordion.classList.remove('up');
-			dash_accordion.classList.add('down');
-		}
-		else{
-			dash_accordion.classList.remove('down');
-			dash_accordion.classList.add('up');
-		}
-	}
+	// function change_arrow(){
+	// 	if(dash_sidebar.classList.contains('show')){
+	// 		dash_accordion.classList.remove('up');
+	// 		dash_accordion.classList.add('down');
+	// 	}
+	// 	else{
+	// 		dash_accordion.classList.remove('down');
+	// 		dash_accordion.classList.add('up');
+	// 	}
+	// }
 
 	function show_dash_main(){
 		if(dash_main.classList.contains('d-none')) dash_main.classList.remove('d-none');
@@ -1355,8 +869,8 @@
 		if(!dash_schedule.classList.contains('d-none')) dash_schedule.classList.add('d-none');
 		// if(!dash_cwhw.classList.contains('d-none')) dash_cwhw.classList.add('d-none');
 		if("{{ volunteer.desig }}" != "v"){
-			if(!dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.add('d-none');
-			if(!dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.add('d-none');
+			// if(!dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.add('d-none');
+			// if(!dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.add('d-none');
 			if(!dash_vol_list.classList.contains('d-none')) dash_vol_list.classList.add('d-none');
 		}
 		if(dash_sidebar.classList.contains('show')){
@@ -1373,8 +887,8 @@
 		// if(!dash_cwhw.classList.contains('d-none')) dash_cwhw.classList.add('d-none');
 
 		if("{{ volunteer.desig }}" != "v"){
-			if(!dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.add('d-none');
-			if(!dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.add('d-none');
+			// if(!dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.add('d-none');
+			// if(!dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.add('d-none');
 			if(!dash_vol_list.classList.contains('d-none')) dash_vol_list.classList.add('d-none');
 		}
 		if(dash_sidebar.classList.contains('show')){
@@ -1404,40 +918,40 @@
 		// if(!dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.add('d-none');
 	}
 
-	function show_dash_vol_att(){
-		if(!dash_main.classList.contains('d-none')) dash_main.classList.add('d-none');
-		if(!dash_update.classList.contains('d-none')) dash_update.classList.add('d-none');
-		// if(!dash_cwhw.classList.contains('d-none')) dash_cwhw.classList.add('d-none');
-		if(dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.remove('d-none');
-		if(!dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.add('d-none');
-		if(!dash_vol_list.classList.contains('d-none')) dash_vol_list.classList.add('d-none');
-		if(dash_sidebar.classList.contains('show')){
-			dash_sidebar.classList.remove('show');
-			dash_accordion.classList.remove('up');
-			dash_accordion.classList.add('down');
-		}
-	}
+	// function show_dash_vol_att(){
+	// 	if(!dash_main.classList.contains('d-none')) dash_main.classList.add('d-none');
+	// 	if(!dash_update.classList.contains('d-none')) dash_update.classList.add('d-none');
+	// 	// if(!dash_cwhw.classList.contains('d-none')) dash_cwhw.classList.add('d-none');
+	// 	if(dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.remove('d-none');
+	// 	// if(!dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.add('d-none');
+	// 	if(!dash_vol_list.classList.contains('d-none')) dash_vol_list.classList.add('d-none');
+	// 	if(dash_sidebar.classList.contains('show')){
+	// 		dash_sidebar.classList.remove('show');
+	// 		dash_accordion.classList.remove('up');
+	// 		dash_accordion.classList.add('down');
+	// 	}
+	// }
 
-	function show_dash_stu_att(){
-		if(!dash_main.classList.contains('d-none')) dash_main.classList.add('d-none');
-		if(!dash_update.classList.contains('d-none')) dash_update.classList.add('d-none');
-		// if(!dash_cwhw.classList.contains('d-none')) dash_cwhw.classList.add('d-none');
-		if(!dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.add('d-none');
-		if(dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.remove('d-none');
-		if(!dash_vol_list.classList.contains('d-none')) dash_vol_list.classList.add('d-none');
-		if(dash_sidebar.classList.contains('show')){
-			dash_sidebar.classList.remove('show');
-			dash_accordion.classList.remove('up');
-			dash_accordion.classList.add('down');
-		}
-	}
+	// function show_dash_stu_att(){
+	// 	if(!dash_main.classList.contains('d-none')) dash_main.classList.add('d-none');
+	// 	if(!dash_update.classList.contains('d-none')) dash_update.classList.add('d-none');
+	// 	// if(!dash_cwhw.classList.contains('d-none')) dash_cwhw.classList.add('d-none');
+	// 	if(!dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.add('d-none');
+	// 	if(dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.remove('d-none');
+	// 	if(!dash_vol_list.classList.contains('d-none')) dash_vol_list.classList.add('d-none');
+	// 	if(dash_sidebar.classList.contains('show')){
+	// 		dash_sidebar.classList.remove('show');
+	// 		dash_accordion.classList.remove('up');
+	// 		dash_accordion.classList.add('down');
+	// 	}
+	// }
 
 	function show_dash_vol_list(){
 		if(!dash_main.classList.contains('d-none')) dash_main.classList.add('d-none');
 		if(!dash_update.classList.contains('d-none')) dash_update.classList.add('d-none');
 		// if(!dash_cwhw.classList.contains('d-none')) dash_cwhw.classList.add('d-none');
-		if(!dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.add('d-none');
-		if(!dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.add('d-none');
+		// if(!dash_vol_att.classList.contains('d-none')) dash_vol_att.classList.add('d-none');
+		// if(!dash_stu_att.classList.contains('d-none')) dash_stu_att.classList.add('d-none');
 		if(dash_vol_list.classList.contains('d-none')) dash_vol_list.classList.remove('d-none');
 		if(dash_sidebar.classList.contains('show')){
 			dash_sidebar.classList.remove('show');
@@ -1446,18 +960,6 @@
 		}
 	}
 
-</script>
-
-<!-- Script for Toast -->
-<script>
-	if("{{messages}}"){
-		$('#alert_toast').toast('show');
-		// if("{{update_error}}" || "{{sch_error}}" || "{{cwhw_error}}")
-		if("{% for message in messages %}{{message.level}}{% endfor %}" == "40")
-			document.getElementById("alert_toast").classList.add("bg-danger");
-		else
-			document.getElementById("alert_toast").classList.add("bg-success");
-	}	
 </script>
 
 <script>

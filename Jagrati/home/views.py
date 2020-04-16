@@ -160,27 +160,6 @@ def dashboard(request):
 		# choices_dict = {key: value for key, value in Schedule.SECTION}
 		# choices_dict_json = json.dumps(choices_dict)
 
-		# For Student Attendence
-		if today_cal.class_scheduled is True and not Student_attended_on.objects.filter(date__date = date.today()).exists():
-			today_stu_sch = Student_schedule.objects.filter(day=date.today().strftime("%A"))
-			for stu_sch in today_stu_sch:
-				stu_attendance = Student_attended_on(sid = stu_sch.sid, date = today_cal)
-				stu_attendance.save()
-
-		if today_cal.class_scheduled is True and Student_attended_on.objects.filter(date__date = date.today()).count() != Student_schedule.objects.filter(day=date.today().strftime("%A")).count():
-			today_stu_sch = Student_schedule.objects.filter(day=date.today().strftime("%A"))
-			for stu_sch in today_stu_sch:
-				if not Student_attended_on.objects.filter(sid = stu_sch.sid, date = today_cal).exists():
-					stu_attendance = Student_attended_on(sid = stu_sch.sid, date = today_cal)
-					stu_attendance.save()
-
-		# For Volunteer Attendence
-		if today_cal.class_scheduled is True and not Volunteer_attended_on.objects.filter(date__date = date.today()).exists():
-			today_vol_sch = Volunteer_schedule.objects.filter(day=date.today().strftime("%A"))
-			for vol_sch in today_vol_sch:
-				vol_attendance = Volunteer_attended_on(roll_no = vol_sch.roll_no, date = today_cal)
-				vol_attendance.save()
-
 		# If no Class is Scheduled
 		no_class_today = ''
 		if not today_cal.class_scheduled:
@@ -202,14 +181,6 @@ def dashboard(request):
 			'section': Schedule.SECTION,
 			'update_req' : UpdateScheduleRequest.objects.filter(volunteer = volun).order_by('-date'),
 			'last_update_req' : UpdateScheduleRequest.objects.filter(volunteer = volun, approved = False, declined = False, by_admin = False, cancelled = False),
-
-			#dash-vol-att
-			'today_date' : date.today(),
-			'today_volun' : Volunteer_attended_on.objects.filter(date = today_cal).order_by('roll_no__roll_no'),
-
-			#dash-stu-att
-			# 'today_stu' : Student_attended_on.objects.filter(date = today_cal).order_by('sid__school_class'),
-			'today_stu' : Student_attended_on.objects.filter(date = today_cal, sid__school_class__range = (1, 3)).order_by('sid__school_class'),
 		}
 		
 		if request.method == 'POST':
@@ -557,6 +528,7 @@ def dashboard(request):
 				}
 				context.update(context1)
 
+				messages.success(request, 'CW_HW update successful!')
 				return render(request, 'home/dashboard.html', context)
 				# else:
 				# 	context1 = {
@@ -572,90 +544,6 @@ def dashboard(request):
 
 				# 	return render(request, 'home/dashboard.html', context)
 
-			elif request.POST.get('submit') == 'vol-att':
-				today_date = Calendar.objects.get(date=date.today())
-				vol_array = request.POST.getlist('volunteered')
-				extra_vol_array = request.POST.getlist('extra-vol')
-
-				# Mark everyone's absent
-				vol_today = Volunteer_attended_on.objects.filter(date = today_date)
-				for vol in vol_today:
-					vol.present = False
-
-					# For cpanel
-					if vol.extra is None:
-						vol.extra = False
-
-					vol.save()
-
-				for vol in vol_array:
-					roll_no = Volunteer.objects.get(id=vol) #i is first column of volun_array
-					vol_attendance = Volunteer_attended_on.objects.get(roll_no = roll_no, date = today_date)
-					vol_attendance.present = True
-
-					# For cpanel
-					if vol_attendance.extra is None:
-						vol_attendance.extra = False
-
-					vol_attendance.save()
-
-				for extra_vol in extra_vol_array:
-					roll_no = Volunteer.objects.filter(roll_no = extra_vol)
-					if roll_no.exists():
-						extra_vol_att = Volunteer_attended_on.objects.filter(roll_no = roll_no[0], date = today_date)
-						if not extra_vol_att.exists():
-							extra_vol_att = Volunteer_attended_on(roll_no = roll_no[0], date = today_date, present = True, extra = True)
-							extra_vol_att.save()
-				
-				# context1 = {
-				# 	#dash-main
-				# 	'class_info_submitted' : "nopes",
-
-				# 	#dash-vol-att
-				# 	'toast' : "Attendence marked successfully!",
-				# }
-				# context.update(context1)
-
-				# return render(request, 'home/dashboard.html', context)
-				messages.success(request, 'Attendence marked successfully!')
-				return HttpResponseRedirect(reverse('dashboard'))
-
-			elif request.POST.get('submit') == 'stu-att':
-					today_date = Calendar.objects.get(date=date.today())
-					stu_array = request.POST.getlist('attended')
-					selected_class = request.POST['selected_class']
-
-					class_range = selected_class.split('-')
-					class_range_min = class_range[0]
-					class_range_max = class_range[1]
-
-					# Mark everyone's absent
-					stu_today = Student_attended_on.objects.filter(date = today_date, sid__school_class__range = (class_range_min, class_range_max))
-					for stu in stu_today:
-						stu.present = False
-						stu.hw_done = False
-						stu.save()
-
-					for sid in stu_array:
-						stu = Student.objects.get(id=sid)
-						stu_attendance = Student_attended_on.objects.filter(sid = stu, date = today_date)[0]
-						stu_attendance.present = True
-						stu_attendance.hw_done = False
-						stu_attendance.save()
-					
-					# context1 = {
-					# 	#dash-main
-					# 	'class_info_submitted' : "nopes",
-
-					# 	#dash-atu-att
-					# 	'toast' : "Attendence marked successfully!",
-					# }
-					# context.update(context1)
-
-					# return render(request, 'home/dashboard.html', context)
-					messages.success(request, 'Attendence marked successfully!')
-					return HttpResponseRedirect(reverse('dashboard'))
-
 		else:
 			context1 = {
 				#dash-main
@@ -666,7 +554,162 @@ def dashboard(request):
 			return render(request, 'home/dashboard.html', context)
 	return redirect('home')
 
-def volunteerInformation(request):
+@login_required
+def volunteersAttendence(request):
+	email = request.user
+
+	if not Volunteer.objects.filter(email=email).exists():
+		return redirect('set_profile')
+
+	volun = Volunteer.objects.get(email=email)
+
+	today_cal = Calendar.objects.filter(date=date.today())
+	# Update today's date in Calendar if not already there
+	if today_cal.exists():
+		today_cal = today_cal[0]
+	else:
+		today_cal_new = Calendar(date = date.today())
+		today_cal_new.save()
+		today_cal = Calendar.objects.get(date=date.today())
+
+	# For Creating Empty Volunteer Attendence Instances
+	if today_cal.class_scheduled is True and not Volunteer_attended_on.objects.filter(date__date = date.today()).exists():
+		today_vol_sch = Volunteer_schedule.objects.filter(day=date.today().strftime("%A"))
+		for vol_sch in today_vol_sch:
+			vol_attendance = Volunteer_attended_on(roll_no = vol_sch.roll_no, date = today_cal)
+			vol_attendance.save()
+	
+	# If no Class is Scheduled
+	no_class_today = ''
+	if not today_cal.class_scheduled:
+		no_class_today = 'yesss!'
+
+	context = {
+		# Overall
+		'no_class_today' : no_class_today,
+
+		#dash-vol-att
+		'today_date' : date.today(),
+		'today_volun' : Volunteer_attended_on.objects.filter(date = today_cal).order_by('roll_no__roll_no'),
+	}
+	
+	if request.method == 'POST':
+		today_date = Calendar.objects.get(date=date.today())
+		vol_array = request.POST.getlist('volunteered')
+		extra_vol_array = request.POST.getlist('extra-vol')
+
+		# Mark everyone's absent
+		vol_today = Volunteer_attended_on.objects.filter(date = today_date)
+		for vol in vol_today:
+			vol.present = False
+
+			# For cpanel
+			if vol.extra is None:
+				vol.extra = False
+
+			vol.save()
+
+		for vol in vol_array:
+			roll_no = Volunteer.objects.get(id=vol) #i is first column of volun_array
+			vol_attendance = Volunteer_attended_on.objects.get(roll_no = roll_no, date = today_date)
+			vol_attendance.present = True
+
+			# For cpanel
+			if vol_attendance.extra is None:
+				vol_attendance.extra = False
+
+			vol_attendance.save()
+
+		for extra_vol in extra_vol_array:
+			roll_no = Volunteer.objects.filter(roll_no = extra_vol)
+			if roll_no.exists():
+				extra_vol_att = Volunteer_attended_on.objects.filter(roll_no = roll_no[0], date = today_date)
+				if not extra_vol_att.exists():
+					extra_vol_att = Volunteer_attended_on(roll_no = roll_no[0], date = today_date, present = True, extra = True)
+					extra_vol_att.save()
+
+		messages.success(request, 'Attendence marked successfully!')
+		return HttpResponseRedirect(reverse('vol_attendence'))
+
+	return render(request, 'home/vol_attendence.html', context)
+
+@login_required
+def studentsAttendence(request):
+
+	email = request.user
+
+	if not Volunteer.objects.filter(email=email).exists():
+		return redirect('set_profile')
+
+	volun = Volunteer.objects.get(email=email)
+
+	today_cal = Calendar.objects.filter(date=date.today())
+	# Update today's date in Calendar if not already there
+	if today_cal.exists():
+		today_cal = today_cal[0]
+	else:
+		today_cal_new = Calendar(date = date.today())
+		today_cal_new.save()
+		today_cal = Calendar.objects.get(date=date.today())
+
+	# For Creating Empty Student Attendence Instances
+	if today_cal.class_scheduled is True and not Student_attended_on.objects.filter(date__date = date.today()).exists():
+		today_stu_sch = Student_schedule.objects.filter(day=date.today().strftime("%A"))
+		for stu_sch in today_stu_sch:
+			stu_attendance = Student_attended_on(sid = stu_sch.sid, date = today_cal)
+			stu_attendance.save()
+
+	if today_cal.class_scheduled is True and Student_attended_on.objects.filter(date__date = date.today()).count() != Student_schedule.objects.filter(day=date.today().strftime("%A")).count():
+		today_stu_sch = Student_schedule.objects.filter(day=date.today().strftime("%A"))
+		for stu_sch in today_stu_sch:
+			if not Student_attended_on.objects.filter(sid = stu_sch.sid, date = today_cal).exists():
+				stu_attendance = Student_attended_on(sid = stu_sch.sid, date = today_cal)
+				stu_attendance.save()
+
+	# If no Class is Scheduled
+	no_class_today = ''
+	if today_cal.class_scheduled is False:
+		no_class_today = 'yesss!'
+
+	context = {
+		# Overall
+		'no_class_today' : no_class_today,
+
+		#dash-stu-att
+		'today_date' : date.today(),
+		# 'today_stu' : Student_attended_on.objects.filter(date = today_cal).order_by('sid__school_class'),
+		'today_stu' : Student_attended_on.objects.filter(date = today_cal, sid__school_class__range = (1, 3)).order_by('sid__school_class'),
+	}
+
+	if request.method == 'POST':
+		today_date = Calendar.objects.get(date=date.today())
+		stu_array = request.POST.getlist('attended')
+		selected_class = request.POST['selected_class']
+
+		class_range = selected_class.split('-')
+		class_range_min = class_range[0]
+		class_range_max = class_range[1]
+
+		# Mark everyone's absent
+		stu_today = Student_attended_on.objects.filter(date = today_date, sid__school_class__range = (class_range_min, class_range_max))
+		for stu in stu_today:
+			stu.present = False
+			stu.hw_done = False
+			stu.save()
+
+		for sid in stu_array:
+			stu = Student.objects.get(id=sid)
+			stu_attendance = Student_attended_on.objects.filter(sid = stu, date = today_date)[0]
+			stu_attendance.present = True
+			stu_attendance.hw_done = False
+			stu_attendance.save()
+
+		messages.success(request, 'Attendence marked successfully!')
+		return HttpResponseRedirect(reverse('stu_attendence'))
+
+	return render(request, 'home/stu_attendence.html', context)
+
+def completeProfile(request):
 	if request.user.is_authenticated:
 		schedules = Schedule.objects.all()
 		email = request.user

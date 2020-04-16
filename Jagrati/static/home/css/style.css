@@ -39,6 +39,28 @@ a:hover{
 	color: white;
 }
 
+
+/*  Customized Scroll Bar - Chrome Only  - START */
+
+::-webkit-scrollbar {
+	width: 7px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+	border-radius: 50px;
+	/* background: #70707050; */
+	background: #ff8c00	;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+	/* background: var(--theme-dark-color-0); */
+	/* background: #666; */
+  }
+  
+/*  Customized Scroll Bar - Chrome Only -  END */
+
+
+
 /*HEADER STARTS*/
 
 #branding{
