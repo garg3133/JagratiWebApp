@@ -158,11 +158,11 @@
                         {% endif %}
                         {% if user.auth is True %}
                         <li class="nav-item">
-                            <a href="javascript:void(0)" class="btn btn-outline-primary mt-3" onclick="show_dash_schedule()">Update Schedule</a>
+                            <a href="{% url 'update_schedule' %}" class="btn btn-outline-primary mt-3">Update Schedule</a>
                         </li>
                         {% else %}
                         <li class="nav-item">
-                            <a href="javascript:void(0)" class="btn btn-outline-primary mt-3" onclick="show_dash_schedule()" disabled>Update Schedule</a>
+                            <a href="" class="btn btn-outline-primary mt-3 disabled">Update Schedule</a>
                         </li>
                         {% endif %}
                     {% else %}
@@ -170,7 +170,7 @@
                             <h5 class="my-5">{{volunteer.get_desig_display}}</h5>
                         </li>
                         <li class="nav-item">
-                            <a href="javascript:void(0)" class="btn btn-outline-primary" onclick="show_dash_vol_list()"> Volunteers </a>
+                            <a href="{% url 'vol_list' %}" class="btn btn-outline-primary"> Volunteers </a>
                         </li>
                         <li class="nav-item">
                             <a href="{% url 'stu_attendence' %}" class="btn btn-outline-primary"> Student Attendence </a>
@@ -180,7 +180,7 @@
                         </li>
                     {% endif %}
                     <li class="nav-item">
-                        <a href="javascript:void(0)" class="btn btn-outline-primary" onclick="show_dash_update()" > Update Profile </a>
+                        <a href="{% url 'update_profile' %}" class="btn btn-outline-primary"> Update Profile </a>
                     </li>
                 </ul>
             </div>

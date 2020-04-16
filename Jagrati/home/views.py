@@ -172,15 +172,6 @@ def dashboard(request):
 			#dash-main
 			'choices': Schedule.SECTION,
 			# 'choices_dict': choices_dict_json,
-
-			#dash-update
-			'last_4_year': datetime.now().year - 4,
-
-			#dash-schedule
-			'day': Schedule.DAY,
-			'section': Schedule.SECTION,
-			'update_req' : UpdateScheduleRequest.objects.filter(volunteer = volun).order_by('-date'),
-			'last_update_req' : UpdateScheduleRequest.objects.filter(volunteer = volun, approved = False, declined = False, by_admin = False, cancelled = False),
 		}
 		
 		if request.method == 'POST':
@@ -311,143 +302,6 @@ def dashboard(request):
 
 					return render(request, 'home/dashboard.html', context)
 
-			elif request.POST.get('submit') == 'update-profile':
-				roll_no         = request.POST['roll_no']
-				first_name      = request.POST['first_name']
-				last_name       = request.POST['last_name']
-				gender          = request.POST['gender']
-				alt_email       = request.POST['alt_email']
-				batch           = request.POST['batch']
-				programme       = request.POST['programme']
-				street_address1 = request.POST['street_address1']
-				street_address2 = request.POST['street_address2']
-				pincode         = request.POST['pincode']
-				city            = request.POST['city']
-				state           = request.POST['state']
-				dob             = request.POST['dob']
-				contact_no      = request.POST['contact_no']
-
-				update_error = ""
-				toast = ""
-				if roll_no:
-					if volun.roll_no != roll_no:
-						duplicate_roll_check = Volunteer.objects.filter(roll_no = roll_no)
-						if duplicate_roll_check.exists():
-							update_error = "A volunteer with entered roll no. already exists."
-							toast = "Profile update failed!"
-						else:
-							volun.roll_no = roll_no
-				if first_name:
-					volun.first_name = first_name
-				if last_name:
-					volun.last_name = last_name
-				volun.gender = gender
-				volun.batch = batch
-				volun.programme = programme
-				volun.dob = dob
-				if contact_no:
-					volun.contact_no = contact_no
-				if alt_email:
-					volun.alt_email = alt_email
-				if street_address1:
-					volun.street_address1 = street_address1
-				if street_address2:
-					volun.street_address2 = street_address2
-				if city:
-					volun.city = city
-				if state:
-					volun.state = state
-				if pincode:
-					volun.pincode = pincode
-
-				if update_error == "":
-					volun.save()
-					toast = "Profile updated Successfully!"
-
-
-				context1 = {
-					#dash-main
-					'class_info_submitted' : "nooooo!",
-
-					#dash-update
-					'update_error' : update_error,
-					'toast': toast,
-				}
-				context.update(context1)
-
-				return render(request, 'home/dashboard.html', context)
-
-			elif request.POST.get('submit') == 'update-schedule':
-				day			= request.POST['day']
-				section		= request.POST['section']
-
-				schedule = Schedule.objects.get(day = day, section = section)
-
-				prev_update_req = UpdateScheduleRequest.objects.filter(volunteer = volun, approved = False, declined = False, by_admin = False, cancelled = False)
-				if prev_update_req.exists():
-					prev_update_req = prev_update_req[0]
-					prev_update_req.cancelled = True
-					# For cpanel
-					# prev_update_req.approved = False
-					# prev_update_req.declined = False
-					# prev_update_req.by_admin = False
-					prev_update_req.save()
-
-				prev_vol_sch = Volunteer_schedule.objects.filter(roll_no = volun)
-				if prev_vol_sch.exists():
-					prev_sch = prev_vol_sch[0].schedule
-					update_req = UpdateScheduleRequest(volunteer = volun, previous_schedule = prev_sch, updated_schedule = schedule)
-					update_req.save()
-				else:
-					update_req = UpdateScheduleRequest(volunteer = volun, updated_schedule = schedule)
-					update_req.save()
-
-				context1 = {
-					#dash-main
-					'class_info_submitted' : "nopes",
-
-					#dash-schedule
-					'toast' : "Schedule update requested successfully!",
-				}
-				context.update(context1)
-
-				return render(request, 'home/dashboard.html', context)
-
-				# else:
-				# 	context1 = {
-				# 		#dash-main
-				# 		'class_info_submitted' : "nopes",
-
-				# 		#dash-schedule
-				# 		'sch_error' : "Selected schedule doesn't exists. Kindly refer to the Schedule.",
-				# 		'toast' : "Failed to update schedule!",
-				# 	}
-				# 	context.update(context1)
-
-				# 	return render(request, 'home/dashboard.html', context)
-			
-			elif request.POST.get('submit') == 'cancel-last-req':
-				prev_update_req = UpdateScheduleRequest.objects.filter(volunteer = volun, approved = False, declined = False, by_admin = False, cancelled = False)
-				if prev_update_req.exists():
-					prev_update_req = prev_update_req[0]
-					prev_update_req.cancelled = True
-					# For cpanel
-					# prev_update_req.approved = False
-					# prev_update_req.declined = False
-					# prev_update_req.by_admin = False
-					prev_update_req.save()
-
-				context1 = {
-					#dash-main
-					'class_info_submitted' : "nopes",
-
-					#dash-schedule
-					'toast' : "Last request cancelled successfully!",
-				}
-				context.update(context1)
-
-				return render(request, 'home/dashboard.html', context)
-
 			# elif request.POST.get('submit') == 'cwhw-date':
 			# 	cwhw_date_str = request.POST['date']
 
@@ -553,6 +407,145 @@ def dashboard(request):
 
 			return render(request, 'home/dashboard.html', context)
 	return redirect('home')
+
+@login_required
+def volunteersList(request):
+	context = {
+		'day': Schedule.DAY,
+	}
+	return render(request, 'home/vol_list.html', context)
+
+@login_required
+def updateProfile(request):
+	volun = Volunteer.objects.filter(email=request.user)
+	if volun.exists():
+		volun = volun[0]
+	else:
+		return redirect('set_profile')
+
+	context = {
+		#dash-update
+		'last_4_year': datetime.now().year - 4,
+	}
+	
+	if request.method == 'POST':
+		roll_no         = request.POST['roll_no']
+		first_name      = request.POST['first_name']
+		last_name       = request.POST['last_name']
+		gender          = request.POST['gender']
+		alt_email       = request.POST['alt_email']
+		batch           = request.POST['batch']
+		programme       = request.POST['programme']
+		street_address1 = request.POST['street_address1']
+		street_address2 = request.POST['street_address2']
+		pincode         = request.POST['pincode']
+		city            = request.POST['city']
+		state           = request.POST['state']
+		dob             = request.POST['dob']
+		contact_no      = request.POST['contact_no']
+
+		if roll_no:
+			if volun.roll_no != roll_no:
+				duplicate_roll_check = Volunteer.objects.filter(roll_no=roll_no)
+				if duplicate_roll_check.exists():
+					context1 = {
+						'update_error': "A volunteer with entered roll no. already exists."
+					}
+					context.update(context1)
+					messages.error(request, 'Profile update failed!')
+					return render(request, 'home/update_profile.html', context)
+				else:
+					volun.roll_no = roll_no
+		if first_name:
+			volun.first_name = first_name
+		if last_name:
+			volun.last_name = last_name
+		volun.gender = gender
+		volun.batch = batch
+		volun.programme = programme
+		volun.dob = dob
+		if contact_no:
+			volun.contact_no = contact_no
+		if alt_email:
+			volun.alt_email = alt_email
+		if street_address1:
+			volun.street_address1 = street_address1
+		if street_address2:
+			volun.street_address2 = street_address2
+		if city:
+			volun.city = city
+		if state:
+			volun.state = state
+		if pincode:
+			volun.pincode = pincode
+
+		volun.save()
+
+		messages.success(request, 'Profile updated Successfully!')
+		return HttpResponseRedirect(reverse('update_profile'))
+
+	return render(request, 'home/update_profile.html', context)
+
+@login_required
+def updateSchedule(request):
+	volun = Volunteer.objects.filter(email=request.user)
+	if volun.exists():
+		volun = volun[0]
+	else:
+		return redirect('set_profile')
+
+	context = {
+		#dash-schedule
+		'day': Schedule.DAY,
+		'section': Schedule.SECTION,
+		'update_req' : UpdateScheduleRequest.objects.filter(volunteer = volun).order_by('-date'),
+		'last_update_req' : UpdateScheduleRequest.objects.filter(volunteer = volun, approved = False, declined = False, by_admin = False, cancelled = False),
+	}
+	
+	if request.method == 'POST':
+		if request.POST.get('submit') == 'update-schedule':
+			day			= request.POST['day']
+			section		= request.POST['section']
+
+			schedule = Schedule.objects.get(day=day, section=section)
+
+			prev_update_req = UpdateScheduleRequest.objects.filter(volunteer=volun, approved=False, declined=False, by_admin=False, cancelled=False)
+			if prev_update_req.exists():
+				prev_update_req = prev_update_req[0]
+				prev_update_req.cancelled = True
+				# For cpanel
+				# prev_update_req.approved = False
+				# prev_update_req.declined = False
+				# prev_update_req.by_admin = False
+				prev_update_req.save()
+
+			prev_vol_sch = Volunteer_schedule.objects.filter(roll_no = volun)
+			if prev_vol_sch.exists():
+				prev_sch = prev_vol_sch[0].schedule
+				update_req = UpdateScheduleRequest(volunteer = volun, previous_schedule = prev_sch, updated_schedule = schedule)
+				update_req.save()
+			else:
+				update_req = UpdateScheduleRequest(volunteer = volun, updated_schedule = schedule)
+				update_req.save()
+
+			messages.success(request, 'Schedule update requested successfully!')
+			return HttpResponseRedirect(reverse('update_schedule'))
+
+		elif request.POST.get('submit') == 'cancel-last-req':
+			prev_update_req = UpdateScheduleRequest.objects.filter(volunteer=volun, approved=False, declined=False, by_admin=False, cancelled=False)
+			if prev_update_req.exists():
+				prev_update_req = prev_update_req[0]
+				prev_update_req.cancelled = True
+				# For cpanel
+				# prev_update_req.approved = False
+				# prev_update_req.declined = False
+				# prev_update_req.by_admin = False
+				prev_update_req.save()
+
+			messages.success(request, 'Last request cancelled successfully!')
+			return HttpResponseRedirect(reverse('update_schedule'))
+
+	return render(request, 'home/update_schedule.html', context)
 
 @login_required
 def volunteersAttendence(request):
