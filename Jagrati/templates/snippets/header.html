@@ -49,6 +49,7 @@
 				<a class="btn btn-outline-success mr-sm-3 mb-2 mt-3 my-sm-0" href="{% url 'password_change' %}">Change Password</a>
 			</li>
 
+			<!-- Used in Feedbacks Page -->
 			{% if logout_redirect_site %}
 			<li class="nav-item">
 				<a class="btn btn-outline-danger" href="{% url 'logout' %}?next={{ logout_redirect_site }}">Sign Out</a>

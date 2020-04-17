@@ -20,7 +20,12 @@ from .tokens import account_activation_token
 def login_signup(request):
     if request.user.is_authenticated:
         return redirect('home')
-        
+    
+    next_site = 'dashboard'
+    if request.GET.get('next') is not None:
+        next_site = request.GET['next']
+        print(next_site)
+    
     if request.method == 'POST':
         if request.POST.get('submit') == 'login':
             email = request.POST['email']
@@ -36,7 +41,7 @@ def login_signup(request):
             user = authenticate(username = email, password = password)
             if user is not None:
                 login(request, user)
-                return redirect('home')
+                return redirect(next_site)
             else:
                 context = {
                     'login_error' : "Invalid Username or Password",

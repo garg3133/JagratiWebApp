@@ -45,7 +45,7 @@ def database_context(request):
 		# for vol in volunteers:
 		# 	vol_dict[vol.id] = model_to_dict(vol)
 
-		# vol_dict_json = json.dumps(vol_dict, cls=DjangoJSONEncoder)
+		# vol_dict_json = json.dumps(vol_dict, cls=DjangoJSONEncoder)  # For encoding date
 
 		# Schedule dictionary for AJAX
 		# schedules = Schedule.objects.all()

@@ -1,0 +1,237 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+
+{% block title %} Jagrati | Dashboard {% endblock %}
+
+{% block style %}
+<style>
+    .main{
+        min-height: calc(100vh - 54px);   /* So that footer is at the bottom (without scroll) if screen is short*/
+    }
+
+    /* For Arrow in sidebar->dropdown mobile view */
+    .arrow{
+        border: solid black;
+        border-width: 0 3px 3px 0;
+        display: inline-block;
+        padding: 3px;
+    }
+
+    .up {
+        transform: rotate(-135deg);
+        -webkit-transform: rotate(-135deg);
+        /* transition-delay: 800ms; */
+    }
+
+    .down {
+        transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        /* transition-delay: 800ms; */
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 71.4px;
+        bottom: 54px;
+        left: 0;
+        /* z-index: 100;  */
+        /* Behind the navbar */
+        /* padding: 28px 0 0; */
+            /* Height of navbar */
+        box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+        overflow-y: auto;
+    }
+
+    /* .sidebar-sticky { */
+        /* position: relative; */
+        /* top: 0; */
+        /* height: calc(100vh - 48px); */
+        /* padding-top: .5rem; */
+        /* overflow-x: hidden; */
+        /* overflow-y: auto;  */
+        /* Scrollable contents if viewport is shorter than content. */
+    /* } */
+
+    /* @supports ((position: -webkit-sticky) or (position: sticky)) {
+        .sidebar-sticky {
+            position: -webkit-sticky;
+            position: sticky;
+        }
+    } */
+
+    /* .sidebar .nav-link {
+        font-weight: 500;
+        color: #333;
+    } */
+
+    /* .sidebar .nav-link.active {
+        color: #007bff;
+    } */
+
+    .sidebar-heading {
+        font-size: .75rem;
+        text-transform: uppercase;
+    }
+
+    .sidebar-img{
+        width: 100px;
+        height: 100px;
+    }
+    .sidebar-list li{
+        margin: 5px 0;
+    }
+
+
+    @media(max-width: 767px){
+        .sidebar{
+            position:static;
+        }
+        .main{
+            min-height: 100vh;
+        }
+    }
+</style>
+
+{% block style-sidebar %}
+{% endblock %}
+
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-end">
+        <a id="dash-accordion" class="btn btn-light w-100 border-0 d-md-none" data-toggle="collapse" href="#dash-sidebar" onclick="change_arrow()">
+            <div class="clearfix">
+                <div class="float-left font-weight-bold pt-1">User Info</div>
+                <div class="float-right">
+                    <i class="arrow down"></i>
+                </div>
+            </div>
+            
+        </a>
+        <nav class="collapse col-md-4 col-lg-3 d-md-block bg-light sidebar" id="dash-sidebar">
+            <div class="sidebar-sticky pb-4 pb-md-0">
+                <ul class="sidebar-list nav flex-column text-center">
+                    <li class="nav-item">
+                        <img class="sidebar-img my-3" src='{% static "logo.png" %}' alt="v"> 
+                        <!--  rounded-circle -->
+                    </li>
+
+                    {% if volunteer is not None %}
+                        <li class="nav-item">
+                            <h5>Name: <span class="lead"> {{volunteer.first_name}} {{volunteer.last_name}}</span> </h5>
+                        </li>
+                        <li class="nav-item">
+                            <h5>Roll No: <span class="lead">{{volunteer.roll_no}}</span> </h5>
+                        </li>
+                    {% endif %}
+
+                    <li class="nav-item">
+                        <h5>Email: <span class="lead">{{user.email}}</span> </h5>
+                    </li>
+
+                    {% if volunteer.desig == 'v' %}
+                        <li class="nav-item">
+                            <h5 class="mt-3">Schedule</h5>
+                        </li>
+                        {% if vol_schedule is not None %}
+                            <li class="nav-item">
+                                <h5>Day: <span class="lead"> {{vol_schedule.day}}</span> </h5>
+                            </li>
+                            <li class="nav-item">
+                                <h5>Section: <span class="lead">{{vol_schedule.schedule.get_section_display}}</span> </h5>
+                            </li>
+                            <li class="nav-item">
+                                <h5>Subject: <span class="lead">{{vol_schedule.schedule.get_subject_display}}</span> </h5>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <h5>Day: <span class="lead"> -- </span> </h5>
+                            </li>
+                            <li class="nav-item">
+                                <h5>Section: <span class="lead"> -- </span> </h5>
+                            </li>
+                            <li class="nav-item">
+                                <h5>Subject: <span class="lead"> -- </span> </h5>
+                            </li>
+                        {% endif %}
+                        {% if user.auth is True %}
+                        <li class="nav-item">
+                            <a href="{% url 'update_schedule' %}" class="btn btn-outline-primary mt-3">Update Schedule</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a href="" class="btn btn-outline-primary mt-3 disabled">Update Schedule</a>
+                        </li>
+                        {% endif %}
+                    {% else %}
+                        <li class="nav-item">
+                            <h5 class="my-5">{{volunteer.get_desig_display}}</h5>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'vol_list' %}" class="btn btn-outline-primary"> Volunteers </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'stu_attendence' %}" class="btn btn-outline-primary"> Student Attendence </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'vol_attendence' %}" class="btn btn-outline-primary">Volunteer Attendence </a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a href="{% url 'update_profile' %}" class="btn btn-outline-primary"> Update Profile </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        {% block content-sidebar %}
+        {% endblock %}
+
+    </div>
+
+    <div class="row justify-content-end">
+        <div class="col-md-8 col-lg-9 d-none d-md-block" style="height: 54px;"></div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+<style>
+	footer{
+		position: fixed;
+		bottom: 0;
+		width: 100%;
+	}
+	@media(max-width: 767px){
+		footer{
+			position: static;
+		}
+	}
+</style>
+
+<!-- Script for sidebar-dropdown arrow -->
+<script>
+    let dash_sidebar = document.querySelector("#dash-sidebar");
+    let dash_accordion = document.querySelector("#dash-accordion i");
+
+    function change_arrow(){
+		if(dash_sidebar.classList.contains('show')){
+			dash_accordion.classList.remove('up');
+			dash_accordion.classList.add('down');
+		}
+		else{
+			dash_accordion.classList.remove('down');
+			dash_accordion.classList.add('up');
+		}
+	}
+</script>
+
+
+{% block scripts-sidebar %}
+{% endblock %}
+
+{% endblock %}

@@ -1,0 +1,141 @@
+{% extends 'sidebar.html' %}
+
+{% load static %}
+
+{% block title %} Jagrati | Update Schedule {% endblock %}
+
+{% block content-sidebar %}
+
+<!-- UPDATE SCHEDULE -->
+
+<div class="dash-schedule col-md-8 col-lg-9 mt-3">
+	<a href="" class="d-inline-block mb-2 mb-md-0">&larr; Back to Dashboard</a>
+	<h3 class="text-center">Update Schedule</h3>
+	<p class="text-center text-danger mb-3 mt-3">{{sch_error}}</p>
+	<form method="POST">
+		{% csrf_token %}
+		<div class="row justify-content-center">
+			<div class="col-md-4 mb-3">
+				<label for="sch-day">Day</label>
+				<select name="day" class="custom-select d-block w-100" id="sch-day">
+					<option value="">Select Day</option>
+					{% for j,i in day %}
+					<option value="{{j}}">{{i}}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<div class="col-md-4 mb-3">
+				<label for="sch-section">Section</label>
+				<select name="section" class="custom-select d-block w-100" id="sch-section" required>
+						{% comment %}
+							{% for j,i in section %}
+							<option value="{{j}}">{{i}}</option>
+							{% endfor %}
+						{% endcomment %}
+				</select>
+			</div>
+		</div>
+		<div class="row justify-content-center mb-4">
+			<div class="col-md-6 col-lg-4 col-xl-3">
+				<button name="submit" value="update-schedule" class="btn btn-primary btn-lg btn-block" type="submit">Request Update</button>
+			</div>
+		</div>
+		<!-- <div class="row justify-content-center mb-4">
+			<div class="col-md-4">
+				<a data-toggle="modal" href="#sch-modal" class="text-center d-block">Display Schedule</a>
+			</div>
+		</div> -->
+		<div class="row justify-content-center my-4 mx-0">
+			<div class="col-md-9 border rounded">
+				<h4 class="text-center mt-3">Previous Requests</h4>
+				<hr>
+				<p>
+					{% if update_req.count %}
+						<table class="table table-hover">
+							<thead>
+								<tr class="text-center">
+									<th>From</th>
+									<th>To</th>
+									<th>Status</th>
+								</tr class="text-center">
+							</thead>
+							<tbody>
+								{% for req in update_req %}
+								<tr class="text-center">
+									{% if req.previous_schedule is None %}
+										<td class="text-monospace font-weight-lighter">NA</td>
+									{% else %}
+										<td class="text-monospace font-weight-lighter">{{req.previous_schedule}}</td>
+									{% endif %}
+
+									<td class="text-monospace font-weight-lighter">{{req.updated_schedule}}</td>
+
+									{% if req.approved is True %}
+										<td class="text-monospace font-weight-lighter">Approved</td>
+									{% elif req.declined is True %}
+										<td class="text-monospace font-weight-lighter">Declined</td>
+									{% elif req.by_admin is True %}
+										<td class="text-monospace font-weight-lighter">By Admin</td>
+									{% elif req.cancelled is True %}
+										<td class="text-monospace font-weight-lighter">Cancelled</td>
+									{% else %}
+										<td class="text-monospace font-weight-lighter">Pending</td>
+									{% endif %}
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					{% else %}
+						<pre>No requests made yet!</pre>
+					{% endif %}
+				</p>
+			</div>
+		</div>
+	</form>
+	<form method="POST">
+		{% csrf_token %}
+		<div class="row justify-content-center mb-4">
+			<div class="col-md-6 col-lg-4 col-xl-3">
+				{% if last_update_req.count %}
+					<button name="submit" value="cancel-last-req" class="btn btn-primary btn-lg btn-block" type="submit">Cancel Last Request</button>
+				{% else %}
+					<button name="submit" value="cancel-last-req" class="btn btn-primary btn-lg btn-block" type="submit" disabled>Cancel Last Request</button>
+				{% endif %}
+			</div>
+		</div>
+	</form>
+</div>
+
+{% endblock %}
+
+{% block scripts-sidebar %}
+
+<!-- AJAX for Update Schedule -->
+
+<script>
+
+	$("#sch-day option:first").attr('selected', 'selected');
+
+	$("#sch-day").change(function () {
+		var sch_day = $(this).val();
+
+		$.ajax({
+			url: '/ajax/section_update_schedule/',
+			data: {
+				'sch_day': sch_day
+			},
+			dataType: 'json',
+			success: function (data) {
+				var options = '';
+				for (var i = 0; i < data.schedule.length; i++) {
+					var choices_display = data.choices[data.schedule[i]['section']];
+
+					options += '<option value="' + data.schedule[i]['section'] + '" >' + choices_display + '</option>';
+				}
+				$("#sch-section").html(options);
+			}
+		});
+	});
+</script>
+
+{% endblock %}
