@@ -197,7 +197,8 @@ class StudentSchedule(models.Model):
 
 class ClassworkHomework(models.Model):
 	date 					= models.ForeignKey(Calendar, on_delete=models.CASCADE)
-	section 				= models.ForeignKey(Schedule, on_delete=models.CASCADE)#, limit_choices_to={'day': limit(self)})
+	# section 				= models.ForeignKey(Schedule, on_delete=models.CASCADE)#, limit_choices_to={'day': limit(self)})
+	section 				= models.CharField(max_length=2, choices=Schedule.SECTION)
 	cw 						= models.TextField(max_length=255, blank = True)
 	hw 						= models.TextField(max_length=255, blank = True)
 	comment					= models.TextField(max_length=255, blank = True)
@@ -211,14 +212,13 @@ class ClassworkHomework(models.Model):
 		verbose_name_plural = 'ClassWork/HomeWork'
 
 	def __str__(self):
-		
-		return self.date.__str__() + " - " + self.section.__str__()
+		return self.date.__str__() + " - " + self.get_section_display()
 
-	def save(self, *args, **kwargs):
-		if self.date.date.strftime("%A") != Schedule.objects.get(id = self.section.id).day:
-			raise ValueError("dgdgdgdd")
-		else:
-			super(ClassworkHomework, self).save(*args, **kwargs)
+	# def save(self, *args, **kwargs):
+	# 	if self.date.date.strftime("%A") != Schedule.objects.get(id = self.section.id).day:
+	# 		raise ValueError("dgdgdgdd")
+	# 	else:
+	# 		super(ClassworkHomework, self).save(*args, **kwargs)
 
 	# def limit(self):
 	# 	return {'day' : self.date.date.strftime("%A")}

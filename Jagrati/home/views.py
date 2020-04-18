@@ -88,287 +88,243 @@ def completeProfile(request):
 # https://docs.djangoproject.com/en/2.2/howto/custom-template-tags/#writing-custom-template-filters
 
 # DON'T TOUCH THE DASHBOARD
+@login_required
 def dashboard(request):
-	if request.user.is_authenticated:
-		volun = Volunteer.objects.filter(email=request.user)
-		if volun.exists():
-			volun = volun[0]
-		else:
-			return redirect('set_profile')
+	volun = Volunteer.objects.filter(email=request.user)
+	if volun.exists():
+		volun = volun[0]
+	else:
+		return redirect('set_profile')
 
-		# Update today's date in Calendar if not already there
-		# MUST BE REMOVED AFTER CALENDAR IS CREATED
-		today_cal = Calendar.objects.filter(date=date.today())
-		if today_cal.exists():
-			today_cal = today_cal[0]
-		else:
-			today_cal_new = Calendar(date = date.today())
-			today_cal_new.save()
-			today_cal = Calendar.objects.get(date=date.today())
+	# Update today's date in Calendar if not already there
+	# MUST BE REMOVED AFTER CALENDAR IS CREATED
+	today_cal = Calendar.objects.filter(date=date.today())
+	if today_cal.exists():
+		today_cal = today_cal[0]
+	else:
+		today_cal_new = Calendar(date = date.today())
+		today_cal_new.save()
+		today_cal = Calendar.objects.get(date=date.today())
 
-		# For main dash ajax section display names
-		# choices_dict = {key: value for key, value in Schedule.SECTION}
-		# choices_dict_json = json.dumps(choices_dict)
+	# For main dash ajax section display names
+	# choices_dict = {key: value for key, value in Schedule.SECTION}
+	# choices_dict_json = json.dumps(choices_dict)
 
-		# DASHBOARD HAVE NOTHING WHICH CAN ONLY BE DONE ON THE PRESENT DAY
-		# If no Class is Scheduled
-		# no_class_today = ''
-		# if not today_cal.class_scheduled:
-		# 	no_class_today = 'yesss!'
+	# DASHBOARD HAVE NOTHING WHICH CAN ONLY BE DONE ON THE PRESENT DAY
+	# If no Class is Scheduled
+	# no_class_today = ''
+	# if not today_cal.class_scheduled:
+	# 	no_class_today = 'yesss!'
 
-		context = {
-			# Overall
-			# 'no_class_today' : no_class_today,
+	context = {
+		# Overall
+		# 'no_class_today' : no_class_today,
 
-			#dash-main
-			'choices': Schedule.SECTION,
-			# 'choices_dict': choices_dict_json,
-		}
-		
-		if request.method == 'POST':
-			if request.POST.get('submit') == 'class-info':
-				class_info_date_str		= request.POST['class-info-date']
-				class_info_section		= request.POST['class-info-section']
-				
-				class_info_date = datetime.strptime(class_info_date_str, '%Y-%m-%d').date()
-				class_info_day = class_info_date.strftime("%A")
+		#dash-main
+		'choices': Schedule.SECTION,
+		# 'choices_dict': choices_dict_json,
+	}
+	
+	if request.method == 'POST':
+		if request.POST.get('submit') == 'class-info':
+			class_info_date_str		= request.POST['class-info-date']
+			class_info_section		= request.POST['class-info-section']
+			
+			class_info_date = datetime.strptime(class_info_date_str, '%Y-%m-%d').date()
+			class_info_day = class_info_date.strftime("%A")
 
-				calendar = Calendar.objects.filter(date=class_info_date)
+			calendar = Calendar.objects.filter(date=class_info_date)
 
-				# If calendar instance for that day is not created
-				if not calendar.exists():
-					context1 = {
-						#dash-main
-						'no_class_found' : "bilkul_nhi",
-						'selected_date' : class_info_date,
-						'selected_schedule' : class_info_section,
-					}
-					context.update(context1)
-
-					return render(request, 'home/dashboard.html', context)
-
-				calendar = calendar[0]
-
-				# If No Class is Scheduled on that day
-				if calendar.class_scheduled is False:
-					context1 = {
-						#dash-main
-						'no_class_scheduled' : "haan",
-						'calendar_remark' : calendar.remark,
-						'selected_date' : class_info_date,
-						'selected_schedule' : class_info_section,
-					}
-					context.update(context1)
-
-					return render(request, 'home/dashboard.html', context)
-
-				schedule = Schedule.objects.filter(day=class_info_day, section=class_info_section)
-				if schedule.exists():
-					if class_info_date > date.today():
-						students_attended = "Class not yet scheduled!"
-						vol_volunteered = "Class not yet scheduled!"
-					else:
-						students_attended = StudentAttendence.objects.filter(date = calendar, present = True).order_by('sid__school_class')
-						vol_volunteered = VolunteerAttendence.objects.filter(date = calendar, present = True).order_by('roll_no__roll_no')
-
-						# USE A LIST INSTEAD [G, A, C, M, S]
-						# Students present from each village
-						stu_att_g = 0
-						stu_att_a = 0
-						stu_att_c = 0
-						stu_att_m = 0
-						stu_att_s = 0
-						stu_att_ms = 0
-						if students_attended.exists():
-							for stu_att in students_attended:
-								stu_vill = stu_att.sid.village
-								if stu_vill == 'G':
-									stu_att_g += 1
-								elif stu_vill == 'A':
-									stu_att_a += 1
-									stu_att_ms += 1
-								elif stu_vill == 'C':
-									stu_att_c += 1
-									stu_att_ms += 1
-								elif stu_vill == 'M':
-									stu_att_m += 1
-									stu_att_ms += 1
-								elif stu_vill == 'S':
-									stu_att_s += 1
-									stu_att_ms += 1
-
-						stu_att_village = {
-							'stu_att_g': stu_att_g,
-							'stu_att_a': stu_att_a,
-							'stu_att_c': stu_att_c,
-							'stu_att_m': stu_att_m,
-							'stu_att_s': stu_att_s,
-							'stu_att_ms': stu_att_ms,
-						}
-
-						if class_info_date == date.today() and not students_attended.exists():
-							students_attended = "Not yet updated!"
-						elif not students_attended.exists():
-							students_attended = "No student present."
-
-						if class_info_date == date.today() and not vol_volunteered.exists():
-							vol_volunteered = "Not yet updated!"
-						elif not vol_volunteered.exists():
-							vol_volunteered = "No volunteers were present."
-
-					cw_hw = ClassworkHomework.objects.filter(date=class_info_date, section=schedule[0])
-					if cw_hw.exists():
-						context1 = {
-							#dash-main
-							'schedule' : schedule,
-							'students_attended' : students_attended,
-							'stu_att_village' : stu_att_village,
-							'vol_volunteered' : vol_volunteered,
-							'cw_hw' : cw_hw[0],
-							'selected_date' : class_info_date,
-							'selected_schedule' : class_info_section,
-						}
-						context.update(context1)
-
-						return render(request, 'home/dashboard.html', context)
-					else:
-						context1 = {
-							#dash-main
-							'schedule' : schedule,
-							'students_attended' : students_attended,
-							'stu_att_village' : stu_att_village,
-							'vol_volunteered' : vol_volunteered,
-							'cw_hw' : {
-								'cw' : "Not yet updated!",
-								'hw' : "Not yet updated!",
-							},
-							'selected_date' : class_info_date,
-							'selected_schedule' : class_info_section,
-						}
-						context.update(context1)
-
-						return render(request, 'home/dashboard.html', context)
-				else:
-					# Keeping it just is case if Ajax takes time to load. DISABLE SUBMIT BUTTON UNTIL AJAX LOADS.
-					context1 = {
-						#dash-main
-						'no_schedule_found' : "yup!",
-						'selected_date' : class_info_date,
-						'selected_schedule' : class_info_section,
-					}
-					context.update(context1)
-
-					return render(request, 'home/dashboard.html', context)  # The chosen section is not taught on the chosen day
-
-			# elif request.POST.get('submit') == 'cwhw-date':
-			# 	cwhw_date_str = request.POST['date']
-
-			# 	cwhw_date = datetime.strptime(cwhw_date_str, '%Y-%m-%d').date()
-			# 	cwhw_day = cwhw_date.strftime("%A")
-
-			# 	calendar_date = Calendar.objects.filter(date = cwhw_date)
-
-			# 	if calendar_date.exists():
-			# 		context1 = {
-			# 			#dash-main
-			# 			'class_info_submitted' : "nopes",
-
-			# 			#dash-cwhw
-			# 			'cwhw_selected_date' : cwhw_date,
-			# 			'cwhw_section': Schedule.objects.filter(day=cwhw_day),
-			# 		}
-			# 		context.update(context1)
-
-			# 		return render(request, 'home/dashboard.html', context)
-			# 	else:
-			# 		context1 = {
-			# 			#dash-main
-			# 			'class_info_submitted' : "nopes",
-
-			# 			#dash-cwhw
-			# 			'cwhw_selected_date' : cwhw_date,
-			# 			'cwhw_error' : "The chosen day is not yet updated in the Calender.",
-			# 		}
-			# 		context.update(context1)
-
-			# 		return render(request, 'home/dashboard.html', context)
-
-
-			# TRY UPDATING CW_HW WITH AJAX
-			elif request.POST.get('submit') == 'update-cwhw':
-				# Date and section selected before pressing submit button
-				cwhw_date_str			= request.POST['date']
-				cwhw_section			= request.POST['section']
-				cw						= request.POST['cw']
-				hw						= request.POST['hw']
-				comment					= request.POST['comment']
-
-				cwhw_date = datetime.strptime(cwhw_date_str, '%Y-%m-%d').date()
-				cwhw_day = cwhw_date.strftime("%A")
-
-				# cwhw_selected_date = datetime.strptime(cwhw_selected_date_str, '%Y-%m-%d').date()
-
-				# if cwhw_selected_date == cwhw_date:
-				cal_date = Calendar.objects.get(date = cwhw_date)
-				sch_section = Schedule.objects.get(day=cwhw_day, section=cwhw_section)
-
-				if ClassworkHomework.objects.filter(date=cal_date, section=sch_section).exists():
-					cw_hw = ClassworkHomework.objects.get(date=cal_date, section=sch_section)
-					if cw:
-						cw_hw.cw += '\n' + cw + '\n - ' + volun.first_name + ' ' + volun.last_name + ', ' + volun.roll_no + '\n'
-					if hw:
-						cw_hw.hw += '\n' + hw + '\n - ' + volun.first_name + ' ' + volun.last_name + ', ' + volun.roll_no + '\n'
-					if comment:
-						cw_hw.comment += '\n' + comment + '\n - ' + volun.first_name + ' ' + volun.last_name + ', ' + volun.roll_no + '\n'
-					cw_hw.save()
-				else:
-					if cw:
-						cw += '\n - ' + volun.first_name + ' ' + volun.last_name + ', ' + volun.roll_no + '\n'
-					if hw:
-						hw += '\n - ' + volun.first_name + ' ' + volun.last_name + ', ' + volun.roll_no + '\n'
-					if comment:
-						comment += '\n - ' + volun.first_name + ' ' + volun.last_name + ', ' + volun.roll_no + '\n'
-					cw_hw = ClassworkHomework(date=cal_date, section=sch_section, cw=cw, hw=hw, comment = comment)
-					cw_hw.save()
-
+			# If calendar instance for that day is not created
+			if not calendar.exists():
 				context1 = {
 					#dash-main
-					'class_info_submitted' : "nopes",
-
-					# CAN USE SESSION VARIABLES TO SEND THESE DATA
-					'selected_date' : cwhw_date,   # <-- New
-					'selected_schedule' : cwhw_section,   # <-- New
-
-					#dash-cwhw
-					'toast' : "CW_HW update successful!",
+					'no_class_found' : "bilkul_nhi",
+					'selected_date' : class_info_date,
+					'selected_schedule' : class_info_section,
 				}
 				context.update(context1)
 
-				messages.success(request, 'CW_HW update successful!')
 				return render(request, 'home/dashboard.html', context)
-				# else:
-				# 	context1 = {
-				# 		#dash-main
-				# 		'class_info_submitted' : "nopes",
 
-				# 		#dash-cwhw
-				# 		'cwhw_selected_date' : cwhw_date,
-				# 		'cwhw_error' : "You've changed the date! Kindly submit the chosen date before updating.",
-				# 		'toast' : "CW_HW update failed!",
-				# 	}
-				# 	context.update(context1)
+			calendar = calendar[0]
 
-				# 	return render(request, 'home/dashboard.html', context)
+			# If No Class is Scheduled on that day
+			if calendar.class_scheduled is False:
+				context1 = {
+					#dash-main
+					'no_class_scheduled' : "haan",
+					'calendar_remark' : calendar.remark,
+					'selected_date' : class_info_date,
+					'selected_schedule' : class_info_section,
+				}
+				context.update(context1)
 
-		else:
+				return render(request, 'home/dashboard.html', context)
+
+			schedule = Schedule.objects.filter(day=class_info_day, section=class_info_section)
+			if schedule.exists():
+				if class_info_date > date.today():
+					students_attended = "Class not yet scheduled!"
+					vol_volunteered = "Class not yet scheduled!"
+				else:
+					students_attended = StudentAttendence.objects.filter(date = calendar, present = True).order_by('sid__school_class')
+					vol_volunteered = VolunteerAttendence.objects.filter(date = calendar, present = True).order_by('roll_no__roll_no')
+
+					# USE A LIST INSTEAD [G, A, C, M, S]
+					# Students present from each village
+					stu_att_g = 0
+					stu_att_a = 0
+					stu_att_c = 0
+					stu_att_m = 0
+					stu_att_s = 0
+					stu_att_ms = 0
+					if students_attended.exists():
+						for stu_att in students_attended:
+							stu_vill = stu_att.sid.village
+							if stu_vill == 'G':
+								stu_att_g += 1
+							elif stu_vill == 'A':
+								stu_att_a += 1
+								stu_att_ms += 1
+							elif stu_vill == 'C':
+								stu_att_c += 1
+								stu_att_ms += 1
+							elif stu_vill == 'M':
+								stu_att_m += 1
+								stu_att_ms += 1
+							elif stu_vill == 'S':
+								stu_att_s += 1
+								stu_att_ms += 1
+
+					stu_att_village = {
+						'stu_att_g': stu_att_g,
+						'stu_att_a': stu_att_a,
+						'stu_att_c': stu_att_c,
+						'stu_att_m': stu_att_m,
+						'stu_att_s': stu_att_s,
+						'stu_att_ms': stu_att_ms,
+					}
+
+					if class_info_date == date.today() and not students_attended.exists():
+						students_attended = "Not yet updated!"
+					elif not students_attended.exists():
+						students_attended = "No student present."
+
+					if class_info_date == date.today() and not vol_volunteered.exists():
+						vol_volunteered = "Not yet updated!"
+					elif not vol_volunteered.exists():
+						vol_volunteered = "No volunteers were present."
+
+				# Classwork-Homework starts
+				cw_hw = ClassworkHomework.objects.filter(date=class_info_date, section=class_info_section)
+				if cw_hw.exists():
+					context1 = {
+						#dash-main
+						'schedule' : schedule,
+						'students_attended' : students_attended,
+						'stu_att_village' : stu_att_village,
+						'vol_volunteered' : vol_volunteered,
+						'cw_hw' : cw_hw[0],
+						'selected_date' : class_info_date,
+						'selected_schedule' : class_info_section,
+					}
+					context.update(context1)
+
+					return render(request, 'home/dashboard.html', context)
+				else:
+					context1 = {
+						#dash-main
+						'schedule' : schedule,
+						'students_attended' : students_attended,
+						'stu_att_village' : stu_att_village,
+						'vol_volunteered' : vol_volunteered,
+						'cw_hw' : {
+							'cw' : "Not yet updated!",
+							'hw' : "Not yet updated!",
+						},
+						'selected_date' : class_info_date,
+						'selected_schedule' : class_info_section,
+					}
+					context.update(context1)
+
+					return render(request, 'home/dashboard.html', context)
+			else:
+				# Keeping it just is case if Ajax takes time to load. DISABLE SUBMIT BUTTON UNTIL AJAX LOADS.
+				context1 = {
+					#dash-main
+					'no_schedule_found' : "yup!",
+					'selected_date' : class_info_date,
+					'selected_schedule' : class_info_section,
+				}
+				context.update(context1)
+
+				return render(request, 'home/dashboard.html', context)  # The chosen section is not taught on the chosen day
+
+		# TRY UPDATING CW_HW WITH AJAX  --- NO! MAY RESULT IN DUPLICATE REQUESTS
+		elif request.POST.get('submit') == 'update-cwhw':
+			""" This POST Request won't be Generated (because there will be no means to generated it in the template) if
+				1. Selected Date is not present in Calendar. (Already checked for above)
+				2. Selected Day (from Date) and Section not present in Schedule. (Already checked for above and
+					submit button will be disabled until AJAX is loaded completely)
+				3. No Class Scheduled on Selected Date. (Already checked for above)
+			"""
+			# Date and section selected before pressing submit button
+			cwhw_date_str			= request.POST['date']
+			cwhw_section			= request.POST['section']
+			cw						= request.POST['cw']
+			hw						= request.POST['hw']
+			comment					= request.POST['comment']
+
+			cwhw_date = datetime.strptime(cwhw_date_str, '%Y-%m-%d').date()
+			# cwhw_day = cwhw_date.strftime("%A")
+
+			cal_date = Calendar.objects.get(date = cwhw_date)
+			# sch_section = Schedule.objects.get(day=cwhw_day, section=cwhw_section)
+
+			if ClassworkHomework.objects.filter(date=cal_date, section=cwhw_section).exists():
+				cw_hw = ClassworkHomework.objects.get(date=cal_date, section=cwhw_section)
+				if cw:
+					cw_hw.cw += '\n' + cw + '\n - ' + volun.first_name + ' ' + volun.last_name + ', ' + volun.roll_no + '\n'
+				if hw:
+					cw_hw.hw += '\n' + hw + '\n - ' + volun.first_name + ' ' + volun.last_name + ', ' + volun.roll_no + '\n'
+				if comment:
+					cw_hw.comment += '\n' + comment + '\n - ' + volun.first_name + ' ' + volun.last_name + ', ' + volun.roll_no + '\n'
+				cw_hw.save()
+			else:
+				if cw:
+					cw += '\n - ' + volun.first_name + ' ' + volun.last_name + ', ' + volun.roll_no + '\n'
+				if hw:
+					hw += '\n - ' + volun.first_name + ' ' + volun.last_name + ', ' + volun.roll_no + '\n'
+				if comment:
+					comment += '\n - ' + volun.first_name + ' ' + volun.last_name + ', ' + volun.roll_no + '\n'
+				cw_hw = ClassworkHomework(date=cal_date, section=cwhw_section, cw=cw, hw=hw, comment=comment)
+				cw_hw.save()
+
+			# context1 is not being used currently
 			context1 = {
 				#dash-main
 				'class_info_submitted' : "nopes",
+
+				# CAN USE SESSION VARIABLES TO SEND THESE DATA
+				# OR NOT THAT NECESSARY
+				'selected_date' : cwhw_date,   # <-- New
+				'selected_schedule' : cwhw_section,   # <-- New
 			}
 			context.update(context1)
 
-			return render(request, 'home/dashboard.html', context)
-	return redirect('home')
+			messages.success(request, 'CW_HW update successful!')
+			# return render(request, 'home/dashboard.html', context)
+			return HttpResponseRedirect(reverse('dashboard'))
+
+	else:
+		context1 = {
+			#dash-main
+			'class_info_submitted' : "nopes",
+		}
+		context.update(context1)
+
+		return render(request, 'home/dashboard.html', context)
 
 def showSectionInDashboard(request):
 	class_info_date_str = request.GET.get('class_date', None)
