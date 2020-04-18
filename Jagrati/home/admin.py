@@ -80,13 +80,13 @@ class VolunteerScheduleAdmin(admin.ModelAdmin):
 		return obj.schedule.get_section_display()
 	get_section.short_description = 'Section'
 
-admin.site.register(models.Volunteer_schedule, VolunteerScheduleAdmin)
+admin.site.register(models.VolunteerSchedule, VolunteerScheduleAdmin)
 
-admin.site.register(models.Student_schedule)
-admin.site.register(models.Cw_hw)
-admin.site.register(models.Volunteer_attended_on)
+admin.site.register(models.StudentSchedule)
+admin.site.register(models.ClassworkHomework)
+admin.site.register(models.VolunteerAttendence)
 
-class StudentAttendedOnAdmin(admin.ModelAdmin):
+class StudentAttendenceAdmin(admin.ModelAdmin):
 	list_display = ('date', 'get_name', 'get_class', 'present')
 	search_fields = ('date', 'sid__first_name', 'sid__last_name')
 	list_filter = ('present', 'sid__school_class', 'sid__village')
@@ -102,4 +102,4 @@ class StudentAttendedOnAdmin(admin.ModelAdmin):
 	get_class.short_description = 'Class'
 	get_class.admin_order_field = 'sid__school_class'
 
-admin.site.register(models.Student_attended_on, StudentAttendedOnAdmin)
+admin.site.register(models.StudentAttendence, StudentAttendenceAdmin)

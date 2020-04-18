@@ -1,13 +1,13 @@
 from .models import(
 	Volunteer,
-	Volunteer_schedule,
-	Volunteer_attended_on,
+	VolunteerSchedule,
+	VolunteerAttendence,
 	Student,
-	Student_schedule,
-	Student_attended_on,
+	StudentSchedule,
+	StudentAttendence,
 	Calendar,
 	Schedule,
-	Cw_hw,
+	ClassworkHomework,
 )
 from datetime import datetime, date
 # import json
@@ -20,7 +20,7 @@ def database_context(request):
 		obj = Volunteer.objects.filter(email = request.user)
 		if obj.exists():
 			volunteer = obj[0]
-			obj2 = Volunteer_schedule.objects.filter(roll_no = volunteer)
+			obj2 = VolunteerSchedule.objects.filter(roll_no = volunteer)
 			if obj2.exists():
 				vol_schedule = obj2[0]
 			else:
@@ -61,11 +61,11 @@ def database_context(request):
 			'volunteers': volunteers,
 			# 'vol_dict_json' : vol_dict_json,
 			'vol_schedule': vol_schedule,
-			'vol_schedules': Volunteer_schedule.objects.all(),
+			'vol_schedules': VolunteerSchedule.objects.all(),
 			'schedules' : Schedule.objects.order_by('section'),
 			# 'sch_dict_json' : sch_dict_json,
-			'today_vol_att' : Volunteer_attended_on.objects.filter(date=date.today()),
-			'today_stu_att' : Student_attended_on.objects.filter(date=date.today()),
+			'today_vol_att' : VolunteerAttendence.objects.filter(date=date.today()),
+			'today_stu_att' : StudentAttendence.objects.filter(date=date.today()),
 			'students' : students,
 			# 'stu_dict_json' : stu_dict_json,
 		}

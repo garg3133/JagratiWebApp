@@ -160,7 +160,7 @@ class Calendar(models.Model):
 		s=str(self.date)
 		return s
 
-class Volunteer_schedule(models.Model):
+class VolunteerSchedule(models.Model):
 	roll_no  				= models.ForeignKey(Volunteer, on_delete=models.CASCADE)
 	day 	 				= models.CharField(max_length=10, blank=True)
 	schedule 				= models.ForeignKey(Schedule, on_delete=models.CASCADE)
@@ -175,10 +175,10 @@ class Volunteer_schedule(models.Model):
 
 	def save(self, *args, **kwargs):
 		self.day = Schedule.objects.get(id = self.schedule.id).day
-		super(Volunteer_schedule, self).save(*args, **kwargs)
+		super(VolunteerSchedule, self).save(*args, **kwargs)
 
 
-class Student_schedule(models.Model):
+class StudentSchedule(models.Model):
 	sid 	 				= models.ForeignKey(Student, on_delete=models.CASCADE)
 	day 	 				= models.CharField(max_length=10, blank=True)
 	schedule 				= models.ForeignKey(Schedule, on_delete=models.CASCADE)
@@ -193,9 +193,9 @@ class Student_schedule(models.Model):
 
 	def save(self, *args, **kwargs):
 		self.day = Schedule.objects.get(id = self.schedule.id).day
-		super(Student_schedule, self).save(*args, **kwargs)
+		super(StudentSchedule, self).save(*args, **kwargs)
 
-class Cw_hw(models.Model):
+class ClassworkHomework(models.Model):
 	date 					= models.ForeignKey(Calendar, on_delete=models.CASCADE)
 	section 				= models.ForeignKey(Schedule, on_delete=models.CASCADE)#, limit_choices_to={'day': limit(self)})
 	cw 						= models.TextField(max_length=255, blank = True)
@@ -218,12 +218,12 @@ class Cw_hw(models.Model):
 		if self.date.date.strftime("%A") != Schedule.objects.get(id = self.section.id).day:
 			raise ValueError("dgdgdgdd")
 		else:
-			super(Cw_hw, self).save(*args, **kwargs)
+			super(ClassworkHomework, self).save(*args, **kwargs)
 
 	# def limit(self):
 	# 	return {'day' : self.date.date.strftime("%A")}
 
-class Student_attended_on(models.Model):
+class StudentAttendence(models.Model):
 	sid 					= models.ForeignKey(Student, on_delete=models.CASCADE, verbose_name="Student Name")
 	date 					= models.ForeignKey(Calendar, on_delete=models.CASCADE)
 	present					= models.BooleanField(default=False)
@@ -238,7 +238,7 @@ class Student_attended_on(models.Model):
 		return self.sid.__str__() + " - " + self.date.__str__()
 
 
-class Volunteer_attended_on(models.Model):
+class VolunteerAttendence(models.Model):
 	roll_no 				= models.ForeignKey(Volunteer, on_delete=models.CASCADE)
 	date 					= models.ForeignKey(Calendar, on_delete=models.CASCADE)
 	present					= models.BooleanField(default=False)
@@ -279,15 +279,15 @@ class UpdateScheduleRequest(models.Model):
 
 	def save(self, *args, **kwargs):
 
-		# Create Volunteer_schedule instance
+		# Create VolunteerSchedule instance
 		if self.approved is True or self.by_admin is True:
-			prev_sch = Volunteer_schedule.objects.filter(roll_no = self.volunteer)
+			prev_sch = VolunteerSchedule.objects.filter(roll_no = self.volunteer)
 			if prev_sch.exists():
 				prev_sch = prev_sch[0]
 				prev_sch.schedule = self.updated_schedule
 				prev_sch.save()
 			else:
-				vol_sch = Volunteer_schedule(roll_no = self.volunteer, schedule = self.updated_schedule)
+				vol_sch = VolunteerSchedule(roll_no = self.volunteer, schedule = self.updated_schedule)
 				vol_sch.save()
 		
 		super(UpdateScheduleRequest, self).save(*args, **kwargs)

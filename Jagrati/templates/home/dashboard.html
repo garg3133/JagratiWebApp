@@ -48,12 +48,13 @@
 	</div>
 	{% endif %}
 
+	<!-- If Submit Button is Pressed -->
 	{% if not class_info_submitted %}
 		{% if no_class_found %}
 		<p class="text-center mt-4">The chosen day is not yet updated in the Calendar.</p>
 		{% elif no_class_scheduled %}
 		<p class="text-center mt-4">No class was scheduled on the chosen day.</p>
-		<p class="text-center">{{calendar.remark}}</p>
+		<p class="text-center">{{calendar_remark}}</p>
 		{% elif no_schedule_found %}
 		<p class="text-center mt-4">The chosen section is not taught on the chosen date.</p>
 		{% else %}
@@ -224,7 +225,7 @@
 <script>
 	$("#class-date").change(function () {
 		var class_date = $(this).val();
-
+		// DISABLE SUBMIT BUTTON HERE
 		$.ajax({
 			url: '/ajax/section_dashboard/',
 			data: {
@@ -244,6 +245,8 @@
 				}
 				$("#class-section").html(options);
 				// $("#citylist option:first").attr('selected', 'selected');
+				
+				// RE-ENABLE THE SUBMIT BUTTON HERE
 			}
 		});
 	});
