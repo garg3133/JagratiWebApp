@@ -26,13 +26,7 @@
 			</div>
 			<div class="col-md-4 mb-3">
 				<label for="sch-section">Section</label>
-				<select name="section" class="custom-select d-block w-100" id="sch-section" required>
-						{% comment %}
-							{% for j,i in section %}
-							<option value="{{j}}">{{i}}</option>
-							{% endfor %}
-						{% endcomment %}
-				</select>
+				<select name="section" class="custom-select d-block w-100" id="sch-section" required></select>
 			</div>
 		</div>
 		<div class="row justify-content-center mb-4">
@@ -40,11 +34,6 @@
 				<button name="submit" value="update-schedule" class="btn btn-primary btn-lg btn-block" type="submit">Request Update</button>
 			</div>
 		</div>
-		<!-- <div class="row justify-content-center mb-4">
-			<div class="col-md-4">
-				<a data-toggle="modal" href="#sch-modal" class="text-center d-block">Display Schedule</a>
-			</div>
-		</div> -->
 		<div class="row justify-content-center my-4 mx-0">
 			<div class="col-md-9 border rounded">
 				<h4 class="text-center mt-3">Previous Requests</h4>
@@ -127,11 +116,11 @@
 			dataType: 'json',
 			success: function (data) {
 				var options = '';
-				for (var i = 0; i < data.schedule.length; i++) {
-					var choices_display = data.choices[data.schedule[i]['section']];
 
-					options += '<option value="' + data.schedule[i]['section'] + '" >' + choices_display + '</option>';
-				}
+				Object.entries(data).forEach(([key, value]) => {
+					options += '<option value="' + key + '" >' + value + '</option>';
+				});
+
 				$("#sch-section").html(options);
 			}
 		});

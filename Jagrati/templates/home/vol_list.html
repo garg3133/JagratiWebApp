@@ -41,8 +41,8 @@
 	$("#vol-list-day option:first").attr('selected', 'selected');
 	$("#vol-list-day").change(function () {
 		let vol_list_day = $(this).val();
-
 		let reg_vol_div = document.getElementById('reg-vol');
+
 		if(vol_list_day == ""){
 			if(!reg_vol_div.classList.contains('d-none')) reg_vol_div.classList.add('d-none');
 		} 
@@ -51,31 +51,25 @@
 		} 
 
 		$.ajax({
-			url: '/ajax/volunteer_list/',
+			url: "{% url 'volunteer_list_ajax' %}",
 			data: {
 				'vol_list_day': vol_list_day
 			},
 			dataType: 'json',
 			success: function (data) {
-				let vol_list_table = '<thead><tr><th>Roll No.</th><th>Name</th><th>Section</th></tr></thead><tbody>';
-				let hello = '';   // Just for fun
-					
-				// console.log(vol_dict)
-				for (var i = 0; i < data.stu_today.length; i++) {
-
-					let first_name = data.volunteers[data.stu_today[i]['roll_no_id']]['first_name'];
-					let last_name = data.volunteers[data.stu_today[i]['roll_no_id']]['last_name'];
-					let roll_no = data.volunteers[data.stu_today[i]['roll_no_id']]['roll_no'];
-					var sec_display = data.choices[data.schedule[data.stu_today[i]['schedule_id']]['section']];
-					// console.log(first_name)
-
-					if(true) hello = 'there'  // Just for fun
-
-					vol_list_table += '<tr><td>' + roll_no + '</td><td>' + first_name + ' ' + last_name + '</td><td>' + sec_display + '</td></tr>';
-					
+				if (Object.keys(data).length === 0){
+					$("#vol-list-table").html('No Volunteers to display!');
 				}
-				vol_list_table += '</tbody>';
-				$("#vol-list-table").html(vol_list_table);
+				else{
+					let vol_list_table = '<thead><tr><th>Roll No.</th><th>Name</th><th>Section</th></tr></thead><tbody>';
+
+					Object.entries(data).forEach(([key, [roll_no, first_name, last_name, section]]) => {
+						vol_list_table += '<tr><td>' + roll_no + '</td><td>' + first_name + ' ' + last_name + '</td><td>' + section + '</td></tr>';
+					});
+
+					vol_list_table += '</tbody>';
+					$("#vol-list-table").html(vol_list_table);
+				}
 			}
 		});
 	});

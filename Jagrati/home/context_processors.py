@@ -1,13 +1,14 @@
 from .models import(
 	Volunteer,
-	VolunteerSchedule,
-	VolunteerAttendence,
 	Student,
+	# Calendar,
+	# Section,
+	# Schedule,
 	StudentSchedule,
+	VolunteerSchedule,
+	# ClassworkHomework,
 	StudentAttendence,
-	Calendar,
-	Schedule,
-	ClassworkHomework,
+	VolunteerAttendence,
 )
 from datetime import datetime, date
 # import json
@@ -17,10 +18,10 @@ from datetime import datetime, date
 def database_context(request):
 	if request.user.is_authenticated:
 		# Logged in Volunteer's data
-		obj = Volunteer.objects.filter(email = request.user)
+		obj = Volunteer.objects.filter(email=request.user)
 		if obj.exists():
 			volunteer = obj[0]
-			obj2 = VolunteerSchedule.objects.filter(roll_no = volunteer)
+			obj2 = VolunteerSchedule.objects.filter(roll_no=volunteer)
 			if obj2.exists():
 				vol_schedule = obj2[0]
 			else:
@@ -62,7 +63,7 @@ def database_context(request):
 			# 'vol_dict_json' : vol_dict_json,
 			'vol_schedule': vol_schedule,
 			'vol_schedules': VolunteerSchedule.objects.all(),
-			'schedules' : Schedule.objects.order_by('section'),
+			# 'schedules' : Schedule.objects.order_by('section__section_id'),
 			# 'sch_dict_json' : sch_dict_json,
 			'today_vol_att' : VolunteerAttendence.objects.filter(date=date.today()),
 			'today_stu_att' : StudentAttendence.objects.filter(date=date.today()),

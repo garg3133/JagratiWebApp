@@ -20,18 +20,10 @@
 			</div>
 			<div class="col-md-4 mb-3">
 				<label for="class-section">Section</label>
-				<select name="class-info-section" class="custom-select d-block w-100" id="class-section" required>
-					{% for sec, display in choices %}
-						{% if sec == selected_schedule %}
-						<option value="{{sec}}" selected>{{display}}</option>
-						{% else %}
-						<option value="{{sec}}">{{display}}</option>
-						{% endif %}
-					{% endfor %}
-				</select>
+				<select name="class-info-section" class="custom-select d-block w-100" id="class-section" required></select>
 			</div>
 
-			<!-- Hidden Input -->
+			<!-- Hidden Input For Date Picker -->
 			<input type="hidden" id="extra-info-1" value="{{ selected_date|date:'Y-m-d' }}">
 		</div>
 		<div class="row justify-content-center mb-4">
@@ -235,16 +227,13 @@
 			success: function (data) {
 				var options = '';
 				var selected = '';
-				for (var i = 0; i < data.schedule.length; i++) {
-					var choices_display = data.choices[data.schedule[i]['section']];
-					// console.log(data.schedule[i]['section'])
 
-					if(data.schedule[i]['section'] == "{{selected_schedule}}") selected = 'selected';
+				Object.entries(data).forEach(([key, value]) => {
+					if(key == "{{selected_schedule}}") selected = 'selected';
 					else selected = '';
-					options += '<option value="' + data.schedule[i]['section'] + '"' + selected + '>' + choices_display + '</option>';
-				}
+					options += '<option value="' + key + '"' + selected + '>' + value + '</option>';
+				});
 				$("#class-section").html(options);
-				// $("#citylist option:first").attr('selected', 'selected');
 				
 				// RE-ENABLE THE SUBMIT BUTTON HERE
 			}

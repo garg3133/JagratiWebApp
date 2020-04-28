@@ -33,6 +33,7 @@ class StudentAdmin(admin.ModelAdmin):
 
 admin.site.register(models.Student, StudentAdmin)
 
+admin.site.register(models.Section)
 admin.site.register(models.Schedule)
 
 class CalendarAdmin(admin.ModelAdmin):
@@ -77,7 +78,7 @@ class VolunteerScheduleAdmin(admin.ModelAdmin):
 	get_name.short_description = 'Name'
 
 	def get_section(self, obj):
-		return obj.schedule.get_section_display()
+		return obj.schedule.section.name
 	get_section.short_description = 'Section'
 
 admin.site.register(models.VolunteerSchedule, VolunteerScheduleAdmin)

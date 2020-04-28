@@ -75,6 +75,7 @@ class Volunteer(models.Model):
 	def __str__(self):
 		return self.roll_no
 
+
 class Student(models.Model):
 	VILLAGE = (
 		('G', 'Gadheri'),
@@ -95,14 +96,34 @@ class Student(models.Model):
 		return self.first_name + " " + self.last_name
 
 
+class Calendar(models.Model):
+	date 					= models.DateField(primary_key=True)
+	remark 					= models.TextField(max_length=255, blank=True)
+	class_scheduled 		= models.BooleanField(default=True)
+
+	class Meta:
+		verbose_name_plural = 'Calendar'
+
+	def __str__(self):
+		return str(self.date)
+
+
+class Section(models.Model):
+	section_id = models.CharField(max_length=5, unique=True)   # For grouping and sorting
+	name = models.CharField(max_length=30, unique=True)
+
+	def __str__(self):
+		return self.name
+
+
 class Schedule(models.Model):
 
-	DAY = [(calendar.day_name[i], calendar.day_name[i]) for i in range(0,6)]
+	DAY = [(calendar.day_name[i], calendar.day_name[i]) for i in range(0,6)]   # They won't ever change and will give us dropdown in Admin site
 
 	SECTION = (
-		('A', "Section-A"),
-		('B', "Section-B"),
-		('C', "Section-C"),
+		('0A', "Section-A"),
+		('0B', "Section-B"),
+		('0C', "Section-C"),
 
 		('1', "Class 1/2/3"),
 		('1A', "Class 1/2/3 Section-A"),
@@ -135,47 +156,19 @@ class Schedule(models.Model):
 		('hin', "Hindi"),
 		('mat', "Mathematics"),
 		('sci', "Science"),
+		('mab', "Mental Ability"),
 	)
 
-	day 					= models.CharField(max_length=9, choices = DAY)
-	section 				= models.CharField(max_length=2, choices=SECTION)
+	day 					= models.CharField(max_length=9, choices=DAY)
+	# section 				= models.CharField(max_length=2, choices=SECTION)
+	section 				= models.ForeignKey(Section, on_delete=models.CASCADE)
 	subject 				= models.CharField(max_length=3, choices=SUBJECT, default="hin")
 
 	class Meta:
 		unique_together = (('day', 'section'),)
 
 	def __str__(self):
-		return self.day + " - " + self.get_section_display()
-
-
-class Calendar(models.Model):
-	date 					= models.DateField(primary_key=True)
-	remark 					= models.TextField(max_length=255, blank=True)
-	class_scheduled 		= models.BooleanField(default=True)
-
-	class Meta:
-		verbose_name_plural = 'Calendar'
-
-	def __str__(self):
-		s=str(self.date)
-		return s
-
-class VolunteerSchedule(models.Model):
-	roll_no  				= models.ForeignKey(Volunteer, on_delete=models.CASCADE)
-	day 	 				= models.CharField(max_length=10, blank=True)
-	schedule 				= models.ForeignKey(Schedule, on_delete=models.CASCADE)
-
-	class Meta:
-		unique_together = (('roll_no', 'day'),)
-		verbose_name = 'Volunteer Schedule'
-		verbose_name_plural = 'Volunteers Schedule'
-
-	def __str__(self):
-		return self.roll_no.__str__() + " - " + self.schedule.__str__()
-
-	def save(self, *args, **kwargs):
-		self.day = Schedule.objects.get(id = self.schedule.id).day
-		super(VolunteerSchedule, self).save(*args, **kwargs)
+		return self.day + " - " + self.section.name
 
 
 class StudentSchedule(models.Model):
@@ -195,10 +188,30 @@ class StudentSchedule(models.Model):
 		self.day = Schedule.objects.get(id = self.schedule.id).day
 		super(StudentSchedule, self).save(*args, **kwargs)
 
+
+class VolunteerSchedule(models.Model):
+	roll_no  				= models.ForeignKey(Volunteer, on_delete=models.CASCADE)
+	day 	 				= models.CharField(max_length=10, blank=True)
+	schedule 				= models.ForeignKey(Schedule, on_delete=models.CASCADE)
+
+	class Meta:
+		unique_together = (('roll_no', 'day'),)
+		verbose_name = 'Volunteer Schedule'
+		verbose_name_plural = 'Volunteers Schedule'
+
+	def __str__(self):
+		return self.roll_no.__str__() + " - " + self.schedule.__str__()
+
+	def save(self, *args, **kwargs):
+		self.day = Schedule.objects.get(id = self.schedule.id).day
+		super(VolunteerSchedule, self).save(*args, **kwargs)
+
+
 class ClassworkHomework(models.Model):
 	date 					= models.ForeignKey(Calendar, on_delete=models.CASCADE)
-	# section 				= models.ForeignKey(Schedule, on_delete=models.CASCADE)#, limit_choices_to={'day': limit(self)})
-	section 				= models.CharField(max_length=2, choices=Schedule.SECTION)
+	section 				= models.ForeignKey(Section, on_delete=models.CASCADE)
+	#, limit_choices_to={'day': limit(self)})  <-- was used in section when it had FK ref to Schedule (see save method)
+	# section 				= models.CharField(max_length=2, choices=Schedule.SECTION)
 	cw 						= models.TextField(max_length=255, blank = True)
 	hw 						= models.TextField(max_length=255, blank = True)
 	comment					= models.TextField(max_length=255, blank = True)
@@ -212,7 +225,7 @@ class ClassworkHomework(models.Model):
 		verbose_name_plural = 'ClassWork/HomeWork'
 
 	def __str__(self):
-		return self.date.__str__() + " - " + self.get_section_display()
+		return self.date.__str__() + " - " + self.section.name
 
 	# def save(self, *args, **kwargs):
 	# 	if self.date.date.strftime("%A") != Schedule.objects.get(id = self.section.id).day:
@@ -222,6 +235,7 @@ class ClassworkHomework(models.Model):
 
 	# def limit(self):
 	# 	return {'day' : self.date.date.strftime("%A")}
+
 
 class StudentAttendence(models.Model):
 	sid 					= models.ForeignKey(Student, on_delete=models.CASCADE, verbose_name="Student Name")
@@ -252,6 +266,7 @@ class VolunteerAttendence(models.Model):
 	def __str__(self):
 		return self.roll_no.__str__() + " - " + self.date.__str__()
 
+
 class Feedback(models.Model):
 	name 					= models.CharField(max_length=50)
 	roll_no					= models.CharField(max_length=10, blank=True)
@@ -262,10 +277,11 @@ class Feedback(models.Model):
 	def __str__(self):
 		return self.name.__str__()
 
+
 class UpdateScheduleRequest(models.Model):
 	volunteer 				= models.ForeignKey(Volunteer, on_delete=models.CASCADE)
-	previous_schedule 		= models.ForeignKey(Schedule, on_delete=models.CASCADE, related_name = 'previous_schedule', null = True, blank = True)
-	updated_schedule 		= models.ForeignKey(Schedule, on_delete=models.CASCADE, related_name = 'updated_schedule')
+	previous_schedule 		= models.ForeignKey(Schedule, on_delete=models.CASCADE, related_name='previous_schedule', null=True, blank=True)
+	updated_schedule 		= models.ForeignKey(Schedule, on_delete=models.CASCADE, related_name='updated_schedule')
 	date 					= models.DateTimeField(verbose_name='Date', auto_now_add=True)
 
 	# Only one of the below booleans will be true. Request pending if all false!
@@ -280,14 +296,14 @@ class UpdateScheduleRequest(models.Model):
 	def save(self, *args, **kwargs):
 
 		# Create VolunteerSchedule instance
-		if self.approved is True or self.by_admin is True:
-			prev_sch = VolunteerSchedule.objects.filter(roll_no = self.volunteer)
+		if self.approved is True or self.by_admin is True:   # Schedule is updated in only these two cases
+			prev_sch = VolunteerSchedule.objects.filter(roll_no=self.volunteer)
 			if prev_sch.exists():
 				prev_sch = prev_sch[0]
 				prev_sch.schedule = self.updated_schedule
 				prev_sch.save()
 			else:
-				vol_sch = VolunteerSchedule(roll_no = self.volunteer, schedule = self.updated_schedule)
+				vol_sch = VolunteerSchedule(roll_no=self.volunteer, schedule=self.updated_schedule)
 				vol_sch.save()
 		
 		super(UpdateScheduleRequest, self).save(*args, **kwargs)

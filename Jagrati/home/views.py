@@ -3,13 +3,14 @@ from django.contrib.auth.decorators import login_required
 from .models import(
 	Volunteer,
 	Student,
-	Schedule,
-	VolunteerSchedule,
-	StudentSchedule,
-	ClassworkHomework,
 	Calendar,
-	VolunteerAttendence,
+	Section,
+	Schedule,
+	StudentSchedule,
+	VolunteerSchedule,
+	ClassworkHomework,
 	StudentAttendence,
+	VolunteerAttendence,
 	Feedback,
 	UpdateScheduleRequest,
 )
@@ -106,25 +107,7 @@ def dashboard(request):
 		today_cal_new.save()
 		today_cal = Calendar.objects.get(date=date.today())
 
-	# For main dash ajax section display names
-	# choices_dict = {key: value for key, value in Schedule.SECTION}
-	# choices_dict_json = json.dumps(choices_dict)
 
-	# DASHBOARD HAVE NOTHING WHICH CAN ONLY BE DONE ON THE PRESENT DAY
-	# If no Class is Scheduled
-	# no_class_today = ''
-	# if not today_cal.class_scheduled:
-	# 	no_class_today = 'yesss!'
-
-	context = {
-		# Overall
-		# 'no_class_today' : no_class_today,
-
-		#dash-main
-		'choices': Schedule.SECTION,
-		# 'choices_dict': choices_dict_json,
-	}
-	
 	if request.method == 'POST':
 		if request.POST.get('submit') == 'class-info':
 			class_info_date_str		= request.POST['class-info-date']
@@ -137,13 +120,13 @@ def dashboard(request):
 
 			# If calendar instance for that day is not created
 			if not calendar.exists():
-				context1 = {
+				context = {
 					#dash-main
 					'no_class_found' : "bilkul_nhi",
 					'selected_date' : class_info_date,
 					'selected_schedule' : class_info_section,
 				}
-				context.update(context1)
+				# context.update(context1)
 
 				return render(request, 'home/dashboard.html', context)
 
@@ -151,18 +134,19 @@ def dashboard(request):
 
 			# If No Class is Scheduled on that day
 			if calendar.class_scheduled is False:
-				context1 = {
+				context = {
 					#dash-main
 					'no_class_scheduled' : "haan",
 					'calendar_remark' : calendar.remark,
 					'selected_date' : class_info_date,
 					'selected_schedule' : class_info_section,
 				}
-				context.update(context1)
+				# context.update(context1)
 
 				return render(request, 'home/dashboard.html', context)
 
-			schedule = Schedule.objects.filter(day=class_info_day, section=class_info_section)
+			section = Section.objects.get(section_id=class_info_section)
+			schedule = Schedule.objects.filter(day=class_info_day, section=section)
 			if schedule.exists():
 				if class_info_date > date.today():
 					students_attended = "Class not yet scheduled!"
@@ -217,11 +201,11 @@ def dashboard(request):
 						vol_volunteered = "No volunteers were present."
 
 				# Classwork-Homework starts
-				cw_hw = ClassworkHomework.objects.filter(date=class_info_date, section=class_info_section)
+				cw_hw = ClassworkHomework.objects.filter(date=class_info_date, section=section)
 				if cw_hw.exists():
-					context1 = {
+					context = {
 						#dash-main
-						'schedule' : schedule,
+						# 'schedule' : schedule,
 						'students_attended' : students_attended,
 						'stu_att_village' : stu_att_village,
 						'vol_volunteered' : vol_volunteered,
@@ -229,13 +213,13 @@ def dashboard(request):
 						'selected_date' : class_info_date,
 						'selected_schedule' : class_info_section,
 					}
-					context.update(context1)
+					# context.update(context1)
 
 					return render(request, 'home/dashboard.html', context)
 				else:
-					context1 = {
+					context = {
 						#dash-main
-						'schedule' : schedule,
+						# 'schedule' : schedule,
 						'students_attended' : students_attended,
 						'stu_att_village' : stu_att_village,
 						'vol_volunteered' : vol_volunteered,
@@ -246,18 +230,18 @@ def dashboard(request):
 						'selected_date' : class_info_date,
 						'selected_schedule' : class_info_section,
 					}
-					context.update(context1)
+					# context.update(context1)
 
 					return render(request, 'home/dashboard.html', context)
 			else:
 				# Keeping it just is case if Ajax takes time to load. DISABLE SUBMIT BUTTON UNTIL AJAX LOADS.
-				context1 = {
+				context = {
 					#dash-main
 					'no_schedule_found' : "yup!",
 					'selected_date' : class_info_date,
 					'selected_schedule' : class_info_section,
 				}
-				context.update(context1)
+				# context.update(context1)
 
 				return render(request, 'home/dashboard.html', context)  # The chosen section is not taught on the chosen day
 
@@ -277,13 +261,13 @@ def dashboard(request):
 			comment					= request.POST['comment']
 
 			cwhw_date = datetime.strptime(cwhw_date_str, '%Y-%m-%d').date()
-			# cwhw_day = cwhw_date.strftime("%A")
 
 			cal_date = Calendar.objects.get(date = cwhw_date)
-			# sch_section = Schedule.objects.get(day=cwhw_day, section=cwhw_section)
+			section = Section.objects.get(section_id=cwhw_section)
 
-			if ClassworkHomework.objects.filter(date=cal_date, section=cwhw_section).exists():
-				cw_hw = ClassworkHomework.objects.get(date=cal_date, section=cwhw_section)
+			cw_hw = ClassworkHomework.objects.filter(date=cal_date, section=section)
+			if cw_hw.exists():
+				cw_hw = cw_hw[0]
 				if cw:
 					cw_hw.cw += '\n' + cw + '\n - ' + volun.first_name + ' ' + volun.last_name + ', ' + volun.roll_no + '\n'
 				if hw:
@@ -298,11 +282,11 @@ def dashboard(request):
 					hw += '\n - ' + volun.first_name + ' ' + volun.last_name + ', ' + volun.roll_no + '\n'
 				if comment:
 					comment += '\n - ' + volun.first_name + ' ' + volun.last_name + ', ' + volun.roll_no + '\n'
-				cw_hw = ClassworkHomework(date=cal_date, section=cwhw_section, cw=cw, hw=hw, comment=comment)
+				cw_hw = ClassworkHomework(date=cal_date, section=section, cw=cw, hw=hw, comment=comment)
 				cw_hw.save()
 
-			# context1 is not being used currently
-			context1 = {
+			# CONTEXT IS NOT BEING USED CURRENTLY
+			context = {
 				#dash-main
 				'class_info_submitted' : "nopes",
 
@@ -311,18 +295,18 @@ def dashboard(request):
 				'selected_date' : cwhw_date,   # <-- New
 				'selected_schedule' : cwhw_section,   # <-- New
 			}
-			context.update(context1)
+			# context.update(context1)
 
 			messages.success(request, 'CW_HW update successful!')
 			# return render(request, 'home/dashboard.html', context)
 			return HttpResponseRedirect(reverse('dashboard'))
 
 	else:
-		context1 = {
+		context = {
 			#dash-main
 			'class_info_submitted' : "nopes",
 		}
-		context.update(context1)
+		# context.update(context1)
 
 		return render(request, 'home/dashboard.html', context)
 
@@ -331,19 +315,13 @@ def showSectionInDashboard(request):
 	class_info_date = datetime.strptime(class_info_date_str, '%Y-%m-%d').date()
 	class_info_day = class_info_date.strftime("%A")
 
-	schedule = Schedule.objects.filter(day = class_info_day).order_by('section').values()
+	schedule = Schedule.objects.filter(day=class_info_day).order_by('section__section_id')
 
 	data = {}
 
-	sch_list = []
 	for sch in schedule:
-		sch_list.append(sch)
+		data[sch.section.section_id] = sch.section.name
 
-	data['schedule'] = sch_list
-	data['choices'] = {key: value for key, value in Schedule.SECTION}
-	
-	# json_data = json.dumps(data)
-	# json_schedule = serializers.serialize("json", schedule)
 	return JsonResponse(data)
 
 @login_required
@@ -357,17 +335,17 @@ def updateSchedule(request):
 	context = {
 		#dash-schedule
 		'day': Schedule.DAY,
-		'section': Schedule.SECTION,
-		'update_req' : UpdateScheduleRequest.objects.filter(volunteer = volun).order_by('-date'),
-		'last_update_req' : UpdateScheduleRequest.objects.filter(volunteer = volun, approved = False, declined = False, by_admin = False, cancelled = False),
+		'update_req' : UpdateScheduleRequest.objects.filter(volunteer=volun).order_by('-date'),
+		'last_update_req' : UpdateScheduleRequest.objects.filter(volunteer=volun, approved=False, declined=False, by_admin=False, cancelled=False),
 	}
 	
 	if request.method == 'POST':
 		if request.POST.get('submit') == 'update-schedule':
-			day			= request.POST['day']
-			section		= request.POST['section']
+			new_day		= request.POST['day']
+			new_section	= request.POST['section']
 
-			schedule = Schedule.objects.get(day=day, section=section)
+			section = Section.objects.get(section_id=new_section)
+			schedule = Schedule.objects.get(day=new_day, section=section)
 
 			prev_update_req = UpdateScheduleRequest.objects.filter(volunteer=volun, approved=False, declined=False, by_admin=False, cancelled=False)
 			if prev_update_req.exists():
@@ -379,13 +357,13 @@ def updateSchedule(request):
 				# prev_update_req.by_admin = False
 				prev_update_req.save()
 
-			prev_vol_sch = VolunteerSchedule.objects.filter(roll_no = volun)
+			prev_vol_sch = VolunteerSchedule.objects.filter(roll_no=volun)
 			if prev_vol_sch.exists():
 				prev_sch = prev_vol_sch[0].schedule
-				update_req = UpdateScheduleRequest(volunteer = volun, previous_schedule = prev_sch, updated_schedule = schedule)
+				update_req = UpdateScheduleRequest(volunteer=volun, previous_schedule=prev_sch, updated_schedule=schedule)
 				update_req.save()
 			else:
-				update_req = UpdateScheduleRequest(volunteer = volun, updated_schedule = schedule)
+				update_req = UpdateScheduleRequest(volunteer=volun, updated_schedule=schedule)
 				update_req.save()
 
 			messages.success(request, 'Schedule update requested successfully!')
@@ -410,19 +388,13 @@ def updateSchedule(request):
 def showSectionInUpdateSchedule(request):
 	sch_day = request.GET.get('sch_day', None)
 
-	schedule = Schedule.objects.filter(day = sch_day).order_by('section').values()
+	schedule = Schedule.objects.filter(day=sch_day).order_by('section__section_id')
 
 	data = {}
 
-	sch_list = []
 	for sch in schedule:
-		sch_list.append(sch)
+		data[sch.section.section_id] = sch.section.name
 
-	data['schedule'] = sch_list
-	data['choices'] = {key: value for key, value in Schedule.SECTION}
-	
-	# json_data = json.dumps(data)
-	# json_schedule = serializers.serialize("json", schedule)
 	return JsonResponse(data)
 
 @login_required
@@ -538,8 +510,7 @@ def studentsAttendence(request):
 
 		#dash-stu-att
 		'today_date' : date.today(),
-		# 'today_stu' : StudentAttendence.objects.filter(date = today_cal).order_by('sid__school_class'),
-		'today_stu' : StudentAttendence.objects.filter(date = today_cal, sid__school_class__range = (1, 3)).order_by('sid__school_class'),
+		'today_stu' : StudentAttendence.objects.filter(date = today_cal, sid__school_class__range = (1, 3)).order_by('sid__school_class', 'sid__first_name', 'sid__last_name'),
 	}
 
 	if request.method == 'POST':
@@ -573,29 +544,22 @@ def studentsAttendence(request):
 def studentAttendenceAjax(request):
 	stu_class = request.GET.get('stu_class', None)
 
-	today_date = Calendar.objects.get(date=date.today())
-
 	class_range = stu_class.split('-')
 	class_range_min = class_range[0]
 	class_range_max = class_range[1]
 
-	stu_to_show = StudentAttendence.objects.filter(date = today_date, sid__school_class__range = (class_range_min, class_range_max)).order_by('sid__school_class').values()
+	today_cal = Calendar.objects.get(date=date.today())
+
+	stu_att_to_show = StudentAttendence.objects.filter(
+		date=today_cal,
+		sid__school_class__range=(class_range_min, class_range_max),
+	).order_by('sid__school_class', 'sid__first_name', 'sid__last_name')
 	
 	data = {}
 
-	stu_list = []
-	for stu in stu_to_show:
-		stu_list.append(stu)
-
-	students = Student.objects.all()
-	stu_dict = {}
-	
-	for stu in students:
-		stu_dict[stu.id] = model_to_dict(stu)
-
-	data['stu_today'] = stu_list
-	data['students'] = stu_dict
-	
+	for stu_att in stu_att_to_show:
+		key = str(stu_att.sid.school_class) + stu_att.sid.first_name + stu_att.sid.last_name  # For sorting purpose.
+		data[key] = [stu_att.sid.id, stu_att.sid.first_name, stu_att.sid.last_name, stu_att.sid.school_class, stu_att.present]
 	
 	# json_data = json.dumps(data)
 	# json_stu_to_show = serializers.serialize("json", stu_to_show)
@@ -619,10 +583,10 @@ def volunteersAttendence(request):
 		today_cal = Calendar.objects.get(date=date.today())
 
 	# For Creating Empty Volunteer Attendence Instances
-	if today_cal.class_scheduled is True and not VolunteerAttendence.objects.filter(date__date = date.today()).exists():
+	if today_cal.class_scheduled is True and not VolunteerAttendence.objects.filter(date__date=date.today()).exists():
 		today_vol_sch = VolunteerSchedule.objects.filter(day=date.today().strftime("%A"))
 		for vol_sch in today_vol_sch:
-			vol_attendance = VolunteerAttendence(roll_no = vol_sch.roll_no, date = today_cal)
+			vol_attendance = VolunteerAttendence(roll_no=vol_sch.roll_no, date=today_cal)
 			vol_attendance.save()
 	
 	# If no Class is Scheduled
@@ -636,7 +600,7 @@ def volunteersAttendence(request):
 
 		#dash-vol-att
 		'today_date' : date.today(),
-		'today_volun' : VolunteerAttendence.objects.filter(date = today_cal).order_by('roll_no__roll_no'),
+		'today_volun' : VolunteerAttendence.objects.filter(date=today_cal).order_by('roll_no__roll_no'),
 	}
 	
 	if request.method == 'POST':
@@ -645,7 +609,7 @@ def volunteersAttendence(request):
 		extra_vol_array = request.POST.getlist('extra-vol')
 
 		# Mark everyone's absent
-		vol_today = VolunteerAttendence.objects.filter(date = today_date)
+		vol_today = VolunteerAttendence.objects.filter(date=today_date)
 		for vol in vol_today:
 			vol.present = False
 
@@ -657,7 +621,7 @@ def volunteersAttendence(request):
 
 		for vol in vol_array:
 			roll_no = Volunteer.objects.get(id=vol) #i is first column of volun_array
-			vol_attendance = VolunteerAttendence.objects.get(roll_no = roll_no, date = today_date)
+			vol_attendance = VolunteerAttendence.objects.get(roll_no=roll_no, date=today_date)
 			vol_attendance.present = True
 
 			# For cpanel
@@ -667,11 +631,11 @@ def volunteersAttendence(request):
 			vol_attendance.save()
 
 		for extra_vol in extra_vol_array:
-			roll_no = Volunteer.objects.filter(roll_no = extra_vol)
+			roll_no = Volunteer.objects.filter(roll_no=extra_vol)
 			if roll_no.exists():
-				extra_vol_att = VolunteerAttendence.objects.filter(roll_no = roll_no[0], date = today_date)
+				extra_vol_att = VolunteerAttendence.objects.filter(roll_no=roll_no[0], date=today_date)
 				if not extra_vol_att.exists():
-					extra_vol_att = VolunteerAttendence(roll_no = roll_no[0], date = today_date, present = True, extra = True)
+					extra_vol_att = VolunteerAttendence(roll_no=roll_no[0], date=today_date, present=True, extra=True)
 					extra_vol_att.save()
 
 		messages.success(request, 'Attendence marked successfully!')
@@ -689,32 +653,19 @@ def volunteersList(request):
 def volunteerListAjax(request):
 	vol_list_day = request.GET.get('vol_list_day', None)
 
-	vol_to_show = VolunteerSchedule.objects.filter(day = vol_list_day).order_by('schedule__section').values()
-
 	data = {}
 
-	vol_list = []
-	for vol in vol_to_show:
-		vol_list.append(vol)
+	if not vol_list_day:
+		return JsonResponse(data)
 
-	volunteers = Volunteer.objects.all()
-	vol_dict = {}
-	
-	for vol in volunteers:
-		vol_dict[vol.id] = model_to_dict(vol)
+	vol_to_show = VolunteerSchedule.objects.filter(day = vol_list_day)
 
-	schedules = Schedule.objects.all()
-	sch_dict = {}
-	
-	for sch in schedules:
-		sch_dict[sch.id] = model_to_dict(sch)
+	# setion_id used as key to display volunteers sorted by section_id and roll_no to make every key unique
+	for vol_sch in vol_to_show:
+		key = str(vol_sch.schedule.section.section_id) + str(vol_sch.roll_no.roll_no)
+		data[key] = [vol_sch.roll_no.roll_no, vol_sch.roll_no.first_name, vol_sch.roll_no.last_name, vol_sch.schedule.section.name]
 
-	data['stu_today'] = vol_list
-	data['volunteers'] = vol_dict
-	data['schedule'] = sch_dict
-	data['choices'] = {key: value for key, value in Schedule.SECTION}
-	
-	
+
 	# json_data = json.dumps(data, cls=DjangoJSONEncoder)
 	# json_vol_list = serializers.serialize("json", vol_list)
 	return JsonResponse(data)
@@ -767,7 +718,7 @@ def update_students(request):
 				student.save()
 			for day, day2 in Schedule.DAY:
 				print(day)
-				stu_sch = StudentSchedule(sid = student, schedule = Schedule.objects.get(day = day, section = '4A'))
+				stu_sch = StudentSchedule(sid = student, schedule = Schedule.objects.get(day = day, section__section_id = '4A'))
 				stu_sch.save()
 	
 	return HttpResponse('Updated successfully!')
