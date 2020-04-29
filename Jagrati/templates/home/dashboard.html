@@ -20,18 +20,10 @@
 			</div>
 			<div class="col-md-4 mb-3">
 				<label for="class-section">Section</label>
-				<select name="class-info-section" class="custom-select d-block w-100" id="class-section" required>
-					{% for sec, display in choices %}
-						{% if sec == selected_schedule %}
-						<option value="{{sec}}" selected>{{display}}</option>
-						{% else %}
-						<option value="{{sec}}">{{display}}</option>
-						{% endif %}
-					{% endfor %}
-				</select>
+				<select name="class-info-section" class="custom-select d-block w-100" id="class-section" required></select>
 			</div>
 
-			<!-- Hidden Input -->
+			<!-- Hidden Input For Date Picker -->
 			<input type="hidden" id="extra-info-1" value="{{ selected_date|date:'Y-m-d' }}">
 		</div>
 		<div class="row justify-content-center mb-4">
@@ -48,12 +40,13 @@
 	</div>
 	{% endif %}
 
+	<!-- If Submit Button is Pressed -->
 	{% if not class_info_submitted %}
 		{% if no_class_found %}
 		<p class="text-center mt-4">The chosen day is not yet updated in the Calendar.</p>
 		{% elif no_class_scheduled %}
 		<p class="text-center mt-4">No class was scheduled on the chosen day.</p>
-		<p class="text-center">{{calendar.remark}}</p>
+		<p class="text-center">{{calendar_remark}}</p>
 		{% elif no_schedule_found %}
 		<p class="text-center mt-4">The chosen section is not taught on the chosen date.</p>
 		{% else %}
@@ -224,7 +217,7 @@
 <script>
 	$("#class-date").change(function () {
 		var class_date = $(this).val();
-
+		// DISABLE SUBMIT BUTTON HERE
 		$.ajax({
 			url: '/ajax/section_dashboard/',
 			data: {
@@ -234,16 +227,15 @@
 			success: function (data) {
 				var options = '';
 				var selected = '';
-				for (var i = 0; i < data.schedule.length; i++) {
-					var choices_display = data.choices[data.schedule[i]['section']];
-					// console.log(data.schedule[i]['section'])
 
-					if(data.schedule[i]['section'] == "{{selected_schedule}}") selected = 'selected';
+				Object.entries(data).forEach(([key, value]) => {
+					if(key == "{{selected_schedule}}") selected = 'selected';
 					else selected = '';
-					options += '<option value="' + data.schedule[i]['section'] + '"' + selected + '>' + choices_display + '</option>';
-				}
+					options += '<option value="' + key + '"' + selected + '>' + value + '</option>';
+				});
 				$("#class-section").html(options);
-				// $("#citylist option:first").attr('selected', 'selected');
+				
+				// RE-ENABLE THE SUBMIT BUTTON HERE
 			}
 		});
 	});

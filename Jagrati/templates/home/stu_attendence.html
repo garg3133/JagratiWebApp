@@ -103,20 +103,20 @@
 			success: function (data) {
 				let stu_att_table = '<thead><tr><th>Student Name</th><th>Class</th><th>Mark Present</th></tr></thead><tbody>';
 				let checked = '';
-				for (var i = 0; i < data.stu_today.length; i++) {
-					if (data.stu_today[i]['present']) checked = 'checked';
+
+				Object.entries(data).forEach(([key, [stu_id, first_name, last_name, school_class, present]]) => {
+					if (present) checked = 'checked';
 					else checked = '';
 
-					let first_name = data.students[data.stu_today[i]['sid_id']]['first_name']
-					let last_name = data.students[data.stu_today[i]['sid_id']]['last_name']
-					let school_class = data.students[data.stu_today[i]['sid_id']]['school_class']
-					
 					if(school_class == 13) school_class = "JNV_4"
 					else if(school_class == 14) school_class = "JNV_5"
 
-					stu_att_table += '<tr><td>' + first_name + ' ' + last_name + '</td><td>' + school_class + '</td><td><div class="custom-control custom-switch"><input type="checkbox" name="attended" value="' + data.stu_today[i]['sid_id'] + '" class="custom-control-input" id="s' + data.stu_today[i]['sid_id'] + '" ' + checked + '><label class="custom-control-label" for="s' + data.stu_today[i]['sid_id'] + '"></label></div></td></tr>';
-					
-				}
+					stu_att_table += '<tr><td>' + first_name + ' ' + last_name + '</td><td>' + school_class + '</td> \
+						<td><div class="custom-control custom-switch"><input type="checkbox" name="attended" value="' + stu_id + '" \
+						class="custom-control-input" id="s' + stu_id + '" ' + checked + '><label class="custom-control-label" \
+						for="s' + stu_id + '"></label></div></td></tr>';
+				});
+
 				stu_att_table += '</tbody>';
 				$("#stu-att-table").html(stu_att_table);
 			}
