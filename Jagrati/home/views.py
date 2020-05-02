@@ -78,7 +78,7 @@ def completeProfile(request):
 		return HttpResponseRedirect(reverse('dashboard'))
 	
 	context = {
-		'last_4_year': datetime.now().year - 4,   # For Batch Dropdown
+		'last_5_year': datetime.now().year - 5,   # For Batch Dropdown
 	}
 	return render(request, 'home/set_profile.html', context)
 
@@ -407,7 +407,7 @@ def updateProfile(request):
 
 	context = {
 		#dash-update
-		'last_4_year': datetime.now().year - 4,
+		'last_5_year': datetime.now().year - 5,
 	}
 	
 	if request.method == 'POST':

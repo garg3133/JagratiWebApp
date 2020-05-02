@@ -7,15 +7,6 @@ import calendar
 class Volunteer(models.Model):
 	CURRENT_YEAR = datetime.datetime.now().year
 
-	BATCH = (
-		(CURRENT_YEAR		, CURRENT_YEAR),
-		(CURRENT_YEAR - 1	, CURRENT_YEAR - 1),
-		(CURRENT_YEAR - 2	, CURRENT_YEAR - 2),
-		(CURRENT_YEAR - 3	, CURRENT_YEAR - 3),
-		(CURRENT_YEAR - 4	, CURRENT_YEAR - 4),
-		(CURRENT_YEAR - 5	, CURRENT_YEAR - 5),
-	)
-
 	PROGRAMME = (
 		('bt'	, 'B.Tech'),
 		('mt'	, 'M.Tech'),
@@ -58,7 +49,7 @@ class Volunteer(models.Model):
 	first_name 				= models.CharField(verbose_name="First Name",max_length=50)
 	last_name 				= models.CharField(verbose_name="Last name",max_length=50)
 	gender 					= models.CharField(max_length=1, choices=GENDER, default='M')
-	batch					= models.IntegerField(choices=BATCH)
+	batch					= models.IntegerField()
 	programme				= models.CharField(max_length=2, choices=PROGRAMME)
 	dob 					= models.DateField(verbose_name="Date of Birth", default=datetime.datetime.now)
 	contact_no 				= models.CharField(verbose_name="Contact Number", max_length=13)
@@ -120,36 +111,36 @@ class Schedule(models.Model):
 
 	DAY = [(calendar.day_name[i], calendar.day_name[i]) for i in range(0,6)]   # They won't ever change and will give us dropdown in Admin site
 
-	SECTION = (
-		('0A', "Section-A"),
-		('0B', "Section-B"),
-		('0C', "Section-C"),
+	# SECTION = (
+	# 	('0A', "Section-A"),
+	# 	('0B', "Section-B"),
+	# 	('0C', "Section-C"),
 
-		('1', "Class 1/2/3"),
-		('1A', "Class 1/2/3 Section-A"),
-		('1B', "Class 1/2/3 Section-B"),
-		('1C', "Class 1/2/3 Section-C"),
-		('1I', "Class 1/2/3 Irregular"),
+	# 	('1', "Class 1/2/3"),
+	# 	('1A', "Class 1/2/3 Section-A"),
+	# 	('1B', "Class 1/2/3 Section-B"),
+	# 	('1C', "Class 1/2/3 Section-C"),
+	# 	('1I', "Class 1/2/3 Irregular"),
 
-		('2', "Class 4/5"),
-		('2A', "Class 4/5 Section-A"),
-		('2B', "Class 4/5 Section-B"),
-		('2C', "Class 4/5 Section-C"),
-		('2I', "Class 4/5 Irregular"),
+	# 	('2', "Class 4/5"),
+	# 	('2A', "Class 4/5 Section-A"),
+	# 	('2B', "Class 4/5 Section-B"),
+	# 	('2C', "Class 4/5 Section-C"),
+	# 	('2I', "Class 4/5 Irregular"),
 
-		('3', "Class 6/7/8"),
-		('3A', "Class 6/7/8 Section-A"),
-		('3B', "Class 6/7/8 Section-B"),
-		('3C', "Class 6/7/8 Section-C"),
-		('3I', "Class 6/7/8 Irregular"),
+	# 	('3', "Class 6/7/8"),
+	# 	('3A', "Class 6/7/8 Section-A"),
+	# 	('3B', "Class 6/7/8 Section-B"),
+	# 	('3C', "Class 6/7/8 Section-C"),
+	# 	('3I', "Class 6/7/8 Irregular"),
 
-		('4A',  "Class 9"),
-		('4B',  "Class 10"),
+	# 	('4A',  "Class 9"),
+	# 	('4B',  "Class 10"),
 
-		('NA',  "Navodaya A"),
-		('NB',  "Navodaya B"),
-		('NC',  "Navodaya C"),
-	)
+	# 	('NA',  "Navodaya A"),
+	# 	('NB',  "Navodaya B"),
+	# 	('NC',  "Navodaya C"),
+	# )
 
 	SUBJECT = (
 		('eng', "English"),
