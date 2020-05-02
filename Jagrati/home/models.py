@@ -45,7 +45,7 @@ class Volunteer(models.Model):
 	)
 
 	roll_no 				= models.CharField(verbose_name="Roll Number", max_length=8, unique=True)
-	email 					= models.ForeignKey(User, on_delete=models.CASCADE, unique=True)
+	email 					= models.OneToOneField(User, on_delete=models.CASCADE)
 	first_name 				= models.CharField(verbose_name="First Name",max_length=50)
 	last_name 				= models.CharField(verbose_name="Last name",max_length=50)
 	gender 					= models.CharField(max_length=1, choices=GENDER, default='M')
