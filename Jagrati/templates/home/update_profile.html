@@ -47,10 +47,10 @@
 						<label for="batch">Batch</label>
 						<select name="batch" class="custom-select d-block w-100" id="batch">
 							{% for i in '543210'|make_list %}
-								{% if volunteer.batch == last_4_year|add:i %}
-								<option value="{{last_4_year|add:i}}" selected>{{last_4_year|add:i}}</option>
+								{% if volunteer.batch == last_5_year|add:i %}
+								<option value="{{last_5_year|add:i}}" selected>{{last_5_year|add:i}}</option>
 								{% else %}
-								<option value="{{last_4_year|add:i}}">{{last_4_year|add:i}}</option>
+								<option value="{{last_5_year|add:i}}">{{last_5_year|add:i}}</option>
 								{% endif %}
 							{% endfor %}
 						</select>
