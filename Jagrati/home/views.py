@@ -44,6 +44,7 @@ def completeProfile(request):
 		roll_no         = request.POST['roll_no']
 		first_name      = request.POST['first_name']
 		last_name       = request.POST['last_name']
+		profile_image 	= request.FILES['profile_image']
 		gender          = request.POST['gender']
 		alt_email       = request.POST['alt_email']
 		batch           = request.POST['batch']
@@ -56,10 +57,11 @@ def completeProfile(request):
 		dob             = request.POST['dob']
 		contact_no      = request.POST['contact_no']
 		vol_obj = Volunteer(
-			email           = email,
+			email           = request.user,
 			roll_no         = roll_no,
 			first_name      = first_name,
 			last_name       = last_name,
+			profile_image	= profile_image,
 			gender          = gender,
 			city            = city,
 			state           = state,
@@ -425,6 +427,7 @@ def updateProfile(request):
 		state           = request.POST['state']
 		dob             = request.POST['dob']
 		contact_no      = request.POST['contact_no']
+		profile_image	= request.FILES['profile_image']
 
 		if roll_no:
 			if volun.roll_no != roll_no:
@@ -460,6 +463,8 @@ def updateProfile(request):
 			volun.state = state
 		if pincode:
 			volun.pincode = pincode
+		if profile_image:
+			volun.profile_image = profile_image
 
 		volun.save()
 

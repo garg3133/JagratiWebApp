@@ -48,6 +48,7 @@ class Volunteer(models.Model):
 	email 					= models.OneToOneField(User, on_delete=models.CASCADE)
 	first_name 				= models.CharField(verbose_name="First Name",max_length=50)
 	last_name 				= models.CharField(verbose_name="Last name",max_length=50)
+	profile_image			= models.ImageField(default='logo.png', upload_to='profile_pics')
 	gender 					= models.CharField(max_length=1, choices=GENDER, default='M')
 	batch					= models.IntegerField()
 	programme				= models.CharField(max_length=2, choices=PROGRAMME)
