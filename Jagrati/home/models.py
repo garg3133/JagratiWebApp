@@ -1,5 +1,9 @@
 from django.db import models
 from accounts.models import User
+from PIL import Image
+from django.templatetags.static import static
+from imagekit.models import ProcessedImageField
+from imagekit.processors import ResizeToFill
 import datetime
 import calendar
 # Create your models here.
@@ -48,7 +52,7 @@ class Volunteer(models.Model):
 	email 					= models.OneToOneField(User, on_delete=models.CASCADE)
 	first_name 				= models.CharField(verbose_name="First Name",max_length=50)
 	last_name 				= models.CharField(verbose_name="Last name",max_length=50)
-	profile_image			= models.ImageField(default='logo.png', upload_to='profile_pics')
+	profile_image			= ProcessedImageField(upload_to='profile_pics', processors=[ResizeToFill(300,300)], format= 'JPEG', options= {'quality': 60})
 	gender 					= models.CharField(max_length=1, choices=GENDER, default='M')
 	batch					= models.IntegerField()
 	programme				= models.CharField(max_length=2, choices=PROGRAMME)

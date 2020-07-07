@@ -25,7 +25,7 @@
 	<div class="row justify-content-center">
 		<div class="col-md-8">
 
-			<form method="POST" class="needs-validation" novalidate>
+			<form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
 				{% csrf_token %}
 				<div class="row">
 					<div class="col-md-6 mb-3">
@@ -34,6 +34,13 @@
 						<div class="invalid-feedback">
 							Valid Roll No. is required.
 						</div>
+					</div>
+				</div>
+				<!-- adding profile picture -->
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<label for="profileImage">Profile Picture</label>
+						<input name="profile_image" type="file"  id="profileImage" placeholder="" value="">
 					</div>
 				</div>
 
