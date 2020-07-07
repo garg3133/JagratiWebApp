@@ -1,7 +1,5 @@
 from django.db import models
 from accounts.models import User
-from PIL import Image
-from django.templatetags.static import static
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 import datetime

@@ -117,11 +117,11 @@
                         {% if volunteer.profile_image %}
                             <img class="sidebar-img my-3" src='{{ volunteer.profile_image.url }}' alt="v">
                         {% elif volunteer.gender == 'M' %}:
-                            <img class="sidebar-img my-3" src='../static/home/images/man.png ' alt="v">
+                            <img class="sidebar-img my-3" src="{%static 'home/images/man.png' %}" alt="v">
                         {% elif volunteer.gender == 'F' %}:
-                            <img class="sidebar-img my-3" src='../static/home/images/woman.png' alt="v">
+                            <img class="sidebar-img my-3" src="{%static 'home/images/woman.png' %}" alt="v">
                         {% else %}:
-                            <img class="sidebar-img my-3" src='../static/home/logo.png' alt="v">
+                            <img class="sidebar-img my-3" src="{%static 'home/logo.png' %}" alt="v">
                         {%endif%}
                         <!--  rounded-circle -->
                     </li>
