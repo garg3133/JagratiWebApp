@@ -71,7 +71,7 @@ def completeProfile(request):
 			pincode         = pincode,
 			programme       = programme,
 			batch           = batch,
-			alt_email       = alt_email,     
+			alt_email       = alt_email,
 			street_address1 = street_address1,
 			street_address2 = street_address2,
 		)
