@@ -14,12 +14,20 @@
 	<p class="text-center text-danger mb-1 mt-3">{{update_error}}</p>
 	<div class="row justify-content-center">
 		<div class="col-lg-8">
-			<form method="POST">
+			<form method="POST" enctype="multipart/form-data">
 				{% csrf_token %}
 				<div class="row">
 					<div class="col-md-6 mb-3">
 						<label for="rollNo">Roll No.</label>
 						<input name="roll_no" type="number" class="form-control" id="rollNo" placeholder="{{volunteer.roll_no}}" value="">
+					</div>
+				</div>
+
+				<!-- Updating profile picture -->
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<label for="profileImage">Profile Picture</label>
+						<input name="profile_image" type="file" id="profileImage">
 					</div>
 				</div>
 
