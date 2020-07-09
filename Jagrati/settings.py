@@ -38,11 +38,23 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'home',
-    'accounts',
     'imagekit',
     'django_cleanup.apps.CleanupConfig',
+    'rest_framework',
+    'rest_framework.authtoken',
+
+    'home',
+    'accounts',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -144,3 +156,5 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'jagrati123321@gmail.com'
 EMAIL_HOST_PASSWORD = 'ucqdtiibkmfynmth'
 EMAIL_PORT = 587
+
+DEFAULT_FROM_EMAIL = 'jagrati123321@gmail.com'
