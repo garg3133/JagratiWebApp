@@ -70,7 +70,7 @@ def login_signup(request):
             if password1 and password2 and password1 != password2:
                 error = "Passwords don't match"
                 return render(request, "accounts/login_signup.html", {'signup_error' : error})
-            
+
             obj = User(email = email, desig = desig, is_active = False) #ADD IS_ACTIVE=FALSE AT TIME OF EMAIL CONFIRMATION
             obj.set_password(password1) # To save password as hash
             obj.save()
