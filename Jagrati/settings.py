@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import ast
+from decouple import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,12 +22,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '(8ty!=07t%td)i5%r8x4dh^tvb3sv+4e3zk1cq=(g)tcnn@nq8'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = (config("DEBUG") == 'True')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ast.literal_eval(config("ALLOWED_HOSTS"))
 
 
 # Application definition
@@ -91,10 +93,23 @@ WSGI_APPLICATION = 'Jagrati.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': config("DB_NAME"),
+        'ENGINE': 'django.db.backends.mysql',
+        'USER': config("DB_USER"),
+        'PASSWORD': config("DB_PASS"),
+        'HOST' : config("DB_HOST"),
+        'OPTIONS': {
+            'autocommit': True,
+        },
     }
 }
 
@@ -134,27 +149,36 @@ USE_TZ = True
 DATE_FORMAT = 'Y-m-d'
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.2/howto/static-files/
-
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-    '/',
-]
-
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
-
 AUTH_USER_MODEL = 'accounts.User'
 # LOGOUT_REDIRECT_URL = '/accounts/'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'jagrati123321@gmail.com'
-EMAIL_HOST_PASSWORD = 'ucqdtiibkmfynmth'
-EMAIL_PORT = 587
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-DEFAULT_FROM_EMAIL = 'jagrati123321@gmail.com'
+EMAIL_USE_TLS = (config("EMAIL_USE_TLS") == 'True')
+# EMAIL_USE_SSL = (config("EMAIL_USE_SSL") == 'True')
+EMAIL_HOST = config("EMAIL_HOST")
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+EMAIL_PORT = int(config("EMAIL_PORT"))
+
+DEFAULT_FROM_EMAIL = config("SENDER_EMAIL")
+
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/2.2/howto/static-files/
+
+
+STATIC_ROOT = config("STATIC_ROOT")
+STATIC_URL = '/static/'
+
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = config("MEDIA_ROOT")
+MEDIA_URL = '/media/'
+
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, "static"),
+#     '/',
+# ]
+
+STATICFILES_DIRS = [ BASE_DIR+"/static", ]
