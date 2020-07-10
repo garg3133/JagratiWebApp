@@ -95,6 +95,13 @@ class LoginView(APIView):
 			except Token.DoesNotExist:
 				token = Token.objects.create(user=user)
 
+			# For cpanel...
+			if not user.is_active:
+				data['response'] = 'Error'
+				data['error_message'] = 'User Account not Activated. Please check your inbox/spam for an Account Activation Email.'
+				return Response(data)
+			# ...till here.
+
 			volun = Volunteer.objects.filter(email=user)
 			if not user.auth and volun.exists():
 				# If User has already completed the profile
