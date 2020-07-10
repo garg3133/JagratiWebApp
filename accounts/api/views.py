@@ -111,7 +111,7 @@ class LoginView(APIView):
 				return Response(data)
 
 			data['response'] = 'Successfully Authenticated!'
-			data['auth'] = user.auth
+			data['auth'] = (user.auth is True)
 			data['email'] = email
 			data['token'] = token.key
 
