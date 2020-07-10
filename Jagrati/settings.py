@@ -103,7 +103,7 @@ WSGI_APPLICATION = 'Jagrati.wsgi.application'
 DATABASES = {
     'default': {
         'NAME': config("DB_NAME"),
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'mysql.connector.django',
         'USER': config("DB_USER"),
         'PASSWORD': config("DB_PASS"),
         'HOST' : config("DB_HOST"),
