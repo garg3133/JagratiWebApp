@@ -163,6 +163,7 @@ EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 EMAIL_PORT = int(config("EMAIL_PORT"))
 
 DEFAULT_FROM_EMAIL = config("SENDER_EMAIL")
+ADMINS_EMAIL = ast.literal_eval(config("ADMINS_EMAIL"))
 
 
 # Static files (CSS, JavaScript, Images)
