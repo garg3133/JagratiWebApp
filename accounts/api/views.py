@@ -61,7 +61,7 @@ def registration_view(request):
 			from_email = settings.DEFAULT_FROM_EMAIL
 			to = [user.email]
 			subject = 'Jagrati Acount Activation'
-			html_message = render_to_string('accounts/account_activation_email.html', {
+			html_message = render_to_string('accounts/email/account_activation_email.html', {
 				'user': user,
 				'domain': current_site.domain,
 				'uid': urlsafe_base64_encode(force_bytes(user.pk)),

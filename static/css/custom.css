@@ -1,0 +1,15 @@
+@import url(http://fonts.googleapis.com/css?family=Raleway:300,400,600,700,800,900);
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Poppins&display=swap');
+
+html, body {
+    font-family: 'Raleway', sans-serif;
+    /* color: #737373; */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 16px;
+}
+
+label {
+    font-weight:600;
+    letter-spacing:1.2px;
+}

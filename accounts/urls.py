@@ -6,7 +6,12 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('login/', views.login_signup, name = 'login_signup'),
     path('logout/', views.logout_view, name = 'logout'),
-    path('activate/<slug:uidb64>/<slug:token>/', views.activate, name='activate'),
+    path('activate/<slug:uidb64>/<slug:token>/', views.account_activation, name='account_activation'),
+    path('authenticate/<slug:uidb64>/<slug:token>/', views.account_authentication, name='account_authentication'),
+
+    path('signup/success/', views.signup_success, name='signup_success'),
+    path('profile_completed/', views.profile_completed, name='profile_completed'),
+    path('authenticated/', views.account_authenticated, name='account_authenticated'),
 
     # Django Auth URLs
     path('password_change/', auth_views.PasswordChangeView.as_view(), name='password_change'),

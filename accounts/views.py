@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from .models import User, UserManager
@@ -94,8 +95,8 @@ def login_signup(request):
 
             from_email = settings.DEFAULT_FROM_EMAIL
             to = [email]
-            subject = 'Jagrati Acount Activation'
-            html_message = render_to_string('accounts/account_activation_email.html', {
+            subject = '[noreply] Jagrati Acount Activation'
+            html_message = render_to_string('accounts/email/account_activation_email.html', {
                 'user': user,
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
@@ -107,7 +108,7 @@ def login_signup(request):
                 fail_silently=False, html_message=html_message,
             )
 
-            return render(request, 'accounts/activation_mail_sent.html', {'user' : user,})
+            return redirect('signup_success')
             # user = authenticate(username=email, password=password1)
             # login(request, user)
             # return redirect('home')
@@ -130,27 +131,82 @@ def logout_view(request):
     logout(request)
     return redirect(next_site)
 
-def activate(request, uidb64, token):
+def account_activation(request, uidb64, token):
     try:
         uid = urlsafe_base64_decode(uidb64)
         user = User.objects.get(pk=uid)
         # For activation link to work only once
-        if user.is_active:
-            user = None
+        # if user.is_active:
+        #     user = None
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
 
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         # Was required in cpanel...
-        user.is_admin = False
-        user.is_staff = False
-        user.is_superuser = False
+        user.is_admin = (user.is_admin is True)
+        user.is_staff = (user.is_staff is True)
+        user.is_superuser = (user.is_superuser is True)
         user.auth = False
         # ...till here
         user.save()
+
         login(request, user)
-        return redirect('home')
+        messages.success(request, "Account Activated Successfully!")
+        return redirect('set_profile')
     else:
-        return HttpResponse('Activation link is invalid!')
+        msg = "You have either entered a wrong link or your account has already been activated."
+        return render(request, 'accounts/token_expired.html', {'msg': msg, 'act_token': True})
+
+def account_authentication(request, uidb64, token):
+    try:
+        uid = urlsafe_base64_decode(uidb64)
+        user = User.objects.get(pk=uid)
+        # For activation link to work only once
+        # if user.is_active:
+        #     user = None
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and account_activation_token.check_token(user, token):
+        user.auth = True
+        # Was required in cpanel...
+        user.is_active = (user.is_active is True)
+        user.is_admin = (user.is_admin is True)
+        user.is_staff = (user.is_staff is True)
+        user.is_superuser = (user.is_superuser is True)
+        # ...till here
+        user.save()
+
+        # Notify User of Account Authenticated
+        current_site = get_current_site(request)
+
+        from_email = settings.DEFAULT_FROM_EMAIL
+        to = [user.email]
+        subject = '[noreply] Account Authenticated'
+        html_message = render_to_string('accounts/email/account_authenticated_email.html', {
+            'volun': user.volunteer,
+            'domain': current_site.domain,
+            'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+            'token':account_activation_token.make_token(user),
+        })
+        plain_message = strip_tags(html_message)
+        send_mail(
+            subject, plain_message, from_email, to,
+            fail_silently=False, html_message=html_message,
+        )
+
+        return redirect('account_authenticated')
+    else:
+        msg = "You have either entered a wrong link or some admin has already authenticated this account."
+        return render(request, 'accounts/token_expired.html', {'msg': msg})
+
+def signup_success(request):
+    return render(request,'accounts/signup_success.html')
+
+def profile_completed(request):
+    return render(request,'accounts/profile_completed.html')
+
+def account_authenticated(request):
+    return render(request,'accounts/account_authenticated.html')
 
