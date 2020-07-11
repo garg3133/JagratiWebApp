@@ -1,0 +1,21 @@
+{% autoescape off %}
+A new User has signed up. The details are as follows:<br>
+<br>
+Email: {{ volun.email.email }}<br>
+Roll No: {{ volun.roll_no }}<br>
+Name: {{ volun.first_name }} {{ volun.last_name }}<br>
+Gender: {{ volun.get_gender_display }}<br>
+Batch: {{ volun.batch }}<br>
+Programme: {{ volun.get_programme_display }}<br>
+Date of Birth: {{ volun.dob }}<br>
+Alternate Email: {{ volun.alt_email }}<br>
+Address: {{ volun.street_address1 }}, {{ volun.street_address2 }}, {{ volun.city }} - {{ volun.pincode }}, {{ volun.state }}<br>
+<br>
+To verify the account, click on the link below...<br>
+<br>
+http://{{ domain }}{% url 'account_authentication' uidb64=uid token=token %}<br>
+<br>
+<br>
+Regards,<br>
+Jagrati Team
+{% endautoescape %}

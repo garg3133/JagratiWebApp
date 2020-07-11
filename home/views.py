@@ -1,29 +1,34 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from .models import(
-	Volunteer,
-	Student,
-	Calendar,
-	Section,
-	Schedule,
-	StudentSchedule,
-	VolunteerSchedule,
-	ClassworkHomework,
-	StudentAttendence,
-	VolunteerAttendence,
-	Feedback,
-	UpdateScheduleRequest,
-)
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
-from datetime import datetime, date
-from django.core import serializers
-from django.template.defaulttags import register
 import json
+from datetime import datetime, date
+
+from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.sites.shortcuts import get_current_site
+from django.core import serializers
+from django.core.mail import send_mail
 # from django.core.serializers.json import DjangoJSONEncoder
 from django.forms.models import model_to_dict
-from openpyxl import load_workbook
-from django.contrib import messages
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.shortcuts import render, redirect
+from django.template.defaulttags import register
+from django.template.loader import render_to_string
 from django.urls import reverse
+from django.utils.encoding import force_bytes
+from django.utils.html import strip_tags
+from django.utils.http import urlsafe_base64_encode
+
+from openpyxl import load_workbook
+
+from accounts.tokens import account_activation_token
+
+from .models import(
+	Calendar, ClassworkHomework, Feedback, Schedule, Section,
+	Student, StudentAttendence, StudentSchedule, Volunteer,
+	VolunteerAttendence, VolunteerSchedule, UpdateScheduleRequest,
+)
+
 
 # Create your views here.
 def index(request):
@@ -57,7 +62,7 @@ def completeProfile(request):
 		contact_no      = request.POST['contact_no']
 		profile_image 	= request.FILES.get('profile_image')
 
-		vol_obj = Volunteer(
+		volun = Volunteer(
 			email           = request.user,
 			roll_no         = roll_no,
 			first_name      = first_name,
@@ -75,10 +80,28 @@ def completeProfile(request):
 			street_address1 = street_address1,
 			street_address2 = street_address2,
 		)
-		vol_obj.save()
+		volun.save()
 
-		messages.success(request, 'Profile Saved Successfully!')
-		return HttpResponseRedirect(reverse('dashboard'))
+		# Notify Admin for New User Sign Up
+		current_site = get_current_site(request)
+
+		from_email = settings.DEFAULT_FROM_EMAIL
+		to = settings.ADMINS_EMAIL
+		subject = '[noreply] New User Signed Up'
+		html_message = render_to_string('accounts/email/account_authentication_email.html', {
+			'volun': volun,
+			'domain': current_site.domain,
+			'uid':urlsafe_base64_encode(force_bytes(volun.email.pk)),
+			'token':account_activation_token.make_token(volun.email),
+		})
+		plain_message = strip_tags(html_message)
+		send_mail(
+			subject, plain_message, from_email, to,
+			fail_silently=False, html_message=html_message,
+		)
+
+		logout(request)
+		return redirect('profile_completed')
 	
 	context = {
 		'last_5_year': datetime.now().year - 5,   # For Batch Dropdown
