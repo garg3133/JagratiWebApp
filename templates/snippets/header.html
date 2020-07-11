@@ -47,7 +47,7 @@
 			<!-- <li class="nav-item">
 				<a class="nav-link" href="#">Home</a>
 			</li> -->
-			{% if user.is_authenticated and user.is_active %}
+			{% if user.is_authenticated %}
 			<li class="nav-item">
 				<a class="btn btn-outline-success mr-sm-3 mb-2 mt-3 my-sm-0" href="{% url 'password_change' %}">Change Password</a>
 			</li>

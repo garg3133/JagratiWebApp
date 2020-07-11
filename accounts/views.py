@@ -38,9 +38,15 @@ def login_signup(request):
             password = request.POST['password']
 
             context = {}
-            user = authenticate(username = email, password = password)
+            user = authenticate(username=email, password=password)
 
             if user is not None:
+                # For cpanel...
+                if not user.is_active:
+                    context['login_error'] = 'Account not Activated.<br><a href="#">Resend Activation Email?</a>'
+                    return render(request, 'accounts/login_signup.html', context)
+                # ...till here.
+
                 volun = Volunteer.objects.filter(email=user)
                 if not user.auth and volun.exists():
                     # If User has already completed the profile
