@@ -79,7 +79,7 @@ def login_signup(request):
             #         redirect('home')
         if request.POST.get('submit') == 'sign_up':
             email = request.POST['email']
-            desig = request.POST['desig']
+            # desig = request.POST['desig']
             password1 = request.POST['password1']
             password2 = request.POST['password2']
 
@@ -92,7 +92,7 @@ def login_signup(request):
                 error = "Passwords don't match"
                 return render(request, "accounts/login_signup.html", {'signup_error' : error})
 
-            user = User(email=email, desig=desig, is_active=False)
+            user = User(email=email)
             user.set_password(password1) # To save password as hash
             user.save()
 

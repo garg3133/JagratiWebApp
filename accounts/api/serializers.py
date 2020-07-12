@@ -28,6 +28,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
 				'response': 'Error',
 				'error_message': 'Passwords must match.',
 			}
+			# This data is sent directly to the caller
 			raise serializers.ValidationError(data)
 
 		user.set_password(password)
