@@ -55,7 +55,7 @@ def login_signup(request):
                     return render(request, 'accounts/login_signup.html', context)
 
                 login(request, user)
-
+                messages.success(request, "Logged in Successfully!")
                 if not user.auth:
                     return redirect('set_profile')
                 else:
