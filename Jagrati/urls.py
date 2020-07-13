@@ -13,6 +13,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
 
     # Rest API URLs
+    path('api/', include('home.api.urls')),
     path('api/accounts/', include('accounts.api.urls')),
 ]
 
