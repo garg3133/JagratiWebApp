@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
 from django.conf import settings
 from django.db.models.signals import post_save
@@ -36,13 +36,12 @@ class UserManager(BaseUserManager):
             password = password,
         )
         user.is_staff = True
-        user.is_admin = True
         user.is_superuser = True
         user.save(using = self._db)
         return user
 
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     DESIG = (
         ('V', 'Volunteer'),
         ('F', 'Faculty')
@@ -51,46 +50,31 @@ class User(AbstractBaseUser):
     email                   = models.EmailField(verbose_name = "email address", max_length = 255, unique = True,)
     date_joined             = models.DateTimeField(verbose_name='date joined', auto_now_add=True)
     last_login              = models.DateTimeField(verbose_name='last login', auto_now=True)
-    is_admin                = models.BooleanField(default=False)
-    is_active               = models.BooleanField(default=False)
+    # is_admin                = models.BooleanField(default=False)
+    # is_admin is used if not using Permissions, is_superuser if using it.
+    is_active               = models.BooleanField(default=True)
     is_staff                = models.BooleanField(default=False)
-    is_superuser            = models.BooleanField(default=False)
+    # is_superuser            = models.BooleanField(default=False)
+    # is_superuser already available by PermissionsMixin
     desig                   = models.CharField(max_length = 1, choices = DESIG, default = 'V')
     auth                    = models.BooleanField(default = False)  # For authentication by admin
     # active                  = models.BooleanField(default = True)   # Will continue or on pause  (WILL PUT IT IN VOLUN TABLE)
-    # confirm = models.BooleanField(default = False) #For email confirmation
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = []   # Required for 'createsuperuser'
 
     objects = UserManager()
 
     def __str__(self):
         return self.email
 
-    def has_perm(self, perm, obj=None):
-        return self.is_admin
+    def save(self, *args, **kwargs):
+        self.is_active = (self.is_active is True)
+        self.is_staff = (self.is_staff is True)
+        self.auth = (self.auth is True)
 
-    def has_module_perms(self, app_label):
-        return True
+        super(User, self).save(*args, **kwargs)
 
-    #Don't use methods name same as attributes name
-
-    # @property
-    # def is_admin(self):
-    #     return self.is_admin
-
-    # @property
-    # def is_staff(self):
-    #     return self.is_staff
-
-    # @property
-    # def is_active(self):
-    #     return self.is_active
-
-    # @property
-    # def is_superuser(self):
-    #     return self.is_superuser
 
 
 

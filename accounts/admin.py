@@ -16,15 +16,18 @@ from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-
-# from .forms import UserAdminCreationForm, UserAdminChangeForm
+from .forms import UserAdminCreationForm
 from .models import User
 
+
+@admin.register(User)
 class UserAdmin(BaseUserAdmin):
     # The forms to add and change user instances
 
     # form = UserAdminChangeForm
-    # add_form = UserAdminCreationForm
+    # Will override default password checks (like password too common)
+    # and validations with those specified in this form.
+    add_form = UserAdminCreationForm
 
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
@@ -33,12 +36,13 @@ class UserAdmin(BaseUserAdmin):
     search_fields = ('email',)
     readonly_fields = ('date_joined', 'last_login')
 
-    filter_horizontal = ()
+    filter_horizontal = ('user_permissions', 'groups')
     list_filter = ('desig', 'auth', 'is_active', 'is_staff')
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         ('Personal info', {'fields': ('desig',)}),
-        ('Permissions', {'fields': ('is_active', 'auth', 'is_staff', 'is_admin', 'is_superuser')}),
+        ('Permissions', {'fields': ('is_active', 'auth', 'is_staff', 'is_superuser')}),
+        ('Permissions and Groups', {'fields': ('user_permissions', 'groups')}),
         ('Others', {'fields': ('date_joined', 'last_login')}),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
@@ -49,13 +53,5 @@ class UserAdmin(BaseUserAdmin):
             'fields': ('email', 'password1', 'password2', 'desig')}
         ),
     )
-    
+
     ordering = ('email',)
-
-
-admin.site.register(User, UserAdmin)
-
-
-
-# Remove Group Model from admin. We're not using it.
-admin.site.unregister(Group)

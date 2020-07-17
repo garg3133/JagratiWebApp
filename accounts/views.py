@@ -92,7 +92,7 @@ def login_signup(request):
                 error = "Passwords don't match"
                 return render(request, "accounts/login_signup.html", {'signup_error' : error})
 
-            user = User(email=email)
+            user = User(email=email, is_active=False)
             user.set_password(password1) # To save password as hash
             user.save()
 
@@ -150,7 +150,7 @@ def account_activation(request, uidb64, token):
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         # Was required in cpanel...
-        user.is_admin = (user.is_admin is True)
+        # user.is_admin = (user.is_admin is True)
         user.is_staff = (user.is_staff is True)
         user.is_superuser = (user.is_superuser is True)
         user.auth = False
@@ -178,7 +178,7 @@ def account_authentication(request, uidb64, token):
         user.auth = True
         # Was required in cpanel...
         user.is_active = (user.is_active is True)
-        user.is_admin = (user.is_admin is True)
+        # user.is_admin = (user.is_admin is True)
         user.is_staff = (user.is_staff is True)
         user.is_superuser = (user.is_superuser is True)
         # ...till here
