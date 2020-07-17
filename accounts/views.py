@@ -149,12 +149,6 @@ def account_activation(request, uidb64, token):
 
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
-        # Was required in cpanel...
-        # user.is_admin = (user.is_admin is True)
-        user.is_staff = (user.is_staff is True)
-        user.is_superuser = (user.is_superuser is True)
-        user.auth = False
-        # ...till here
         user.save()
 
         login(request, user)
@@ -176,12 +170,6 @@ def account_authentication(request, uidb64, token):
 
     if user is not None and account_activation_token.check_token(user, token):
         user.auth = True
-        # Was required in cpanel...
-        user.is_active = (user.is_active is True)
-        # user.is_admin = (user.is_admin is True)
-        user.is_staff = (user.is_staff is True)
-        user.is_superuser = (user.is_superuser is True)
-        # ...till here
         user.save()
 
         # Notify User of Account Authenticated

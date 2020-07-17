@@ -1,25 +1,5 @@
-# For cpanel (False boolean field becomes null and true remains as it is)
-
-# from django.contrib.auth.forms import SetPasswordForm
-
-# class CustomSetPasswordForm(SetPasswordForm):
-
-#     def save(self, commit=True):
-#         password = self.cleaned_data["new_password1"]
-#         self.user.set_password(password)
-#         self.user.is_admin = False
-#         self.user.is_staff = False
-#         self.user.is_superuser = False
-#         if self.user.auth is None:
-#             self.user.auth = False
-#         if commit:
-#             self.user.save()
-#         return self.user
-
-
-
-
 from django import forms
+
 from .models import User
 
 
@@ -63,7 +43,7 @@ class UserAdminCreationForm(forms.ModelForm):
 
 #     class Meta:
 #         model = User
-#         fields = ('email', 'password', 'desig', 'is_active', 'is_staff', 'is_admin')
+#         fields = ('email', 'password', 'desig', 'is_active', 'is_staff', 'is_superuser')
 
 #     def clean_password(self):
 #         # Regardless of what the user provides, return the initial value.

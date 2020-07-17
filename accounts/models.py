@@ -69,6 +69,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.email
 
     def save(self, *args, **kwargs):
+        """For cpanel."""
         self.is_active = (self.is_active is True)
         self.is_staff = (self.is_staff is True)
         self.is_superuser = (self.is_superuser is True)
