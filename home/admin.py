@@ -11,7 +11,7 @@ admin.site.register(Designation)
 
 @admin.register(Volunteer)
 class VolunteerAdmin(admin.ModelAdmin):
-	list_display = ('roll_no', 'get_name', 'get_auth')
+	list_display = ('roll_no', 'get_name', 'desig', 'get_auth')
 	search_fields = ('roll_no', 'first_name', 'last_name')
 	list_filter = ('desig', 'email__auth')
 	ordering = ('-email__date_joined',)
