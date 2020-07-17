@@ -14,13 +14,7 @@ from .tokens import account_activation_token
 
 from home.models import Volunteer
 
-# from django.contrib.auth.views import PasswordResetConfirmView
-# from .forms import CustomSetPasswordForm
-
 # Create your views here.
-
-# class CustomPasswordResetConfirmView(PasswordResetConfirmView):
-#     form_class = CustomSetPasswordForm
 
 def login_signup(request):
     if request.user.is_authenticated:
@@ -115,10 +109,6 @@ def login_signup(request):
             )
 
             return redirect('signup_success')
-            # user = authenticate(username=email, password=password1)
-            # login(request, user)
-            # return redirect('home')
-
 
 
             # form = SignUpForm(request.POST)
@@ -141,9 +131,6 @@ def account_activation(request, uidb64, token):
     try:
         uid = urlsafe_base64_decode(uidb64)
         user = User.objects.get(pk=uid)
-        # For activation link to work only once
-        # if user.is_active:
-        #     user = None
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
 
@@ -162,9 +149,6 @@ def account_authentication(request, uidb64, token):
     try:
         uid = urlsafe_base64_decode(uidb64)
         user = User.objects.get(pk=uid)
-        # For activation link to work only once
-        # if user.is_active:
-        #     user = None
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
 

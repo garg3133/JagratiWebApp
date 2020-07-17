@@ -27,6 +27,7 @@ class UserAdmin(BaseUserAdmin):
     # form = UserAdminChangeForm
     # Will override default password checks (like password too common)
     # and validations with those specified in this form.
+    # Also 'desig' field won't work without this.
     add_form = UserAdminCreationForm
 
     # The fields to be used in displaying the User model.
