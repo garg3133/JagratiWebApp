@@ -1,7 +1,15 @@
 from django.contrib import admin
-from . import models
+from .models import (
+	Calendar, ClassworkHomework, Designation, Feedback,
+	Schedule, Section, Student, StudentAttendence,
+	StudentSchedule, UpdateScheduleRequest, Volunteer,
+	VolunteerAttendence, VolunteerSchedule,
+)
 # Register your models here.
 
+admin.site.register(Designation)
+
+@admin.register(Volunteer)
 class VolunteerAdmin(admin.ModelAdmin):
 	list_display = ('roll_no', 'get_name', 'get_auth')
 	search_fields = ('roll_no', 'first_name', 'last_name')
@@ -18,8 +26,8 @@ class VolunteerAdmin(admin.ModelAdmin):
 	get_auth.admin_order_field = 'email__auth'
 	get_auth.boolean = True
 
-admin.site.register(models.Volunteer, VolunteerAdmin)
 
+@admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
 	list_display = ( 'get_name', 'school_class', 'village')
 	search_fields = ('first_name', 'last_name')
@@ -31,25 +39,25 @@ class StudentAdmin(admin.ModelAdmin):
 	get_name.short_description = 'Name'
 	get_name.admin_order_field = 'first_name'
 
-admin.site.register(models.Student, StudentAdmin)
 
-admin.site.register(models.Section)
-admin.site.register(models.Schedule)
+admin.site.register(Section)
+admin.site.register(Schedule)
 
+@admin.register(Calendar)
 class CalendarAdmin(admin.ModelAdmin):
 	list_display = ('date', 'class_scheduled', 'remark')
 	search_fields = ('date',)
 	list_filter = ('class_scheduled',)
 	ordering = ('date',)
 
-admin.site.register(models.Calendar, CalendarAdmin)
 
+@admin.register(Feedback)
 class FeedbackAdmin(admin.ModelAdmin):
 	list_display = ('name', 'date')
 	ordering = ('-date',)
 
-admin.site.register(models.Feedback, FeedbackAdmin)
 
+@admin.register(UpdateScheduleRequest)
 class UpdateScheduleRequestAdmin(admin.ModelAdmin):
 	list_display = ('volunteer', 'get_name', 'date', 'approved', 'declined', 'by_admin', 'cancelled')
 	search_fields = ('volunteer__roll_no', 'volunteer__first_name', 'volunteer__last_name')
@@ -60,8 +68,8 @@ class UpdateScheduleRequestAdmin(admin.ModelAdmin):
 		return obj.volunteer.first_name + ' ' + obj.volunteer.last_name
 	get_name.short_description = 'Name'
 
-admin.site.register(models.UpdateScheduleRequest, UpdateScheduleRequestAdmin)
 
+@admin.register(VolunteerSchedule)
 class VolunteerScheduleAdmin(admin.ModelAdmin):
 	list_display = ('get_roll', 'get_name', 'day', 'get_section')
 	search_fields = ('roll_no__roll_no', 'roll_no__first_name', 'roll_no__last_name')
@@ -81,12 +89,12 @@ class VolunteerScheduleAdmin(admin.ModelAdmin):
 		return obj.schedule.section.name
 	get_section.short_description = 'Section'
 
-admin.site.register(models.VolunteerSchedule, VolunteerScheduleAdmin)
 
-admin.site.register(models.StudentSchedule)
-admin.site.register(models.ClassworkHomework)
-admin.site.register(models.VolunteerAttendence)
+admin.site.register(StudentSchedule)
+admin.site.register(ClassworkHomework)
+admin.site.register(VolunteerAttendence)
 
+@admin.register(StudentAttendence)
 class StudentAttendenceAdmin(admin.ModelAdmin):
 	list_display = ('date', 'get_name', 'get_class', 'present')
 	search_fields = ('date', 'sid__first_name', 'sid__last_name')
@@ -102,5 +110,3 @@ class StudentAttendenceAdmin(admin.ModelAdmin):
 		return obj.sid.school_class
 	get_class.short_description = 'Class'
 	get_class.admin_order_field = 'sid__school_class'
-
-admin.site.register(models.StudentAttendence, StudentAttendenceAdmin)

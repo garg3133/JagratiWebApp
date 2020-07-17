@@ -6,6 +6,14 @@ import datetime
 import calendar
 # Create your models here.
 
+class Designation(models.Model):
+	desig_id = models.CharField(max_length=10, verbose_name='Designation ID', unique=True)
+	name = models.CharField(max_length=100)
+	parent_desig = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
+
+	def __str__(self):
+		return self.name
+
 class Volunteer(models.Model):
 	CURRENT_YEAR = datetime.datetime.now().year
 
@@ -17,28 +25,28 @@ class Volunteer(models.Model):
 		('md'	, 'M.Des'),
 	)
 
-	DESIG = (
-		('Co-Convenor', (
-				('mcoco', 'Math Co-Convenor'),
-				('ecoco', 'English Co-Convenor'),
-				('hcoco', 'Hindi Co-Convenor'),
-				('scoco', 'Science Co-Convenor'),
-				('9coco', '9-10 Co-Convenor'),
-				('navcoco', 'Navodaya Co-Convenor'),
-			)
-		),
-		('Convenor', (
-				('mco', 'Math Convenor'),
-				('eco', 'English Convenor'),
-				('hco', 'Hindi Convenor'),
-				('sco', 'Science Convenor'),
-				('9co', '9-10 Convenor'),
-				('navco', 'Navodaya Convenor'),
-			)
-		),
-		('jac'	, 'Jagrati Advisory Commitee'),
-		('v'	, 'Volunteer'),
-	)
+	# DESIG = (
+	# 	('Co-Convenor', (
+	# 			('mcoco', 'Math Co-Convenor'),
+	# 			('ecoco', 'English Co-Convenor'),
+	# 			('hcoco', 'Hindi Co-Convenor'),
+	# 			('scoco', 'Science Co-Convenor'),
+	# 			('9coco', '9-10 Co-Convenor'),
+	# 			('navcoco', 'Navodaya Co-Convenor'),
+	# 		)
+	# 	),
+	# 	('Convenor', (
+	# 			('mco', 'Math Convenor'),
+	# 			('eco', 'English Convenor'),
+	# 			('hco', 'Hindi Convenor'),
+	# 			('sco', 'Science Convenor'),
+	# 			('9co', '9-10 Convenor'),
+	# 			('navco', 'Navodaya Convenor'),
+	# 		)
+	# 	),
+	# 	('jac'	, 'Jagrati Advisory Commitee'),
+	# 	('alum'	, 'Alumni'),
+	# )
 
 	GENDER = (
 		('M', 'Male'),
@@ -62,7 +70,8 @@ class Volunteer(models.Model):
 	state					= models.CharField(max_length=25)
 	pincode					= models.CharField(max_length=6)
 	alt_email 				= models.EmailField(verbose_name="Alternate Email", max_length=255, blank=True)
-	desig 					= models.CharField(verbose_name="Designation", choices=DESIG, default='v', max_length=5)
+	# desig 					= models.CharField(verbose_name="Designation", choices=DESIG, default='v', max_length=5)
+	desig 					= models.ForeignKey(Designation, on_delete=models.SET_NULL, null=True, blank=True)  # null --> Normal Volunteer
 	# resp					= models.ForeignKey()
 	active 					= models.BooleanField(default=True)
 

@@ -139,7 +139,7 @@
                         <h5>Email: <span class="lead">{{user.email}}</span> </h5>
                     </li>
 
-                    {% if volunteer.desig == 'v' %}
+                    {% if volunteer.desig is None %}
                         <li class="nav-item">
                             <h5 class="mt-3">Schedule</h5>
                         </li>
@@ -175,7 +175,7 @@
                         {% endif %}
                     {% else %}
                         <li class="nav-item">
-                            <h5 class="my-5">{{volunteer.get_desig_display}}</h5>
+                            <h5 class="my-5">{{volunteer.desig.name}}</h5>
                         </li>
                         <li class="nav-item">
                             <a href="{% url 'vol_list' %}" class="btn btn-outline-primary"> Volunteers </a>
