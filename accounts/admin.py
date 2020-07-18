@@ -16,8 +16,9 @@ from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
+from applications.volunteers.admin import VolunteerInline
 from .forms import UserAdminCreationForm
-from .models import User
+from .models import User, Profile
 
 
 @admin.register(User)
@@ -56,3 +57,26 @@ class UserAdmin(BaseUserAdmin):
     )
 
     ordering = ('email',)
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('get_full_name', 'get_email', 'get_desig', 'get_auth')
+    search_fields = ('first_name', 'last_name', 'email')
+    list_filter = ('user__desig', 'user__auth')
+    ordering = ('-user__date_joined',)
+
+    inlines = [VolunteerInline]
+
+    def get_email(self, obj):
+        return obj.user.email
+    get_email.short_description = 'Email'
+
+    def get_desig(self, obj):
+        return obj.user.get_desig_display()
+    get_desig.short_description = 'Designation'
+
+    def get_auth(self, obj):
+        return obj.user.auth
+    get_auth.short_description = 'Auth'
+    get_auth.admin_order_field = 'user__auth'
+    get_auth.boolean = True

@@ -2,6 +2,9 @@ from django.db import models
 from accounts.models import User
 import datetime
 import calendar
+
+from imagekit.models import ProcessedImageField
+from imagekit.processors import ResizeToFill
 # Create your models here.
 
 class Designation(models.Model):
@@ -13,7 +16,11 @@ class Designation(models.Model):
         return self.name
 
 class Volunteer(models.Model):
-    CURRENT_YEAR = datetime.datetime.now().year
+    GENDER = (
+        ('M', 'Male'),
+        ('F', 'Female'),
+        ('O', 'Other')
+    )
 
     PROGRAMME = (
         ('bt'	, 'B.Tech'),
@@ -62,7 +69,7 @@ class Volunteer(models.Model):
     state					= models.CharField(max_length=25)
     pincode					= models.CharField(max_length=6)
     alt_email 				= models.EmailField(verbose_name="Alternate Email", max_length=255, blank=True)
-    desig 					= models.CharField(verbose_name="Designation", choices=DESIG, default='v', max_length=5)
+    # desig 					= models.CharField(verbose_name="Designation", choices=DESIG, default='v', max_length=5)
     desig 					= models.ForeignKey(Designation, on_delete=models.SET_NULL, null=True, blank=True)  # null --> Normal Volunteer
     # resp					= models.ForeignKey()
     active 					= models.BooleanField(default=True)

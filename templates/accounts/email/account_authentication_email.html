@@ -1,15 +1,15 @@
 {% autoescape off %}
 A new User has signed up. The details are as follows:<br>
 <br>
-Email: {{ volun.email.email }}<br>
+Email: {{ profile.user.email }}<br>
 Roll No: {{ volun.roll_no }}<br>
-Name: {{ volun.first_name }} {{ volun.last_name }}<br>
-Gender: {{ volun.get_gender_display }}<br>
+Name: {{ profile.get_full_name }}<br>
+Gender: {{ profile.get_gender_display }}<br>
 Batch: {{ volun.batch }}<br>
 Programme: {{ volun.get_programme_display }}<br>
 Date of Birth: {{ volun.dob }}<br>
-Alternate Email: {{ volun.alt_email }}<br>
-Address: {{ volun.street_address1 }}, {{ volun.street_address2 }}, {{ volun.city }} - {{ volun.pincode }}, {{ volun.state }}<br>
+Alternate Email: {{ profile.alt_email }}<br>
+Address: {{ profile.get_complete_address }}<br>
 <br>
 To verify the account, click on the link below...<br>
 <br>

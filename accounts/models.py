@@ -109,3 +109,9 @@ class Profile(models.Model):
     @property
     def get_full_name(self):
         return f'{self.first_name} {self.last_name}'
+
+    @property
+    def get_complete_address(self):
+        if self.street_address2:
+            return f'{self.street_address1}, {self.street_address2}, {self.city} - {self.pincode}, {self.state}'
+        return f'{self.street_address1}, {self.city} - {self.pincode}, {self.state}'

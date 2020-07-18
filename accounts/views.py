@@ -12,7 +12,7 @@ from django.utils.html import strip_tags
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 # local Django
-from home.models import Volunteer
+from applications.volunteers.models import Volunteer
 from .models import User, UserManager, Profile
 from .tokens import account_activation_token
 
@@ -39,8 +39,8 @@ def login_signup(request):
                     return render(request, 'accounts/login_signup.html', context)
                 # ...till here.
 
-                volun = Volunteer.objects.filter(email=user)
-                if not user.auth and volun.exists():
+                profile = Profile.objects.filter(user=user)
+                if not user.auth and profile.exists():
                     # If User has already completed the profile
                     # but is not yet verified by the admin
                     context['login_error'] = 'User is not yet authenticated by the Admin. Kindly contact Admin.'
@@ -49,7 +49,7 @@ def login_signup(request):
                 login(request, user)
                 messages.success(request, "Logged in Successfully!")
                 if not user.auth:
-                    return redirect('set_profile')
+                    return redirect('complete_profile')
                 else:
                     return redirect(next_site)
             else:
@@ -157,7 +157,7 @@ def complete_profile(request):
         profile.save()
 
         volun = Volunteer(
-            email=user, roll_no=roll_no, dob=dob, batch=batch,
+            profile=profile, roll_no=roll_no, dob=dob, batch=batch,
             programme=programme,
         )
         volun.save()
@@ -172,8 +172,8 @@ def complete_profile(request):
             'profile': profile,
             'volun': volun,
             'domain': current_site.domain,
-            'uid':urlsafe_base64_encode(force_bytes(volun.email.pk)),
-            'token':account_activation_token.make_token(volun.email),
+            'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+            'token':account_activation_token.make_token(user),
         })
         plain_message = strip_tags(html_message)
         send_mail(
