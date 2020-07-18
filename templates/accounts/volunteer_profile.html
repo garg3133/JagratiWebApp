@@ -1,0 +1,211 @@
+{% extends 'layout.html' %}
+
+{% block style %}
+	<style>
+		/* .container {
+			max-width: 960px;
+		} */
+
+		@media screen and (max-width: 600px) {
+			.container{
+				width: 85vw;
+			}
+		}
+
+	</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+	<div class="py-3 mt-3 text-center">
+		<h2 class="font-weight-bolder">Complete Your Profile</h2>
+	</div>
+
+	<div class="row justify-content-center">
+		<div class="col-md-8">
+
+			<form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+				{% csrf_token %}
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<label for="rollNo">Roll No.</label>
+						<input name="roll_no" type="number" class="form-control" id="rollNo" placeholder="" value="" required>
+						<div class="invalid-feedback">
+							Valid Roll No. is required.
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<label for="firstName">First name</label>
+						<input name="first_name" type="text" class="form-control" id="firstName" placeholder="" value="" required>
+						<div class="invalid-feedback">
+							Valid First Name is required.
+						</div>
+					</div>
+					<div class="col-md-6 mb-3">
+						<label for="lastName">Last name</label>
+						<input name="last_name" type="text" class="form-control" id="lastName" placeholder="" value="" required>
+						<div class="invalid-feedback">
+							Valid Last Name is required.
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						<label for="gender">Gender</label>
+						<select name="gender" class="custom-select d-block w-100" id="gender" required>
+							<option value="M">Male</option>
+							<option value="F">Female</option>
+							<option value="O">Other</option>
+						</select>
+						<!-- <div class="invalid-feedback">
+							Please select a valid country.
+						</div> -->
+					</div>
+					<div class="col-md-4 mb-3">
+						<label for="batch">Batch</label>
+						<input name="batch" type="number" class="form-control" id="batch" placeholder="{% now 'Y' %}" required>
+						<!-- <div class="invalid-feedback">
+							Please provide a valid state.
+						</div> -->
+					</div>
+					<div class="col-md-4 mb-3">
+						<label for="programme">Programme</label>
+						<select name="programme" class="custom-select d-block w-100" id="programme" required>
+							<option value="bt">B.Tech</option>
+							<option value="mt">M.Tech</option>
+							<option value="phd">phD</option>
+							<option value="bd">B.Des</option>
+							<option value="md">M.Des</option>
+						</select>
+						<!-- <div class="invalid-feedback">
+							Zip code required.
+						</div> -->
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						<label for="dob">Date of Birth</label>
+						<!-- <input type="text" class="form-control" id="firstName" placeholder="" value="" required> -->
+						<!-- <input name="dob" type="date" class="form-control" id="dob" required> -->
+						<input name="dob" data-date-format="yyyy-mm-dd" id="dob" class="form-control" required>
+						<div class="invalid-feedback">
+							Plaese enter a valid date.
+						</div>
+					</div>
+					<div class="col-md-8 mb-3">
+						<label for="contactNo">Contact No.</label>
+						<input name="contact_no" type="number" class="form-control" id="contactNo" placeholder="" value="" required>
+						<div class="invalid-feedback">
+							Valid Contact No. is required.
+						</div>
+					</div>
+				</div>
+			
+				<div class="mb-3">
+					<label for="altemail">Alternate Email <span class="text-muted">(Optional)</span></label>
+					<input name="alt_email" type="email" class="form-control" id="altemail" placeholder="you@example.com">
+					<!-- <div class="invalid-feedback">
+						Please enter a valid email address for shipping updates.
+					</div> -->
+				</div>
+			
+				<div class="mb-3">
+					<label for="address">Address</label>
+					<input name="street_address1" type="text" class="form-control" id="address" placeholder="1234 Main St" required>
+					<div class="invalid-feedback">
+						Please enter your shipping address.
+					</div>
+				</div>
+			
+				<div class="mb-3">
+					<label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
+					<input name="street_address2" type="text" class="form-control" id="address2" placeholder="Apartment or suite">
+				</div>
+			
+				<div class="row">
+					<div class="col-md-5 mb-3">
+					<label for="city">City</label>
+					<input name="city" type="text" class="form-control" id="city" placeholder="" value="" required>
+					<div class="invalid-feedback">
+						Please enter a valid city.
+					</div>
+					</div>
+					<div class="col-md-4 mb-3">
+					<label for="state">State</label>
+					<input name="state" type="text" class="form-control" id="state" placeholder="" value="" required>
+					<div class="invalid-feedback">
+						Please provide a valid state.
+					</div>
+					</div>
+					<div class="col-md-3 mb-3">
+					<label for="pinCode">PIN Code</label>
+					<input name="pincode" type="number" class="form-control" id="pinCode" placeholder="" required>
+					<div class="invalid-feedback">
+						PIN code required.
+					</div>
+					</div>
+				</div>
+
+				<!-- adding profile picture -->
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<label for="profileImage">Profile Picture <span class="text-muted">(Optional)</span></label>
+						<input name="profile_image" type="file" id="profileImage" placeholder="" value="">
+					</div>
+				</div>
+				<hr class="mb-4">
+				<div class="row justify-content-center mb-4">
+					<div class="col-md-6">
+						<button type="submit" class="btn btn-primary btn-lg btn-block" type="submit">Continue</button>
+					</div>
+				</div>
+				
+			</form>
+
+		</div>
+	</div>	
+
+</div>
+
+
+{% endblock %}
+
+
+{% block scripts %}
+	<script type="text/javascript">
+		(function () {
+			'use strict'
+			window.addEventListener('load', function () {
+				// Fetch all the forms we want to apply custom Bootstrap validation styles to
+				var forms = document.getElementsByClassName('needs-validation')
+
+				// Loop over them and prevent submission
+				Array.prototype.filter.call(forms, function (form) {
+					form.addEventListener('submit', function (event) {
+					if (form.checkValidity() === false) {
+						event.preventDefault()
+						event.stopPropagation()
+					}
+					form.classList.add('was-validated')
+					}, false)
+				})
+			}, false)
+		}())
+	</script>
+
+	<!-- Script for Date Picker -->
+	<script type="text/javascript">
+		$('#dob').datepicker({
+			weekStart: 1,
+			autoclose: true,
+			todayHighlight: true,
+		});
+		$('#dob').datepicker("setDate", new Date());
+	</script>
+{% endblock %}
