@@ -2,6 +2,7 @@
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
 from django.http import HttpResponse
@@ -20,7 +21,7 @@ from .tokens import account_activation_token
 
 def login_signup(request):
     if request.user.is_authenticated:
-        return redirect('home')
+        return redirect('dashboard')
 
     next_site = request.GET.get('next', 'dashboard')
 
@@ -120,6 +121,7 @@ def login_signup(request):
 
     return render(request, 'accounts/login_signup.html')
 
+@login_required
 def complete_profile(request):
     """ For completing the Profile after successful signup and activation of account.
         Mandatory before accessing the Dashboard."""
@@ -205,7 +207,7 @@ def account_activation(request, uidb64, token):
 
         login(request, user)
         messages.success(request, "Account Activated Successfully!")
-        return redirect('set_profile')
+        return redirect('complete_profile')
     else:
         msg = "You have either entered a wrong link or your account has already been activated."
         return render(request, 'accounts/token_expired.html', {'msg': msg, 'act_token': True})
