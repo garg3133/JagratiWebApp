@@ -13,7 +13,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('students/', include('apps.students.urls')),
     path('volunteers/', include('apps.volunteers.urls')),
-    path('feedback/', include('apps.feedbacks.urls')),
+    path('feedbacks/', include('apps.feedbacks.urls')),
 
     # Rest API URLs
     path('api/', include('home.api.urls')),
