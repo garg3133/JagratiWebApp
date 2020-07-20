@@ -16,7 +16,7 @@ from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-from applications.volunteers.admin import VolunteerInline
+from apps.volunteers.admin import VolunteerInline
 from .forms import UserAdminCreationForm
 from .models import User, Profile
 

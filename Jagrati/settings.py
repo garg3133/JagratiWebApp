@@ -47,10 +47,10 @@ INSTALLED_APPS = [
 
     'home',
     'accounts',
-    'applications.students',
-    'applications.volunteers',
-    'applications.feedbacks',
-    'applications.misc',
+    'apps.students',
+    'apps.volunteers',
+    'apps.feedbacks',
+    'apps.misc',
 ]
 
 REST_FRAMEWORK = {

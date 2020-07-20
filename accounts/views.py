@@ -12,7 +12,7 @@ from django.utils.html import strip_tags
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 # local Django
-from applications.volunteers.models import Volunteer
+from apps.volunteers.models import Volunteer
 from .models import User, UserManager, Profile
 from .tokens import account_activation_token
 
