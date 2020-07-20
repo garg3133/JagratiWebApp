@@ -83,12 +83,12 @@ class UpdateScheduleRequest(models.Model):
     def save(self, *args, **kwargs):
         # Create VolunteerSchedule instance
         if self.approved is True or self.by_admin is True:   # Schedule is updated in only these two cases
-            prev_sch = VolunteerSchedule.objects.filter(roll_no=self.volun)
+            prev_sch = VolunteerSchedule.objects.filter(volun=self.volun)
             if prev_sch.exists():
                 prev_sch = prev_sch[0]
                 prev_sch.schedule = self.updated_schedule
                 prev_sch.save()
             else:
-                vol_sch = VolunteerSchedule(roll_no=self.volun, schedule=self.updated_schedule)
+                vol_sch = VolunteerSchedule(volun=self.volun, schedule=self.updated_schedule)
                 vol_sch.save()
         super(UpdateScheduleRequest, self).save(*args, **kwargs)
