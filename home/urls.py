@@ -21,7 +21,6 @@ urlpatterns = [
     path('volList/', views.volunteersList, name='vol_list'),   # Volunteers List
     path('ajax/volunteer_list/', views.volunteerListAjax, name='volunteer_list_ajax'),
 
-    path('feedback/', views.feedback, name = 'feedback'),   # Feedback Page
     path('update_students/', views.update_students, name='update_students'),   # Update Students from Spreadsheet Script
 
 ]

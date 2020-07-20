@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import (
-    Calendar, ClassworkHomework, Designation, Feedback,
+    Calendar, ClassworkHomework, Designation,
     Schedule, Section, Student, StudentAttendence,
     StudentSchedule, UpdateScheduleRequest, Volunteer,
     VolunteerAttendence, VolunteerSchedule,
@@ -49,12 +49,6 @@ class CalendarAdmin(admin.ModelAdmin):
     search_fields = ('date',)
     list_filter = ('class_scheduled',)
     ordering = ('date',)
-
-
-@admin.register(Feedback)
-class FeedbackAdmin(admin.ModelAdmin):
-    list_display = ('name', 'date')
-    ordering = ('-date',)
 
 
 @admin.register(UpdateScheduleRequest)

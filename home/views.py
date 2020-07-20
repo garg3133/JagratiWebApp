@@ -704,28 +704,6 @@ def volunteerListAjax(request):
     # json_vol_list = serializers.serialize("json", vol_list)
     return JsonResponse(data)
 
-def feedback(request):
-    submitted = ''
-    if request.method == 'POST':
-        anonymous_array	= request.POST.getlist('anonymousCheck')
-        name			= request.POST['name']
-        roll_no			= request.POST['rollNo']
-        email			= request.POST['email']
-        feedback		= request.POST['feedback']
-        if len(anonymous_array) != 0:
-            feedback = Feedback(name = 'Anonymous', feedback = feedback)
-            feedback.save()
-        else:
-            feedback = Feedback(name=name, roll_no=roll_no, email=email, feedback=feedback)
-            feedback.save()
-
-        submitted = "yesssss!"
-    context = {
-        'logout_redirect_site' : 'feedback',
-        'submitted' : submitted,
-    }
-    return render(request, 'home/feedback.html', context)
-
 def update_students(request):
     path = "D:/Python Projects/JagratiWebApp/Jagrati/home/student.xlsx"
 
