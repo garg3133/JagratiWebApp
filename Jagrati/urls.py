@@ -1,7 +1,7 @@
-from django.contrib import admin
-from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import path, include
 
 admin.site.site_header = "Jagrati Admin"
 admin.site.site_title = "Jagrati Admin Portal"
@@ -11,6 +11,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
     path('accounts/', include('accounts.urls')),
+    path('students/', include('apps.students.urls')),
+    path('volunteers/', include('apps.volunteers.urls')),
+    path('feedback/', include('apps.feedbacks.urls')),
 
     # Rest API URLs
     path('api/', include('home.api.urls')),

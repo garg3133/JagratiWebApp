@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 
-urlpatterns =[
+urlpatterns = [
     path('', views.index, name='home'),   # Landing Page
     path('setprofile/', views.completeProfile, name='set_profile'),   # Complete your Profile Page
 
