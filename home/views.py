@@ -27,7 +27,7 @@ from django.utils.http import urlsafe_base64_encode
 # local Django
 from accounts.tokens import account_activation_token
 from .models import(
-    Calendar, ClassworkHomework, Feedback, Schedule, Section,
+    Calendar, ClassworkHomework, Schedule, Section,
     Student, StudentAttendence, StudentSchedule, Volunteer,
     VolunteerAttendence, VolunteerSchedule, UpdateScheduleRequest,
 )

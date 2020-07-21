@@ -34,6 +34,11 @@ class Volunteer(models.Model):
     def __str__(self):
         return f'{self.profile.get_full_name} ({self.roll_no})'
 
+    def save(self, *args, **kwargs):
+        """For cpanel."""
+        self.active = (self.active is True)
+        super(Volunteer, self).save(*args, **kwargs)
+
 class VolunteerSchedule(models.Model):
     volun = models.ForeignKey(Volunteer, on_delete=models.CASCADE, related_name='volun_schedules')
     day = models.CharField(max_length=10, blank=True)
@@ -64,6 +69,12 @@ class VolunteerAttendence(models.Model):
 
     def __str__(self):
         return f'{self.volun} - {self.cal_date}'
+
+    def save(self, *args, **kwargs):
+        """For cpanel."""
+        self.present = (self.present is True)
+        self.extra = (self.extra is True)
+        super(VolunteerAttendence, self).save(*args, **kwargs)
 
 class UpdateScheduleRequest(models.Model):
     volun = models.ForeignKey(Volunteer, on_delete=models.CASCADE, related_name='update_sch_requests')
