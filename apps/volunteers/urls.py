@@ -10,7 +10,7 @@ urlpatterns = [
     # path('attendence/view/', views.view_attendence, name='view_attendence'),
 
     # Needs to be changed
-    # path('profile/update/', views.updateProfile, name='update_profile'),  # Not needed, update in profile/ only
-    # path('volList/', views.volunteersList, name='vol_list'),
-    # path('ajax/volunteer_list/', views.volunteerListAjax, name='volunteer_list_ajax'),
+    path('profile/update/', views.update_profile, name='update_profile'),  # Not needed, update in profile/ only
+    path('list/', views.volunteers_list, name='volunteers_list'),
+    path('ajax/list/', views.ajax_volunteers_list, name='ajax_volunteers_list'),
 ]
