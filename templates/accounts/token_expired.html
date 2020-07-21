@@ -11,7 +11,7 @@
         <p class="m-3">
             {{msg}} 
             {% if act_token %}
-            Try <a href="{% url 'login_signup' %}">signing in</a> with your credentials.
+            Try <a href="{% url 'accounts:login_signup' %}">signing in</a> with your credentials.
             {% endif %}
         </p>
     </div>

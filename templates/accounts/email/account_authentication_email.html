@@ -13,7 +13,7 @@ Address: {{ profile.get_complete_address }}<br>
 <br>
 To verify the account, click on the link below...<br>
 <br>
-http://{{ domain }}{% url 'account_authentication' uidb64=uid token=token %}<br>
+http://{{ domain }}{% url 'accounts:account_authentication' uidb64=uid token=token %}<br>
 <br>
 <br>
 Regards,<br>

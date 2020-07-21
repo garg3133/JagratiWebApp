@@ -6,7 +6,7 @@
 
     {% if user.is_authenticated %}
         <h3>User is Authenticated.</h3>
-        <a href="{% url 'logout' %}"> Logout </a>
+        <a href="{% url 'accounts:logout' %}"> Logout </a>
     {% else %}
 
     <h1> Login </h1>

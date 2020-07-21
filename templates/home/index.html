@@ -39,7 +39,7 @@
 	<!-- {% if user.is_authenticated %}
 
 		<h3>Welcome {{user.email}}!</h3>
-		<a href="{% url 'logout' %}"> Logout </a>
+		<a href="{% url 'accounts:logout' %}"> Logout </a>
 
 	{% else %} -->
 
@@ -73,7 +73,7 @@
 			</div>
 			<div class="navbar1">
 				<ul>
-					<li><a href="{% url 'login_signup' %}" class="button" >Login</a></li>
+					<li><a href="{% url 'accounts:login_signup' %}" class="button" >Login</a></li>
 					<li><button class="button" onclick="donate_us()">Donate</button></li>
 					
 				</ul>

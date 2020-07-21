@@ -104,7 +104,7 @@ def completeProfile(request):
         )
 
         logout(request)
-        return redirect('profile_completed')
+        return redirect('accounts:profile_completed')
     
     context = {
         'last_5_year': datetime.now().year - 5,   # For Batch Dropdown

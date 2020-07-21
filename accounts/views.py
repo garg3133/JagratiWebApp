@@ -50,7 +50,7 @@ def login_signup(request):
                 login(request, user)
                 messages.success(request, "Logged in Successfully!")
                 if not user.auth:
-                    return redirect('complete_profile')
+                    return redirect('accounts:complete_profile')
                 else:
                     return redirect(next_site)
             else:
@@ -107,7 +107,7 @@ def login_signup(request):
                 fail_silently=False, html_message=html_message,
             )
 
-            return redirect('signup_success')
+            return redirect('accounts:signup_success')
 
 
             # form = SignUpForm(request.POST)
@@ -184,7 +184,7 @@ def complete_profile(request):
         )
 
         logout(request)
-        return redirect('profile_completed')
+        return redirect('accounts:profile_completed')
 
     return render(request, 'accounts/volunteer_profile.html')
 
@@ -207,7 +207,7 @@ def account_activation(request, uidb64, token):
 
         login(request, user)
         messages.success(request, "Account Activated Successfully!")
-        return redirect('complete_profile')
+        return redirect('accounts:complete_profile')
     else:
         msg = "You have either entered a wrong link or your account has already been activated."
         return render(request, 'accounts/token_expired.html', {'msg': msg, 'act_token': True})
@@ -241,7 +241,7 @@ def account_authentication(request, uidb64, token):
             fail_silently=False, html_message=html_message,
         )
 
-        return redirect('account_authenticated')
+        return redirect('accounts:account_authenticated')
     else:
         msg = "You have either entered a wrong link or some admin has already authenticated this account."
         return render(request, 'accounts/token_expired.html', {'msg': msg})

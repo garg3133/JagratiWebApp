@@ -10,16 +10,16 @@
 		<a class="p-2 text-dark" href="#">Pricing</a>
 	</nav> -->
 	{% if user.is_authenticated and user.is_active%}
-	<a class="btn btn-outline-success mr-md-3 mb-2 mb-md-0" href="{% url 'password_change' %}">Change Password</a>
+	<a class="btn btn-outline-success mr-md-3 mb-2 mb-md-0" href="{% url 'accounts:password_change' %}">Change Password</a>
 
 	{% if logout_redirect_site %}
-	<a class="btn btn-outline-danger" href="{% url 'logout' %}?next={{ logout_redirect_site }}">Sign Out</a>
+	<a class="btn btn-outline-danger" href="{% url 'accounts:logout' %}?next={{ logout_redirect_site }}">Sign Out</a>
 	{% else %}
-	<a class="btn btn-outline-danger" href="{% url 'logout' %}?next=/">Sign Out</a>
+	<a class="btn btn-outline-danger" href="{% url 'accounts:logout' %}?next=/">Sign Out</a>
 	{% endif %}
 	
 	{% else %}
-	<a class="btn btn-outline-danger" href="{% url 'login_signup' %}">Sign In</a>
+	<a class="btn btn-outline-danger" href="{% url 'accounts:login_signup' %}">Sign In</a>
 	{% endif %}
 </div>
 {% endcomment %}
@@ -49,23 +49,23 @@
 			</li> -->
 			{% if user.is_authenticated %}
 			<li class="nav-item">
-				<a class="btn btn-outline-success mr-sm-3 mb-2 mt-3 my-sm-0" href="{% url 'password_change' %}">Change Password</a>
+				<a class="btn btn-outline-success mr-sm-3 mb-2 mt-3 my-sm-0" href="{% url 'accounts:password_change' %}">Change Password</a>
 			</li>
 
 			<!-- Used in Feedbacks Page -->
 			{% if logout_redirect_site %}
 			<li class="nav-item">
-				<a class="btn btn-outline-danger" href="{% url 'logout' %}?next={{ logout_redirect_site }}">Sign Out</a>
+				<a class="btn btn-outline-danger" href="{% url 'accounts:logout' %}?next={{ logout_redirect_site }}">Sign Out</a>
 			</li>
 			{% else %}
 			<li class="nav-item">
-				<a class="btn btn-outline-danger" href="{% url 'logout' %}">Sign Out</a>
+				<a class="btn btn-outline-danger" href="{% url 'accounts:logout' %}">Sign Out</a>
 			</li>
 			{% endif %}
 			
 			{% else %}
 			<li class="nav-item">
-				<a class="btn btn-outline-danger" href="{% url 'login_signup' %}">Sign In</a>
+				<a class="btn btn-outline-danger" href="{% url 'accounts:login_signup' %}">Sign In</a>
 			</li>
 			{% endif %}
 		</ul>

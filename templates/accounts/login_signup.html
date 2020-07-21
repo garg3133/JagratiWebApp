@@ -45,7 +45,7 @@
                 <span class="form-error"> {{login_error|safe}} </span>
                 <input type="email" name="email" placeholder="Email" required />
                 <input type="password" name="password" placeholder="Password" required />
-                <a href="{% url 'password_reset' %}">Forgot your password?</a>
+                <a href="{% url 'accounts:password_reset' %}">Forgot your password?</a>
                 <button type='submit' name='submit' value='login'>Sign In</button>
             </form>
         </div>
