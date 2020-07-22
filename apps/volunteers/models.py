@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 
 from accounts.models import Profile
 from home.models import Calendar, Schedule
@@ -38,6 +40,11 @@ class Volunteer(models.Model):
         """For cpanel."""
         self.active = (self.active is True)
         super(Volunteer, self).save(*args, **kwargs)
+
+@receiver(post_delete, sender=Volunteer)
+def delete_related_profile(sender, instance, **kwargs):
+    """Delete the related Profile."""
+    instance.profile.delete()
 
 class VolunteerSchedule(models.Model):
     volun = models.ForeignKey(Volunteer, on_delete=models.CASCADE, related_name='volun_schedules')
