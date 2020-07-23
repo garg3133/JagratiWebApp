@@ -114,11 +114,11 @@
             <div class="sidebar-sticky pb-4 pb-md-0">
                 <ul class="sidebar-list nav flex-column text-center">
                     <li class="nav-item">
-                        {% if volunteer.profile_image %}
-                            <img class="sidebar-img rounded-circle my-3" src='{{ volunteer.profile_image.url }}' alt="v">
-                        {% elif volunteer.gender == 'M' %}
+                        {% if profile.profile_image %}
+                            <img class="sidebar-img rounded-circle my-3" src='{{ profile.profile_image.url }}' alt="v">
+                        {% elif profile.gender == 'M' %}
                             <img class="sidebar-img rounded-circle my-3" src="{% static 'home/images/man.png' %}" alt="v">
-                        {% elif volunteer.gender == 'F' %}
+                        {% elif profile.gender == 'F' %}
                             <img class="sidebar-img rounded-circle my-3" src="{% static 'home/images/woman.png' %}" alt="v">
                         {% else %}
                             <img class="sidebar-img my-3" src="{% static 'home/logo.png' %}" alt="v">
@@ -126,12 +126,12 @@
                         <!--  rounded-circle -->
                     </li>
 
-                    {% if volunteer is not None %}
+                    {% if profile is not None %}
                         <li class="nav-item">
-                            <h5>Name: <span class="lead"> {{volunteer.first_name}} {{volunteer.last_name}}</span> </h5>
+                            <h5>Name: <span class="lead"> {{profile.get_full_name}}</span> </h5>
                         </li>
                         <li class="nav-item">
-                            <h5>Roll No: <span class="lead">{{volunteer.roll_no}}</span> </h5>
+                            <h5>Roll No: <span class="lead">{{volun.roll_no}}</span> </h5>
                         </li>
                     {% endif %}
 
@@ -139,29 +139,29 @@
                         <h5>Email: <span class="lead">{{user.email}}</span> </h5>
                     </li>
 
-                    {% if volunteer.desig is None %}
+                    {% if volun.desig is None %}
                         <li class="nav-item">
                             <h5 class="mt-3">Schedule</h5>
                         </li>
-                        {% if vol_schedule is not None %}
+                        {% if volun_sch is not None %}
                             <li class="nav-item">
-                                <h5>Day: <span class="lead"> {{vol_schedule.day}}</span> </h5>
+                                <h5>Day: <span class="lead">{{volun_sch.day}}</span></h5>
                             </li>
                             <li class="nav-item">
-                                <h5>Section: <span class="lead">{{vol_schedule.schedule.section.name}}</span> </h5>
+                                <h5>Section: <span class="lead">{{volun_sch.schedule.section.name}}</span></h5>
                             </li>
                             <li class="nav-item">
-                                <h5>Subject: <span class="lead">{{vol_schedule.schedule.get_subject_display}}</span> </h5>
+                                <h5>Subject: <span class="lead">{{volun_sch.schedule.get_subject_display}}</span></h5>
                             </li>
                         {% else %}
                             <li class="nav-item">
-                                <h5>Day: <span class="lead"> -- </span> </h5>
+                                <h5>Day: <span class="lead"> -- </span></h5>
                             </li>
                             <li class="nav-item">
-                                <h5>Section: <span class="lead"> -- </span> </h5>
+                                <h5>Section: <span class="lead"> -- </span></h5>
                             </li>
                             <li class="nav-item">
-                                <h5>Subject: <span class="lead"> -- </span> </h5>
+                                <h5>Subject: <span class="lead"> -- </span></h5>
                             </li>
                         {% endif %}
                         {% if user.auth is True %}
@@ -175,7 +175,7 @@
                         {% endif %}
                     {% else %}
                         <li class="nav-item">
-                            <h5 class="my-5">{{volunteer.desig.name}}</h5>
+                            <h5 class="my-5">{{volun.desig.name}}</h5>
                         </li>
                         <li class="nav-item">
                             <a href="{% url 'vol_list' %}" class="btn btn-outline-primary"> Volunteers </a>

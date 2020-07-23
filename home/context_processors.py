@@ -1,37 +1,22 @@
-from .models import(
-    Volunteer,
-    Student,
-    # Calendar,
-    # Section,
-    # Schedule,
-    StudentSchedule,
-    VolunteerSchedule,
-    # ClassworkHomework,
-    StudentAttendence,
-    VolunteerAttendence,
-)
 from datetime import datetime, date
 # import json
 # from django.core.serializers.json import DjangoJSONEncoder
 # from django.forms.models import model_to_dict
 
+from accounts.models import Profile
+from volunteers.models import Volunteer, VolunteerSchedule
+
 def database_context(request):
+    profile = volun = volun_sch = None
     if request.user.is_authenticated:
-        # Logged in Volunteer's data
-        obj = Volunteer.objects.filter(email=request.user)
-        if obj.exists():
-            volunteer = obj[0]
-            obj2 = VolunteerSchedule.objects.filter(roll_no=volunteer)
-            if obj2.exists():
-                vol_schedule = obj2[0]
-            else:
-                vol_schedule = None
-        else:
-            volunteer = None
-            vol_schedule = None
+        profile = Profile.objects.filter(user=request.user).first()
+        if profile is not None and user.desig == 'v':
+            volun = Volunteer.objects.get(profile=profile)
+        if volun is not None:
+            volun_sch = VolunteerSchedule.objects.filter(volun=volun).first()
 
         # Student's dictionary for AJAX
-        students = Student.objects.all()
+        # students = Student.objects.all()
         # stu_dict = {}
         
         # for stu in students:
@@ -40,7 +25,7 @@ def database_context(request):
         # stu_dict_json = json.dumps(stu_dict)
 
         # Volunteer's dictionary for AJAX
-        volunteers = Volunteer.objects.all()
+        # volunteers = Volunteer.objects.all()
         # vol_dict = {}
         
         # for vol in volunteers:
@@ -57,19 +42,22 @@ def database_context(request):
 
         # sch_dict_json = json.dumps(sch_dict)
 
-        return {
-            'volunteer': volunteer,
-            'volunteers': volunteers,
-            # 'vol_dict_json' : vol_dict_json,
-            'vol_schedule': vol_schedule,
-            'vol_schedules': VolunteerSchedule.objects.all(),
-            # 'schedules' : Schedule.objects.order_by('section__section_id'),
-            # 'sch_dict_json' : sch_dict_json,
-            'today_vol_att' : VolunteerAttendence.objects.filter(date=date.today()),
-            'today_stu_att' : StudentAttendence.objects.filter(date=date.today()),
-            'students' : students,
-            # 'stu_dict_json' : stu_dict_json,
-        }
+        # return {
+        #     'volunteer': volunteer,
+        #     # 'volunteers': volunteers,
+        #     # 'vol_dict_json' : vol_dict_json,
+        #     'vol_schedule': vol_schedule,
+        #     # 'vol_schedules': VolunteerSchedule.objects.all(),
+        #     # 'schedules' : Schedule.objects.order_by('section__section_id'),
+        #     # 'sch_dict_json' : sch_dict_json,
+        #     # 'today_vol_att' : VolunteerAttendence.objects.filter(date=date.today()),
+        #     # 'today_stu_att' : StudentAttendence.objects.filter(date=date.today()),
+        #     # 'students' : students,
+        #     # 'stu_dict_json' : stu_dict_json,
+        # }
 
-    else:
-        return {}
+    return {
+        'profile': profile,
+        'volun': volun,
+        'volun_sch': volun_sch,
+    }
