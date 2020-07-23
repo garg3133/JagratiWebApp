@@ -187,3 +187,6 @@ MEDIA_URL = '/media/'
 # ]
 
 STATICFILES_DIRS = [ BASE_DIR+"/static", ]
+
+# TEMP_ROOT = os.path.join(BASE_DIR, 'temp')
+TEMP_ROOT = config("TEMP_ROOT")

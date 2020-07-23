@@ -28,10 +28,7 @@ from django.urls import reverse, reverse_lazy
 # local Django
 # from accounts.tokens import account_activation_token
 from accounts.models import Profile
-from home.models import(
-    Calendar, ClassworkHomework, Schedule, Section,
-    Student, StudentAttendence, StudentSchedule,
-)
+from home.models import Calendar, Schedule
 from .models import (
     Designation, UpdateScheduleRequest, Volunteer,
     VolunteerAttendence, VolunteerSchedule,
@@ -41,6 +38,7 @@ User = get_user_model()
 
 
 # NON-VIEWS FUNCTIONS
+
 def user_has_profile(user):
     return Profile.objects.filter(user=user).exists()
 
@@ -106,8 +104,7 @@ def attendence(request):
             vol_att.save()
 
         for vol_id in vol_array:
-            volun = Volunteer.objects.get(id=vol_id)
-            vol_att = VolunteerAttendence.objects.get(volun=volun, cal_date=today_cal)
+            vol_att = VolunteerAttendence.objects.get(volun__id=vol_id, cal_date=today_cal)
             vol_att.present = True
             vol_att.save()
 

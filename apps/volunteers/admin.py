@@ -27,6 +27,7 @@ class VolunteerAdmin(admin.ModelAdmin):
     def get_name(self, obj):
         return f'{obj.profile.get_full_name}'
     get_name.short_description = 'Name'
+    get_name.admin_order_field = 'profile__first_name'
 
     def get_auth(self, obj):
         return obj.profile.user.auth
@@ -49,10 +50,12 @@ class VolunteerScheduleAdmin(admin.ModelAdmin):
     def get_name(self, obj):
         return obj.volun.profile.get_full_name
     get_name.short_description = 'Name'
+    get_name.admin_order_field = 'volun__profile__first_name'
 
     def get_section(self, obj):
         return obj.schedule.section.name
     get_section.short_description = 'Section'
+    get_section.admin_order_field = 'schedule__section__section_id'
 
 @admin.register(VolunteerAttendence)
 class VolunteerAttendenceAdmin(admin.ModelAdmin):
@@ -69,7 +72,7 @@ class VolunteerAttendenceAdmin(admin.ModelAdmin):
     def get_name(self, obj):
         return obj.volun.profile.get_full_name
     get_name.short_description = 'Name'
-    get_name.admin_order_field = 'volun__first_name'
+    get_name.admin_order_field = 'volun__profile__first_name'
 
 @admin.register(UpdateScheduleRequest)
 class UpdateScheduleRequestAdmin(admin.ModelAdmin):
@@ -81,3 +84,4 @@ class UpdateScheduleRequestAdmin(admin.ModelAdmin):
     def get_name(self, obj):
         return obj.volun.profile.get_full_name
     get_name.short_description = 'Name'
+    get_name.admin_order_field = 'volun__profile__first_name'

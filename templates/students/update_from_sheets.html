@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+
+{% block title %} Jagrati {% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="sheet">Students Sheet</label>
+        <input name="sheet" type="file" id="sheet">
+        <br>
+        <button type="submit" class="btn btn-primary" type="submit">Continue</button>
+    </form>
+</div>
+
+{% endblock %}
