@@ -8,7 +8,8 @@ urlpatterns = [
     path('profile/<int:pk>/', views.profile, name='profile'),
     path('attendence/', views.attendence, name='attendence'),
     # path('attendence/view/', views.view_attendence, name='view_attendence'),
-    #  path('update_schedule/', views.update_schedule, name='update_schedule'),
+    path('update_schedule/', views.update_schedule, name='update_schedule'),
+    path('ajax/update_schedule/', views.ajax_update_schedule, name='ajax_update_schedule'),
 
     # Needs to be changed
     path('profile/update/', views.update_profile, name='update_profile'),  # Not needed, update in profile/ only

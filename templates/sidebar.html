@@ -128,15 +128,15 @@
 
                     {% if profile is not None %}
                         <li class="nav-item">
-                            <h5>Name: <span class="lead"> {{profile.get_full_name}}</span> </h5>
+                            <h5>Name: <span class="lead"> {{ profile.get_full_name }}</span> </h5>
                         </li>
                         <li class="nav-item">
-                            <h5>Roll No: <span class="lead">{{volun.roll_no}}</span> </h5>
+                            <h5>Roll No: <span class="lead">{{ volun.roll_no }}</span> </h5>
                         </li>
                     {% endif %}
 
                     <li class="nav-item">
-                        <h5>Email: <span class="lead">{{user.email}}</span> </h5>
+                        <h5>Email: <span class="lead">{{ user.email }}</span> </h5>
                     </li>
 
                     {% if volun.desig is None %}
@@ -145,13 +145,13 @@
                         </li>
                         {% if volun_sch is not None %}
                             <li class="nav-item">
-                                <h5>Day: <span class="lead">{{volun_sch.day}}</span></h5>
+                                <h5>Day: <span class="lead">{{ volun_sch.day }}</span></h5>
                             </li>
                             <li class="nav-item">
-                                <h5>Section: <span class="lead">{{volun_sch.schedule.section.name}}</span></h5>
+                                <h5>Section: <span class="lead">{{ volun_sch.schedule.section.name }}</span></h5>
                             </li>
                             <li class="nav-item">
-                                <h5>Subject: <span class="lead">{{volun_sch.schedule.get_subject_display}}</span></h5>
+                                <h5>Subject: <span class="lead">{{ volun_sch.schedule.get_subject_display }}</span></h5>
                             </li>
                         {% else %}
                             <li class="nav-item">
@@ -164,31 +164,25 @@
                                 <h5>Subject: <span class="lead"> -- </span></h5>
                             </li>
                         {% endif %}
-                        {% if user.auth is True %}
                         <li class="nav-item">
-                            <a href="{% url 'update_schedule' %}" class="btn btn-outline-primary mt-3">Update Schedule</a>
+                            <a href="{% url 'volunteers:update_schedule' %}" class="btn btn-outline-primary mt-3">Update Schedule</a>
                         </li>
-                        {% else %}
-                        <li class="nav-item">
-                            <a href="" class="btn btn-outline-primary mt-3 disabled">Update Schedule</a>
-                        </li>
-                        {% endif %}
                     {% else %}
                         <li class="nav-item">
-                            <h5 class="my-5">{{volun.desig.name}}</h5>
+                            <h5 class="my-5">{{ volun.desig.name }}</h5>
                         </li>
                         <li class="nav-item">
-                            <a href="{% url 'vol_list' %}" class="btn btn-outline-primary"> Volunteers </a>
+                            <a href="{% url 'volunteers:volunteers_list' %}" class="btn btn-outline-primary"> Volunteers </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{% url 'stu_attendence' %}" class="btn btn-outline-primary"> Student Attendence </a>
+                            <a href="{% url 'students:attendence' %}" class="btn btn-outline-primary"> Student Attendence </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{% url 'vol_attendence' %}" class="btn btn-outline-primary">Volunteer Attendence </a>
+                            <a href="{% url 'volunteers:attendence' %}" class="btn btn-outline-primary">Volunteer Attendence </a>
                         </li>
                     {% endif %}
                     <li class="nav-item">
-                        <a href="{% url 'update_profile' %}" class="btn btn-outline-primary"> Update Profile </a>
+                        <a href="{% url 'volunteers:update_profile' %}" class="btn btn-outline-primary"> Update Profile </a>
                     </li>
                 </ul>
             </div>

@@ -1,0 +1,128 @@
+{% extends 'sidebar.html' %}
+
+{% load static %}
+
+{% block title %} Jagrati | Update Schedule {% endblock %}
+
+{% block content-sidebar %}
+
+<!-- UPDATE SCHEDULE -->
+
+<div class="dash-schedule col-md-8 col-lg-9 mt-3">
+    <a href="" class="d-inline-block mb-2 mb-md-0">&larr; Back to Dashboard</a>
+    <h3 class="text-center">Update Schedule</h3>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="row justify-content-center">
+            <div class="col-md-4 mb-3">
+                <label for="sch-day">Day</label>
+                <select name="day" class="custom-select d-block w-100" id="sch-day">
+                    <option value="">Select Day</option>
+                    {% for j,i in day %}
+                    <option value="{{ j }}">{{ i }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="sch-section">Section</label>
+                <select name="section" class="custom-select d-block w-100" id="sch-section" required></select>
+            </div>
+        </div>
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <button name="submit" value="update-schedule" class="btn btn-primary btn-lg btn-block" type="submit">Request Update</button>
+            </div>
+        </div>
+        <div class="row justify-content-center my-4 mx-0">
+            <div class="col-md-9 border rounded">
+                <h4 class="text-center mt-3">Previous Requests</h4>
+                <hr>
+                <p>
+                    {% if update_req.count %}
+                        <table class="table table-hover">
+                            <thead>
+                                <tr class="text-center">
+                                    <th>From</th>
+                                    <th>To</th>
+                                    <th>Status</th>
+                                </tr class="text-center">
+                            </thead>
+                            <tbody>
+                                {% for req in update_req %}
+                                <tr class="text-center">
+                                    <td class="text-monospace font-weight-lighter">
+                                      {% if req.previous_schedule is None %}
+                                        NA
+                                      {% else %}
+                                        {{ req.previous_schedule }}
+                                      {% endif %}
+                                    </td>
+
+                                    <td class="text-monospace font-weight-lighter">{{ req.new_schedule }}</td>
+
+                                    <td class="text-monospace font-weight-lighter">
+                                      {% if req.approved is True %}
+                                        Approved
+                                      {% elif req.declined is True %}
+                                        Declined
+                                      {% elif req.by_admin is True %}
+                                        By Admin
+                                      {% elif req.cancelled is True %}
+                                        Cancelled
+                                      {% else %}
+                                        Pending
+                                      {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <pre>No requests made yet!</pre>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </form>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <button name="submit" value="cancel-last-req" class="btn btn-primary btn-lg btn-block"
+                    type="submit" {% if not last_pending_req %}disabled{% endif %}>Cancel Last Request</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
+
+{% block scripts-sidebar %}
+
+<!-- AJAX for Update Schedule -->
+<script>
+    $("#sch-day option:first").attr('selected', 'selected');
+
+    $("#sch-day").change(function () {
+        var sch_day = $(this).val();
+
+        $.ajax({
+            url: "{% url 'volunteers:ajax_update_schedule' %}",
+            data: {
+                'sch_day': sch_day,
+            },
+            dataType: 'json',
+            success: function (data) {
+                var options = '';
+
+                Object.entries(data).forEach(([key, value]) => {
+                    options += '<option value="' + key + '" >' + value + '</option>';
+                });
+
+                $("#sch-section").html(options);
+            }
+        });
+    });
+</script>
+
+{% endblock %}

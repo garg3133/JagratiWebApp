@@ -4,12 +4,13 @@ from datetime import datetime, date
 # from django.forms.models import model_to_dict
 
 from accounts.models import Profile
-from volunteers.models import Volunteer, VolunteerSchedule
+from apps.volunteers.models import Volunteer, VolunteerSchedule
 
 def database_context(request):
     profile = volun = volun_sch = None
     if request.user.is_authenticated:
-        profile = Profile.objects.filter(user=request.user).first()
+        user=request.user
+        profile = Profile.objects.filter(user=user).first()
         if profile is not None and user.desig == 'v':
             volun = Volunteer.objects.get(profile=profile)
         if volun is not None:

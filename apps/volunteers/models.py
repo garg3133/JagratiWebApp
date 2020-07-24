@@ -109,4 +109,9 @@ class UpdateScheduleRequest(models.Model):
             else:
                 vol_sch = VolunteerSchedule(volun=self.volun, schedule=self.updated_schedule)
                 vol_sch.save()
+        # For CPanel
+        self.approved = (self.approved is True)
+        self.declined = (self.declined is True)
+        self.by_admin = (self.by_admin is True)
+        self.cancelled = (self.cancelled is True)
         super(UpdateScheduleRequest, self).save(*args, **kwargs)

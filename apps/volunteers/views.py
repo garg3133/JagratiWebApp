@@ -206,3 +206,60 @@ def update_profile(request):
         return redirect('volunteers:update_profile')
 
     return render(request, 'volunteers/update_profile.html', context)
+
+@login_required
+@user_passes_test(user_has_profile, redirect_field_name=None,
+                  login_url=reverse_lazy('accounts:complete_profile'))
+@user_passes_test(is_volunteer, redirect_field_name=None,
+                  login_url=reverse_lazy('dashboard'))
+def update_schedule(request):
+    volun = Volunteer.objects.get(profile__user=request.user)
+    last_pending_req = UpdateScheduleRequest.objects.filter(
+        volun=volun, approved=False, declined=False, by_admin=False, cancelled=False)
+
+    if request.method == 'POST':
+        if request.POST.get('submit') == 'update-schedule':
+            new_day = request.POST['day']
+            new_section_id	= request.POST['section']
+
+            schedule = Schedule.objects.get(day=new_day, section__section_id=new_section_id)
+            # Cancel last pending request.
+            if last_pending_req.exists():
+                last_pending_req = last_pending_req[0]
+                last_pending_req.cancelled = True
+                last_pending_req.save()
+            # Create new request
+            update_req = UpdateScheduleRequest(volun=volun, new_schedule=schedule)
+            prev_vol_sch = VolunteerSchedule.objects.filter(volun=volun)
+            if prev_vol_sch.exists():
+                update_req.previous_schedule = prev_vol_sch[0].schedule
+            update_req.save()
+
+            messages.success(request, 'Schedule update requested successfully!')
+            return redirect('volunteers:update_schedule')
+
+        elif request.POST.get('submit') == 'cancel-last-req':
+            if last_pending_req.exists():
+                last_pending_req = last_pending_req[0]
+                last_pending_req.cancelled = True
+                last_pending_req.save()
+
+            messages.success(request, 'Last request cancelled successfully!')
+            return redirect('volunteers:update_schedule')
+
+    context = {
+        'day': Schedule.DAY,
+        'update_req' : UpdateScheduleRequest.objects.filter(volun=volun).order_by('-date'),
+        'last_pending_req' : last_pending_req.exists(),
+    }
+    return render(request, 'volunteers/update_schedule.html', context)
+
+def ajax_update_schedule(request):
+    sch_day = request.GET.get('sch_day', None)
+    data = {}
+    schedule = Schedule.objects.filter(day=sch_day).order_by('section__section_id')
+
+    for sch in schedule:
+        data[sch.section.section_id] = sch.section.name
+
+    return JsonResponse(data)
