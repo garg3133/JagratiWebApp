@@ -1,32 +1,17 @@
 # standard library
-# import json
 from datetime import datetime, date
 
-# third-party
-# from openpyxl import load_workbook
-
 # Django
-# from django.conf import settings
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import get_user_model
-# from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, user_passes_test
-# from django.contrib.sites.shortcuts import get_current_site
-# from django.core import serializers
-# from django.core.mail import send_mail
-# from django.core.serializers.json import DjangoJSONEncoder
-# from django.forms.models import model_to_dict
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
-# from django.template.defaulttags import register
 # from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
-# from django.utils.encoding import force_bytes
-# from django.utils.html import strip_tags
-# from django.utils.http import urlsafe_base64_encode
 
 # local Django
-# from accounts.tokens import account_activation_token
 from accounts.models import Profile
 from home.models import Calendar, Schedule
 from .models import (
@@ -39,7 +24,7 @@ User = get_user_model()
 
 # NON-VIEWS FUNCTIONS
 
-def user_has_profile(user):
+def has_profile(user):
     return Profile.objects.filter(user=user).exists()
 
 def is_volunteer(user):
@@ -49,21 +34,21 @@ def is_volunteer(user):
 # VIEWS FUNCTIONS
 
 @login_required
-@user_passes_test(user_has_profile, redirect_field_name=None,
+@user_passes_test(has_profile, redirect_field_name=None,
                   login_url=reverse_lazy('accounts:complete_profile'))
 def index(request):
     return HttpResponse('Hello there!')
 
 
 @login_required
-@user_passes_test(user_has_profile, redirect_field_name=None,
+@user_passes_test(has_profile, redirect_field_name=None,
                   login_url=reverse_lazy('accounts:complete_profile'))
 def profile(request):
     return HttpResponse('Hello there!')
 
 
 @login_required
-@user_passes_test(user_has_profile, redirect_field_name=None,
+@user_passes_test(has_profile, redirect_field_name=None,
                   login_url=reverse_lazy('accounts:complete_profile'))
 # @permissions_required
 def attendence(request):
@@ -127,7 +112,7 @@ def attendence(request):
 
 
 @login_required
-@user_passes_test(user_has_profile, redirect_field_name=None,
+@user_passes_test(has_profile, redirect_field_name=None,
                   login_url=reverse_lazy('accounts:complete_profile'))
 # @permissions_required
 def volunteers_list(request):
@@ -138,7 +123,7 @@ def volunteers_list(request):
 
 
 @login_required
-@user_passes_test(user_has_profile, redirect_field_name=None,
+@user_passes_test(has_profile, redirect_field_name=None,
                   login_url=reverse_lazy('accounts:complete_profile'))
 # @permissions_required
 def ajax_volunteers_list(request):
@@ -157,7 +142,7 @@ def ajax_volunteers_list(request):
     return JsonResponse(data)
 
 @login_required
-@user_passes_test(user_has_profile, redirect_field_name=None,
+@user_passes_test(has_profile, redirect_field_name=None,
                   login_url=reverse_lazy('accounts:complete_profile'))
 @user_passes_test(is_volunteer, redirect_field_name=None,
                   login_url=reverse_lazy('dashboard'))
@@ -208,7 +193,7 @@ def update_profile(request):
     return render(request, 'volunteers/update_profile.html', context)
 
 @login_required
-@user_passes_test(user_has_profile, redirect_field_name=None,
+@user_passes_test(has_profile, redirect_field_name=None,
                   login_url=reverse_lazy('accounts:complete_profile'))
 @user_passes_test(is_volunteer, redirect_field_name=None,
                   login_url=reverse_lazy('dashboard'))

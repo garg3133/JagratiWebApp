@@ -23,29 +23,29 @@ today_day = today_date.strftime("%A")
 
 
 # NON-VIEWS FUNCTIONS
-
-def user_has_profile(user):
+# Put this in template tags
+def has_profile(user):
     return Profile.objects.filter(user=user).exists()
 
 
 # VIEWS FUNCTIONS
 
 @login_required
-@user_passes_test(user_has_profile, redirect_field_name=None,
+@user_passes_test(has_profile, redirect_field_name=None,
                   login_url=reverse_lazy('accounts:complete_profile'))
 def index(request):
     return HttpResponse('Hello there!')
 
 
 @login_required
-@user_passes_test(user_has_profile, redirect_field_name=None,
+@user_passes_test(has_profile, redirect_field_name=None,
                   login_url=reverse_lazy('accounts:complete_profile'))
 def profile(request):
     return HttpResponse('Hello there!')
 
 
 @login_required
-@user_passes_test(user_has_profile, redirect_field_name=None,
+@user_passes_test(has_profile, redirect_field_name=None,
                   login_url=reverse_lazy('accounts:complete_profile'))
 # @permissions_required
 def attendence(request):
@@ -114,7 +114,7 @@ def attendence(request):
     return render(request, 'students/attendence.html', context)
 
 @login_required
-@user_passes_test(user_has_profile, redirect_field_name=None,
+@user_passes_test(has_profile, redirect_field_name=None,
                   login_url=reverse_lazy('accounts:complete_profile'))
 # @permissions_required
 def ajax_attendence(request):
@@ -134,7 +134,7 @@ def ajax_attendence(request):
     return JsonResponse(data)
 
 @login_required
-@user_passes_test(user_has_profile, redirect_field_name=None,
+@user_passes_test(has_profile, redirect_field_name=None,
                   login_url=reverse_lazy('accounts:complete_profile'))
 # @permissions_required
 def update_from_sheets(request):
