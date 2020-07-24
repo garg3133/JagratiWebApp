@@ -145,7 +145,7 @@
                         </li>
                         {% if volun_sch is not None %}
                             <li class="nav-item">
-                                <h5>Day: <span class="lead">{{ volun_sch.day }}</span></h5>
+                                <h5>Day: <span class="lead">{{ volun_sch.get_day_display }}</span></h5>
                             </li>
                             <li class="nav-item">
                                 <h5>Section: <span class="lead">{{ volun_sch.schedule.section.name }}</span></h5>

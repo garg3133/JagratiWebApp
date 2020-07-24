@@ -19,7 +19,7 @@ from .models import Student, StudentAttendence, StudentSchedule
 
 # GLOBAL VARIABLES
 today_date = date.today()
-today_day = today_date.strftime("%A")
+today_day = today_date.strftime("%w")
 
 
 # NON-VIEWS FUNCTIONS
@@ -163,7 +163,7 @@ def update_from_sheets(request):
                 if contact_no is not None:
                     student.contact_no = contact_no
                 student.save()
-                for day, day2 in Schedule.DAY:
+                for day, day_name in Schedule.DAY:
                     print(day)
                     stu_sch = StudentSchedule(student=student, schedule=Schedule.objects.get(day=day, section__section_id='4A'))
                     stu_sch.save()

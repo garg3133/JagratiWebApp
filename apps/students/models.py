@@ -30,7 +30,7 @@ class Student(models.Model):
 
 class StudentSchedule(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='student_schedules')
-    day = models.CharField(max_length=10, blank=True)
+    day = models.CharField(max_length=1, choices=Schedule.DAY, blank=True)
     schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE, related_name='student_schedules')
 
     class Meta:

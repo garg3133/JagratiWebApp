@@ -70,7 +70,7 @@ def attendence(request):
     if today_cal.class_scheduled:
         if not VolunteerAttendence.objects.filter(cal_date__date=date.today()).exists():
             # Create Empty Volunteer Attendence Instances
-            today_vol_sch = VolunteerSchedule.objects.filter(day=date.today().strftime("%A"))
+            today_vol_sch = VolunteerSchedule.objects.filter(day=date.today().strftime("%w"))
             for vol_sch in today_vol_sch:
                 vol_attendance = VolunteerAttendence(volun=vol_sch.volun, cal_date=today_cal)
                 vol_attendance.save()

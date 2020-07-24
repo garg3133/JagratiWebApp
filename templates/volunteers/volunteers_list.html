@@ -15,8 +15,8 @@
 		<div class="col-md-4 my-3">
 			<select name="day" class="custom-select d-block w-100" id="vol-list-day">
 				<option value="">Select Day</option>
-				{% for j,i in day %}
-				<option value="{{ j }}">{{ i }}</option>
+				{% for day, day_name in day %}
+				<option value="{{ day }}">{{ day_name }}</option>
 				{% endfor %}
 			</select>
 		</div>
