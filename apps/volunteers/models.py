@@ -48,7 +48,7 @@ def delete_related_profile(sender, instance, **kwargs):
 
 class VolunteerSchedule(models.Model):
     volun = models.ForeignKey(Volunteer, on_delete=models.CASCADE, related_name='volun_schedules')
-    day = models.CharField(max_length=1, choices=Schedule.DAY, blank=True)
+    day = models.IntegerField(choices=Schedule.DAY, blank=True)
     schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE, related_name='volun_schedules')
 
     class Meta:
