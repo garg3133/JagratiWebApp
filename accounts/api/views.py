@@ -15,8 +15,7 @@ from rest_framework.views import APIView
 
 from accounts.api.serializers import RegistrationSerializer
 from accounts.tokens import account_activation_token
-from accounts.models import User
-from home.models import Volunteer
+from accounts.models import User, Profile
 
 
 # NON-VIEWS FUNCTIONS
@@ -102,8 +101,8 @@ class LoginView(APIView):
 				return Response(data)
 			# ...till here.
 
-			volun = Volunteer.objects.filter(email=user)
-			if not user.auth and volun.exists():
+			profile = Profile.objects.filter(user=user)
+			if profile.exists() and not user.auth:
 				# If User has already completed the profile
 				# but is not yet verified by the admin
 				data['response'] = 'Error'
