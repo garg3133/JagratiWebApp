@@ -7,7 +7,7 @@ class CalendarAdmin(admin.ModelAdmin):
     list_display = ('date', 'class_scheduled', 'remark')
     search_fields = ('date',)
     list_filter = ('class_scheduled',)
-    ordering = ('date',)
+    ordering = ('-date',)
 
 @admin.register(ClassworkHomework)
 class ClassworkHomeworkAdmin(admin.ModelAdmin):

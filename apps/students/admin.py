@@ -41,7 +41,7 @@ class StudentScheduleAdmin(admin.ModelAdmin):
 
 @admin.register(StudentAttendence)
 class StudentAttendenceAdmin(admin.ModelAdmin):
-    list_display = ('cal_date', 'get_name', 'get_class', 'present', 'hw_done')
+    list_display = ('cal_date', 'get_name', 'get_class', 'get_village', 'present', 'hw_done')
     search_fields = ('cal_date', 'student__first_name', 'student__last_name')
     list_filter = ('present', 'student__school_class', 'student__village', 'hw_done')
     ordering = ('-cal_date', 'student__school_class', 'student__first_name')
@@ -55,3 +55,8 @@ class StudentAttendenceAdmin(admin.ModelAdmin):
         return obj.student.school_class
     get_class.short_description = 'Class'
     get_class.admin_order_field = 'student__school_class'
+
+    def get_village(self, obj):
+        return obj.student.get_village_display()
+    get_village.short_description = 'Village'
+    get_village.admin_order_field = 'student__village'
