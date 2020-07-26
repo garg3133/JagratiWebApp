@@ -7,20 +7,21 @@
 <!-- DASHBOARD -->
 
 <div class="dash-main col-md-8 col-lg-9 mt-3">
-	<a href=""  class="d-inline-block mb-2 mb-md-0">&#x27f3; Refresh Dashboard</a>
+	<a href="{% url 'home:dashboard' %}"  class="d-inline-block mb-2 mb-md-0">&#x27f3; Refresh Dashboard</a>
 	<h3 class="text-center mb-3">Dashboard</h3>
-	{% if user.auth is True %}
-	<form method="POST">
-		{% csrf_token %}
+
+	<!-- Main Dashboard Form -->
+
+	<form method="GET">
 		<div class="row justify-content-center">
 			<div class="col-md-4 mb-3">
 				<label for="class-date">Date</label>
 				<!-- <input type="text" class="form-control" id="firstName" placeholder="" value="" required> -->
-				<input name="class-info-date" data-date-format="yyyy-mm-dd" id="class-date" class="form-control" required>
+				<input name="d" data-date-format="yyyy-mm-dd" id="class-date" class="form-control" required>
 			</div>
 			<div class="col-md-4 mb-3">
 				<label for="class-section">Section</label>
-				<select name="class-info-section" class="custom-select d-block w-100" id="class-section" required></select>
+				<select name="s" class="custom-select d-block w-100" id="class-section" required></select>
 			</div>
 
 			<!-- Hidden Input For Date Picker -->
@@ -28,34 +29,28 @@
 		</div>
 		<div class="row justify-content-center mb-4">
 			<div class="col-md-4">
-				<button name="submit" value="class-info" class="btn btn-primary btn-lg btn-block" type="submit">Continue</button>
+				<button class="btn btn-primary btn-lg btn-block" type="submit">Continue</button>
 			</div>
 		</div>
 	</form>
-	{% else %}
-	<div class="row justify-content-center">
-		<div class="col-md-8 mt-5">
-			<p class="text-center">You are not yet authorised to view any information on this site.<br> Kindly contact <a href="mailto:2018196@iiitdmj.ac.in">admin</a>.</p>
-		</div>
-	</div>
-	{% endif %}
 
-	<!-- If Submit Button is Pressed -->
-	{% if not class_info_submitted %}
-		{% if no_class_found %}
+	<!-- When Main form is submitted -->
+	{% if selected_date %}
+		{% if calendar_not_updated %}
 		<p class="text-center mt-4">The chosen day is not yet updated in the Calendar.</p>
 		{% elif no_class_scheduled %}
 		<p class="text-center mt-4">No class was scheduled on the chosen day.</p>
 		<p class="text-center">{{calendar_remark}}</p>
-		{% elif no_schedule_found %}
-		<p class="text-center mt-4">The chosen section is not taught on the chosen date.</p>
 		{% else %}
+
+		<!-- ClassWork HomeWork -->
+
 		<div class="row justify-content-center mt-4 mx-0">
 			<div class="col-md-9 col-lg-5 mr-lg-5 mb-3 border rounded">
 				<h4 class="text-center mt-2">ClassWork</h4>
 				<hr>
-				{% if cw_hw.cw %}
-				<p><pre style="overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;">{{cw_hw.cw}}</pre></p>
+				{% if cw_hw and cw_hw.cw %}
+				<p><pre style="overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;">{{ cw_hw.cw }}</pre></p>
 				{% else %}
 				<p><pre>Not yet updated!</pre></p>
 				{% endif %}
@@ -63,13 +58,13 @@
 			<div class="col-md-9 col-lg-5 mb-3 border rounded">
 				<h4 class="text-center mt-2">HomeWork</h4>
 				<hr>
-				{% if cw_hw.hw %}
+				{% if cw_hw and cw_hw.hw %}
 				<p><pre style="overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;">{{cw_hw.hw}}</pre></p>
 				{% else %}
 				<p><pre>Not yet updated!</pre></p>
 				{% endif %}
 			</div>
-			{% if cw_hw.comment %}
+			{% if cw_hw and cw_hw.comment %}
 			<div class="col-md-9 col-lg-5 mb-3 border rounded">
 				<h4 class="text-center mt-2">Comments</h4>
 				<hr>
@@ -78,53 +73,64 @@
 			{% endif %}
 		</div>
 
+		<!-- Update ClassWork HomeWork -->
 
+		{% if user.desig == 'v' %}
 		<div class="text-center mt-3">
-			<button type="button" class="btn btn-outline-primary" onclick="show_dash_cwhw()"> Update CW-HW </button>
+			<button type="button" id="toggle_update_cwhw" class="btn btn-outline-primary" onclick="show_dash_cwhw()"> Update CW-HW </button>
 		</div>
 		
 		<div class="row justify-content-center mt-3 px-3" style="background-color: #f7f7f7;">
 			<div class="dash-cwhw d-none col-12">
-				<form method="POST">
+				<form action="{% url 'home:update_cwhw' %}" method="POST" class="mt-4">
 					{% csrf_token %}
-					<p class="text-center text-danger mt-1">{{cwhw_error}}</p>
 					<input type="hidden" name="date" value="{{ selected_date|date:'Y-m-d' }}">
-					<input type="hidden" name="section" value="{{ selected_schedule }}">
+					<input type="hidden" name="section" value="{{ selected_section }}">
 					<div class="row justify-content-center mb-2">
 						<div class="col-md-9 col-lg-5 px-0 mr-lg-5 mb-3">
-							<textarea name="cw" class="form-control" rows="6" placeholder="Class Work goes here..."></textarea>
+							<textarea name="cw" id="update_cw" class="form-control" data-tooltip="update_cwhw"
+								rows="6" placeholder="Class Work goes here..."></textarea>
 						</div>
 						<div class="col-md-9 col-lg-5 px-0 mb-3">
-							<textarea name="hw" class="form-control" rows="6" placeholder="Home Work goes here..."></textarea>
+							<textarea name="hw" id="update_hw" class="form-control" data-tooltip="update_cwhw"
+								rows="6" placeholder="Home Work goes here..."></textarea>
 						</div>
 						<div class="col-md-9 col-lg-5 px-0 mb-3">
-							<textarea name="comment" class="form-control" rows="6" placeholder="Comments goes here..."></textarea>
+							<textarea name="comment" id="update_comment" class="form-control" data-tooltip="update_cwhw"
+								rows="6" placeholder="Comments goes here..."></textarea>
 						</div>
 					</div>
 					<div class="row justify-content-center mb-4">
 						<div class="col-md-4">
-							<button name="submit" value="update-cwhw" class="btn btn-primary btn-lg btn-block" type="submit">Update</button>
+							<button id="update_cwhw" class="btn btn-primary btn-lg btn-block" data-tooltip="update_cwhw"
+								type="submit">Update</button>
 						</div>
 					</div>
 				</form>
 			</div>
 		</div>
+		{% endif %}
+
+		<!-- Today's date -->
+		{% now "Y-m-d" as today_date %}
+
+		<!-- Student Attendence -->
 
 		<div class="row justify-content-center my-4 mx-0">
 			<div class="col-md-9 border rounded">
 				<h4 class="text-center mt-3">Students Present</h4>
 				<hr>
 				<p>
-					{% if students_attended.count %}
+					{% if student_attendence.count %}
 					<p class="mb-1">
-						<span class="font-weight-bolder">Total Students Present:</span> {{ students_attended.count }}
+						<span class="font-weight-bolder">Total Students Present:</span> {{ student_attendence.count }}
 					</p>
 					<p>
-						{% if stu_att_village.stu_att_g %}
-						<span class="font-weight-bolder">Gadheri:</span> {{ stu_att_village.stu_att_g }} &nbsp;&nbsp;
+						{% if stu_att_village.G %}
+						<span class="font-weight-bolder">Gadheri:</span> {{ stu_att_village.G }} &nbsp;&nbsp;
 						{% endif %}
-						{% if stu_att_village.stu_att_ms %}
-						<span class="font-weight-bolder">Mehgawan Side:</span> {{ stu_att_village.stu_att_ms }}
+						{% if stu_att_village.MS %}
+						<span class="font-weight-bolder">Mehgawan Side:</span> {{ stu_att_village.MS }}
 						{% endif %}
 
 						{% comment %}
@@ -151,35 +157,41 @@
 							</tr class="text-center">
 						</thead>
 						<tbody>
-							{% for stu_att in students_attended %}
+							{% for stu_att in student_attendence %}
 							<tr class="text-center">
-								<td class="text-monospace font-weight-lighter">{{stu_att.sid.first_name}} {{stu_att.sid.last_name}}</td>
+								<td class="text-monospace font-weight-lighter">{{stu_att.student.get_full_name}}</td>
 
-								{% if stu_att.sid.school_class == 13 %}
+								{% if stu_att.student.school_class == 13 %}
 									<td class="text-monospace font-weight-lighter">JNV_4</td>
-								{% elif stu_att.sid.school_class == 14 %}
+								{% elif stu_att.student.school_class == 14 %}
 									<td class="text-monospace font-weight-lighter">JNV_5</td>
 								{% else %}
-									<td class="text-monospace font-weight-lighter">{{stu_att.sid.school_class}}</td>
+									<td class="text-monospace font-weight-lighter">{{ stu_att.student.school_class }}</td>
 								{% endif %}
 								
 							</tr>
 							{% endfor %}
 						</tbody>
 					</table>
+					{% elif selected_date|date:'Y-m-d' > today_date %}
+						<pre>Class not yet scheduled!</pre>
+					{% elif selected_date|date:'Y-m-d' == today_date %}
+						<pre>Not yet updated!</pre>
 					{% else %}
-						<pre>{{students_attended}}</pre>
+						<pre>No student present.</pre>
 					{% endif %}
 				</p>
 			</div>
 		</div>
+
+		<!-- Volunteer Attendence -->
 
 		{% if not volunteer.desig is None %}
 		<div class="row justify-content-center my-4 mx-0">
 			<div class="col-md-9 border rounded">
 				<h4 class="text-center mt-3">Volunteers Present</h4>
 				<hr>
-				{% if vol_volunteered.count %}
+				{% if volunteer_attendence.count %}
 				<input type="text" id="filter-volunteers-dash" class="form-control mb-3 mx-auto" onkeyup="filterVolunteersOnDash()" placeholder="Search for roll no..">
 				<table class="table table-hover" id="vol-att-table-dash">
 					<thead>
@@ -189,16 +201,20 @@
 						</tr>
 					</thead>
 					<tbody>
-						{% for vol_att in vol_volunteered %}
+						{% for vol_att in volunteer_attendence %}
 						<tr class="text-center">
-							<td class="text-monospace font-weight-lighter">{{vol_att.roll_no.roll_no}}</td>
-							<td class="text-monospace font-weight-lighter">{{vol_att.roll_no.first_name}} {{vol_att.roll_no.last_name}} {% if vol_att.extra %}(E){% endif %}</td>
+							<td class="text-monospace font-weight-lighter">{{ vol_att.volun.roll_no }}</td>
+							<td class="text-monospace font-weight-lighter">{{ vol_att.volun.profile.get_full_name }} {% if vol_att.extra %}(E){% endif %}</td>
 						</tr>
 						{% endfor %}
 					</tbody>
 				</table>
+				{% elif selected_date|date:'Y-m-d' > today_date %}
+					<pre>Class not yet scheduled!</pre>
+				{% elif selected_date|date:'Y-m-d' == today_date %}
+					<pre>Not yet updated!</pre>
 				{% else %}
-					<pre>{{vol_volunteered}}</pre>
+					<pre>No volunteers were present.</pre>
 				{% endif %}
 			</div>
 		</div>
@@ -211,17 +227,54 @@
 {% endblock %}
 
 {% block scripts-sidebar %}
+<!-- ORDER BELOW MATTERS -->
+
+<!-- Disable "Update CW/HW" buttons/inputs on date/section change -->
+<script>
+	$("#class-date").change(function () {
+		$('#update_cwhw').attr('disabled', 'disabled');
+		$('#update_cw').attr('disabled', 'disabled');
+		$('#update_hw').attr('disabled', 'disabled');
+		$('#update_comment').attr('disabled', 'disabled');
+
+		$('[data-tooltip="update_cwhw"]').tooltip();
+		$('[data-tooltip="update_cwhw"]').attr('title', 'Selected date or section changed.');
+	});
+
+	$('#class-section').change(function () {
+		$('#update_cwhw').attr('disabled', 'disabled');
+		$('#update_cw').attr('disabled', 'disabled');
+		$('#update_hw').attr('disabled', 'disabled');
+		$('#update_comment').attr('disabled', 'disabled');
+
+		$('[data-tooltip="update_cwhw"]').tooltip();
+		$('[data-tooltip="update_cwhw"]').attr('title', 'Selected date or section changed.');
+
+		// Re-enable CW_HW buttons/inputs
+		// if selected same date/section agains
+		let selected_date = $('#class-date').val();
+		let selected_section = $('#class-section').children("option:selected").val();
+		if ("{{ selected_date }}" == selected_date && "{{ selected_section }}" == selected_section) {
+			$('#update_cwhw').removeAttr('disabled');
+			$('#update_cw').removeAttr('disabled');
+			$('#update_hw').removeAttr('disabled');
+			$('#update_comment').removeAttr('disabled');
+
+			$('[data-tooltip="update_cwhw"]').tooltip('dispose');
+			$('[data-tooltip="update_cwhw"]').removeAttr('title');
+		}
+	});
+</script>
 
 <!-- AJAX for Main Dashboard -->
-
 <script>
 	$("#class-date").change(function () {
 		var class_date = $(this).val();
 		// DISABLE SUBMIT BUTTON HERE
 		$.ajax({
-			url: '/ajax/section_dashboard/',
+			url: "{% url 'home:ajax_dashboard' %}",
 			data: {
-				'class_date': class_date
+				'class_date': class_date,
 			},
 			dataType: 'json',
 			success: function (data) {
@@ -229,20 +282,47 @@
 				var selected = '';
 
 				Object.entries(data).forEach(([key, value]) => {
-					if(key == "{{selected_schedule}}") selected = 'selected';
+					if(key == "{{selected_section}}") selected = 'selected';
 					else selected = '';
 					options += '<option value="' + key + '"' + selected + '>' + value + '</option>';
 				});
 				$("#class-section").html(options);
 				
 				// RE-ENABLE THE SUBMIT BUTTON HERE
+
+				// Re-enable CW_HW buttons/inputs
+				// if selected same date/section again
+				// Should be performed after AJAX is loaded
+				let selected_date = $('#class-date').val();
+				let selected_section = $('#class-section').children("option:selected").val();
+				if ("{{ selected_date }}" == selected_date && "{{ selected_section }}" == selected_section) {
+					$('#update_cwhw').removeAttr('disabled');
+					$('#update_cw').removeAttr('disabled');
+					$('#update_hw').removeAttr('disabled');
+					$('#update_comment').removeAttr('disabled');
+
+					$('[data-tooltip="update_cwhw"]').tooltip('dispose');
+					$('[data-tooltip="update_cwhw"]').removeAttr('title');
+				}
 			}
 		});
 	});
 </script>
 
-<!-- Search Filter for Student Present on Dashboard  -->
+<!-- Script for Main Dashboard Date Picker -->
+<script type="text/javascript">
+	$('#class-date').datepicker({
+		weekStart: 1,
+		autoclose: true,
+		todayHighlight: true,
+	});
+	if(document.getElementById("extra-info-1").value.length>0)
+		$('#class-date').datepicker("setDate", "{{ selected_date|date:'Y-m-d' }}");
+	else
+		$('#class-date').datepicker("setDate", new Date());
+</script>
 
+<!-- Search Filter for Student Present on Dashboard  -->
 <script>
 	function filterStudentsOnDash() {
 	  // Declare variables
@@ -268,7 +348,6 @@
 </script>
 
 <!-- Search Filter for Volunteers Present on Dashboard  -->
-
 <script>
 	function filterVolunteersOnDash() {
 	  // Declare variables
@@ -293,20 +372,6 @@
 	}
 </script>
 
-<!-- Script for Main Dashboard Date Picker -->
-<script type="text/javascript">
-	$('#class-date').datepicker({
-		weekStart: 1,
-		autoclose: true,
-		todayHighlight: true,
-	});
-	if(document.getElementById("extra-info-1").value.length>0)
-		$('#class-date').datepicker("setDate", "{{ selected_date|date:'Y-m-d' }}");
-	else
-		$('#class-date').datepicker("setDate", new Date());
-	
-</script>
-
 <!-- Script for sidebar buttons -->
 <script>
 	let dash_main = document.querySelector(".dash-main");
@@ -329,7 +394,5 @@
 		if(dash_cwhw.classList.contains('d-none')) dash_cwhw.classList.remove('d-none');
 		else if(!dash_cwhw.classList.contains('d-none')) dash_cwhw.classList.add('d-none');   // <--new
 	}
-
 </script>
-
 {% endblock %}
