@@ -145,7 +145,7 @@ def ajax_volunteers_list(request):
 @user_passes_test(has_profile, redirect_field_name=None,
                   login_url=reverse_lazy('accounts:complete_profile'))
 @user_passes_test(is_volunteer, redirect_field_name=None,
-                  login_url=reverse_lazy('dashboard'))
+                  login_url=reverse_lazy('home:dashboard'))
 def update_profile(request):
     profile = Profile.objects.get(user=request.user)
     volun = Volunteer.objects.get(profile=profile)
@@ -196,7 +196,7 @@ def update_profile(request):
 @user_passes_test(has_profile, redirect_field_name=None,
                   login_url=reverse_lazy('accounts:complete_profile'))
 @user_passes_test(is_volunteer, redirect_field_name=None,
-                  login_url=reverse_lazy('dashboard'))
+                  login_url=reverse_lazy('home:dashboard'))
 def update_schedule(request):
     volun = Volunteer.objects.get(profile__user=request.user)
     last_pending_req = UpdateScheduleRequest.objects.filter(
@@ -228,8 +228,9 @@ def update_schedule(request):
                 last_pending_req = last_pending_req[0]
                 last_pending_req.cancelled = True
                 last_pending_req.save()
-
-            messages.success(request, 'Last request cancelled successfully!')
+                messages.success(request, 'Last request cancelled successfully!')
+            else:
+                messages.error(request, 'No pending requests.')
             return redirect('volunteers:update_schedule')
 
     context = {
