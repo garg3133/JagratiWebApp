@@ -9,87 +9,87 @@
 
 {% block content %}
 <div class="container">
-	<div class="row justify-content-center mt-4">
-		<div class="col-12 text-center">
-			<h1>Feedback Form</h1>
-			<p class="mt-3">We would love to hear your thoughts, concerns or anything we can improve!</p>
-		</div>
-	</div>
-	<div class="row justify-content-center">
-		<div class="col-md-10 col-lg-8 py-4">
-			<form method="POST">
-				{% csrf_token %}
-				<div class="row justify-content-center">
-					<div class="col-md-11">
-						<div class="custom-control custom-checkbox text-center mb-4">
-							<input type="checkbox" class="custom-control-input" id="anonymousCheck" name="anonymousCheck" value="anonymous" onclick="anonymousCheckFunction()">
-							<label class="custom-control-label" for="anonymousCheck">Go Anonymous</label>
-							</div>
-					</div>
-				</div>
-				<div class="row justify-content-center">
-					<div class="col-md-11 mb-3">
-						<input name="name" type="text" id="name" class="form-control" placeholder="Name" required>
-					</div>
-				</div>
-				<div class="row justify-content-center">
-					<div class="col-md-11 mb-3">
-						<input name="rollNo" type="number" id="rollNo" class="form-control" placeholder="Roll No. (if applicable)">
-					</div>
-				</div>
-				<div class="row justify-content-center">
-					<div class="col-md-11 mb-3">
-						<input name="email" type="email" id="email" class="form-control" placeholder="Email" required>
-					</div>
-				</div>
-				<div class="row justify-content-center">
-					<div class="col-md-11 mb-3">
-						<textarea name="feedback" rows="9" class="form-control" placeholder="Please provide your feedback!" required></textarea>
-					</div>
-				</div>
-				<hr class="mb-4">
-				<div class="row justify-content-center mb-4">
-					<div class="col-6 col-md-5 col-lg-4">
-						<button type="submit" class="btn btn-primary btn-lg btn-block">Continue</button>
-					</div>
-				</div>
-			</form>
-		</div>
-	</div>
+    <div class="row justify-content-center mt-4">
+        <div class="col-12 text-center">
+            <h1>Feedback Form</h1>
+            <p class="mt-3">We would love to hear your thoughts, concerns or anything we can improve!</p>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8 py-4">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="row justify-content-center">
+                    <div class="col-md-11">
+                        <div class="custom-control custom-checkbox text-center mb-4">
+                            <input type="checkbox" class="custom-control-input" id="anonymousCheck" name="anonymousCheck" value="anonymous" onclick="anonymousCheckFunction()">
+                            <label class="custom-control-label" for="anonymousCheck">Go Anonymous</label>
+                            </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-11 mb-3">
+                        <input name="name" type="text" id="name" class="form-control" placeholder="Name" required>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-11 mb-3">
+                        <input name="rollNo" type="number" id="rollNo" class="form-control" placeholder="Roll No. (if applicable)">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-11 mb-3">
+                        <input name="email" type="email" id="email" class="form-control" placeholder="Email" required>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-11 mb-3">
+                        <textarea name="feedback" rows="9" class="form-control" placeholder="Please provide your feedback!" required></textarea>
+                    </div>
+                </div>
+                <hr class="mb-4">
+                <div class="row justify-content-center mb-4">
+                    <div class="col-6 col-md-5 col-lg-4">
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">Continue</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}
 
 {% block scripts %}
 
 <script type="text/javascript">
-	document.getElementById('anonymousCheck').checked = false;
-	let email_value = '';
-	function anonymousCheckFunction(){
-		let anonymous = document.getElementById('anonymousCheck');
-		let name = document.getElementById('name');
-		let roll = document.getElementById('rollNo');
-		let email = document.getElementById('email');
+    document.getElementById('anonymousCheck').checked = false;
+    let email_value = '';
+    function anonymousCheckFunction(){
+        let anonymous = document.getElementById('anonymousCheck');
+        let name = document.getElementById('name');
+        let roll = document.getElementById('rollNo');
+        let email = document.getElementById('email');
 
-		if(anonymous.checked){
-			anonymous.parentElement.classList.remove('mb-4');
-			name.classList.add('d-none');
-			name.removeAttribute("required");
-			roll.classList.add('d-none');
-			email.classList.add('d-none');
-			email.removeAttribute("required");
-			email_value = email.value;
-			email.value = '';
-		}
-		else{
-			anonymous.parentElement.classList.add('mb-4');
-			name.classList.remove('d-none');
-			name.setAttribute("required", "required");
-			roll.classList.remove('d-none');
-			email.classList.remove('d-none');
-			email.setAttribute("required", "required");
-			email.value = email_value;
-		}
-	}
+        if(anonymous.checked){
+            anonymous.parentElement.classList.remove('mb-4');
+            name.classList.add('d-none');
+            name.removeAttribute("required");
+            roll.classList.add('d-none');
+            email.classList.add('d-none');
+            email.removeAttribute("required");
+            email_value = email.value;
+            email.value = '';
+        }
+        else{
+            anonymous.parentElement.classList.add('mb-4');
+            name.classList.remove('d-none');
+            name.setAttribute("required", "required");
+            roll.classList.remove('d-none');
+            email.classList.remove('d-none');
+            email.setAttribute("required", "required");
+            email.value = email_value;
+        }
+    }
 </script>
 
 {% endblock %}

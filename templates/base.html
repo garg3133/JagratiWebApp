@@ -2,22 +2,22 @@
 <html lang="en">
 <head>
 
-	{% load static %}
+    {% load static %}
 
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<link rel="shortcut icon" href='{% static "logo.png" %}'>
-	<title>{% block title %} {% endblock %} </title>
-	
-	{% block style %}
-	{% endblock %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href='{% static "logo.png" %}'>
+    <title>{% block title %} {% endblock %} </title>
+    
+    {% block style %}
+    {% endblock %}
 
 </head>
 <body>
 
-	{% block content %}
-	{% endblock %}
+    {% block content %}
+    {% endblock %}
 
 </body>
 </html>
