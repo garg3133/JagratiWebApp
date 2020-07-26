@@ -21,9 +21,9 @@ from .tokens import account_activation_token
 
 def login_signup(request):
     if request.user.is_authenticated:
-        return redirect('dashboard')
+        return redirect('home:dashboard')
 
-    next_site = request.GET.get('next', 'dashboard')
+    next_site = request.GET.get('next', 'home:dashboard')
 
     if request.method == 'POST':
         if request.POST.get('submit') == 'login':
@@ -129,7 +129,7 @@ def complete_profile(request):
 
     # Redirect to Dashboard if Profile is already complete
     if Profile.objects.filter(user=user).exists():
-        return redirect('dashboard')
+        return redirect('home:dashboard')
 
     # if user.desig == 'v':
     if request.method == 'POST':
@@ -190,7 +190,7 @@ def complete_profile(request):
 
 
 def logout_view(request):
-    next_site = request.GET.get('next', 'home')
+    next_site = request.GET.get('next', 'home:index')
     logout(request)
     return redirect(next_site)
 
