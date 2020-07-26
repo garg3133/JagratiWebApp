@@ -21,14 +21,14 @@ from accounts.models import User, Profile
 # NON-VIEWS FUNCTIONS
 
 def validate_email(email):
-	"""Returns None if User with 'email' does not exists."""
-	user = None
-	try:
-		user = User.objects.get(email=email)
-	except User.DoesNotExist:
-		return None
-	if user != None:
-		return email
+    """Returns None if User with 'email' does not exists."""
+    user = None
+    try:
+        user = User.objects.get(email=email)
+    except User.DoesNotExist:
+        return None
+    if user != None:
+        return email
 
 
 # VIEWS FUNCTIONS
@@ -38,95 +38,95 @@ def validate_email(email):
 @authentication_classes([])
 def registration_view(request):
 
-	if request.method == 'POST':
-		data = {}
-		# Validate Email (Password Validation in serializers.py)
-		email = request.data.get('email', '0')
-		if validate_email(email) != None:
-			data['response'] = 'Error'
-			data['error_message'] = 'That email is already in use.'
-			return Response(data)
+    if request.method == 'POST':
+        data = {}
+        # Validate Email (Password Validation in serializers.py)
+        email = request.data.get('email', '0')
+        if validate_email(email) != None:
+            data['response'] = 'Error'
+            data['error_message'] = 'That email is already in use.'
+            return Response(data)
 
-		serializer = RegistrationSerializer(data=request.data)
+        serializer = RegistrationSerializer(data=request.data)
 
-		if serializer.is_valid():
-			user = serializer.save()
-			data['response'] = 'Successfully Registered!'
-			data['email'] = user.email
+        if serializer.is_valid():
+            user = serializer.save()
+            data['response'] = 'Successfully Registered!'
+            data['email'] = user.email
 
-			# Send Account Activation Email
-			current_site = get_current_site(request)
+            # Send Account Activation Email
+            current_site = get_current_site(request)
 
-			from_email = settings.DEFAULT_FROM_EMAIL
-			to = [user.email]
-			subject = 'Jagrati Acount Activation'
-			html_message = render_to_string('accounts/email/account_activation_email.html', {
-				'user': user,
-				'domain': current_site.domain,
-				'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-				'token': account_activation_token.make_token(user),
-			})
-			plain_message = strip_tags(html_message)
-			send_mail(
-				subject, plain_message, from_email, to,
-				fail_silently=False, html_message=html_message,
-			)
+            from_email = settings.DEFAULT_FROM_EMAIL
+            to = [user.email]
+            subject = 'Jagrati Acount Activation'
+            html_message = render_to_string('accounts/email/account_activation_email.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': account_activation_token.make_token(user),
+            })
+            plain_message = strip_tags(html_message)
+            send_mail(
+                subject, plain_message, from_email, to,
+                fail_silently=False, html_message=html_message,
+            )
 
-		else:
-			data = serializer.errors
-		return Response(data)
+        else:
+            data = serializer.errors
+        return Response(data)
 
 
 class LoginView(APIView):
 
-	authentication_classes = []
-	permission_classes = []
+    authentication_classes = []
+    permission_classes = []
 
-	def post(self, request):
-		data = {}
+    def post(self, request):
+        data = {}
 
-		email = request.POST.get('email')
-		password = request.POST.get('password')
-		user = authenticate(email=email, password=password)
-		if user is not None:
-			try:
-				token = Token.objects.get(user=user)
-			except Token.DoesNotExist:
-				token = Token.objects.create(user=user)
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        user = authenticate(email=email, password=password)
+        if user is not None:
+            try:
+                token = Token.objects.get(user=user)
+            except Token.DoesNotExist:
+                token = Token.objects.create(user=user)
 
-			# For cpanel...
-			if not user.is_active:
-				data['response'] = 'Error'
-				data['error_message'] = 'User Account not Activated. Please check your inbox/spam for an Account Activation Email.'
-				return Response(data)
-			# ...till here.
+            # For cpanel...
+            if not user.is_active:
+                data['response'] = 'Error'
+                data['error_message'] = 'User Account not Activated. Please check your inbox/spam for an Account Activation Email.'
+                return Response(data)
+            # ...till here.
 
-			profile = Profile.objects.filter(user=user)
-			if profile.exists() and not user.auth:
-				# If User has already completed the profile
-				# but is not yet verified by the admin
-				data['response'] = 'Error'
-				data['error_message'] = 'User is not yet authenticated by the Admin. Kindly contact Admin.'
-				return Response(data)
+            profile = Profile.objects.filter(user=user)
+            if profile.exists() and not user.auth:
+                # If User has already completed the profile
+                # but is not yet verified by the admin
+                data['response'] = 'Error'
+                data['error_message'] = 'User is not yet authenticated by the Admin. Kindly contact Admin.'
+                return Response(data)
 
-			data['response'] = 'Successfully Authenticated!'
-			data['auth'] = (user.auth is True)
-			data['email'] = email
-			data['token'] = token.key
+            data['response'] = 'Successfully Authenticated!'
+            data['auth'] = (user.auth is True)
+            data['email'] = email
+            data['token'] = token.key
 
-			if user.auth:
-				# Send additional information/permissions required.
-				pass
+            if user.auth:
+                # Send additional information/permissions required.
+                pass
 
-		else:
-			data['response'] = 'Error'
+        else:
+            data['response'] = 'Error'
 
-			user = User.objects.filter(email=email)
-			if user.exists() and user[0].check_password(password) and not user[0].is_active:
-				# Authentication failed because user is not active
-				data['error_message'] = 'User Account not Activated. Please check your inbox/spam for an Account Activation Email.'
-			else:
-				data['error_message'] = 'Invalid credentials'
+            user = User.objects.filter(email=email)
+            if user.exists() and user[0].check_password(password) and not user[0].is_active:
+                # Authentication failed because user is not active
+                data['error_message'] = 'User Account not Activated. Please check your inbox/spam for an Account Activation Email.'
+            else:
+                data['error_message'] = 'Invalid credentials'
 
-		return Response(data)
+        return Response(data)
 
