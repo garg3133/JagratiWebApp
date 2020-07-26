@@ -77,7 +77,10 @@
 
         {% if user.desig == 'v' %}
         <div class="text-center mt-3">
-            <button type="button" id="toggle_update_cwhw" class="btn btn-outline-primary" onclick="show_dash_cwhw()"> Update CW-HW </button>
+            <button type="button" id="toggle_update_cwhw" class="btn btn-outline-primary" onclick="show_dash_cwhw()">
+                Update CW-HW
+                <i style="margin-left:10px !important;" class="fas fa-chevron-down"></i>
+            </button>
         </div>
         
         <div class="row justify-content-center mt-3 px-3" style="background-color: #f7f7f7;">
@@ -391,8 +394,14 @@
     }
 
     function show_dash_cwhw(){
-        if(dash_cwhw.classList.contains('d-none')) dash_cwhw.classList.remove('d-none');
-        else if(!dash_cwhw.classList.contains('d-none')) dash_cwhw.classList.add('d-none');   // <--new
+        if(dash_cwhw.classList.contains('d-none')){
+            dash_cwhw.classList.remove('d-none');
+            $('#toggle_update_cwhw i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+        }
+        else if(!dash_cwhw.classList.contains('d-none')){
+            dash_cwhw.classList.add('d-none');   // <--new
+            $('#toggle_update_cwhw i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+        }
     }
 </script>
 {% endblock %}
