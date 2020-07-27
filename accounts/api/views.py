@@ -8,14 +8,17 @@ from django.utils.html import strip_tags
 from django.utils.http import urlsafe_base64_encode
 
 from rest_framework import status
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from accounts.api.serializers import RegistrationSerializer
+from accounts.api.serializers import RegistrationSerializer, CreateProfileSerializer
 from accounts.tokens import account_activation_token
 from accounts.models import User, Profile
+from apps.volunteers.api.serializers import CreateVolunteerSerializer
 
 
 # NON-VIEWS FUNCTIONS
@@ -129,4 +132,58 @@ class LoginView(APIView):
                 data['error_message'] = 'Invalid credentials'
 
         return Response(data)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
+def complete_profile_view(request):
+    user = request.user
+    profile = Profile.objects.filter(user=user)
+    if profile.exists():
+        data = {
+            'response': 'Error',
+            'error_message': 'Profile already exists.'
+        }
+        return Response(data, status=400)
+
+    # Additional data will automatically be ignored
+    profile_serializer = CreateProfileSerializer(data=request.data)
+    volun_serializer = CreateVolunteerSerializer(data=request.data)
+
+    data = {}
+    if profile_serializer.is_valid() and volun_serializer.is_valid():
+        # Save Profile
+        profile = profile_serializer.save(user=user)
+        # Save Volunteer
+        volun = volun_serializer.save(profile=profile)
+        data['response'] = "Profile Created Successfully!"
+
+        # Notify Admin for New User Sign Up
+        current_site = get_current_site(request)
+
+        from_email = settings.DEFAULT_FROM_EMAIL
+        to = settings.ADMINS_EMAIL
+        subject = '[noreply] New User Signed Up'
+        html_message = render_to_string('accounts/email/account_authentication_email.html', {
+            'profile': profile,
+            'volun': volun,
+            'domain': current_site.domain,
+            'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+            'token':account_activation_token.make_token(user),
+        })
+        plain_message = strip_tags(html_message)
+        send_mail(
+            subject, plain_message, from_email, to,
+            fail_silently=False, html_message=html_message,
+        )
+        return Response(data, status=201)
+
+    # Both .is_valid() must be called before accessing errors
+    # profile_serializer.is_valid() is surely called before
+    errors = profile_serializer.errors.copy()
+    # Not sure if volun_serializer.is_valid() has been called before
+    if not volun_serializer.is_valid():
+        errors.update(volun_serializer.errors)
+    return Response(errors, status=400)
 

@@ -1,10 +1,9 @@
 from rest_framework import serializers
 
-from accounts.models import User
+from accounts.models import User, Profile
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
-
     password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
 
     class Meta:
@@ -33,3 +32,10 @@ class RegistrationSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
+
+class CreateProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ['first_name', 'last_name', 'gender', 'contact_no',
+                  'alt_email', 'street_address1', 'street_address2',
+                  'city', 'state', 'pincode', 'profile_image']
