@@ -16,7 +16,7 @@ from rest_framework.views import APIView
 
 from accounts.tokens import account_activation_token
 from home.api.serializers import UpdateProfileSerializer
-from home.models import Volunteer
+from accounts.models import Profile
 
 
 # VIEWS FUNCTIONS
@@ -25,17 +25,17 @@ from home.models import Volunteer
 @permission_classes([IsAuthenticated])
 @authentication_classes([TokenAuthentication])
 def create_profile_view(request):
-    volun = Volunteer.objects.filter(email=request.user)
-    if volun.exists():
+    profile = Profile.objects.filter(user=request.user)
+    if profile.exists():
         data = {
             'response': 'Error',
             'error_message': 'Profile already exists.'
         }
         return Response(data, status=400)
     else:
-        volun = Volunteer(email=request.user)
+        profile = Profile(user=request.user)
 
-    serializer = UpdateProfileSerializer(volun, data=request.data)
+    serializer = UpdateProfileSerializer(profile, data=request.data)
     # print(repr(serializer))
     data = {}
     if serializer.is_valid():
@@ -43,7 +43,7 @@ def create_profile_view(request):
         data['response'] = "Profile Created Successfully!"
 
         # Notify Admin for New User Sign Up
-        volun = Volunteer.objects.get(email=request.user)
+        volun = Profile.objects.get(user=request.user)
         current_site = get_current_site(request)
 
         from_email = settings.DEFAULT_FROM_EMAIL
@@ -71,8 +71,8 @@ def create_profile_view(request):
 def update_profile_view(request):
 
     try:
-        volun = Volunteer.objects.get(email=request.user)
-    except Volunteer.DoesNotExist:
+        volun = Profile.objects.get(user=request.user)
+    except Profile.DoesNotExist:
         return Response(status=404)
 
     if request.method == 'GET':
