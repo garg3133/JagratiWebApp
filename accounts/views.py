@@ -126,10 +126,20 @@ def complete_profile(request):
     """ For completing the Profile after successful signup and activation of account.
         Mandatory before accessing the Dashboard."""
     user = request.user
+    # Will be redirected to next_site only if
+    # user is already authenticated
+    next_site = request.GET.get('next', 'home:dashboard')
 
     # Redirect to Dashboard if Profile is already complete
     if Profile.objects.filter(user=user).exists():
-        return redirect('home:dashboard')
+        # If Profile is complete but user is not authenticated
+        # (If user didn't get logged out after completing profile)
+        # (Or somehow user got logged in with auth=False
+        # like if user was logged in and admin turned auth=False)
+        if not user.auth:
+            logout(request)
+            return redirect('accounts:login_signup')
+        return redirect(next_site)
 
     # if user.desig == 'v':
     if request.method == 'POST':
@@ -183,8 +193,12 @@ def complete_profile(request):
             fail_silently=False, html_message=html_message,
         )
 
-        logout(request)
-        return redirect('accounts:profile_completed')
+        if not user.auth:
+            logout(request)
+            return redirect('accounts:profile_completed')
+
+        messages.success(request, "Profile successfully completed.")
+        return redirect(next_site)
 
     return render(request, 'accounts/volunteer_profile.html')
 
