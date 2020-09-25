@@ -7,12 +7,18 @@
         padding: 15px 0;
         /* z-index: 100; */
     }
+    
 </style>
 
 <!-- Footer starts -->
 <footer>
     <div class="container">
-        Jagrati Copyright &copy; 2020
+        Jagrati Copyright &copy;<nobr id="year" >1000</nobr>
     </div>
 </footer>
+<script type="text/javascript">
+   var d = new Date();
+    var this_year = d.getFullYear();
+    document.getElementById("year").innerHTML = this_year;
+</script>
 <!-- Footer ends -->
