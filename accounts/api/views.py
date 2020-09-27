@@ -17,7 +17,7 @@ from rest_framework.views import APIView
 
 from accounts.api.serializers import RegistrationSerializer, CreateProfileSerializer
 from accounts.tokens import account_activation_token
-from accounts.models import User, Profile
+from accounts.models import User, Profile, AuthorisedDevice
 from apps.volunteers.api.serializers import CreateVolunteerSerializer
 
 
@@ -90,6 +90,13 @@ class LoginView(APIView):
 
         email = request.POST.get('email')
         password = request.POST.get('password')
+        device_id = request.POST.get('device_id')
+
+        if device_id is None:
+            data['response'] = 'Error'
+            data['error_message'] = 'Device id is missing.'
+            return Response(data, status=400)
+
         user = authenticate(email=email, password=password)
         if user is not None:
             try:
@@ -101,7 +108,7 @@ class LoginView(APIView):
             if not user.is_active:
                 data['response'] = 'Error'
                 data['error_message'] = 'User Account not Activated. Please check your inbox/spam for an Account Activation Email.'
-                return Response(data)
+                return Response(data, status=403)
             # ...till here.
 
             profile = Profile.objects.filter(user=user)
@@ -110,7 +117,16 @@ class LoginView(APIView):
                 # but is not yet verified by the admin
                 data['response'] = 'Error'
                 data['error_message'] = 'User is not yet authenticated by the Admin. Kindly contact Admin.'
-                return Response(data)
+                return Response(data, status=403)
+
+            # Save the device_id of the user
+            device_info = AuthorisedDevice.objects.filter(user=user, device_id=device_id)
+            if device_info.exists():
+                device_info = device_info[0]
+                device_info.active = True
+                device_info.save()
+            else:
+                AuthorisedDevice.objects.create(user=user, device_id=device_id)
 
             data['response'] = 'Successfully Authenticated!'
             data['auth'] = (user.auth is True)
@@ -187,3 +203,39 @@ def complete_profile_view(request):
         errors.update(volun_serializer.errors)
     return Response(errors, status=400)
 
+class LogoutView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        data = {}
+
+        device_id = request.POST.get('device_id')
+        if device_id is None:
+            data['response'] = 'Error'
+            data['error_message'] = 'Device id is missing.'
+            return Response(data, status=400)
+        else:
+            AuthorisedDevice.objects.filter(
+                user=request.user, device_id=device_id).update(active=False)
+            data['response'] = "Logged out successfully"
+            return Response(data, status=200)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
+def check_login_status(request):
+    data = {}
+
+    device_id = request.POST.get('device_id')
+    if device_id is None:
+        data['response'] = 'Error'
+        data['error_message'] = 'Device id is missing.'
+        return Response(data, status=400)
+    else:
+        device_info = AuthorisedDevice.objects.filter(user=request.user, device_id=device_id)
+        if device_info.exists() and device_info[0].active:
+            data['login_status'] = True
+        else:
+            data['login_status'] = False
+        return Response(data, status=200)
