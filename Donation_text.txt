@@ -1,0 +1,7 @@
+Your donation will provide hours of learning to people each month.
+Since Jagrati's total budget is only {amount}, that means every rupee you donate to Jagrati translates into {number} hours worth of education.
+When you donate to Jagrati, you help children learn quality education and provide for their families.
+
+If you find our cause useful, please consider chipping in whatever you can afford to keep the Jagrati going in 2021(or future). I promise you, it will be money well spent.
+
+A gift of {amount} monthly would make a big difference. We’re a nonprofit that relies on support from people like you. Thank you!
