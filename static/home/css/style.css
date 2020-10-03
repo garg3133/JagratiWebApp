@@ -102,6 +102,7 @@ nav{
 	top: 0;
 	background-color: #ff8c00;
 	z-index: 2;
+	height: 50px;
 }
 .navbut{
 	border: 1px red solid;
@@ -125,34 +126,67 @@ nav{
 	margin: 5px 0 5px 5px;
 }
 
+/*
+.navbar li{
+	display: inline;
+	padding: 0 5px;
+	color: black;
+}*/
+
 /*Right nav bar*/
 .navbar1{
-	float: right;
-	margin: 5px 0;
+	float: right;/*
+	margin: 5px 0;*/
 }
 .navbar1 ul{
 	list-style: none;
 	padding: 0;
 	margin: 0;
-}
+}/*
 .navbar1 li{
 	display: inline;
 	padding: 0 5px;
 	color: black;
+}*/
+.navbar1 a{
+	display: inline-block;
+	padding: 14.3px 15px;
+	transition: 0.4s;
 }
-.navbar1 .button{
+.navbar1 a:hover{
+	background-color: red;
+}
+.navbar1 button{
+	height: 51px;
+	padding: 14.3px 15px;
+	background-color: transparent;
+	font-size: 15px;
+	border: none;
+}
+.navbar1 button:hover{
+	background-color: red;
+	color: white;
+	transition: 0.4s;
+}
+/*
+.navbar1 .button{/*
 	position: relative;
 	padding: 3px 10px;
 	background-color: #ff8c00;
 	font-size: 15px;
 	overflow: hidden;
-	transition: 0.5s ease;
-}
+	transition: 0.5s ease;*/
+	/*display: inline-block;
+	padding: 14.5px 18px;
+	margin-right: -5px; 
+	transition: 0.4s;
+}*//*
 .navbar1 .button:hover{
 	background-color: red;
 	color: white;
 	padding: 3px 12px;
-}
+}*/
+
 /*.navbar1 .button:before{
 	content: "";
 	position: absolute;
@@ -183,21 +217,24 @@ nav{
 /*navbar in full size*/
 .navbar{
 	float: left;
+	height: 51px;
 	/*margin: 5px 0;*/
 }
 .navbar ul{
 	list-style: none;
+	height: 51px;
 	padding: 0;
 	margin: 0;
-}
+}/*
 .navbar li{
 	display: inline;
-	/*padding: 0 5px;*/
+	padding: 0 5px;
 	color: black;
-}
+}*/
 .navbar a{
 	display: inline-block;
-	padding: 6.5px;
+	padding: 14.5px 18px;
+	margin-right: -5px; 
 	transition: 0.4s;
 }
 .navbar a:hover{
