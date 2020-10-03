@@ -493,8 +493,8 @@ nav{
 	background-color: transparent;
 }
 .glide__bullets{
-	position: relative;
-	padding:0 50% 0 50%;
+	position: relative  !important;
+	padding:0 50% 0 50% !important;
 }
 
 /*SERVICES section starts*/
