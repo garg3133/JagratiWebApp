@@ -33,6 +33,7 @@ And additional requirements are in **requirements.txt**
     * `EMAIL_HOST_USER` and `SENDER_EMAIL` is the email address of your Gmail account from which you want to send emails (By default, Django will output email contents in console. To actually send emails, comment line 27 and uncomment line 28 in `Jagrati/dev_settings.py`).
     * `EMAIL_HOST_PASSWORD` is the password for that Gmail account.
     * `ADMINS_EMAIL` is a list of email addresses of Admins of the site (who will recieve important updates from the site like when a new user joins in).
+
     **Note:** All the changes mentioned above in the `.env` template are *optional* and you do not need to change anything if you want all the email contents to be printed in the console itself. The above changes are required only if you wish to send out real emails to real people.
   * Make migrations `$ python manage.py makemigrations`
   * Make migrations for other apps `$ python manage.py makemigrations volunteers students feedbacks misc`
