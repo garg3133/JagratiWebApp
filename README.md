@@ -19,8 +19,22 @@ And additional requirements are in **requirements.txt**
   * Create a virtual environment `$ virtualenv env -p python3.7`  
   * Activate the env: `$ source env/bin/activate` (for linux) `> ./env/Scripts/activate` (for Windows PowerShell)
   * Install the requirements: `$ pip install -r requirements.txt`
+  * Create a new file in `JagratiWebApp/Jagrati` folder with name `.env` and add the following content in it:
+    ```
+    PRODUCTION = False
+
+    EMAIL_HOST_USER = 'your-email@domain.com'
+    EMAIL_HOST_PASSWORD = 'your-password'
+
+    SENDER_EMAIL = 'Jagrati <your-email@domain.com>'
+    ADMINS_EMAIL = ['email-address-of-admin@domain.com']
+    ```
+    where, 
+    * `EMAIL_HOST_USER` and `SENDER_EMAIL` is the email address of Gmail account from which you want to send emails (By default, Django will output emails in console. To actually send emails, comment line 27 and uncomment line 28 in `Jagrati/dev_settings.py`).
+    * `EMAIL_HOST_PASSWORD` is the password for that Gmail account.
+    * `ADMINS_EMAIL` is a list of email addresses of Admins of the site (who will recieve important updates from the site like when a new user creates an account).
   * Make migrations `$ python manage.py makemigrations`
-  * To Make migrations for a particular app `$ python manage.py makemigrations <App name>`
+  * Make migrations for other apps `$ python manage.py makemigrations volunteers students feedbacks misc`
   * Migrate the changes to the database `$ python manage.py migrate`
   * Create admin `$ python manage.py createsuperuser`
   * Run the server `$ python manage.py runserver`
