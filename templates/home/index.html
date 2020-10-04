@@ -60,8 +60,8 @@
 
     <!-- Navigation Bar starts -->
     <nav>
-        <div class="container">
-            <div class="nav-button" id="inav-button" style="display: block;">
+        <div>
+            <!--<div class="nav-button" id="inav-button" style="display: block;">
                 <form style="margin: 0;">
                     <button type="button" onclick="nav_button()" class="navbut"><img src='{% static "home/images/menu.png" %}' class="menu-icon"></button>
                 </form>
@@ -70,14 +70,43 @@
                 <form style="margin: 0;">
                     <button type="button" onclick="nav_button_close()" class="navbut"><img src='{% static "home/images/close.png" %}' class="menu-icon"></button>
                 </form>
+            </div>-->
+            <div class="navbar" id="nav">
+            <!--
+              <a href="#home">Home</a>
+              <a href="#news">News</a>
+              <a href="#contact">Contact</a>
+              <a href="#about">About</a>
+            -->
+              <a href="javascript:void(0);" class="icon" onclick="nav_button()">
+                <!--<i class="fa fa-bars"></i>-->
+                <div class="bar" onclick="rotate_menu(this)">
+                    <div class="bar1"></div>
+                    <div class="bar2"></div>
+                    <div class="bar3"></div>
+                </div>
+              </a>
+
+              <a href="./" id="first-child">Home</a>
+              <a href="#about-us">About</a>
+              <a href="#">Events</a>
+              <a href="#">Team</a>
+              <a href="./">Alumni</a>
             </div>
+                        <!--
+            <div class="bar" onclick="myFunction(this)">
+              <div class="bar1"></div>
+              <div class="bar2"></div>
+              <div class="bar3"></div>
+            </div>
+                -->
             <div class="navbar1">
                 <ul>
                     <a href="{% url 'accounts:login_signup' %}" class="n" >Login</a>
-                    <button class="n" onclick="donate_us()">Donate</button>
-                    
+                    <button class="n" onclick="donate_us()">Donate</button>    
                 </ul>
             </div>
+            <!--
             <div class="navbar">
                 <ul>
                     <a href="./">Home</a>
@@ -96,7 +125,7 @@
                     <li><a href="#">Team</a></li>
                     <li><a href="./">Alumni</a></li>
                 </ul>
-            </div>
+            </div>-->
         </div>
     </nav>
     <!-- Navbar ends -->
