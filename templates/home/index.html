@@ -1,3 +1,4 @@
+
 {% extends 'base.html' %}
 
 {% load static %}
@@ -19,9 +20,7 @@
 <!-- <!DOCTYPE html>
 <html>
 <head>
-
     {% load static %}
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jagrati | Home</title>
     <link rel="shortcut icon" href='{% static "home/logo.png" %}'>
@@ -37,10 +36,8 @@
 {% block content %}
 
     <!-- {% if user.is_authenticated %}
-
         <h3>Welcome {{user.email}}!</h3>
         <a href="{% url 'accounts:logout' %}"> Logout </a>
-
     {% else %} -->
 
     <!-- Header Starts -->
@@ -87,11 +84,11 @@
                 </div>
               </a>
 
-              <a href="./" id="first-child">Home</a>
-              <a href="#about-us">About</a>
-              <a href="#">Events</a>
-              <a href="#">Team</a>
-              <a href="./">Alumni</a>
+              <a href="./" id="child-1">Home</a>
+              <a href="#about-us" id="child-2">About</a>
+              <a href="#" id="child-3">Events</a>
+              <a href="#" id="child-4">Team</a>
+              <a href="./" id="child-5">Alumni</a>
             </div>
                         <!--
             <div class="bar" onclick="myFunction(this)">
@@ -343,7 +340,7 @@
                 </div>
             </div>
             <div class="clr"></div>
-            <div class="box-2">	
+            <div class="box-2"> 
                 <div>
                     <i class="fas fa-seedling fa-5x" data-aos="fade-up-right"></i>
                     <h2 data-aos="fade-up-right" data-aos-anchor="#services .box-2 i:first-child">PLANTATION</h2>
@@ -353,7 +350,7 @@
                     <i class="fas fa-user-md fa-5x" data-aos="fade-up-left"></i>
                     <h2 data-aos="fade-up-left" data-aos-anchor="#services .box-2 div:last-child i">MEDICAL CAMP</h2>
                     <p data-aos="zoom-in" data-aos-delay="100" data-aos-duration="700">Health is wealth If students are healthy they can concentrate on their studies better and give good results. For this we guide their parents to take their children to doctors and take proper medicine. Health camps are also organized By usand general medicines are distributed free of cost to everyone.</p>
-                </div>					
+                </div>                  
             </div>
         </div>
     </section> -->
@@ -468,4 +465,3 @@
       <!-- {% endif %} -->
 {% endblock %}
 
-<!-- </body></html> -->
