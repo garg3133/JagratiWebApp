@@ -188,7 +188,6 @@ nav{
   display: none;*/
   display: inline-block;
   padding: 12px 18px;
-  margin-right: -5px; 
   transition: 0.4s;
   color: black;
 }
@@ -204,7 +203,7 @@ nav{
   padding:  0px;
   display: none;
 }
-#first-child{
+#child-1{
 	margin-left: 40px;
 }
 /*Left Nav Bar Menu*/
@@ -246,7 +245,6 @@ nav{
   background-color: #4CAF50;
   color: white;
 }
-
 .navbar1 li{
 	display: inline;
 	padding: 0 5px;
@@ -295,9 +293,7 @@ nav{
 .navbar1 a{
 	overflow: hidden;
 }
-
 navbar in full size
-
 .navbar{
 	float: left;
 	height: 51px;
@@ -325,7 +321,6 @@ navbar in full size
 	background-color: red;
 	color: white;
 }
-
 button-controlled nav bar
 .navbar2{
 	position: absolute;
@@ -894,6 +889,21 @@ footer{
 		height: 40.5vw;
 	}
 }
+@keyframes translate{
+	0% {
+    opacity: 0;
+    transform: translateY(-60px);
+  }
+  
+  80% {
+    transform: translateY(10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
 
 @media(max-width: 760px){
    /*For Nav bar*/
@@ -906,13 +916,14 @@ footer{
     float: left;
     display: block;
     margin-left: 70px;
+    height: 51px;
     /*
     height: 51px;
     width: 45px;*/
   }
   .navbar.responsive{
   	position: relative;
-  	background-color: rgba(255, 140, 0, 0.85); ;
+  	background-color: rgba(255, 140, 0, 0.925);
   }
   .navbar.responsive .icon {
     position: relative;
@@ -920,17 +931,19 @@ footer{
     top: 0;
     width: 65px;
     padding: 0px;
+    animation: none;
   }
   .navbar.responsive a {
     float: none;
     display: block;
     text-align: left;
-    padding: 10px 800px 10px 80px;
+    padding: 10px 7vw 10px 80px;
+    padding-right: screen.width*8;
+    animation: translate 1s;*/
+      	overflow: wrap;
+
   }
-  #first-child{
-  	margin-top:51px;
-  	margin-left: 0px;
-  }
+
   .bar{
 	display: block;
    }
@@ -984,6 +997,14 @@ footer{
 		padding: 0 20px 35px;
 	}
 }
+@media screen and (max-width: 760px){
+  #child-1{animation: translate 1s; margin-left: 0px; padding-right: 90%;}
+  #child-2{animation: translate 1.2s}
+  #child-3{animation: translate 1.4s}
+  #child-4{animation: translate 1.6s}
+  #child-5{animation: translate 1.8s}
+}
+
 @media(max-width: 600px){
 	/*For Youtube Video*/
 	.q2 iframe{
