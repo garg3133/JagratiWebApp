@@ -492,9 +492,8 @@ nav{
 	transform: rotateX(360deg) translateX(-10px) translateY(-300px);
 	background-color: transparent;
 }
-.glide__bullets{
-	position: relative  !important;
-	padding:0 50% 0 50% !important;
+#initiatives .glide__bullets{
+	bottom: 1em;
 }
 
 /*SERVICES section starts*/
