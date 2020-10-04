@@ -3,7 +3,7 @@ const nav_height= "131px";
 
 //Nav button controls
 
-function nav_button(){
+/*function nav_button(){
 	var a = document.getElementById("inavbar2");
 	a.style.padding="2px 5px 5px";
 	a.style.height=nav_height;
@@ -20,6 +20,18 @@ function nav_button_close(){
 	a.style.display="none";
 	var a = document.getElementById("inav-button");
 	a.style.display="block";
+}
+*/
+function rotate_menu(x) {
+  x.classList.toggle("change");
+}
+function nav_button() {
+  var x = document.getElementById("nav");
+  if (x.className === "navbar") {
+    x.className += " responsive";
+  } else {
+    x.className = "navbar";
+  }
 }
 function for_media_query(x){
 	if (x.matches){
