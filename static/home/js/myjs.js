@@ -103,4 +103,3 @@ function show_p(){
 		setTimeout(show_p, 50); //speed is in milliseconds
 	}
 }
-
