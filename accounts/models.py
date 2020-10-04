@@ -115,3 +115,14 @@ class Profile(models.Model):
         if self.street_address2:
             return f'{self.street_address1}, {self.street_address2}, {self.city} - {self.pincode}, {self.state}'
         return f'{self.street_address1}, {self.city} - {self.pincode}, {self.state}'
+
+class AuthorisedDevice(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    device_id = models.CharField(max_length=255)
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        unique_together = (('user', 'device_id'),)
+
+    def __str__(self):
+        return f'{self.user.email} - {self.device_id}'

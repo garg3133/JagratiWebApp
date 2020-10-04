@@ -49,7 +49,7 @@
             <div id="branding">
                 <h1><span onclick="document.querySelector('.navbar a:first-child').click()" style="cursor: pointer;">Jagrati</span></h1>
                 <div class="branding1">
-                    <p>an initiative by iiitians</p>
+                    <p>an initiative of IIITians</p>
                 </div>
             </div>
             <a href='{% static "home/logo.jpg" %}' target="_blank" style="float: right;"><img src='{% static "home/logo.png" %}' class="logo"></a>
@@ -424,7 +424,7 @@
     <!-- Footer starts -->
     <footer>
         <div class="container">
-            Jagrati Copyright &copy; 2020
+            Jagrati Copyright &copy; {% now 'Y'%}
         </div>
     </footer>
     <!-- Footer ends -->

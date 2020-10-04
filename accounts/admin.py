@@ -18,7 +18,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 from apps.volunteers.admin import VolunteerInline
 from .forms import UserAdminCreationForm
-from .models import User, Profile
+from .models import User, Profile, AuthorisedDevice
 
 
 @admin.register(User)
@@ -80,3 +80,15 @@ class ProfileAdmin(admin.ModelAdmin):
     get_auth.short_description = 'Auth'
     get_auth.admin_order_field = 'user__auth'
     get_auth.boolean = True
+
+@admin.register(AuthorisedDevice)
+class AuthorisedDeviceAdmin(admin.ModelAdmin):
+    list_display = ('get_email', 'device_id', 'active')
+    search_fields = ('user__email', 'device_id')
+    list_filter = ('active',)
+    ordering = ('user__email', 'device_id')
+
+    def get_email(self, obj):
+        return obj.user.email
+    get_email.short_description = 'Email'
+    get_email.admin_order_field = 'user__email'
