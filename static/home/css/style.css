@@ -389,8 +389,8 @@ nav{
 	height: 2px;
 	background-color: #ff8c00;
 }
-#initiatives .container{
-	padding-bottom: 15px;
+#initiatives .glide{
+	padding-bottom: 25px;
 }
 .llll{
 	transform: perspective(1000px) rotateY(30deg);
@@ -495,9 +495,7 @@ nav{
 	transform: rotateX(360deg) translateX(-10px) translateY(-300px);
 	background-color: transparent;
 }
-#initiatives .glide__bullets{
-	bottom: 1em;
-}
+
 
 /*SERVICES section starts*/
 
