@@ -45,18 +45,18 @@ a:hover{
 ::-webkit-scrollbar {
 	width: 7px;
   }
-  
+
   ::-webkit-scrollbar-thumb {
 	border-radius: 50px;
 	/* background: #70707050; */
 	background: #ff8c00	;
   }
-  
+
   ::-webkit-scrollbar-thumb:hover {
 	/* background: var(--theme-dark-color-0); */
 	/* background: #666; */
   }
-  
+
 /*  Customized Scroll Bar - Chrome Only -  END */
 
 
@@ -73,7 +73,7 @@ a:hover{
 	padding: 0;
 	color: orange;
 	font-size: 1.8em;
-	letter-spacing: -0.5px; 
+	letter-spacing: -0.5px;
 }
 .branding1{
 	/* float:left; */
@@ -117,7 +117,7 @@ nav{
 .nav-button{
 	display: none;
 	float: left;
-	margin: 5px 0 5px 5px;	
+	margin: 5px 0 5px 5px;
 }
 .nav-button-close{
 	display: none;
@@ -240,7 +240,7 @@ nav{
 
 #showcase{
 	background: rgba(0,0,0,0.9) url("../images/02.jpg") no-repeat center -130px;
-	min-height: 500px; 
+	min-height: 500px;
 	z-index: 1;
 	position: relative;
 }
@@ -388,6 +388,9 @@ nav{
 	margin-top: 2px;
 	height: 2px;
 	background-color: #ff8c00;
+}
+#initiatives .container{
+	padding-bottom: 15px;
 }
 .llll{
 	transform: perspective(1000px) rotateY(30deg);
@@ -944,7 +947,7 @@ footer{
 	/*For SHOWCASE section*/
 	#showcase{
 		background-size: cover;
-		background-position-y: -175px; 
+		background-position-y: -175px;
 	}
 	/*For Contact Us section*/
 	.con-box1:first-child{
