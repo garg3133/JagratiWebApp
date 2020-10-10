@@ -1,6 +1,6 @@
 # CONTAINS SETTINGS FOR PRODUCTION
 
-from .common_settings import *
+from .base import *
 
 SECRET_KEY = config('SECRET_KEY')
 
