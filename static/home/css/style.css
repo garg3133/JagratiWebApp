@@ -50,6 +50,7 @@ a:hover{
   ::-webkit-scrollbar-thumb {
 	border-radius: 50px;
 	/* background: #70707050; */
+
 	background: #ff8c00	;
   }
   
@@ -142,6 +143,7 @@ nav{
 	position: absolute;
 	right: 0px;/* right;*/
 	margin-right: 9%;
+
 }
 .navbar1 ul{
 	list-style: none;
@@ -152,6 +154,7 @@ nav{
 	display: inline-block;
 	padding: 12.0px 15px;
 	transition: 0.4s;
+	margin-left: -5px;
 }
 .navbar1 a:hover{
 	background-color: red;
@@ -186,6 +189,7 @@ nav{
   text-decoration: none;
   font-size: 15px;
   display: none;*/
+  margin-left: -5px;
   display: inline-block;
   padding: 12px 18px;
   transition: 0.4s;
@@ -923,6 +927,7 @@ footer{
   }
   .navbar.responsive{
   	position: relative;
+  	width:100%;
   	background-color: rgba(255, 140, 0, 0.925);
   }
   .navbar.responsive .icon {
