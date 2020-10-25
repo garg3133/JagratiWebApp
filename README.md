@@ -19,7 +19,7 @@ And additional requirements are in **requirements.txt**
   * Create a virtual environment `$ virtualenv env -p python3.7`  
   * Activate the env: `$ source env/bin/activate` (for linux) `> ./env/Scripts/activate` (for Windows PowerShell)
   * Install the requirements: `$ pip install -r requirements.txt`
-  * Create a new file in `JagratiWebApp/Jagrati` folder with name `.env` and add the following content in it:
+  * Create a new file in root folder of repository (`JagratiWebApp`) with name `.env` and add the following content in it:
     ```
     PRODUCTION = False
 
@@ -30,7 +30,7 @@ And additional requirements are in **requirements.txt**
     ADMINS_EMAIL = ['email-address-of-admin@domain.com']
     ```
     where, 
-    * `EMAIL_HOST_USER` and `SENDER_EMAIL` is the email address of your Gmail account from which you want to send emails (By default, Django will output email contents in console. To actually send emails, comment line 27 and uncomment line 28 in `Jagrati/dev_settings.py`).
+    * `EMAIL_HOST_USER` and `SENDER_EMAIL` is the email address of your Gmail account from which you want to send emails (By default, Django will output email contents in console. To actually send emails to real users, comment line 27 and uncomment line 28 in `Jagrati/settings/development.py`).
     * `EMAIL_HOST_PASSWORD` is the password for that Gmail account.
     * `ADMINS_EMAIL` is a list of email addresses of Admins of the site (who will recieve important updates from the site like when a new user joins in).
 
