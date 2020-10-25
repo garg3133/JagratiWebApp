@@ -4,10 +4,9 @@ import os
 import sys
 from decouple import config
 
-PRODUCTION = (config("PRODUCTION") == 'True')
+PRODUCTION = config("PRODUCTION", cast=bool)
 
 def main():
-
     if PRODUCTION:
         os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Jagrati.settings.production') 
     else:
