@@ -4,8 +4,6 @@ import os
 import sys
 from decouple import config
 
-PRODUCTION = config("PRODUCTION", cast=bool)
-
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Jagrati.settings.development')
     try:
