@@ -21,8 +21,6 @@ And additional requirements are in **requirements.txt**
   * Install the requirements: `$ pip install -r requirements.txt`
   * Create a new file in root folder of repository (`JagratiWebApp`) with name `.env` and add the following content in it:
     ```
-    PRODUCTION = False
-
     EMAIL_HOST_USER = 'your-email@domain.com'
     EMAIL_HOST_PASSWORD = 'your-password'
 
@@ -36,7 +34,6 @@ And additional requirements are in **requirements.txt**
 
     **Note:** All the changes mentioned above in the `.env` template are *optional* and you do not need to change anything if you want all the email contents to be printed in the console itself. The above changes are required only if you wish to send out real emails to real people.
   * Make migrations `$ python manage.py makemigrations`
-  * Make migrations for other apps `$ python manage.py makemigrations volunteers students feedbacks misc`
   * Migrate the changes to the database `$ python manage.py migrate`
   * Create admin `$ python manage.py createsuperuser`
   * Run the server `$ python manage.py runserver`
