@@ -5,7 +5,8 @@
 __pycache__
 db.sqlite3
 media
-migrations
+**/migrations/*
+!**/migrations/__init__.py
 .vscode
 
 # Backup files # 

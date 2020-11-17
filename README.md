@@ -1,14 +1,68 @@
 # Jagrati
-Official WebApp of Jagrati - An Initiative of IIITians
+Jagrati is an initiative by the students of **IIITDM Jabalpur** to teach poor and under-privileged children of villages surrounding our institute, completely free of cost. 
 
-## Requirements
+Currently, we teach around 100 children from 5 villages in the vicinity of our institute, namely, Gadheri, Amanala, Chanditola, Mehgawan and Suarkol. Apart from providing basic education to the students of class 1 through 10 in regular classes , **we also prepare the students of 4th and 5th grade for the prestigious Navodaya Vidyalaya** and other similar institutions which provides quality education to students, completely free of cost.
 
-Python 3.7  
-Django 2.2.6  
-And additional requirements are in **requirements.txt**  
+Apart from teaching the children, we also do many other things like **organizing Blood Donation Camps, Tree Plantation Drives, Cloth Donation, Stationery Distribution, Campaigns to spread awareness in villages, etc.**
+
+**Our Achievements:**
+- 1 student cracked Navodaya Examination in 2018.
+- 1 student cracked Navodaya Examination in 2019.
+- 2 students cracked Navodaya Examination in 2020.
+- 4 students cracked entrance examination for Eklavya Model Residential School (EMRS) in 2020.
+- 4 students cracked entrance examination for Gyanodaya Vidyalaya in 2020.
+
+(Like Navodaya Vidyalaya, both EMRS and Gyanodaya Vidyalaya provide free quality education to students from class 6 to 12).
+
+Currently, we are operating in online mode to prepare students of class 5 for Navodaya Examination, 2021.
+
+## About JagratiWebApp
+JagratiWebApp is the **official web application** for managing day-to-day operations at Jagrati, like keeping track of the content being taught in a class and homework being given to the students, taking and keeping record of student and volunteer attendence, keeping record of all the students being taught under the initiative and the volunteers contributing towards the initiative among many things.
+
+The main aim of the application is to simplify the work of volunteers by making all the information readily accessible to them like what was taught in the last class or in the last week and how many student attended those classes so that they can easily decide what should be taught on the present day and update the same in the application. Plus, it also helps in taking the attendence of students with more ease over the conventional method of manually taking note of the names of all the students present.
+
+So, all in all, it is meant to help the volunteers work more effectively and efficiently and make it easy to keep track of daily activities.
+
+## Technology Stack
+
+**Frontend:** HTML, CSS(+ Bootstrap 4), JavaScript  
+**Backend:** Python/Django  
+**Database:** SQL (SQLite3/MySQL/PostgreSQL)  
+
+And additional requirements are in [**requirements.txt**](https://github.com/garg3133/JagratiWebApp/blob/master/requirements.txt)
+
+## To-Do
+
+### New pages
+
+- [ ] List of all Students
+- [ ] List of all Volunteers
+- [ ] Student Profile
+- [ ] Volunteer profile
+- [ ] Update Student Profile
+- [ ] Update Volunteer Profile
+- [ ] Add new Student
+- [ ] Calendar containing class schedule, events and other national/international important dates.
+- [ ] Page for Managing Permissions
+- [ ] Page for viewing and managing feedbacks
+- [ ] Web Team Page
+
+### New Apps
+
+- [ ] Jagrati Inventory
+- [ ] Events
+- [ ] Meetings
+- [ ] Study Material
+
+### New Features
+
+- [ ] Notifications
+- [ ] Leaderboard (no. of hours contributed to Jagrati)
 
 
-## How to run it?
+## Contributing
+
+### Setting-up the project
 
   * Download and install Python 3.7
   * Download and install Git.
@@ -19,10 +73,8 @@ And additional requirements are in **requirements.txt**
   * Create a virtual environment `$ virtualenv env -p python3.7`  
   * Activate the env: `$ source env/bin/activate` (for linux) `> ./env/Scripts/activate` (for Windows PowerShell)
   * Install the requirements: `$ pip install -r requirements.txt`
-  * Create a new file in `JagratiWebApp/Jagrati` folder with name `.env` and add the following content in it:
+  * Create a new file in root folder of repository (`JagratiWebApp`) with name `.env` and add the following content in it:
     ```
-    PRODUCTION = False
-
     EMAIL_HOST_USER = 'your-email@domain.com'
     EMAIL_HOST_PASSWORD = 'your-password'
 
@@ -30,19 +82,19 @@ And additional requirements are in **requirements.txt**
     ADMINS_EMAIL = ['email-address-of-admin@domain.com']
     ```
     where, 
-    * `EMAIL_HOST_USER` and `SENDER_EMAIL` is the email address of your Gmail account from which you want to send emails (By default, Django will output email contents in console. To actually send emails, comment line 27 and uncomment line 28 in `Jagrati/dev_settings.py`).
+    * `EMAIL_HOST_USER` and `SENDER_EMAIL` is the email address of your Gmail account from which you want to send emails (By default, Django will output email contents in console. To actually send emails to real users, comment line 27 and uncomment line 28 in `Jagrati/settings/development.py`).
     * `EMAIL_HOST_PASSWORD` is the password for that Gmail account.
     * `ADMINS_EMAIL` is a list of email addresses of Admins of the site (who will recieve important updates from the site like when a new user joins in).
 
     **Note:** All the changes mentioned above in the `.env` template are *optional* and you do not need to change anything if you want all the email contents to be printed in the console itself. The above changes are required only if you wish to send out real emails to real people.
   * Make migrations `$ python manage.py makemigrations`
-  * Make migrations for other apps `$ python manage.py makemigrations volunteers students feedbacks misc`
   * Migrate the changes to the database `$ python manage.py migrate`
   * Create admin `$ python manage.py createsuperuser`
   * Run the server `$ python manage.py runserver`
  
 
-## Contributing  
-  * Create a new branch with a related name of the motive i.e. bug/refactor/feature  
-  * Create an issue before actually starting to code  
+### Contributing Guidelines 
+  * Feel free to open an issue to report a bug or request a new feature.
+  * Before starting to work on an issue, comment on that issue that you want to work on this and then only start to code.
+  * Create a new branch with a related name of the motive i.e. bug/refactor/feature and commit your changes in that branch only.  
   * Send a pull request anytime :)  

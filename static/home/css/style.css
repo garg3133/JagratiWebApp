@@ -89,7 +89,7 @@ a:hover{
 	color: white;
 }
 .logo{
-	background-image: url("logo.jpg");
+	/* background-image: url("../../logo.png"); */
 	margin: 5px 0px;
 	height: 60px;
 	float: right;

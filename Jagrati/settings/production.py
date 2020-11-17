@@ -1,10 +1,10 @@
 # CONTAINS SETTINGS FOR PRODUCTION
 
-from .common_settings import *
+from .base import *
 
 SECRET_KEY = config('SECRET_KEY')
 
-DEBUG = (config("DEBUG") == 'True')
+DEBUG = config("DEBUG", cast=bool)
 
 ALLOWED_HOSTS = ast.literal_eval(config("ALLOWED_HOSTS"))
 
@@ -28,12 +28,12 @@ DATABASES = {
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-EMAIL_USE_TLS = (config("EMAIL_USE_TLS") == 'True')
-# EMAIL_USE_SSL = (config("EMAIL_USE_SSL") == 'True')
+EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool)
+# EMAIL_USE_SSL = config("EMAIL_USE_SSL", cast=bool)
 EMAIL_HOST = config("EMAIL_HOST")
 EMAIL_HOST_USER = config("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
-EMAIL_PORT = int(config("EMAIL_PORT"))
+EMAIL_PORT = config("EMAIL_PORT", cast=int)
 
 DEFAULT_FROM_EMAIL = config("SENDER_EMAIL")
 ADMINS_EMAIL = ast.literal_eval(config("ADMINS_EMAIL"))
