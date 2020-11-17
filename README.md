@@ -31,6 +31,34 @@ So, all in all, it is meant to help the volunteers work more effectively and eff
 
 And additional requirements are in [**requirements.txt**](https://github.com/garg3133/JagratiWebApp/blob/master/requirements.txt)
 
+## To-Do
+
+### New pages
+
+- [ ] List of all Students
+- [ ] List of all Volunteers
+- [ ] Student Profile
+- [ ] Volunteer profile
+- [ ] Update Student Profile
+- [ ] Update Volunteer Profile
+- [ ] Add new Student
+- [ ] Calendar containing class schedule, events and other national/international important dates.
+- [ ] Page for Managing Permissions
+- [ ] Page for viewing and managing feedbacks
+- [ ] Web Team Page
+
+### New Apps
+
+- [ ] Jagrati Inventory
+- [ ] Events
+- [ ] Meetings
+- [ ] Study Material
+
+### New Features
+
+- [ ] Notifications
+- [ ] Leaderboard (no. of hours contributed to Jagrati)
+
 
 ## Contributing
 
