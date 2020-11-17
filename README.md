@@ -1,4 +1,22 @@
 # Jagrati
+Jagrati is an initiative by the students of **IIITDM Jabalpur** to teach poor and under-privileged children of villages surrounding our institute, completely free of cost. 
+
+Currently, we teach around 100 children from 5 villages in the vicinity of our institute, namely, Gadheri, Amanala, Chanditola, Mehgawan and Suarkol. Apart from providing basic education to the students of class 1 through 10 in regular classes , **we also prepare the students of 4th and 5th grade for the prestigious Navodaya Vidyalaya** and other similar institutions which provides quality education to students, completely free of cost.
+
+Apart from teaching the children, we also do many other things like **organizing Blood Donation Camps, Tree Plantation Drives, Cloth Donation, Stationery Distribution, Campaigns to spread awareness in villages, etc.**
+
+**Our Achievements:**
+- 1 student cracked Navodaya Examination in 2018.
+- 1 student cracked Navodaya Examination in 2019.
+- 2 students cracked Navodaya Examination in 2020.
+- 4 students cracked entrance examination for Eklavya Model Residential School (EMRS) in 2020.
+- 4 students cracked entrance examination for Gyanodaya Vidyalaya in 2020.
+
+(Like Navodaya Vidyalaya, both EMRS and Gyanodaya Vidyalaya provide free quality education to students from class 6 to 12).
+
+Currently, we are operating in online mode to prepare students of class 5 for Navodaya Examination, 2021.
+
+## About JagratiWebApp
 Official WebApp of Jagrati - An Initiative of IIITians
 
 ## Requirements
