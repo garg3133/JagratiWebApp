@@ -94,6 +94,7 @@ And additional requirements are in [**requirements.txt**](https://github.com/gar
  
 
 ### Contributing Guidelines 
-  * Create a new branch with a related name of the motive i.e. bug/refactor/feature  
-  * Create an issue and take feedback before actually starting to code  
+  * Feel free to open an issue to report a bug or request a new feature.
+  * Before starting to work on an issue, comment on that issue that you want to work on this and then only start to code.
+  * Create a new branch with a related name of the motive i.e. bug/refactor/feature and commit your changes in that branch only.  
   * Send a pull request anytime :)  
