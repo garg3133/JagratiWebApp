@@ -23,14 +23,18 @@ The main aim of the application is to simplify the work of volunteers by making 
 
 So, all in all, it is meant to help the volunteers work more effectively and efficiently and make it easy to keep track of daily activities.
 
-## Requirements
+## Technology Stack
 
-Python 3.7  
-Django 2.2.6  
-And additional requirements are in **requirements.txt**  
+**Frontend:** HTML, CSS(+ Bootstrap 4), JavaScript  
+**Backend:** Python/Django  
+**Database:** SQL (SQLite3/MySQL/PostgreSQL)  
+
+And additional requirements are in [**requirements.txt**](https://github.com/garg3133/JagratiWebApp/blob/master/requirements.txt)
 
 
-## How to run it?
+## Contributing
+
+### Setting-up the project
 
   * Download and install Python 3.7
   * Download and install Git.
@@ -61,7 +65,7 @@ And additional requirements are in **requirements.txt**
   * Run the server `$ python manage.py runserver`
  
 
-## Contributing  
+### Contributing Guidelines 
   * Create a new branch with a related name of the motive i.e. bug/refactor/feature  
-  * Create an issue before actually starting to code  
+  * Create an issue and take feedback before actually starting to code  
   * Send a pull request anytime :)  
