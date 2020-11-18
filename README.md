@@ -1,7 +1,7 @@
 # Jagrati
 Jagrati is an initiative by the students of **IIITDM Jabalpur** to teach poor and under-privileged children of villages surrounding our institute, completely free of cost. 
 
-Currently, we teach around 100 children from 5 villages in the vicinity of our institute, namely, Gadheri, Amanala, Chanditola, Mehgawan and Suarkol. Apart from providing basic education to the students of class 1 through 10 in regular classes , **we also prepare the students of 4th and 5th grade for the prestigious Navodaya Vidyalaya** and other similar institutions which provides quality education to students, completely free of cost.
+Currently, we teach around 100 children from 5 villages in the vicinity of our institute, namely, Gadheri, Amanala, Chanditola, Mehgawan and Suarkol. Apart from providing basic education to the students of class 1 through 10 in regular classes , **we also prepare the students of 4th and 5th grade for the prestigious Navodaya Vidyalaya** and other similar government-funded institutions which provides quality education to students, completely free of cost.
 
 Apart from teaching the children, we also do many other things like **organizing Blood Donation Camps, Tree Plantation Drives, Cloth Donation, Stationery Distribution, Campaigns to spread awareness in villages, etc.**
 
