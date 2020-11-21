@@ -1,5 +1,5 @@
 # Jagrati
-Jagrati is an initiative by the students of **IIITDM Jabalpur** to provide free and quality education to poor and under-privileged children of villages surrounding our institute. 
+Jagrati is an initiative by the students of **IIITDM Jabalpur** to provide free and quality education to the poor and under-privileged children of villages surrounding our institute. 
 
 Currently, we have adopted 5 villages in the vicinity of our institute, namely, Gadheri, Amanala, Chanditola, Mehgawan and Suarkol where we *donate education* to around 100 children of classes 1 through 10. Apart from providing basic education to the students in regular classes, **we also prepare the students of 4th and 5th grade for the prestigious Navodaya Vidyalaya** and other similar government-funded institutions which provides quality education to students, completely free of cost.
 
