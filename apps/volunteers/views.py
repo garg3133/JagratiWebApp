@@ -162,7 +162,7 @@ def update_profile(request):
             if duplicate_roll_check.exists():
                 context['update_error'] = "A volunteer with entered roll no. already exists."
                 messages.error(request, 'Profile update failed!')
-                return render(request, 'home/update_profile.html', context)
+                return render(request, 'volunteers/update_profile.html', context)
             else:
                 volun.roll_no = roll_no
 
