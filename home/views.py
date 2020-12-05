@@ -11,8 +11,8 @@ from django.urls import reverse, reverse_lazy
 
 # local Django
 from accounts.models import Profile
-from apps.students.models import Student, StudentAttendence, StudentSchedule
-from apps.volunteers.models import Volunteer, VolunteerAttendence, VolunteerSchedule
+from apps.students.models import Student, StudentAttendance, StudentSchedule
+from apps.volunteers.models import Volunteer, VolunteerAttendance, VolunteerSchedule
 from .models import Calendar, ClassworkHomework, Schedule, Section
 
 
@@ -79,15 +79,15 @@ def dashboard(request):
         context['cw_hw'] = cw_hw
 
         # Students Attendance
-        student_attendence = StudentAttendence.objects.filter(cal_date=calendar, present=True).order_by('student__school_class')
-        context['student_attendence'] = student_attendence
+        student_attendance = StudentAttendance.objects.filter(cal_date=calendar, present=True).order_by('student__school_class')
+        context['student_attendance'] = student_attendance
 
-        if student_attendence.exists():
+        if student_attendance.exists():
             stu_att_village = {}
             stu_att_village['G'] = stu_att_village['M'] = stu_att_village['C'] = 0
             stu_att_village['A'] = stu_att_village['S'] = 0
 
-            for stu_att in student_attendence:
+            for stu_att in student_attendance:
                 stu_att_village[stu_att.student.village] += 1
             # Mehgawan Side
             stu_att_village['MS'] = stu_att_village['M'] + stu_att_village['C'] + stu_att_village['A'] + stu_att_village['S']
@@ -95,8 +95,8 @@ def dashboard(request):
             context['stu_att_village'] = stu_att_village
 
         # Volunteers Attendance
-        volun_attendence = VolunteerAttendence.objects.filter(cal_date=calendar, present=True).order_by('volun__roll_no')
-        context['volun_attendence'] = volun_attendence
+        volun_attendance = VolunteerAttendance.objects.filter(cal_date=calendar, present=True).order_by('volun__roll_no')
+        context['volun_attendance'] = volun_attendance
 
         return render(request, 'home/dashboard.html', context)
 

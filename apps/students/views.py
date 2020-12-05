@@ -14,7 +14,7 @@ from django.urls import reverse, reverse_lazy
 
 from accounts.models import Profile
 from home.models import Calendar, Schedule
-from .models import Student, StudentAttendence, StudentSchedule
+from .models import Student, StudentAttendance, StudentSchedule
 
 
 # GLOBAL VARIABLES
@@ -48,7 +48,7 @@ def profile(request):
 @user_passes_test(has_profile, redirect_field_name=None,
                   login_url=reverse_lazy('accounts:complete_profile'))
 # @permissions_required
-def attendence(request):
+def attendance(request):
     today_cal = Calendar.objects.filter(date=today_date)
     # TO BE REMOVED...
     # Update today's date in Calendar if not already there
@@ -65,23 +65,23 @@ def attendence(request):
     }
 
     if today_cal.class_scheduled:
-        if not StudentAttendence.objects.filter(cal_date__date=today_date).exists():
+        if not StudentAttendance.objects.filter(cal_date__date=today_date).exists():
             # Create Empty Student Attendance Instances
             today_stu_sch = StudentSchedule.objects.filter(day=today_day)
             for stu_sch in today_stu_sch:
-                stu_attendance = StudentAttendence(student=stu_sch.student, cal_date=today_cal)
+                stu_attendance = StudentAttendance(student=stu_sch.student, cal_date=today_cal)
                 stu_attendance.save()
 
-        elif StudentAttendence.objects.filter(cal_date__date=today_date).count() != StudentSchedule.objects.filter(day=today_day).count():
+        elif StudentAttendance.objects.filter(cal_date__date=today_date).count() != StudentSchedule.objects.filter(day=today_day).count():
             # Some new students added in today's schedule (not necessarily present today)
             today_stu_sch = StudentSchedule.objects.filter(day=today_day)
             for stu_sch in today_stu_sch:
-                if not StudentAttendence.objects.filter(student=stu_sch.student, cal_date=today_cal).exists():
-                    stu_attendance = StudentAttendence(student=stu_sch.student, cal_date=today_cal)
+                if not StudentAttendance.objects.filter(student=stu_sch.student, cal_date=today_cal).exists():
+                    stu_attendance = StudentAttendance(student=stu_sch.student, cal_date=today_cal)
                     stu_attendance.save()
     else:
         context['no_class_today'] = True
-        return render(request, 'students/attendence.html', context)
+        return render(request, 'students/attendance.html', context)
 
     if request.method == 'POST':
         stu_array = request.POST.getlist('attended')
@@ -93,37 +93,37 @@ def attendence(request):
         class_range_min, class_range_max = selected_class.split('-')
 
         # Mark everyone's absent
-        stu_att_today = StudentAttendence.objects.filter(
+        stu_att_today = StudentAttendance.objects.filter(
             cal_date=today_cal, student__school_class__range=(class_range_min, class_range_max))
         for stu_att in stu_att_today:
             stu_att.present = False
             stu_att.save()
 
         for stu_id in stu_array:
-            stu_att = StudentAttendence.objects.get(student__id=stu_id, cal_date=today_date)
+            stu_att = StudentAttendance.objects.get(student__id=stu_id, cal_date=today_date)
             stu_att.present = True
             stu_att.save()
 
-        messages.success(request, 'Attendence marked successfully!')
-        return redirect('students:attendence')
+        messages.success(request, 'Attendance marked successfully!')
+        return redirect('students:attendance')
 
-    context['stu_att_today'] = StudentAttendence.objects.filter(
+    context['stu_att_today'] = StudentAttendance.objects.filter(
         cal_date=today_cal, student__school_class__range=(1, 3)).order_by(
             'student__school_class', 'student__first_name', 'student__last_name')
 
-    return render(request, 'students/attendence.html', context)
+    return render(request, 'students/attendance.html', context)
 
 @login_required
 @user_passes_test(has_profile, redirect_field_name=None,
                   login_url=reverse_lazy('accounts:complete_profile'))
 # @permissions_required
-def ajax_attendence(request):
+def ajax_attendance(request):
     today_cal = Calendar.objects.get(date=today_date)
     data = {}
     stu_class = request.GET.get('stu_class', None)
     class_range_min, class_range_max = stu_class.split('-')
 
-    stu_att_today = StudentAttendence.objects.filter(
+    stu_att_today = StudentAttendance.objects.filter(
         cal_date=today_cal, student__school_class__range=(class_range_min, class_range_max),
     ).order_by('student__school_class', 'student__first_name', 'student__last_name')
 
