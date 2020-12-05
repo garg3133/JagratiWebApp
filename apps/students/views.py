@@ -66,7 +66,7 @@ def attendence(request):
 
     if today_cal.class_scheduled:
         if not StudentAttendence.objects.filter(cal_date__date=today_date).exists():
-            # Create Empty Student Attendence Instances
+            # Create Empty Student Attendance Instances
             today_stu_sch = StudentSchedule.objects.filter(day=today_day)
             for stu_sch in today_stu_sch:
                 stu_attendance = StudentAttendence(student=stu_sch.student, cal_date=today_cal)

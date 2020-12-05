@@ -7,7 +7,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('profile/<int:pk>/', views.profile, name='profile'),
     path('attendence/', views.attendence, name='attendence'),
-    # path('attendence/view/', views.view_attendence, name='view_attendence'),
+    # path('attendance/view/', views.view_attendance, name='view_attendance'),
     path('update_schedule/', views.update_schedule, name='update_schedule'),
     path('ajax/update_schedule/', views.ajax_update_schedule, name='ajax_update_schedule'),
 
