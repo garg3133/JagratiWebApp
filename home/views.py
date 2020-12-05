@@ -12,7 +12,7 @@ from django.urls import reverse, reverse_lazy
 # local Django
 from accounts.models import Profile
 from apps.students.models import Student, StudentAttendence, StudentSchedule
-from apps.volunteers.models import Volunteer, VolunteerAttendance, VolunteerSchedule
+from apps.volunteers.models import Volunteer, VolunteerAttendence, VolunteerSchedule
 from .models import Calendar, ClassworkHomework, Schedule, Section
 
 

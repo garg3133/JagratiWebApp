@@ -83,7 +83,7 @@ def attendance(request):
         extra_vol_array = request.POST.getlist('extra-vol')
 
         # Mark everyone's absent
-        vol_att_today = VolunteerAttendance.objects.filter(cal_date=today_cal)
+        vol_att_today = VolunteerAttendence.objects.filter(cal_date=today_cal)
         for vol_att in vol_att_today:
             vol_att.present = False
             vol_att.save()
@@ -107,7 +107,7 @@ def attendance(request):
         messages.success(request, 'Attendance marked successfully!')
         return redirect('volunteers:attendance')
 
-    context['today_vol_att'] = VolunteerAttendance.objects.filter(cal_date=today_cal).order_by('volun__roll_no')
+    context['today_vol_att'] = VolunteerAttendence.objects.filter(cal_date=today_cal).order_by('volun__roll_no')
     return render(request, 'volunteers/attendance.html', context)
 
 
