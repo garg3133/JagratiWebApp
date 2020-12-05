@@ -48,7 +48,7 @@ def profile(request):
 @user_passes_test(has_profile, redirect_field_name=None,
                   login_url=reverse_lazy('accounts:complete_profile'))
 # @permissions_required
-def attendence(request):
+def attendance(request):
     today_cal = Calendar.objects.filter(date=today_date)
     # TO BE REMOVED...
     # Update today's date in Calendar if not already there
@@ -81,7 +81,7 @@ def attendence(request):
                     stu_attendance.save()
     else:
         context['no_class_today'] = True
-        return render(request, 'students/attendence.html', context)
+        return render(request, 'students/attendance.html', context)
 
     if request.method == 'POST':
         stu_array = request.POST.getlist('attended')
@@ -104,20 +104,20 @@ def attendence(request):
             stu_att.present = True
             stu_att.save()
 
-        messages.success(request, 'Attendence marked successfully!')
-        return redirect('students:attendence')
+        messages.success(request, 'Attendance marked successfully!')
+        return redirect('students:attendance')
 
     context['stu_att_today'] = StudentAttendence.objects.filter(
         cal_date=today_cal, student__school_class__range=(1, 3)).order_by(
             'student__school_class', 'student__first_name', 'student__last_name')
 
-    return render(request, 'students/attendence.html', context)
+    return render(request, 'students/attendance.html', context)
 
 @login_required
 @user_passes_test(has_profile, redirect_field_name=None,
                   login_url=reverse_lazy('accounts:complete_profile'))
 # @permissions_required
-def ajax_attendence(request):
+def ajax_attendance(request):
     today_cal = Calendar.objects.get(date=today_date)
     data = {}
     stu_class = request.GET.get('stu_class', None)

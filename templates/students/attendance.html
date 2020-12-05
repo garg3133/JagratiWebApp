@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block title %} Jagrati | Student Attendence {% endblock %}
+{% block title %} Jagrati | Student Attendance {% endblock %}
 
 {% block content-sidebar %}
 
@@ -10,7 +10,7 @@
 
 <div class="dash-stu-att col-md-8 col-lg-9 mt-3">
     <a href="" class="d-inline-block mb-2 mb-md-0">&larr; Back to Dashboard</a>
-    <h3 class="text-center">Students Attendence</h3>
+    <h3 class="text-center">Students Attendance</h3>
     <p class="text-center mt-3"><span class="font-weight-bold">Date: </span>{{today_date}}</p>
 
     {% if no_class_today %}
@@ -92,7 +92,7 @@
         let stu_class = $(this).val();
 
         $.ajax({
-            url: "{% url 'students:ajax_attendence' %}",
+            url: "{% url 'students:ajax_attendance' %}",
             data: {
                 'stu_class': stu_class,
             },

@@ -124,9 +124,9 @@
                 <h4 class="text-center mt-3">Students Present</h4>
                 <hr>
                 <p>
-                    {% if student_attendence.count %}
+                    {% if student_attendance.count %}
                     <p class="mb-1">
-                        <span class="font-weight-bolder">Total Students Present:</span> {{ student_attendence.count }}
+                        <span class="font-weight-bolder">Total Students Present:</span> {{ student_attendance.count }}
                     </p>
                     <p>
                         {% if stu_att_village.G %}
@@ -160,7 +160,7 @@
                             </tr class="text-center">
                         </thead>
                         <tbody>
-                            {% for stu_att in student_attendence %}
+                            {% for stu_att in student_attendance %}
                             <tr class="text-center">
                                 <td class="text-monospace font-weight-lighter">{{stu_att.student.get_full_name}}</td>
 
@@ -194,7 +194,7 @@
             <div class="col-md-9 border rounded">
                 <h4 class="text-center mt-3">Volunteers Present</h4>
                 <hr>
-                {% if volunteer_attendence.count %}
+                {% if volunteer_attendance.count %}
                 <input type="text" id="filter-volunteers-dash" class="form-control mb-3 mx-auto" onkeyup="filterVolunteersOnDash()" placeholder="Search for roll no..">
                 <table class="table table-hover" id="vol-att-table-dash">
                     <thead>
@@ -204,7 +204,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for vol_att in volunteer_attendence %}
+                        {% for vol_att in volunteer_attendance %}
                         <tr class="text-center">
                             <td class="text-monospace font-weight-lighter">{{ vol_att.volun.roll_no }}</td>
                             <td class="text-monospace font-weight-lighter">{{ vol_att.volun.profile.get_full_name }} {% if vol_att.extra %}(E){% endif %}</td>

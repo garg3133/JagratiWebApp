@@ -51,7 +51,7 @@ def profile(request):
 @user_passes_test(has_profile, redirect_field_name=None,
                   login_url=reverse_lazy('accounts:complete_profile'))
 # @permissions_required
-def attendence(request):
+def attendance(request):
     today_cal = Calendar.objects.filter(date=date.today())
     # TO BE REMOVED...
     # Update today's date in Calendar if not already there
@@ -76,7 +76,7 @@ def attendence(request):
                 vol_attendance.save()
     else:
         context['no_class_today'] = True
-        return render(request, 'volunteers/attendence.html', context)
+        return render(request, 'volunteers/attendance.html', context)
 
     if request.method == 'POST':
         vol_array = request.POST.getlist('volunteered')
@@ -104,11 +104,11 @@ def attendence(request):
                     extra_vol_att = VolunteerAttendence(volun=volun[0], cal_date=today_cal, present=True, extra=True)
                 extra_vol_att.save()
 
-        messages.success(request, 'Attendence marked successfully!')
-        return redirect('volunteers:attendence')
+        messages.success(request, 'Attendance marked successfully!')
+        return redirect('volunteers:attendance')
 
     context['today_vol_att'] = VolunteerAttendence.objects.filter(cal_date=today_cal).order_by('volun__roll_no')
-    return render(request, 'volunteers/attendence.html', context)
+    return render(request, 'volunteers/attendance.html', context)
 
 
 @login_required
