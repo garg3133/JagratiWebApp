@@ -51,8 +51,8 @@ def database_context(request):
         #     # 'vol_schedules': VolunteerSchedule.objects.all(),
         #     # 'schedules' : Schedule.objects.order_by('section__section_id'),
         #     # 'sch_dict_json' : sch_dict_json,
-        #     # 'today_vol_att' : VolunteerAttendence.objects.filter(date=date.today()),
-        #     # 'today_stu_att' : StudentAttendence.objects.filter(date=date.today()),
+        #     # 'today_vol_att' : VolunteerAttendance.objects.filter(date=date.today()),
+        #     # 'today_stu_att' : StudentAttendance.objects.filter(date=date.today()),
         #     # 'students' : students,
         #     # 'stu_dict_json' : stu_dict_json,
         # }

@@ -78,7 +78,7 @@ def dashboard(request):
         cw_hw = ClassworkHomework.objects.filter(cal_date=calendar, section__section_id=query_section).first()
         context['cw_hw'] = cw_hw
 
-        # Students Attendence
+        # Students Attendance
         student_attendence = StudentAttendence.objects.filter(cal_date=calendar, present=True).order_by('student__school_class')
         context['student_attendence'] = student_attendence
 
@@ -94,7 +94,7 @@ def dashboard(request):
 
             context['stu_att_village'] = stu_att_village
 
-        # Volunteers Attendence
+        # Volunteers Attendance
         volun_attendence = VolunteerAttendence.objects.filter(cal_date=calendar, present=True).order_by('volun__roll_no')
         context['volun_attendence'] = volun_attendence
 
