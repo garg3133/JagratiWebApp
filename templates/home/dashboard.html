@@ -124,9 +124,9 @@
                 <h4 class="text-center mt-3">Students Present</h4>
                 <hr>
                 <p>
-                    {% if student_attendence.count %}
+                    {% if student_attendance.count %}
                     <p class="mb-1">
-                        <span class="font-weight-bolder">Total Students Present:</span> {{ student_attendence.count }}
+                        <span class="font-weight-bolder">Total Students Present:</span> {{ student_attendance.count }}
                     </p>
                     <p>
                         {% if stu_att_village.G %}
@@ -160,7 +160,7 @@
                             </tr class="text-center">
                         </thead>
                         <tbody>
-                            {% for stu_att in student_attendence %}
+                            {% for stu_att in student_attendance %}
                             <tr class="text-center">
                                 <td class="text-monospace font-weight-lighter">{{stu_att.student.get_full_name}}</td>
 
