@@ -17,9 +17,9 @@ Apart from teaching the children, we do many other activities like **organizing 
 Currently, we are operating in online mode to prepare students of class 5 for Navodaya Examination, 2021.
 
 ## About JagratiWebApp
-JagratiWebApp is the **official web application** for managing day-to-day operations at Jagrati, like keeping track of the content being taught in a class and homework being given to the students, taking and keeping record of student and volunteer attendence, keeping record of all the students being taught under the initiative and the volunteers contributing towards the initiative among many things.
+JagratiWebApp is the **official web application** for managing day-to-day operations at Jagrati, like keeping track of the content being taught in a class and homework being given to the students, taking and keeping record of student and volunteer attendance, keeping record of all the students being taught under the initiative and the volunteers contributing towards the initiative among many things.
 
-The main aim of the application is to simplify the work of volunteers by making all the information readily accessible to them like what was taught in the last class or in the last week and how many student attended those classes so that they can easily decide what should be taught on the present day and update the same in the application. Plus, it also helps in taking the attendence of students with more ease over the conventional method of manually taking note of the names of all the students present.
+The main aim of the application is to simplify the work of volunteers by making all the information readily accessible to them like what was taught in the last class or in the last week and how many student attended those classes so that they can easily decide what should be taught on the present day and update the same in the application. Plus, it also helps in taking the attendance of students with more ease over the conventional method of manually taking note of the names of all the students present.
 
 So, all in all, it is meant to help the volunteers work more effectively and efficiently and make it easy to keep track of daily activities.
 
