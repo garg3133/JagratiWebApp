@@ -314,6 +314,9 @@
 
 <!-- Script for Main Dashboard Date Picker -->
 <script type="text/javascript">
+    "{% now 'Y-m-d' as today_date %}"
+    var current_date = "{{today_date}}"
+
     $('#class-date').datepicker({
         weekStart: 1,
         autoclose: true,
@@ -322,7 +325,7 @@
     if(document.getElementById("extra-info-1").value.length>0)
         $('#class-date').datepicker("setDate", "{{ selected_date|date:'Y-m-d' }}");
     else
-        $('#class-date').datepicker("setDate", new Date());
+        $('#class-date').datepicker("setDate", current_date);
 </script>
 
 <!-- Search Filter for Student Present on Dashboard  -->
