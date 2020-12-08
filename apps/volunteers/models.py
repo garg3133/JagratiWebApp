@@ -64,8 +64,8 @@ class VolunteerSchedule(models.Model):
         super(VolunteerSchedule, self).save(*args, **kwargs)
 
 class VolunteerAttendance(models.Model):
-    volun = models.ForeignKey(Volunteer, on_delete=models.CASCADE, related_name='volun_Attendance')
-    cal_date = models.ForeignKey(Calendar, on_delete=models.CASCADE, related_name='volun_Attendance')
+    volun = models.ForeignKey(Volunteer, on_delete=models.CASCADE, related_name='volun_attendance')
+    cal_date = models.ForeignKey(Calendar, on_delete=models.CASCADE, related_name='volun_attendance')
     present = models.BooleanField(default=False)
     extra = models.BooleanField(default=False)
 

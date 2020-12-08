@@ -47,8 +47,8 @@ class StudentSchedule(models.Model):
 
 
 class StudentAttendance(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='student_Attendance')
-    cal_date = models.ForeignKey(Calendar, on_delete=models.CASCADE, related_name='student_Attendance')
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='student_attendance')
+    cal_date = models.ForeignKey(Calendar, on_delete=models.CASCADE, related_name='student_attendance')
     present = models.BooleanField(default=False)
     hw_done = models.BooleanField(default=False, verbose_name="HomeWork Done")
 
