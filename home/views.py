@@ -11,8 +11,8 @@ from django.urls import reverse, reverse_lazy
 
 # local Django
 from accounts.models import Profile
-from apps.students.models import Student, StudentAttendence, StudentSchedule
-from apps.volunteers.models import Volunteer, VolunteerAttendence, VolunteerSchedule
+from apps.students.models import Student, StudentAttendance, StudentSchedule
+from apps.volunteers.models import Volunteer, VolunteerAttendance, VolunteerSchedule
 from .models import Calendar, ClassworkHomework, Schedule, Section
 
 
@@ -79,7 +79,7 @@ def dashboard(request):
         context['cw_hw'] = cw_hw
 
         # Students Attendance
-        student_attendance = StudentAttendence.objects.filter(cal_date=calendar, present=True).order_by('student__school_class')
+        student_attendance = StudentAttendance.objects.filter(cal_date=calendar, present=True).order_by('student__school_class')
         context['student_attendance'] = student_attendance
 
         if student_attendance.exists():
@@ -95,7 +95,7 @@ def dashboard(request):
             context['stu_att_village'] = stu_att_village
 
         # Volunteers Attendance
-        volun_attendance = VolunteerAttendence.objects.filter(cal_date=calendar, present=True).order_by('volun__roll_no')
+        volun_attendance = VolunteerAttendance.objects.filter(cal_date=calendar, present=True).order_by('volun__roll_no')
         context['volun_attendance'] = volun_attendance
 
         return render(request, 'home/dashboard.html', context)

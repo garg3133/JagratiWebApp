@@ -16,7 +16,7 @@ from accounts.models import Profile
 from home.models import Calendar, Schedule
 from .models import (
     Designation, UpdateScheduleRequest, Volunteer,
-    VolunteerAttendence, VolunteerSchedule,
+    VolunteerAttendance, VolunteerSchedule,
 )
 
 User = get_user_model()
@@ -68,11 +68,11 @@ def attendance(request):
     }
 
     if today_cal.class_scheduled:
-        if not VolunteerAttendence.objects.filter(cal_date__date=date.today()).exists():
+        if not VolunteerAttendance.objects.filter(cal_date__date=date.today()).exists():
             # Create Empty Volunteer Attendance Instances
             today_vol_sch = VolunteerSchedule.objects.filter(day=date.today().strftime("%w"))
             for vol_sch in today_vol_sch:
-                vol_attendance = VolunteerAttendence(volun=vol_sch.volun, cal_date=today_cal)
+                vol_attendance = VolunteerAttendance(volun=vol_sch.volun, cal_date=today_cal)
                 vol_attendance.save()
     else:
         context['no_class_today'] = True
@@ -83,31 +83,31 @@ def attendance(request):
         extra_vol_array = request.POST.getlist('extra-vol')
 
         # Mark everyone's absent
-        vol_att_today = VolunteerAttendence.objects.filter(cal_date=today_cal)
+        vol_att_today = VolunteerAttendance.objects.filter(cal_date=today_cal)
         for vol_att in vol_att_today:
             vol_att.present = False
             vol_att.save()
 
         for vol_id in vol_array:
-            vol_att = VolunteerAttendence.objects.get(volun__id=vol_id, cal_date=today_cal)
+            vol_att = VolunteerAttendance.objects.get(volun__id=vol_id, cal_date=today_cal)
             vol_att.present = True
             vol_att.save()
 
         for extra_vol_roll in extra_vol_array:
             volun = Volunteer.objects.filter(roll_no=extra_vol_roll)
             if volun.exists():
-                extra_vol_att = VolunteerAttendence.objects.filter(volun=volun[0], cal_date=today_cal)
+                extra_vol_att = VolunteerAttendance.objects.filter(volun=volun[0], cal_date=today_cal)
                 if extra_vol_att.exists():
                     extra_vol_att = extra_vol_att[0]
                     extra_vol_att.present = True
                 else:
-                    extra_vol_att = VolunteerAttendence(volun=volun[0], cal_date=today_cal, present=True, extra=True)
+                    extra_vol_att = VolunteerAttendance(volun=volun[0], cal_date=today_cal, present=True, extra=True)
                 extra_vol_att.save()
 
         messages.success(request, 'Attendance marked successfully!')
         return redirect('volunteers:attendance')
 
-    context['today_vol_att'] = VolunteerAttendence.objects.filter(cal_date=today_cal).order_by('volun__roll_no')
+    context['today_vol_att'] = VolunteerAttendance.objects.filter(cal_date=today_cal).order_by('volun__roll_no')
     return render(request, 'volunteers/attendance.html', context)
 
 

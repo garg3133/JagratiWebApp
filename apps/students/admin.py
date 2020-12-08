@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .models import (
-    Student, StudentAttendence, StudentSchedule,
+    Student, StudentAttendance, StudentSchedule,
 )
 
 # Register your models here.
@@ -39,8 +39,8 @@ class StudentScheduleAdmin(admin.ModelAdmin):
     get_section.short_description = 'Section'
     get_section.admin_order_field = 'schedule__section__section_id'
 
-@admin.register(StudentAttendence)
-class StudentAttendenceAdmin(admin.ModelAdmin):
+@admin.register(StudentAttendance)
+class StudentAttendanceAdmin(admin.ModelAdmin):
     list_display = ('cal_date', 'get_name', 'get_class', 'get_village', 'present', 'hw_done')
     search_fields = ('cal_date', 'student__first_name', 'student__last_name')
     list_filter = ('present', 'student__school_class', 'student__village', 'hw_done')
