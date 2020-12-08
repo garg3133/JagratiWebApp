@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from .models import (
     Designation, Volunteer, VolunteerSchedule,
-    VolunteerAttendence, UpdateScheduleRequest,
+    VolunteerAttendance, UpdateScheduleRequest,
 )
 
 # Register your models here.
@@ -57,8 +57,8 @@ class VolunteerScheduleAdmin(admin.ModelAdmin):
     get_section.short_description = 'Section'
     get_section.admin_order_field = 'schedule__section__section_id'
 
-@admin.register(VolunteerAttendence)
-class VolunteerAttendenceAdmin(admin.ModelAdmin):
+@admin.register(VolunteerAttendance)
+class VolunteerAttendanceAdmin(admin.ModelAdmin):
     list_display = ('cal_date', 'get_roll', 'get_name', 'present', 'extra')
     search_fields = ('cal_date', 'volun__roll_no', 'volun__profile__first_name', 'volun__profile__last_name')
     list_filter = ('volun__batch', 'present', 'extra')

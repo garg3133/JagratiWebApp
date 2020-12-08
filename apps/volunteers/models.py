@@ -63,16 +63,16 @@ class VolunteerSchedule(models.Model):
         self.day = Schedule.objects.get(id=self.schedule.id).day
         super(VolunteerSchedule, self).save(*args, **kwargs)
 
-class VolunteerAttendence(models.Model):
-    volun = models.ForeignKey(Volunteer, on_delete=models.CASCADE, related_name='volun_attendence')
-    cal_date = models.ForeignKey(Calendar, on_delete=models.CASCADE, related_name='volun_attendence')
+class VolunteerAttendance(models.Model):
+    volun = models.ForeignKey(Volunteer, on_delete=models.CASCADE, related_name='volun_Attendance')
+    cal_date = models.ForeignKey(Calendar, on_delete=models.CASCADE, related_name='volun_Attendance')
     present = models.BooleanField(default=False)
     extra = models.BooleanField(default=False)
 
     class Meta:
         unique_together = (('volun', 'cal_date'),)
-        verbose_name = 'Volunteer Attendence'
-        verbose_name_plural = 'Volunteers Attendence'
+        verbose_name = 'Volunteer Attendance'
+        verbose_name_plural = 'Volunteers Attendance'
 
     def __str__(self):
         return f'{self.volun} - {self.cal_date}'
@@ -81,7 +81,7 @@ class VolunteerAttendence(models.Model):
         """For cpanel."""
         self.present = (self.present is True)
         self.extra = (self.extra is True)
-        super(VolunteerAttendence, self).save(*args, **kwargs)
+        super(VolunteerAttendance, self).save(*args, **kwargs)
 
 class UpdateScheduleRequest(models.Model):
     volun = models.ForeignKey(Volunteer, on_delete=models.CASCADE, related_name='update_sch_requests')

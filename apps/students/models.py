@@ -46,16 +46,16 @@ class StudentSchedule(models.Model):
         super(StudentSchedule, self).save(*args, **kwargs)
 
 
-class StudentAttendence(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='student_attendence')
-    cal_date = models.ForeignKey(Calendar, on_delete=models.CASCADE, related_name='student_attendence')
+class StudentAttendance(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='student_Attendance')
+    cal_date = models.ForeignKey(Calendar, on_delete=models.CASCADE, related_name='student_Attendance')
     present = models.BooleanField(default=False)
     hw_done = models.BooleanField(default=False, verbose_name="HomeWork Done")
 
     class Meta:
         unique_together = (('student', 'cal_date'),)
-        verbose_name = 'Student Attendence'
-        verbose_name_plural = 'Students Attendence'
+        verbose_name = 'Student Attendance'
+        verbose_name_plural = 'Students Attendance'
 
     def __str__(self):
         return f'{self.student} - {self.cal_date}'
@@ -64,4 +64,4 @@ class StudentAttendence(models.Model):
         """For cpanel."""
         self.present = (self.present is True)
         self.hw_done = (self.hw_done is True)
-        super(StudentAttendence, self).save(*args, **kwargs)
+        super(StudentAttendance, self).save(*args, **kwargs)
