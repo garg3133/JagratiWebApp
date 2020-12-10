@@ -195,6 +195,6 @@
             autoclose: true,
             todayHighlight: true,
         });
-        $('#dob').datepicker("setDate", new Date());
+        $('#dob').datepicker("setDate", "{% now 'Y-m-d'%}");
     </script>
 {% endblock %}
