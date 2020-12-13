@@ -314,6 +314,7 @@
 
 <!-- Script for Main Dashboard Date Picker -->
 <script type="text/javascript">
+
     $('#class-date').datepicker({
         weekStart: 1,
         autoclose: true,
@@ -322,7 +323,7 @@
     if(document.getElementById("extra-info-1").value.length>0)
         $('#class-date').datepicker("setDate", "{{ selected_date|date:'Y-m-d' }}");
     else
-        $('#class-date').datepicker("setDate", new Date());
+        $('#class-date').datepicker("setDate", "{% now 'Y-m-d' %}");
 </script>
 
 <!-- Search Filter for Student Present on Dashboard  -->
