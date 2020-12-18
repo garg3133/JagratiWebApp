@@ -81,9 +81,9 @@
                     </div>
                     <div class="col-md-8 mb-3">
                         <label for="contactNo">Contact No.</label>
-                        <input name="contact_no" type="number" class="form-control" id="contactNo" value="{{ profile.contact_no }}" required>
+                        <input name="contact_no" type="tel" pattern="[0-9]{10}" class="form-control" id="contactNo" value="{{ profile.contact_no }}" required>
                         <div class="invalid-feedback">
-                            Valid Contact No. is required.
+                            Valid Contact No. (10 Digits) is required.
                         </div>
                     </div>
                 </div>
