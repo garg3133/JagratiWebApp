@@ -29,7 +29,7 @@
         </div>
         <div class="row justify-content-center mb-4">
             <div class="col-md-4">
-                <button class="btn btn-primary btn-lg btn-block" type="submit">Continue</button>
+                <button id="continue_button" class="btn btn-primary btn-lg btn-block" type="submit">Continue</button>
             </div>
         </div>
     </form>
@@ -274,6 +274,7 @@
     $("#class-date").change(function () {
         var class_date = $(this).val();
         // DISABLE SUBMIT BUTTON HERE
+        $("#continue_button").prop('disabled', true); 
         $.ajax({
             url: "{% url 'home:ajax_dashboard' %}",
             data: {
@@ -292,7 +293,7 @@
                 $("#class-section").html(options);
                 
                 // RE-ENABLE THE SUBMIT BUTTON HERE
-
+                $("#continue_button").prop('disabled', false);
                 // Re-enable CW_HW buttons/inputs
                 // if selected same date/section again
                 // Should be performed after AJAX is loaded
