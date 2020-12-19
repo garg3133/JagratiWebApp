@@ -15,11 +15,11 @@ Currently, we have adopted 5 villages in the vicinity of our institute, namely, 
 Apart from teaching the children, we do many other activities like **organizing Blood Donation Camps, Tree Plantation Drives, Cloth Donation, Stationery Distribution, Campaigns to spread awareness in villages, etc.**
 
 **Our Achievements:**
-- 1 student cracked Navodaya Examination in 2018.
-- 1 student cracked Navodaya Examination in 2019.
-- 2 students cracked Navodaya Examination in 2020.
-- 4 students cracked entrance examination for Eklavya Model Residential School (EMRS) in 2020.
-- 4 students cracked entrance examination for Gyanodaya Vidyalaya in 2020.
+- 1 student selected in Jawahar Navodaya Vidyalaya in 2018.
+- 1 student selected in Jawahar Navodaya Vidyalaya in 2019.
+- 2 students selected in Jawahar Navodaya Vidyalaya in 2020.
+- 4 students cleared entrance examination for Eklavya Model Residential School (EMRS) in 2020.
+- 4 students cleared entrance examination for Gyanodaya Vidyalaya in 2020.
 
 (Like Navodaya Vidyalaya, both EMRS and Gyanodaya Vidyalaya provide free quality education to students from class 6 to 12).
 
