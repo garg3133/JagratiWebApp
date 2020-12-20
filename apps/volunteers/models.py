@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
+from django.urls import reverse
 
 from accounts.models import Profile
 from home.models import Calendar, Schedule
@@ -40,6 +41,10 @@ class Volunteer(models.Model):
         """For cpanel."""
         self.active = (self.active is True)
         super(Volunteer, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        """Returns the url to access a particular volunteer instance."""
+        return reverse('volunteers:profile', args=[str(self.id)])    
 
 @receiver(post_delete, sender=Volunteer)
 def delete_related_profile(sender, instance, **kwargs):
