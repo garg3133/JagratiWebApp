@@ -116,6 +116,15 @@ class Profile(models.Model):
             return f'{self.street_address1}, {self.street_address2}, {self.city} - {self.pincode}, {self.state}'
         return f'{self.street_address1}, {self.city} - {self.pincode}, {self.state}'
 
+    @property
+    def get_profile_image_url(self):
+        if self.profile_image and hasattr(self.profile_image, 'url'):
+            return self.profile_image.url
+        elif self.gender == 'M':
+            return "/static/home/images/man.png"
+        else:
+            return "/static/home/images/woman.png"
+
 class AuthorisedDevice(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     device_id = models.CharField(max_length=255)
