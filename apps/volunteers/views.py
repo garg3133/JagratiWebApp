@@ -257,20 +257,7 @@ def ajax_update_schedule(request):
 
 class VolunteerListView(generic.ListView):
     model=Volunteer
-    context_object_name="volunteer"
-
-    # def get_context_data(self, **kwargs):
-    #         context = super(VolunteerListView, self).get_context_data(**kwargs)
-    #         context['prog'] = Volunteer.PROGRAMME
-    #         return context
-
-    template_name = 'volunteers/all_volunteers_list.html'
     
- 
-# def volunteers_list_all(request):
-#     volunteer=Volunteer.objects.all()
-#     context={
-#         "volunteer":volunteer
-#     }
-#     return render(request, 'volunteers/all_volunteers_list.html', context)  
+    context_object_name="volunteer"
+    template_name = 'volunteers/all_volunteers_list.html'
 
