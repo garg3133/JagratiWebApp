@@ -1,4 +1,5 @@
 # standard library
+from calendar import day_abbr
 from datetime import datetime, date
 
 # Django
@@ -8,6 +9,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views import generic
 # from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
 
@@ -43,7 +45,7 @@ def index(request):
 @login_required
 @user_passes_test(has_profile, redirect_field_name=None,
                   login_url=reverse_lazy('accounts:complete_profile'))
-def profile(request):
+def profile(request,pk):
     return HttpResponse('Hello there!')
 
 
@@ -249,3 +251,26 @@ def ajax_update_schedule(request):
         data[sch.section.section_id] = sch.section.name
 
     return JsonResponse(data)
+
+
+# VolunteerListView using Generic views of django
+
+class VolunteerListView(generic.ListView):
+    model=Volunteer
+    context_object_name="volunteer"
+
+    # def get_context_data(self, **kwargs):
+    #         context = super(VolunteerListView, self).get_context_data(**kwargs)
+    #         context['prog'] = Volunteer.PROGRAMME
+    #         return context
+
+    template_name = 'volunteers/all_volunteers_list.html'
+    
+ 
+# def volunteers_list_all(request):
+#     volunteer=Volunteer.objects.all()
+#     context={
+#         "volunteer":volunteer
+#     }
+#     return render(request, 'volunteers/all_volunteers_list.html', context)  
+
