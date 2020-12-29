@@ -4,29 +4,9 @@
 
 {% block title %} Jagrati | All Volunteers List {% endblock %}
 
-{% block content %}
+{% block style %}
+
 <!-- <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700|Raleway:500.700"> -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.1/vue.min.js"></script>
-
-  <h1 class="title">Volunteer List</h1>
-  {% if volunteer %}
-      <!-- Volunteer Profile Cards -->
-      <div id="vcard" class="vcard-container">
-        {% for vol in volunteer %}
-          <a href="{{ vol.get_absolute_url }}" target="_blank">
-          <card data-image="{{ vol.profile.get_profile_image_url }}">
-            <h1 slot="header">{{vol.profile.get_full_name}}</h1>
-            <p slot="content">Roll No : {{vol.roll_no}}</p>
-            <p slot="content">Batch : {{vol.batch}}</p>
-          </card>
-          </a>
-        {% endfor %}
-      </div>
-  {% else %}
-    <p class="text-center">There are no active volunteer to be part of initiative.</p>
-  {% endif %}
-
-
 <style>
 
  .title {
@@ -144,9 +124,33 @@
 }
 </style>
 
+{% endblock style %}
 
+{% block content %}
+  <h1 class="title">Volunteer List</h1>
+  {% if volunteer %}
+      <!-- Volunteer Profile Cards -->
+    <div id="vcard" class="vcard-container">
+        {% for vol in volunteer %}
+        <a href="{{ vol.get_absolute_url }}" target="_blank">
+          <card data-image="{{ vol.profile.get_profile_image_url }}">
+            <h1 slot="header">{{vol.profile.get_full_name}}</h1>
+            <p slot="content">Roll No : {{vol.roll_no}}</p>
+            <p slot="content">Batch : {{vol.batch}}</p>
+          </card>
+        </a>
+        {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-center">There are no active volunteer to be part of initiative.</p>
+  {% endif %}
+{% endblock content %}
+
+{% block scripts %}
+
+<!-- Script for Volunteer Profile Cards -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.1/vue.min.js"></script>
 <script>
-
 Vue.config.devtools = true;
 
 Vue.component('card', {
@@ -166,8 +170,8 @@ Vue.component('card', {
       </div>
     </div>`,
   mounted() {
-    this.width = this.$refs.card.offsetWidth; /* try to change */
-    this.height = this.$refs.card.offsetHeight; /* try to change */
+    this.width = this.$refs.card.offsetWidth;
+    this.height = this.$refs.card.offsetHeight;
   },
   props: ['dataImage'],
   data: () => ({
@@ -226,5 +230,4 @@ const app = new Vue({
 });
 </script>
 
-
-{% endblock content %}
+{% endblock scripts %}
