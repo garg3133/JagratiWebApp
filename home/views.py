@@ -16,20 +16,25 @@ from apps.volunteers.models import Volunteer, VolunteerAttendance, VolunteerSche
 from .models import Calendar, ClassworkHomework, Schedule, Section
 
 
-def has_profile(user):
-    return Profile.objects.filter(user=user).exists()
+# NON-VIEWS FUNCTIONS
+
+def has_authenticated_profile(user):
+    return user.auth is True and Profile.objects.filter(user=user).exists()
 
 
-# Create your views here.
+# VIEW FUNCTIONS
+
 def index(request):
     if request.user.is_authenticated:
         return redirect('home:dashboard')
     return render(request, 'home/index.html')
 
-# DON'T TOUCH THE DASHBOARD
+
 @login_required
-@user_passes_test(has_profile, redirect_field_name=None,
-                  login_url=reverse_lazy('accounts:complete_profile'))
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
 def dashboard(request):
     # TO BE REMOVED...
     # Update today's date in Calendar if not already there
@@ -106,9 +111,12 @@ def dashboard(request):
 
     return render(request, 'home/dashboard.html')
 
+
 @login_required
-@user_passes_test(has_profile, redirect_field_name=None,
-                  login_url=reverse_lazy('accounts:complete_profile'))
+@user_passes_test(
+    has_authenticated_profile, redirect_field_name=None,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
 # @permission_required
 def update_cwhw(request):
     if request.method == 'POST':
@@ -155,6 +163,7 @@ def update_cwhw(request):
         return HttpResponseRedirect(redirect_url)
 
     return redirect('home:dashboard')
+
 
 def ajax_dashboard(request):
     date_str = request.GET.get('class_date', None)
