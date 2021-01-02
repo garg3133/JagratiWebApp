@@ -14,7 +14,7 @@ from accounts.models import Profile
 from apps.students.models import Student, StudentAttendance, StudentSchedule
 from apps.volunteers.models import Volunteer, VolunteerAttendance, VolunteerSchedule
 from .models import Calendar, ClassworkHomework, Schedule, Section
-
+from apps.misc.models import Initiative
 
 # NON-VIEWS FUNCTIONS
 
@@ -23,6 +23,13 @@ def has_authenticated_profile(user):
 
 
 # VIEW FUNCTIONS
+def index_new(request):
+    if request.user.is_authenticated:
+        return redirect('home:dashboard')
+
+    initiatives = Initiative.objects.all()
+    context = {'initiatives' : initiatives}
+    return render(request, 'home/new_index.html', context)
 
 def index(request):
     if request.user.is_authenticated:
