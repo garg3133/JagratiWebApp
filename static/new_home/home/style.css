@@ -1,0 +1,261 @@
+/*------GLOBAL-----*/
+html
+{
+  scroll-behavior: smooth;  
+}
+
+body
+{
+  font: 15px/1.5 "OpenSans" ,Helvetica ,sans-serif; 
+  margin : 0; 
+  padding: 0; 
+}
+
+/*------Header Starts-------*/
+header
+{
+  background: #666; 
+  min-height: 60px; 
+}
+
+#header {
+  width: 100%;
+  height: 70vh;
+  border-bottom: 2px solid #fcebe3;
+  margin: 72px 0 -72px 0;
+}
+
+#header h1 {
+  margin: 0 0 10px 0;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 56px;
+  color: #4e4039;
+}
+
+#header h2 {
+  color: #a08f86;
+  margin-bottom: 50px;
+  font-size: 24px;
+}
+
+.btn-get-started {
+  font-family: "Raleway", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: 1px;
+  display: inline-block;
+  padding: 8px 28px;
+  border-radius: 3px;
+  transition: 0.5s;
+  margin: 10px;
+  color: #fff;
+  background: #eb5d1e;
+}
+
+.btn-get-started:hover {
+  background: #ef7f4d;
+  color: white;
+  text-decoration:none;
+}
+
+.magica
+{
+  background-image: linear-gradient(120deg, #84ffb0 0%, #8fd3f4 100%);
+  background-repeat: no-repeat;
+  background-size: 100% 0.2em;
+  background-position: 0 88%;
+  transition: background-size 0.25s ease-in;
+}
+.magica:hover 
+{
+    background-size: 100% 88%;
+}
+
+#header .animated {
+  animation: up-down 2s ease-in-out infinite alternate-reverse both;
+}
+
+@media (min-width: 1024px) {
+  #header {
+    background-attachment: fixed;
+  }
+}
+
+@media (max-width: 991px) {
+  #header {
+    height: calc(100vh - 72px);
+  }
+  #header .animated {
+    -webkit-animation: none;
+    animation: none;
+  }
+  #header .header-img {
+    text-align: center;
+  }
+  #header .header-img img {
+    width: 50%;
+  }
+}
+
+@media (max-width: 768px) {
+  #header h1 {
+    font-size: 28px;
+    line-height: 36px;
+  }
+  #header h2 {
+    font-size: 18px;
+    line-height: 24px;
+    margin-bottom: 30px;
+  }
+  #header .header-img img {
+    width: 70%;
+  }
+}
+
+@media (max-width: 575px) {
+  #header .header-img img {
+    width: 80%;
+  }
+}
+
+@-webkit-keyframes up-down {
+  0% {
+    transform: translateY(10px);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes up-down {
+  0% {
+    transform: translateY(10px);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
+}
+
+/*------ About Us Starts ------*/
+.cntainer{
+  max-width:80%;
+  margin:auto;
+  overflow: hidden;
+}
+#about-us{
+  text-align: center;
+  background-color: #fef8f5;
+  color: #616370;
+  color: #818390;
+  font-size: 100%;
+}
+#about-us::before{
+  display: block;
+  content: "";
+  margin-top: -25px;
+  height: 25px;
+  visibility: hidden;
+}
+#about-us h1, #about-us h2{
+  color: #4e4039;
+}
+#about-us h1::after{
+  content: "";
+  display: block;
+  width: 13%;
+  margin: auto;
+  margin-top: 2px;
+  height: 2px;
+}
+#about-us img{
+  width: 350px;
+}
+#about-us .container div{
+  max-height: 500px;
+}
+.vision{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 2em;
+  padding: 20px 0;
+}
+.mission{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 1em;
+  padding: 10px 0 25px;
+}
+.vision div:first-child{
+  grid-column-start: 2;
+}
+.vision div:nth-child(2){
+  margin: 45px 5px;
+  grid-column-start: 1;
+  grid-row-start: 1;
+}
+.mission div:nth-child(2){
+  margin: 45px 5px;
+  grid-column-start: 2;
+}
+
+
+/*------ Events Starts ------*/
+
+.card-container{
+    display: grid;
+    overflow: hidden;
+    grid-template-columns: repeat(auto-fit,400px);
+    grid-gap: 2em;
+    justify-content: space-evenly;
+    padding: 4em 2em;
+}
+
+.card-container .card{
+    width: 100%;
+    display: grid;
+    grid-template-rows: 300px minmax(80px,auto);
+    grid-template-areas: 
+    "img"
+    "word";
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: all 0.3s;
+    cursor: default;
+}
+
+.card-img img{
+    grid-area: img;
+    width: 100%;
+}
+
+.card-img{
+    overflow: hidden;
+}
+
+.card-text {
+    grid-area: word;
+    padding-top: 30px;
+    text-align: center;
+}
+
+.card-text h2{
+    text-align: center;
+    padding: 20px 0;
+}
+
+.card-text p{
+    padding: 0 10px;
+}
+.card:hover{
+    box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2), 0 12px 20px 0 rgba(0, 0, 0, 0.19);
+}
+@media(max-width: 890px)
+{
+  .card-container{
+    grid-template-columns: repeat(auto-fit, 525px);
+  }
+}
+
+/*----- Events Ends -------*/

@@ -23,6 +23,11 @@ def has_authenticated_profile(user):
 
 
 # VIEW FUNCTIONS
+def new_index(request):
+    if request.user.is_authenticated:
+        return redirect('home:dashboard')
+
+    return render(request, 'home/new_index.html')
 
 def index(request):
     if request.user.is_authenticated:

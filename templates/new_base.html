@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!--Favicon-->
+    <link rel="icon" type="text/css" href="{% static 'home/logo.png' %}">
+    
+    <!-- Bootstrap & Downloaded CSS/JS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/icofont/icofont.min.css' %}">
+
+    <!--Manual CSS and JS-->
+    <link rel="stylesheet" type="text/css" href="{% static 'new_home/base.css' %}">
+    <script src="{% static 'new_home/base.js' %}" type="text/javascript" defer></script>
+    
+    <title>{% block title %} {% endblock %} </title>
+    
+    {% block style %}
+    {% endblock %}
+
+</head>
+<body>  
+
+    {% block navbar %}
+    <!--Logo-->
+    <center style="background-color: rgb(252,252,252)"><img src="{% static 'home/logo.png' %}" style="height: 60px;"></center>
+
+
+    <!--Navbar Starts-->
+    <nav id="sticky">
+        <div>
+            <!--Left Navbar-->
+            <div class="navbar" id="nav">
+
+                <a href="javascript:void(0);" class="icon" onclick="nav_button()" id="tus">
+                    <div class="bar" onclick="rotate_menu(this)">
+                        <div class="bar1"></div>
+                        <div class="bar2"></div>
+                        <div class="bar3"></div>
+                    </div>
+                </a>
+
+                <a href="./" class="child-1">Home</a>
+                <a href="#about-us" class="child-2">About</a>
+                <a href="#" class="child-3">Initiavtives</a>
+                <a href="#" class="child-4">Team</a>
+                <a href="#" class="child-5">Alumni</a>
+                
+                <hr/>
+            </div>
+
+            <!--Right Navbar-->
+            <div class="navbar1">
+                <ul>
+                    {% if user.is_authenticated %}
+                        <a class="nav-link dropdown-toggle" href='#' id="navbarDropdown" role="button" data-toggle="dropdown" style="color: black;" > Welcome {{request.user}}</a>
+                        
+                    {% else %}
+                        <a href="{% url 'accounts:login_signup' %}" style="color: black;">Login</a>
+                    {% endif %}
+                    
+                    <p href="#about" class="btn-get-started scrollto" onclick="donate_us()">Donate</p>   
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+    <!--Navbar Ends-->
+    {% endblock %}
+
+    {% block content %}
+    {% endblock %}
+    
+    {% block footer %}
+    <br>
+    <div class="footer-container" id="contact">
+        <div class="contact">
+
+            <div ><center ><h1 style="margin-top: 8px;">Contact Us</h1></center></div>
+            <br>
+            <div class="grid">
+                <div class="row-footer">
+
+                    <div class="d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+                        <div class="info get-in-touch">
+                          <center ><h2 style="margin-top: 8px;">Get in Touch</h2></center>
+                            <div class="facebook">
+                              <i class="icofont-facebook"></i>
+                              <h4><a href="https://www.facebook.com/JAGRATI.IIITDMJ/">Facebook</a></h4>
+                              <p>@JAGRATI.IIITDMJ </p>
+                            </div>
+                            <div class="instagram">
+                              <i class="icofont-instagram"></i>
+                              <h4><a href="https://www.instagram.com/jagrati.iiitdmj/?hl=en">Instagram</a></h4>
+                              <p>@jagrati.iiitdmj</p>
+                            </div>
+
+                            <div class="website">
+                              <i class="icofont-institution"></i>
+                              <h4><a href="https://www.iiitdmj.ac.in/">Visit Institute Website</a></h4>
+                              <p>https://www.iiitdmj.ac.in/</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            <div class="map">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3667.8158427436306!2d80.02239941492213!3d23.176920484875073!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3981a94397365dd3%3A0x5f9aeb812c2678c9!2sIIITDM%20Jabalpur!5e0!3m2!1sen!2sin!4v1607858252114!5m2!1sen!2sin" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+            </div>
+       
+            <div class="row-footer">
+
+                <div class=" d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+                    <div class="info more-info reverse">
+                    <center ><h2 style="margin-top: 8px;">Find us here</h2></center>
+                <div class="address">
+                  <i class="icofont-location-pin"></i>
+                  <h4>Location:</h4>
+                  <p>PDPM IIITDM, Khamaria, Jabalpur (M.P.)</p>
+                </div>
+
+                <div class="youtube">
+                  <i class="icofont-smart-phone"></i>
+                    <h4><a href="https://www.youtube.com/channel/UC0VyWk6o3XXGi1oq-XIbbJQ">YouTube</a></h4>
+                    <p></p>
+                  </div>
+
+                <div class="email">
+                  <i class="icofont-email"></i>
+                  <h4>Email:</h4>
+                  <p>jagrati@iiitdmj.ac.in</p>
+                </div>
+
+              <div class="phone">
+                <i class="icofont-smart-phone"></i>
+                  <h4>Call:</h4>
+                  <p>+91 7000757772</p>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+        <div class="hidden-address">
+          <center ><h2 style="margin-top: 8px;">Location</h2></center>
+          <p>Indian Institute of Information Technology Design & Manufacturing Jabalpur
+            Dumna Airport Road, Dumna - 482005</p>
+        </div>
+      </div>
+  </div>
+
+</div>
+<br>
+<center>&copy; Copyright <strong><span>Jagrati</span></strong>. All Rights Reserved</center>
+    {% endblock %}
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init();</script>
+
+</body>
+</html>
