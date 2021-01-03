@@ -167,6 +167,11 @@ def update_cwhw(request):
     return redirect('home:dashboard')
 
 
+@login_required
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
 def ajax_dashboard(request):
     date_str = request.GET.get('class_date', None)
     date = datetime.strptime(date_str, '%Y-%m-%d').date()
