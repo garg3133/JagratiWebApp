@@ -19,6 +19,8 @@ from .models import Calendar, ClassworkHomework, Schedule, Section
 # NON-VIEWS FUNCTIONS
 
 def has_authenticated_profile(user):
+    """User has a profiles and is authenticated by admin.
+       Necessary to access any page on site bar home page."""
     return user.auth is True and Profile.objects.filter(user=user).exists()
 
 
