@@ -50,8 +50,14 @@ def index(request):
     has_authenticated_profile,
     login_url=reverse_lazy('accounts:complete_profile')
 )
-def profile(request):
-    return HttpResponse('Hello there!')
+def profile(request, pk):
+    profile = get_object_or_404(Profile, user_id=pk)
+    vol_profile = get_object_or_404(Volunteer, profile=profile)
+    context = {
+        'profile': profile,
+        'vol_profile': vol_profile,
+    }
+    return render(request,'volunteers/profile.html', context)
 
 
 @login_required
