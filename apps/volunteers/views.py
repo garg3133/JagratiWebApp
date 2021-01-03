@@ -24,32 +24,45 @@ User = get_user_model()
 
 # NON-VIEWS FUNCTIONS
 
-def has_profile(user):
-    return Profile.objects.filter(user=user).exists()
+def has_authenticated_profile(user):
+    """User has a profiles and is authenticated by admin.
+       Necessary to access any page on site bar home page."""
+    return user.auth is True and Profile.objects.filter(user=user).exists()
 
 def is_volunteer(user):
+    """To be used in views accessible to volunteers only."""
     return user.desig == 'v'
 
 
 # VIEWS FUNCTIONS
 
 @login_required
-@user_passes_test(has_profile, redirect_field_name=None,
-                  login_url=reverse_lazy('accounts:complete_profile'))
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
 def index(request):
     return HttpResponse('Hello there!')
 
 
 @login_required
-@user_passes_test(has_profile, redirect_field_name=None,
-                  login_url=reverse_lazy('accounts:complete_profile'))
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
 def profile(request):
     return HttpResponse('Hello there!')
 
 
 @login_required
-@user_passes_test(has_profile, redirect_field_name=None,
-                  login_url=reverse_lazy('accounts:complete_profile'))
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
+@user_passes_test(
+    is_volunteer, redirect_field_name=None,
+    login_url=reverse_lazy('home:dashboard')
+)
 # @permissions_required
 def attendance(request):
     today_cal = Calendar.objects.filter(date=date.today())
@@ -112,8 +125,10 @@ def attendance(request):
 
 
 @login_required
-@user_passes_test(has_profile, redirect_field_name=None,
-                  login_url=reverse_lazy('accounts:complete_profile'))
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
 # @permissions_required
 def volunteers_list(request):
     context = {
@@ -123,8 +138,10 @@ def volunteers_list(request):
 
 
 @login_required
-@user_passes_test(has_profile, redirect_field_name=None,
-                  login_url=reverse_lazy('accounts:complete_profile'))
+@user_passes_test(
+    has_authenticated_profile, redirect_field_name=None,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
 # @permissions_required
 def ajax_volunteers_list(request):
     data = {}
@@ -141,11 +158,16 @@ def ajax_volunteers_list(request):
 
     return JsonResponse(data)
 
+
 @login_required
-@user_passes_test(has_profile, redirect_field_name=None,
-                  login_url=reverse_lazy('accounts:complete_profile'))
-@user_passes_test(is_volunteer, redirect_field_name=None,
-                  login_url=reverse_lazy('home:dashboard'))
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
+@user_passes_test(
+    is_volunteer, redirect_field_name=None,
+    login_url=reverse_lazy('home:dashboard')
+)
 def update_profile(request):
     profile = Profile.objects.get(user=request.user)
     volun = Volunteer.objects.get(profile=profile)
@@ -192,11 +214,16 @@ def update_profile(request):
 
     return render(request, 'volunteers/update_profile.html', context)
 
+
 @login_required
-@user_passes_test(has_profile, redirect_field_name=None,
-                  login_url=reverse_lazy('accounts:complete_profile'))
-@user_passes_test(is_volunteer, redirect_field_name=None,
-                  login_url=reverse_lazy('home:dashboard'))
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
+@user_passes_test(
+    is_volunteer, redirect_field_name=None,
+    login_url=reverse_lazy('home:dashboard')
+)
 def update_schedule(request):
     volun = Volunteer.objects.get(profile__user=request.user)
     last_pending_req = UpdateScheduleRequest.objects.filter(
@@ -240,6 +267,16 @@ def update_schedule(request):
     }
     return render(request, 'volunteers/update_schedule.html', context)
 
+
+@login_required
+@user_passes_test(
+    has_authenticated_profile, redirect_field_name=None,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
+@user_passes_test(
+    is_volunteer, redirect_field_name=None,
+    login_url=reverse_lazy('home:dashboard')
+)
 def ajax_update_schedule(request):
     sch_day = request.GET.get('sch_day', None)
     data = {}
