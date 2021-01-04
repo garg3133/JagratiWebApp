@@ -82,7 +82,7 @@ And additional requirements are in [**requirements.txt**](https://github.com/gar
   * Create a virtual environment `$ virtualenv env -p python3.7`  
   * Activate the env: `$ source env/bin/activate` (for linux) `> ./env/Scripts/activate` (for Windows PowerShell)
   * Install the requirements: `$ pip install -r requirements.txt`
-  * Create a new file in root folder of repository (`JagratiWebApp`) with name `.env` and add the following content in it:
+  * Create a new file in root folder of repository (`JagratiWebApp`) with name `.env` (only `.env` and not `.env.txt`) and add the following content in it:
     ```
     EMAIL_HOST_USER = 'your-email@domain.com'
     EMAIL_HOST_PASSWORD = 'your-password'
