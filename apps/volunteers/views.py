@@ -14,24 +14,13 @@ from django.urls import reverse, reverse_lazy
 # local Django
 from accounts.models import Profile
 from home.models import Calendar, Schedule
+from home.views import has_authenticated_profile, is_volunteer
 from .models import (
     Designation, UpdateScheduleRequest, Volunteer,
     VolunteerAttendance, VolunteerSchedule,
 )
 
 User = get_user_model()
-
-
-# NON-VIEWS FUNCTIONS
-
-def has_authenticated_profile(user):
-    """User has a profiles and is authenticated by admin.
-       Necessary to access any page on site bar home page."""
-    return user.auth is True and Profile.objects.filter(user=user).exists()
-
-def is_volunteer(user):
-    """To be used in views accessible to volunteers only."""
-    return user.desig == 'v'
 
 
 # VIEWS FUNCTIONS
