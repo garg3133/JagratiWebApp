@@ -23,6 +23,10 @@ def has_authenticated_profile(user):
        Necessary to access any page on site bar home page."""
     return user.auth is True and Profile.objects.filter(user=user).exists()
 
+def is_volunteer(user):
+    """To be used in views accessible to volunteers only."""
+    return user.desig == 'v'
+
 
 # VIEW FUNCTIONS
 
@@ -118,6 +122,10 @@ def dashboard(request):
 @user_passes_test(
     has_authenticated_profile, redirect_field_name=None,
     login_url=reverse_lazy('accounts:complete_profile')
+)
+@user_passes_test(
+    is_volunteer, redirect_field_name=None,
+    login_url=reverse_lazy('home:dashboard')
 )
 # @permission_required
 def update_cwhw(request):
