@@ -19,12 +19,14 @@
 
 <div class="container">
 	<div class="py-3 mt-3 text-center">
-		<h2>Your Profile</h2>
+		<h2>
+			{% if self_profile %} Your Profile {% else %} User Profile {% endif %}
+		</h2>
 	</div>
 
 	<div class="row justify-content-center mb-5">
 		<div class="col-lg-8 border rounded shadow px-5 py-4">
-			<div class="row justify-content-center pb-3 ">
+			<div class="row justify-content-center">
 				<div class="col-md-4 mb-4 align-self-center text-center">
 					{% if profile.profile_image %}
 						<img class="rounded-circle" style="height: 150px; width: 150px;" src="{{ profile.profile_image.url }}" alt="profile_image">
@@ -36,7 +38,7 @@
 						<img class="rounded-circle" style="height: 150px; width: 150px;" src="{% static 'home/images/man.png' %}" alt="profile_image">
 					{% endif %}
 				</div>
-				<div class="col-md-8 mb-3">
+				<div class="col-md-8 my-3">
 					<div class="row justify-content-center">
 						<div class="col-6 col-lg-4 mb-3 align-self-center">
 							<strong>Name: </strong>
@@ -86,6 +88,7 @@
 							
 						</div>
 					</div>
+					{% if self_profile %}
 					<div class="row justify-content-center">
 						<div class="col-6 col-lg-4 mb-3 align-self-center">
 							<strong>Contact No.: </strong>
@@ -102,14 +105,15 @@
 							{{ profile.get_complete_address}}
 						</div>
 					</div>
+					{% endif %}
 				</div>
 			</div>
-
-			<div class="row justify-content-center">
+			{% if self_profile %}
+			<div class="row justify-content-center pt-3">
 				<a href="{% url 'volunteers:update_profile' %}" class="btn btn-info mx-3 my-2">Edit Profile</a>
 				<a href="{% url 'accounts:password_change' %}" class="btn btn-info mx-3 my-2">Change Password</a>
 			</div>
-
+			{% endif %}
 				
 			{% comment %}
 			<form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>

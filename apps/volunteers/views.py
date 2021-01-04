@@ -56,6 +56,7 @@ def profile(request, pk):
     context = {
         'profile': profile,
         'vol_profile': vol_profile,
+        'self_profile': profile.user == request.user,
     }
     return render(request,'volunteers/profile.html', context)
 
