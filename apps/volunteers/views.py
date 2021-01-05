@@ -16,42 +16,51 @@ from django.urls import reverse, reverse_lazy
 # local Django
 from accounts.models import Profile
 from home.models import Calendar, Schedule
+from home.views import has_authenticated_profile, is_volunteer
 from .models import (
     Designation, UpdateScheduleRequest, Volunteer,
-    VolunteerAttendence, VolunteerSchedule,
+    VolunteerAttendance, VolunteerSchedule,
 )
 
 User = get_user_model()
 
 
-# NON-VIEWS FUNCTIONS
-
-def has_profile(user):
-    return Profile.objects.filter(user=user).exists()
-
-def is_volunteer(user):
-    return user.desig == 'v'
-
-
 # VIEWS FUNCTIONS
 
 @login_required
-@user_passes_test(has_profile, redirect_field_name=None,
-                  login_url=reverse_lazy('accounts:complete_profile'))
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
 def index(request):
     return HttpResponse('Hello there!')
 
 
 @login_required
-@user_passes_test(has_profile, redirect_field_name=None,
-                  login_url=reverse_lazy('accounts:complete_profile'))
-def profile(request,pk):
-    return HttpResponse('Hello there!')
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
+def profile(request, pk):
+    profile = get_object_or_404(Profile, user_id=pk)
+    vol_profile = get_object_or_404(Volunteer, profile=profile)
+    context = {
+        'profile': profile,
+        'vol_profile': vol_profile,
+        'self_profile': profile.user == request.user,
+    }
+    return render(request,'volunteers/profile.html', context)
 
 
 @login_required
-@user_passes_test(has_profile, redirect_field_name=None,
-                  login_url=reverse_lazy('accounts:complete_profile'))
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
+@user_passes_test(
+    is_volunteer, redirect_field_name=None,
+    login_url=reverse_lazy('home:dashboard')
+)
 # @permissions_required
 def attendance(request):
     today_cal = Calendar.objects.filter(date=date.today())
@@ -70,11 +79,11 @@ def attendance(request):
     }
 
     if today_cal.class_scheduled:
-        if not VolunteerAttendence.objects.filter(cal_date__date=date.today()).exists():
+        if not VolunteerAttendance.objects.filter(cal_date__date=date.today()).exists():
             # Create Empty Volunteer Attendance Instances
             today_vol_sch = VolunteerSchedule.objects.filter(day=date.today().strftime("%w"))
             for vol_sch in today_vol_sch:
-                vol_attendance = VolunteerAttendence(volun=vol_sch.volun, cal_date=today_cal)
+                vol_attendance = VolunteerAttendance(volun=vol_sch.volun, cal_date=today_cal)
                 vol_attendance.save()
     else:
         context['no_class_today'] = True
@@ -85,37 +94,39 @@ def attendance(request):
         extra_vol_array = request.POST.getlist('extra-vol')
 
         # Mark everyone's absent
-        vol_att_today = VolunteerAttendence.objects.filter(cal_date=today_cal)
+        vol_att_today = VolunteerAttendance.objects.filter(cal_date=today_cal)
         for vol_att in vol_att_today:
             vol_att.present = False
             vol_att.save()
 
         for vol_id in vol_array:
-            vol_att = VolunteerAttendence.objects.get(volun__id=vol_id, cal_date=today_cal)
+            vol_att = VolunteerAttendance.objects.get(volun__id=vol_id, cal_date=today_cal)
             vol_att.present = True
             vol_att.save()
 
         for extra_vol_roll in extra_vol_array:
             volun = Volunteer.objects.filter(roll_no=extra_vol_roll)
             if volun.exists():
-                extra_vol_att = VolunteerAttendence.objects.filter(volun=volun[0], cal_date=today_cal)
+                extra_vol_att = VolunteerAttendance.objects.filter(volun=volun[0], cal_date=today_cal)
                 if extra_vol_att.exists():
                     extra_vol_att = extra_vol_att[0]
                     extra_vol_att.present = True
                 else:
-                    extra_vol_att = VolunteerAttendence(volun=volun[0], cal_date=today_cal, present=True, extra=True)
+                    extra_vol_att = VolunteerAttendance(volun=volun[0], cal_date=today_cal, present=True, extra=True)
                 extra_vol_att.save()
 
         messages.success(request, 'Attendance marked successfully!')
         return redirect('volunteers:attendance')
 
-    context['today_vol_att'] = VolunteerAttendence.objects.filter(cal_date=today_cal).order_by('volun__roll_no')
+    context['today_vol_att'] = VolunteerAttendance.objects.filter(cal_date=today_cal).order_by('volun__roll_no')
     return render(request, 'volunteers/attendance.html', context)
 
 
 @login_required
-@user_passes_test(has_profile, redirect_field_name=None,
-                  login_url=reverse_lazy('accounts:complete_profile'))
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
 # @permissions_required
 def volunteers_list(request):
     context = {
@@ -125,8 +136,10 @@ def volunteers_list(request):
 
 
 @login_required
-@user_passes_test(has_profile, redirect_field_name=None,
-                  login_url=reverse_lazy('accounts:complete_profile'))
+@user_passes_test(
+    has_authenticated_profile, redirect_field_name=None,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
 # @permissions_required
 def ajax_volunteers_list(request):
     data = {}
@@ -143,11 +156,16 @@ def ajax_volunteers_list(request):
 
     return JsonResponse(data)
 
+
 @login_required
-@user_passes_test(has_profile, redirect_field_name=None,
-                  login_url=reverse_lazy('accounts:complete_profile'))
-@user_passes_test(is_volunteer, redirect_field_name=None,
-                  login_url=reverse_lazy('home:dashboard'))
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
+@user_passes_test(
+    is_volunteer, redirect_field_name=None,
+    login_url=reverse_lazy('home:dashboard')
+)
 def update_profile(request):
     profile = Profile.objects.get(user=request.user)
     volun = Volunteer.objects.get(profile=profile)
@@ -194,11 +212,16 @@ def update_profile(request):
 
     return render(request, 'volunteers/update_profile.html', context)
 
+
 @login_required
-@user_passes_test(has_profile, redirect_field_name=None,
-                  login_url=reverse_lazy('accounts:complete_profile'))
-@user_passes_test(is_volunteer, redirect_field_name=None,
-                  login_url=reverse_lazy('home:dashboard'))
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
+@user_passes_test(
+    is_volunteer, redirect_field_name=None,
+    login_url=reverse_lazy('home:dashboard')
+)
 def update_schedule(request):
     volun = Volunteer.objects.get(profile__user=request.user)
     last_pending_req = UpdateScheduleRequest.objects.filter(
@@ -242,6 +265,16 @@ def update_schedule(request):
     }
     return render(request, 'volunteers/update_schedule.html', context)
 
+
+@login_required
+@user_passes_test(
+    has_authenticated_profile, redirect_field_name=None,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
+@user_passes_test(
+    is_volunteer, redirect_field_name=None,
+    login_url=reverse_lazy('home:dashboard')
+)
 def ajax_update_schedule(request):
     sch_day = request.GET.get('sch_day', None)
     data = {}

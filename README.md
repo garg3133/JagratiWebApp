@@ -1,4 +1,13 @@
-# Jagrati
+<p align="center">
+    <a href="https://jagrati.herokuapp.com">
+        <img src="static/logo.png" width="20%">
+    </a>
+</p>
+
+<h1 align="center"> 
+    Jagrati - An initiative of IIITians
+</h1>
+
 Jagrati is an initiative by the students of **IIITDM Jabalpur** to provide free and quality education to the poor and under-privileged children of villages surrounding our institute. 
 
 Currently, we have adopted 5 villages in the vicinity of our institute, namely, Gadheri, Amanala, Chanditola, Mehgawan and Suarkol where we *donate education* to around 100 children of classes 1 through 10. Apart from providing basic education to the students in regular classes, **we also prepare the students of 4th and 5th grade for the prestigious Navodaya Vidyalaya** and other similar government-funded institutions which provides quality education to students, completely free of cost.
@@ -6,11 +15,11 @@ Currently, we have adopted 5 villages in the vicinity of our institute, namely, 
 Apart from teaching the children, we do many other activities like **organizing Blood Donation Camps, Tree Plantation Drives, Cloth Donation, Stationery Distribution, Campaigns to spread awareness in villages, etc.**
 
 **Our Achievements:**
-- 1 student cracked Navodaya Examination in 2018.
-- 1 student cracked Navodaya Examination in 2019.
-- 2 students cracked Navodaya Examination in 2020.
-- 4 students cracked entrance examination for Eklavya Model Residential School (EMRS) in 2020.
-- 4 students cracked entrance examination for Gyanodaya Vidyalaya in 2020.
+- 1 student selected in Jawahar Navodaya Vidyalaya in 2018.
+- 1 student selected in Jawahar Navodaya Vidyalaya in 2019.
+- 2 students selected in Jawahar Navodaya Vidyalaya in 2020.
+- 4 students cleared entrance examination for Eklavya Model Residential School (EMRS) in 2020.
+- 4 students cleared entrance examination for Gyanodaya Vidyalaya in 2020.
 
 (Like Navodaya Vidyalaya, both EMRS and Gyanodaya Vidyalaya provide free quality education to students from class 6 to 12).
 
@@ -73,7 +82,7 @@ And additional requirements are in [**requirements.txt**](https://github.com/gar
   * Create a virtual environment `$ virtualenv env -p python3.7`  
   * Activate the env: `$ source env/bin/activate` (for linux) `> ./env/Scripts/activate` (for Windows PowerShell)
   * Install the requirements: `$ pip install -r requirements.txt`
-  * Create a new file in root folder of repository (`JagratiWebApp`) with name `.env` and add the following content in it:
+  * Create a new file in root folder of repository (`JagratiWebApp`) with name `.env` (only `.env` and not `.env.txt`) and add the following content in it:
     ```
     EMAIL_HOST_USER = 'your-email@domain.com'
     EMAIL_HOST_PASSWORD = 'your-password'
@@ -87,6 +96,7 @@ And additional requirements are in [**requirements.txt**](https://github.com/gar
     * `ADMINS_EMAIL` is a list of email addresses of Admins of the site (who will recieve important updates from the site like when a new user joins in).
 
     **Note:** All the changes mentioned above in the `.env` template are *optional* and you do not need to change anything if you want all the email contents to be printed in the console itself. The above changes are required only if you wish to send out real emails to real people.
+  * Create a copy of `sample-db.sqlite3` in root directory (`JagratiWebApp`) and rename it as `db.sqlite3`.
   * Make migrations `$ python manage.py makemigrations`
   * Migrate the changes to the database `$ python manage.py migrate`
   * Create admin `$ python manage.py createsuperuser`

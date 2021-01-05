@@ -5,6 +5,8 @@ from .base import *
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
+# Warning: This SECRET KEY is for development purpose only.
+# ALWAYS USE A DIFFERENT KEY FOR PRODUCTION.
 SECRET_KEY = '(8ty!=07t%td)i5%r8x4dh^tvb3sv+4e3zk1cq=(g)tcnn@nq8'
 
 DEBUG = True

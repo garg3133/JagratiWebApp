@@ -11,25 +11,36 @@ from django.urls import reverse, reverse_lazy
 
 # local Django
 from accounts.models import Profile
-from apps.students.models import Student, StudentAttendence, StudentSchedule
-from apps.volunteers.models import Volunteer, VolunteerAttendence, VolunteerSchedule
+from apps.students.models import Student, StudentAttendance, StudentSchedule
+from apps.volunteers.models import Volunteer, VolunteerAttendance, VolunteerSchedule
 from .models import Calendar, ClassworkHomework, Schedule, Section
 
 
-def has_profile(user):
-    return Profile.objects.filter(user=user).exists()
+# NON-VIEWS FUNCTIONS
+
+def has_authenticated_profile(user):
+    """User has a profiles and is authenticated by admin.
+       Necessary to access any page on site bar home page."""
+    return user.auth is True and Profile.objects.filter(user=user).exists()
+
+def is_volunteer(user):
+    """To be used in views accessible to volunteers only."""
+    return user.desig == 'v'
 
 
-# Create your views here.
+# VIEW FUNCTIONS
+
 def index(request):
     if request.user.is_authenticated:
         return redirect('home:dashboard')
     return render(request, 'home/index.html')
 
-# DON'T TOUCH THE DASHBOARD
+
 @login_required
-@user_passes_test(has_profile, redirect_field_name=None,
-                  login_url=reverse_lazy('accounts:complete_profile'))
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
 def dashboard(request):
     # TO BE REMOVED...
     # Update today's date in Calendar if not already there
@@ -79,7 +90,7 @@ def dashboard(request):
         context['cw_hw'] = cw_hw
 
         # Students Attendance
-        student_attendance = StudentAttendence.objects.filter(cal_date=calendar, present=True).order_by('student__school_class')
+        student_attendance = StudentAttendance.objects.filter(cal_date=calendar, present=True).order_by('student__school_class')
         context['student_attendance'] = student_attendance
 
         if student_attendance.exists():
@@ -95,7 +106,7 @@ def dashboard(request):
             context['stu_att_village'] = stu_att_village
 
         # Volunteers Attendance
-        volun_attendance = VolunteerAttendence.objects.filter(cal_date=calendar, present=True).order_by('volun__roll_no')
+        volun_attendance = VolunteerAttendance.objects.filter(cal_date=calendar, present=True).order_by('volun__roll_no')
         context['volun_attendance'] = volun_attendance
 
         return render(request, 'home/dashboard.html', context)
@@ -106,9 +117,16 @@ def dashboard(request):
 
     return render(request, 'home/dashboard.html')
 
+
 @login_required
-@user_passes_test(has_profile, redirect_field_name=None,
-                  login_url=reverse_lazy('accounts:complete_profile'))
+@user_passes_test(
+    has_authenticated_profile, redirect_field_name=None,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
+@user_passes_test(
+    is_volunteer, redirect_field_name=None,
+    login_url=reverse_lazy('home:dashboard')
+)
 # @permission_required
 def update_cwhw(request):
     if request.method == 'POST':
@@ -156,6 +174,12 @@ def update_cwhw(request):
 
     return redirect('home:dashboard')
 
+
+@login_required
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
 def ajax_dashboard(request):
     date_str = request.GET.get('class_date', None)
     date = datetime.strptime(date_str, '%Y-%m-%d').date()

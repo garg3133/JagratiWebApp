@@ -126,17 +126,15 @@ def complete_profile(request):
     """ For completing the Profile after successful signup and activation of account.
         Mandatory before accessing the Dashboard."""
     user = request.user
-    # Will be redirected to next_site only if
-    # user is already authenticated
+    # Will be redirected to next_site only if the user is
+    # already authenticated by admin.
     next_site = request.GET.get('next', 'home:dashboard')
 
-    # Redirect to Dashboard if Profile is already complete
     if Profile.objects.filter(user=user).exists():
-        # If Profile is complete but user is not authenticated
-        # (If user didn't get logged out after completing profile)
-        # (Or somehow user got logged in with auth=False
-        # like if user was logged in and admin turned auth=False)
         if not user.auth:
+            # If Profile already exists but user is not authenticated
+            # (If user didn't get logged out after completing profile
+            # or after being un-authenticated by admin.)
             logout(request)
             return redirect('accounts:login_signup')
         return redirect(next_site)

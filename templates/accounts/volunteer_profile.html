@@ -65,7 +65,7 @@
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="batch">Batch</label>
-                        <input name="batch" type="number" class="form-control" id="batch" placeholder="{% now 'Y' %}" required>
+                        <input name="batch" type="number" class="form-control" id="batch" placeholder="2018" min="2005" max="{% now 'Y' %}" required>
                         <div class="invalid-feedback">
                             Please enter a valid batch.
                         </div>
@@ -92,9 +92,9 @@
                     </div>
                     <div class="col-md-8 mb-3">
                         <label for="contactNo">Contact No.</label>
-                        <input name="contact_no" type="number" class="form-control" id="contactNo" placeholder="" value="" required>
+                        <input name="contact_no" type="tel" pattern="[0-9]{10}" class="form-control" id="contactNo" placeholder="" value="" required>
                         <div class="invalid-feedback">
-                            Valid Contact No. is required.
+                            Valid Contact No. (10 Digits) is required.
                         </div>
                     </div>
                 </div>
@@ -195,6 +195,6 @@
             autoclose: true,
             todayHighlight: true,
         });
-        $('#dob').datepicker("setDate", new Date());
+        $('#dob').datepicker("setDate", "{% now 'Y-m-d'%}");
     </script>
 {% endblock %}

@@ -29,7 +29,7 @@
         </div>
         <div class="row justify-content-center mb-4">
             <div class="col-md-4">
-                <button class="btn btn-primary btn-lg btn-block" type="submit">Continue</button>
+                <button id="continue_button" class="btn btn-primary btn-lg btn-block" type="submit">Continue</button>
             </div>
         </div>
     </form>
@@ -189,12 +189,12 @@
 
         <!-- Volunteer Attendance -->
 
-        {% if not volunteer.desig is None %}
+        {% if volun.desig %}
         <div class="row justify-content-center my-4 mx-0">
             <div class="col-md-9 border rounded">
                 <h4 class="text-center mt-3">Volunteers Present</h4>
                 <hr>
-                {% if volunteer_attendance.count %}
+                {% if volun_attendance.count %}
                 <input type="text" id="filter-volunteers-dash" class="form-control mb-3 mx-auto" onkeyup="filterVolunteersOnDash()" placeholder="Search for roll no..">
                 <table class="table table-hover" id="vol-att-table-dash">
                     <thead>
@@ -204,7 +204,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for vol_att in volunteer_attendance %}
+                        {% for vol_att in volun_attendance %}
                         <tr class="text-center">
                             <td class="text-monospace font-weight-lighter">{{ vol_att.volun.roll_no }}</td>
                             <td class="text-monospace font-weight-lighter">{{ vol_att.volun.profile.get_full_name }} {% if vol_att.extra %}(E){% endif %}</td>
@@ -274,6 +274,7 @@
     $("#class-date").change(function () {
         var class_date = $(this).val();
         // DISABLE SUBMIT BUTTON HERE
+        $("#continue_button").prop('disabled', true); 
         $.ajax({
             url: "{% url 'home:ajax_dashboard' %}",
             data: {
@@ -292,7 +293,7 @@
                 $("#class-section").html(options);
                 
                 // RE-ENABLE THE SUBMIT BUTTON HERE
-
+                $("#continue_button").prop('disabled', false);
                 // Re-enable CW_HW buttons/inputs
                 // if selected same date/section again
                 // Should be performed after AJAX is loaded
@@ -314,6 +315,7 @@
 
 <!-- Script for Main Dashboard Date Picker -->
 <script type="text/javascript">
+
     $('#class-date').datepicker({
         weekStart: 1,
         autoclose: true,
@@ -322,7 +324,7 @@
     if(document.getElementById("extra-info-1").value.length>0)
         $('#class-date').datepicker("setDate", "{{ selected_date|date:'Y-m-d' }}");
     else
-        $('#class-date').datepicker("setDate", new Date());
+        $('#class-date').datepicker("setDate", "{% now 'Y-m-d' %}");
 </script>
 
 <!-- Search Filter for Student Present on Dashboard  -->

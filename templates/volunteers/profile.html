@@ -1,0 +1,235 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+
+{% block title %} Jagrati | Volunteer Profile {% endblock %}
+
+{% block style %}
+	<style>
+		@media screen and (max-width: 600px) {
+			.container{
+				width: 85vw;
+			}
+		}
+
+	</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+	<div class="py-3 mt-3 text-center">
+		<h2>
+			{% if self_profile %} Your Profile {% else %} User Profile {% endif %}
+		</h2>
+	</div>
+
+	<div class="row justify-content-center mb-5">
+		<div class="col-lg-8 border rounded shadow px-5 py-4">
+			<div class="row justify-content-center">
+				<div class="col-md-4 mb-4 align-self-center text-center">
+					{% if profile.profile_image %}
+						<img class="rounded-circle" style="height: 150px; width: 150px;" src="{{ profile.profile_image.url }}" alt="profile_image">
+					{% elif profile.gender == 'M' %}
+						<img class="rounded-circle" style="height: 150px; width: 150px;" src="{% static 'home/images/man.png' %}" alt="profile_image">
+					{% elif profile.gender == 'F' %}
+						<img class="rounded-circle" style="height: 150px; width: 150px;" src="{% static 'home/images/woman.png' %}" alt="profile_image">
+					{% else %}
+						<img class="rounded-circle" style="height: 150px; width: 150px;" src="{% static 'home/images/man.png' %}" alt="profile_image">
+					{% endif %}
+				</div>
+				<div class="col-md-8 my-3">
+					<div class="row justify-content-center">
+						<div class="col-6 col-lg-4 mb-3 align-self-center">
+							<strong>Name: </strong>
+						</div>
+						<div class="col-6 col-lg-8 mb-3">
+							{{ profile.get_full_name }}
+						</div>
+					</div>
+					<div class="row justify-content-center">
+						<div class="col-6 col-lg-4 mb-3 align-self-center">
+							<strong>Roll No.: </strong>
+						</div>
+						<div class="col-6 col-lg-8 mb-3">
+							{{ vol_profile.roll_no }}
+						</div>
+					</div>
+					<div class="row justify-content-center">
+						<div class="col-6 col-lg-4 mb-3 align-self-center">
+							<strong>Email: </strong>
+						</div>
+						<div class="col-6 col-lg-8 mb-3">
+							{{ profile.user.email }}
+						</div>
+					</div>
+					<div class="row justify-content-center">
+						<div class="col-6 col-lg-4 mb-3 align-self-center">
+							<strong>Batch: </strong>
+						</div>
+						<div class="col-6 col-lg-8 mb-3">
+							{{ vol_profile.batch }}
+						</div>
+					</div>
+					<div class="row justify-content-center">
+						<div class="col-6 col-lg-4 mb-3 align-self-center">
+							<strong>Programme: </strong>
+						</div>
+						<div class="col-6 col-lg-8 mb-3">
+							{{ vol_profile.get_programme_display }}
+						</div>
+					</div>
+					<div class="row justify-content-center">
+						<div class="col-6 col-lg-4 mb-3 align-self-center">
+							<strong>Designation: </strong>
+						</div>
+						<div class="col-6 col-lg-8 mb-3">
+							{% if vol_profile.desig is None %} Volunteer {% else %} {{ vol_profile.desig.name }} {% endif %}
+							
+						</div>
+					</div>
+					{% if self_profile %}
+					<div class="row justify-content-center">
+						<div class="col-6 col-lg-4 mb-3 align-self-center">
+							<strong>Contact No.: </strong>
+						</div>
+						<div class="col-6 col-lg-8 mb-3">
+							{{ profile.contact_no }}
+						</div>
+					</div>
+					<div class="row justify-content-center">
+						<div class="col-6 col-lg-4 align-self-top">
+							<strong>Address: </strong>
+						</div>
+						<div class="col-6 col-lg-8">
+							{{ profile.get_complete_address}}
+						</div>
+					</div>
+					{% endif %}
+				</div>
+			</div>
+			{% if self_profile %}
+			<div class="row justify-content-center pt-3">
+				<a href="{% url 'volunteers:update_profile' %}" class="btn btn-info mx-3 my-2">Edit Profile</a>
+				<a href="{% url 'accounts:password_change' %}" class="btn btn-info mx-3 my-2">Change Password</a>
+			</div>
+			{% endif %}
+				
+			{% comment %}
+			<form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+				{% csrf_token %}
+				<div class="row justify-content-center">
+					<div class="col-md-4 mb-3 align-self-center text-right">
+						<strong>Name: </strong>
+					</div>
+					<div class="col-md-8 mb-3">
+						{{ profile.first_name }} {{ profile.last_name }}
+					</div>
+				</div>
+				<div class="row justify-content-center">
+					<div class="col-md-4 mb-3 align-self-center text-right">
+						<strong>Gender: </strong>
+					</div>
+					<div class="col-md-8 mb-3">
+						{{ profile.gender }}
+					</div>
+				</div>
+				<div class="row justify-content-center">
+					<div class="col-md-4 mb-3 align-self-center text-right">
+						<strong>Date of Birth: </strong>
+					</div>
+					<div class="col-md-8 mb-3">
+						{{ profile.dob }}
+					</div>
+				</div>
+				<div class="row justify-content-center">
+					<div class="col-md-4 mb-3 align-self-center text-right">
+						<strong>Profession: </strong>
+					</div>
+					<div class="col-md-8 mb-3">
+						{{ profile.profession }}
+					</div>
+				</div>
+
+
+				<div class="row justify-content-center">
+					<div class="col-md-4 mb-3 align-self-center text-center">
+						<strong>Name: </strong>
+					</div>
+					<div class="col-md-8 mb-3">
+						{{ profile.first_name }} {{ profile.last_name }}
+					</div>
+					<div class="col-md-4 mb-3">
+						<!-- <label for="firstName">First name</label> -->
+						<input name="first_name" type="text" class="form-control" id="firstName" placeholder="" value="{{ profile.first_name }}" required>
+					</div>
+					<div class="col-md-4 mb-3">
+						<!-- <label for="lastName">Last name</label> -->
+						<input name="last_name" type="text" class="form-control" id="lastName" placeholder="" value="{{ profile.last_name }}" required>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						<label for="gender">Gender</label>
+						<select name="gender" class="custom-select d-block w-100" id="gender" required>
+							<option value="M">Male</option>
+							<option value="F">Female</option>
+							<option value="O">Other</option>
+						</select>
+					</div>
+					<div class="col-md-4 mb-3">
+						<label for="dob">Date of Birth</label>
+						<!-- <input type="text" class="form-control" id="firstName" placeholder="" value="" required> -->
+						<!-- <input name="dob" type="date" class="form-control" id="dob" required> -->
+						<input name="dob" data-date-format="yyyy-mm-dd" id="dob" class="form-control" value="{{ profile.dob }}" required>
+					</div>
+					<div class="col-md-4 mb-3">
+						<label for="profession">Profession</label>
+						<input name="profession" type="text" class="form-control" id="profession" placeholder="" value="{{ profile.profession }}" required>
+					</div>
+				</div>
+
+				<div class="mb3">
+					<label for="contactNo">Contact No.</label>
+					<input name="contact_no" type="number" class="form-control" id="contactNo" placeholder="" value="{{ profile.contact_no }}" required>
+				</div>
+			
+				<div class="mb-3">
+					<label for="address">Address</label>
+					<input name="street_address1" type="text" class="form-control" id="address" value="{{ profile.street_address1 }}" required>
+				</div>
+			
+				<div class="mb-3">
+					<label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
+					<input name="street_address2" type="text" class="form-control" id="address2" value="{{ profile.street_address2 }}">
+				</div>
+			
+				<div class="row">
+					<div class="col-md-5 mb-3">
+					<label for="city">City</label>
+					<input name="city" type="text" class="form-control" id="city" placeholder="" value="{{ profile.city }}" required>
+					</div>
+					<div class="col-md-4 mb-3">
+					<label for="state">State</label>
+					<input name="state" type="text" class="form-control" id="state" placeholder="" value="{{ profile.state }}" required>
+					</div>
+					<div class="col-md-3 mb-3">
+					<label for="pinCode">PIN Code</label>
+					<input name="pincode" type="number" class="form-control" id="pinCode" placeholder="{{ profile.pincode }}" required>
+					</div>
+				</div>
+
+				<!-- <hr class="mb-4">
+				<div class="row justify-content-center mb-4">
+					<div class="col-md-6">
+						<button type="submit" class="btn btn-primary btn-lg btn-block" type="submit">Continue</button>
+					</div>
+				</div> -->
+			</form>
+			{% endcomment %}
+
+		</div>
+	</div>
+</div>
+{% endblock %}
