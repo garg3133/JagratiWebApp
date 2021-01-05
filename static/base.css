@@ -131,24 +131,26 @@ nav
   display: none;
 }
 
+
 .child-2:hover ~ hr {
-	width: 17%;
-  margin-left: 18%;
+  width: 18%;
+  margin-left: 17%;
 }
 
 .child-3:hover ~ hr {
-	width: 24%;
+  width: 25%;
   margin-left: 36%;
 }
 .child-4:hover ~ hr {
-	width: 17%;
-  margin-left: 61%;
+  width: 17%;
+  margin-left: 62%;
 }
 
 .child-5:hover ~ hr {
-	width: 20%;
-  margin-left: 80%;
+  width: 20%;
+  margin-left: 79%;
 }
+
 
 hr {
   height: .25rem;
