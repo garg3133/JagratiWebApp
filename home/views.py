@@ -23,7 +23,7 @@ def has_authenticated_profile(user):
 
 
 # VIEW FUNCTIONS
-def new_index(request):
+def index(request):
     if request.user.is_authenticated:
         return redirect('home:dashboard')
 
@@ -31,7 +31,7 @@ def new_index(request):
     context = {'initiatives' : initiatives}
     return render(request, 'home/new_index.html', context)
 
-def index(request):
+def old_index(request):
     if request.user.is_authenticated:
         return redirect('home:dashboard')
     return render(request, 'home/index.html')

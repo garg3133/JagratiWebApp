@@ -202,7 +202,7 @@ def complete_profile(request):
 
 
 def logout_view(request):
-    next_site = request.GET.get('next', 'home:new_index')
+    next_site = request.GET.get('next', 'home:index')
     logout(request)
     return redirect(next_site)
 
