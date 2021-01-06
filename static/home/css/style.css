@@ -615,7 +615,14 @@ nav{
 
 /*DONATE-US MODAL BOX STARTS*/
 
-#don-modal{
+@keyframes appear {
+	0% {
+		opacity: 0;
+		transform: translateY(-50px);
+	}
+}
+
+#don-modal {
 	display: none;
 	position: fixed;
 	top: 0;
@@ -623,67 +630,100 @@ nav{
 	z-index: 2;
 	width: 100%;
 	height: 100%;
-	background-color: rgba(0,0,0,0.4);
 	padding-top: 100px;
+	animation: appear 350ms ease-in 1;
+	color: wheat;
 }
-.don-modal-contents{
+
+.don-modal-contents {
 	width: 80%;
 	margin: auto;
-	background-color: #ddd;
-	border: 1px #222 solid;
-	border-radius: 7px;
 	overflow: auto;
-	max-height: 65%;
+	border: 3px solid #333333;
+	border-radius: 2% 6% 5% 4% / 1% 1% 2% 4%;
+	font-family: 'Just Another Hand',
+		cursive;
+	background: linear-gradient(345deg, rgb(102, 102, 102) 43%, rgb(255, 140, 0) 100%, rgb(255, 255, 255) 100%);
 }
-.don-modal-contents .container{
-	max-width: 90%;
+
+.don-modal-contents .container {
+	max-width: 100%;
+	background: linear-gradient(105deg, #ff8c00 50%, #666666 50%);
+	border-top-left-radius: 40px;
+	border-top-right-radius: 40px;
 }
-.don-modal-contents .container h4{
-	margin: 10px 0 5px;
-}
-.don-modal-contents h3{
+
+.don-modal-contents h3 {
 	text-transform: uppercase;
-	letter-spacing: 1px;
+	letter-spacing: 2px;
+	text-decoration: underline;
 	font-weight: 100;
 }
-.don-modal-contents .close{
+
+.don-modal-contents .close {
 	position: absolute;
 	top: 100px;
 	right: 10%;
-	float:right;
+	float: right;
 	color: #333;
 	font-size: 28px;
 	font-weight: bold;
 	cursor: pointer;
 	/*transform: translateX(-13px);*/
-	padding-right: 13px; /*instead of transform property*/
+	padding-right: 13px;
+	/*instead of transform property*/
 	/*z-index: 2;*/
 	/*margin-right: 13px; */
 }
-.don-box1{
-	background-color: #666;
-}
-.don-box1 h2{
-	margin: 0;
-	padding: 17px 0 5px;
+
+.don-box1 {
 	text-align: center;
 }
-.don-box1::after{
-	content: "";
-	display: block;
-	width: 16%;
-	margin: auto;
-	height: 2px;
-	background-color: #ff8c00;
-}
-.don-box2, .don-box3{
+
+.don-box2,
+.don-box3 {
 	float: left;
 	width: 50%;
 	box-sizing: border-box;
+	text-align: justify;
+}
+
+.don-box2 {
+	padding-right: 10px;
+}
+
+.don-box2 h3,
+.don-box3 h3 {
 	text-align: center;
 }
-.don-box2 p{
+
+.don-box3 {
+	padding-left: 10px;
+}
+
+.don-box2 li {
 	margin: 0 0 20px;
+	padding: 10px 10px;
+}
+
+ul {
+	list-style-type: none;
+	padding-left: 0;
+}
+
+#fa {
+	font-size: 3.0em;
+	vertical-align: middle;
+	margin-bottom: 3px;
+	padding-top: 9px;
+}
+
+#fa a {
+	padding-left: 10px;
+}
+
+.mobile {
+	padding-left: 10px;
 }
 
 /*CONTACT US STARTS*/
