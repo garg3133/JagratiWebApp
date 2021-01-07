@@ -109,3 +109,6 @@ And additional requirements are in [**requirements.txt**](https://github.com/gar
   * Create a new branch with a related name of the motive i.e. bug/refactor/feature and commit your changes in that branch only.  
   * Send a pull request anytime :)  
   * Join our Discord Community: https://discord.gg/Ek9q45ZjAv
+
+## 💥 How to Contribute ?
+- If you wish to contribute kindly check the [CONTRIBUTING.md](https://github.com/garg3133/JagratiWebApp/blob/master/CONTRIBUTING.md)🤝
