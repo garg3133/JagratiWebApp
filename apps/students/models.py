@@ -5,6 +5,11 @@ from home.models import Calendar, Schedule
 # Create your models here.
 
 class Student(models.Model):
+    GENDER = (
+        ('M', 'Male'),
+        ('F', 'Female'),
+        ('O', 'Other')
+    )
     VILLAGE = (
         ('G', 'Gadheri'),
         ('M', 'Mehgawan'),
@@ -14,6 +19,7 @@ class Student(models.Model):
     )
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
+    gender = models.CharField(max_length=1, choices=GENDER)
     school_class = models.IntegerField()
     village = models.CharField(max_length=3, choices=VILLAGE)
     contact_no = models.CharField(max_length=13, blank=True)
