@@ -19,7 +19,7 @@ class Student(models.Model):
     )
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    gender = models.CharField(max_length=1, choices=GENDER)
+    gender = models.CharField(max_length=1, choices=GENDER, default='M')
     school_class = models.IntegerField()
     village = models.CharField(max_length=3, choices=VILLAGE)
     contact_no = models.CharField(max_length=13, blank=True)
