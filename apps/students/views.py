@@ -40,8 +40,12 @@ def index(request):
 @login_required
 @user_passes_test(has_profile, redirect_field_name=None,
                   login_url=reverse_lazy('accounts:complete_profile'))
-def profile(request):
-    return HttpResponse('Hello there!')
+def profile(request, pk):
+    profile = get_object_or_404(Student, id=pk)
+    context = {
+        'profile': profile,
+    }
+    return render(request,'students/profile.html', context)
 
 
 @login_required
