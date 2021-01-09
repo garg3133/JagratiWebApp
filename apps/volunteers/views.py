@@ -30,10 +30,10 @@ User = get_user_model()
     has_authenticated_profile,
     login_url=reverse_lazy('accounts:complete_profile')
 )
-def volunteers(request):
-    volunteer=Volunteer.objects.all()
+def index(request):
+    volunteers=Volunteer.objects.all()
     context={
-        "volunteer":volunteer
+        "volunteers":volunteers
     }
     return render(request, 'volunteers/volunteers.html', context)  
 
