@@ -120,10 +120,10 @@ class Profile(models.Model):
     def get_profile_image_url(self):
         if self.profile_image and hasattr(self.profile_image, 'url'):
             return self.profile_image.url
-        elif self.gender == 'M':
-            return "/static/home/images/man.png"
-        else:
+        elif self.gender == 'F':
             return "/static/home/images/woman.png"
+        else:
+            return "/static/home/images/man.png"
 
 class AuthorisedDevice(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
