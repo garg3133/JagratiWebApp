@@ -737,8 +737,8 @@ nav{
 .con-sidenav a{
 	position: fixed;
 	bottom: 90px;
-	right: -105px;
-	width: 120px;
+	right: -90px;
+	width: 100px;
 	padding: 15px;
 	text-decoration: none;
 	color: white;
