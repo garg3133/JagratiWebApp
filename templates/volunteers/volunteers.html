@@ -129,10 +129,10 @@
 
 {% block content %}
   <h1 class="title">Volunteer List</h1>
-  {% if volunteer %}
+  {% if volunteers %}
       <!-- Volunteer Profile Cards -->
     <div id="vcard" class="vcard-container">
-        {% for vol in volunteer %}
+        {% for vol in volunteers %}
         <a href="{{ vol.get_absolute_url }}" target="_blank">
           <card data-image="{{ vol.profile.get_profile_image_url }}">
             <h1 slot="header">{{vol.profile.get_full_name}}</h1>
