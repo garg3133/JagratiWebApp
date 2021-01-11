@@ -24,7 +24,7 @@
 
     <div class="row justify-content-center">
         <div class="col-md-8">
-
+            <p class="text-center text-danger mb-1 mt-3">{{ duplicate_error }}</p>
             <form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
                 {% csrf_token %}
                 <div class="row">
