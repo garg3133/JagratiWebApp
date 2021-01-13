@@ -180,7 +180,6 @@ def update_from_sheets(request):
 # @permissions_required
 def new_student(request):
 
-    student = Student();
     if request.method == 'POST':
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']

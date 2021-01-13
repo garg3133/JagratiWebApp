@@ -10,7 +10,8 @@
     }
   }
 </style>
-{% endblock %} {% block content %}
+{% endblock %} 
+{% block content %}
 
 <div class="container">
   <div class="py-3 mt-3 text-center">
@@ -46,14 +47,14 @@
           </div>
           <div class="col-md-4 mb-3">
             <label for="school_class">Class</label>
-            <input name="school_class" type="number" class="form-control" id="school_class" placeholder="8" min="1" max="12" required />
+            <input name="school_class" type="number" class="form-control" id="school_class" placeholder="8" required />
             <div class="invalid-feedback">Please enter a valid class.</div>
           </div>
           <div class="col-md-4 mb-3">
             <label for="village">Village</label>
             <select name="village" class="custom-select d-block w-100" id="village" required>
-              {% for village in villages %}
-              <option value="{{village.0}}">{{village.1}}</option>
+              {% for village_id, village_name in villages %}
+              <option value="{{village_id}}">{{village_name}}</option>
               {% endfor %}
             </select>
           </div>
