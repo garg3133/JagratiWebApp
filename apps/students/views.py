@@ -180,14 +180,14 @@ def update_from_sheets(request):
 # @permissions_required
 def new_student(request):
 
-        # if user.desig == 'v':
+    student = Student();
     if request.method == 'POST':
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
         gender = request.POST['gender']
         school_class = request.POST['school_class']
         village = request.POST['village']
-        contact_no = request.POST['contact_no']
+        contact_no = request.POST.get('contact_no')
         guardian_name = request.POST['guardian_name']
 
         student = Student(
@@ -199,6 +199,6 @@ def new_student(request):
         student.save()
         
         messages.success(request, "Student successfully added.")
-        return render(request, 'students/add_new_student.html')
+        return redirect('students:new_student')
 
-    return render(request, 'students/add_new_student.html')
+    return render(request, 'students/add_new_student.html', {'villages': Student.VILLAGE});

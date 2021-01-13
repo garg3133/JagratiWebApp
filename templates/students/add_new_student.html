@@ -52,11 +52,9 @@
           <div class="col-md-4 mb-3">
             <label for="village">Village</label>
             <select name="village" class="custom-select d-block w-100" id="village" required>
-              <option value="G">Gadheri</option>
-              <option value="M">Mehgawan</option>
-              <option value="C">Chanditola</option>
-              <option value="A">Amanala</option>
-              <option value="S">Suarkol</option>
+              {% for village in villages %}
+              <option value="{{village.0}}">{{village.1}}</option>
+              {% endfor %}
             </select>
           </div>
         </div>
@@ -64,7 +62,7 @@
         <div class="row">
           <div class="col-md-6 mb-3">
             <label for="contact_no">Contact No.</label>
-            <input name="contact_no" type="tel" pattern="[0-9]{10}" class="form-control" id="contact_no" placeholder="" value="" required />
+            <input name="contact_no" type="tel" pattern="[0-9]{10}" class="form-control" id="contact_no" placeholder="" value="" />
             <div class="invalid-feedback">Valid Contact No. (10 Digits) is required.</div>
           </div>
           <div class="col-md-6 mb-3">
@@ -76,7 +74,7 @@
         <hr class="mb-4" />
         <div class="row justify-content-center mb-4">
           <div class="col-md-6">
-            <button type="submit" class="btn btn-primary btn-lg btn-block" type="submit">Continue</button>
+            <button type="submit" class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
           </div>
         </div>
       </form>
