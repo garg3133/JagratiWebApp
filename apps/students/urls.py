@@ -10,5 +10,6 @@ urlpatterns = [
     path('ajax/attendance/', views.ajax_attendance, name='ajax_attendance'),
     # path('attendance/view/', views.view_attendance, name='view_attendance'),
 
-    path('update_from_sheets/', views.update_from_sheets, name='update_from_sheets')
+    path('update_from_sheets/', views.update_from_sheets, name='update_from_sheets'),
+    path('new/', views.new_student, name='new_student'),
 ]
