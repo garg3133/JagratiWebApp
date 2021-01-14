@@ -173,3 +173,31 @@ def update_from_sheets(request):
         return redirect('students:index')
 
     return render(request, 'students/update_from_sheets.html')
+
+@login_required
+@user_passes_test(has_profile, redirect_field_name=None,
+                  login_url=reverse_lazy('accounts:complete_profile'))
+# @permissions_required
+def new_student(request):
+
+    if request.method == 'POST':
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        gender = request.POST['gender']
+        school_class = request.POST['school_class']
+        village = request.POST['village']
+        contact_no = request.POST.get('contact_no')
+        guardian_name = request.POST['guardian_name']
+
+        student = Student(
+            first_name=first_name, last_name=last_name,
+            gender=gender, school_class=school_class,
+            village=village, contact_no=contact_no,
+            guardian_name=guardian_name
+        )
+        student.save()
+        
+        messages.success(request, "Student successfully added.")
+        return redirect('students:new_student')
+
+    return render(request, 'students/add_new_student.html', {'villages': Student.VILLAGE});
