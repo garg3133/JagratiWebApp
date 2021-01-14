@@ -1,4 +1,6 @@
-{% extends 'layout.html' %} {% block style %}
+{% extends 'layout.html' %}
+
+{% block style %}
 <style>
   /* .container {
             max-width: 960px;
@@ -11,8 +13,8 @@
   }
 </style>
 {% endblock %} 
-{% block content %}
 
+{% block content %}
 <div class="container">
   <div class="py-3 mt-3 text-center">
     <h2 class="font-weight-bolder">Add new student</h2>
@@ -29,6 +31,7 @@
             <input name="first_name" type="text" class="form-control" id="firstName" placeholder="" value="" required />
             <div class="invalid-feedback">Valid First Name is required.</div>
           </div>
+
           <div class="col-md-6 mb-3">
             <label for="lastName">Last name</label>
             <input name="last_name" type="text" class="form-control" id="lastName" placeholder="" value="" required />
@@ -45,11 +48,13 @@
               <option value="O">Other</option>
             </select>
           </div>
+
           <div class="col-md-4 mb-3">
             <label for="school_class">Class</label>
             <input name="school_class" type="number" class="form-control" id="school_class" placeholder="8" required />
             <div class="invalid-feedback">Please enter a valid class.</div>
           </div>
+
           <div class="col-md-4 mb-3">
             <label for="village">Village</label>
             <select name="village" class="custom-select d-block w-100" id="village" required>
@@ -66,12 +71,14 @@
             <input name="contact_no" type="tel" pattern="[0-9]{10}" class="form-control" id="contact_no" placeholder="" value="" />
             <div class="invalid-feedback">Valid Contact No. (10 Digits) is required.</div>
           </div>
+
           <div class="col-md-6 mb-3">
             <label for="guardian_name">Guardian Name</label>
             <input name="guardian_name" type="text" class="form-control" id="guardian_name" placeholder="" value="" required />
             <div class="invalid-feedback">Valid Guardian Name is required.</div>
           </div>
         </div>
+
         <hr class="mb-4" />
         <div class="row justify-content-center mb-4">
           <div class="col-md-6">
@@ -82,8 +89,9 @@
     </div>
   </div>
 </div>
+{% endblock %}
 
-{% endblock %} {% block scripts %}
+{% block scripts %}
 <script type="text/javascript">
   (function () {
     "use strict";
@@ -112,5 +120,4 @@
     );
   })();
 </script>
-
 {% endblock %}
