@@ -31,7 +31,7 @@
                     <div class="col-md-6 mb-3">
                         <label for="rollNo">Roll No.</label>
                         <input name="roll_no" type="number" class="form-control" id="rollNo" placeholder="" value="" required>
-                        <div class="invalid-feedback">
+                        <div class="invalid-feedback" id="duplicate">
                             Valid Roll No. is required.
                         </div>
                     </div>
@@ -167,6 +167,26 @@
 
 
 {% block scripts %}
+    <!--  script for AJAX call -->
+    <script>
+    $(document).ready(function(){
+        $("#rollNo").focusout(function(){
+            console.log('roll');
+            $.post("./../../accounts/ajax_volun_roll/",
+            {
+                roll: document.getElementById('rollNo').value,
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+            },
+            function(data,status){
+                if (data.isExist) {
+                    console.log(data);
+                    document.getElementById('duplicate').innerHTML = "Duplicate roll encountered.";
+                }
+            });
+        });
+    });
+    </script>
+
     <script type="text/javascript">
         (function () {
             'use strict'

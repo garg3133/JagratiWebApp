@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text
@@ -209,6 +209,16 @@ def complete_profile(request):
 
     return render(request, 'accounts/volunteer_profile.html')
 
+def ajax_volunteer_rollcheck(request):
+    rollNo = request.POST['roll']
+    roll_no = Volunteer.objects.filter(roll_no=rollNo)
+    data = {}
+    if roll_no.exists():
+        data['isExist'] = True
+        return JsonResponse(data)
+    else:
+        data['isExist'] = False
+        return JsonResponse(data)
 
 def logout_view(request):
     next_site = request.GET.get('next', 'home:index')
