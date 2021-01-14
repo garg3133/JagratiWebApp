@@ -93,7 +93,7 @@
 
         $.ajax({
             url: "{% url 'students:ajax_attendance' %}",
-            type: 'post',
+            method: 'POST',
             data: {
                 'stu_class': stu_class,
             },
