@@ -32,7 +32,7 @@
                         <label for="rollNo">Roll No.</label>
                         <input name="roll_no" type="number" class="form-control" id="rollNo" placeholder="" value="" required>
                         <div class="invalid-feedback" id="duplicate">
-                            Valid Roll No. is required.
+                            Valid roll number is required.
                         </div>
                     </div>
                 </div>
@@ -172,7 +172,7 @@
     $(document).ready(function(){
         $("#rollNo").focusout(function(){
             console.log('roll');
-            $.post("./../../accounts/ajax_volun_roll/",
+            $.post("{% url 'accounts:volunteer_rollcheck' %}",
             {
                 roll: document.getElementById('rollNo').value,
                 'csrfmiddlewaretoken': '{{ csrf_token }}',
@@ -180,7 +180,11 @@
             function(data,status){
                 if (data.isExist) {
                     console.log(data);
-                    document.getElementById('duplicate').innerHTML = "Duplicate roll encountered.";
+                    document.getElementById('rollNo').setCustomValidity("Duplicate roll encountered.");
+                    document.getElementById('duplicate').innerText = "Duplicate roll encountered.";
+                } else {
+                    document.getElementById('rollNo').setCustomValidity("");
+                    document.getElementById('duplicate').innerText = "Valid roll number is required.";
                 }
             });
         });
