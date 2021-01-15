@@ -614,76 +614,57 @@ nav{
 }
 
 /*DONATE-US MODAL BOX STARTS*/
+.don-header {
+	background-color: #666666;
+	border-bottom-right-radius: 65px;
+	border-bottom-left-radius: 65px;
+	font-family: Arial, Helvetica, sans-serif;
+	color: whitesmoke;
+	letter-spacing: 5px;
+}
 
-#don-modal{
-	display: none;
-	position: fixed;
-	top: 0;
-	left: 0;
-	z-index: 2;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0,0,0,0.4);
-	padding-top: 100px;
+.don-body {
+	display: grid;
+
 }
-.don-modal-contents{
-	width: 80%;
-	margin: auto;
-	background-color: #ddd;
-	border: 1px #222 solid;
-	border-radius: 7px;
-	overflow: auto;
-	max-height: 65%;
-}
-.don-modal-contents .container{
-	max-width: 90%;
-}
-.don-modal-contents .container h4{
-	margin: 10px 0 5px;
-}
-.don-modal-contents h3{
-	text-transform: uppercase;
-	letter-spacing: 1px;
-	font-weight: 100;
-}
-.don-modal-contents .close{
-	position: absolute;
-	top: 100px;
-	right: 10%;
-	float:right;
-	color: #333;
-	font-size: 28px;
-	font-weight: bold;
-	cursor: pointer;
-	/*transform: translateX(-13px);*/
-	padding-right: 13px; /*instead of transform property*/
-	/*z-index: 2;*/
-	/*margin-right: 13px; */
-}
-.don-box1{
-	background-color: #666;
-}
-.don-box1 h2{
-	margin: 0;
-	padding: 17px 0 5px;
-	text-align: center;
-}
-.don-box1::after{
-	content: "";
-	display: block;
-	width: 16%;
-	margin: auto;
-	height: 2px;
+
+.don-content {
 	background-color: #ff8c00;
 }
-.don-box2, .don-box3{
-	float: left;
-	width: 50%;
-	box-sizing: border-box;
+
+.don-item {
 	text-align: center;
+	font-family: Lucida Console,
+		Courier,
+		monospace;
 }
-.don-box2 p{
-	margin: 0 0 20px;
+
+.don-item ul {
+	text-align: justify;
+	font-size: 23px;
+	list-style-type: none;
+	color: #666666;
+	background-color: wheat;
+	border-radius: 20px;
+}
+
+.don-item h3 {
+	color: wheat;
+}
+
+.carousel-indicators li {
+	width: 10px;
+	height: 10px;
+	border-radius: 100%;
+}
+
+.carousel-indicators {
+	bottom: -50px;
+}
+
+.carousel-indicators .active {
+	background-color: orange;
+	width: 20px;
 }
 
 /*CONTACT US STARTS*/
@@ -849,11 +830,6 @@ footer{
 		width: 60vw;
 	}*/
 
-	/*For Donate Us modal box*/
-	.don-box2, .don-box3{
-		float: none;
-		width: 100%
-	}
 }
 @media(max-width: 450px){
 	/*For CONTACT US section*/

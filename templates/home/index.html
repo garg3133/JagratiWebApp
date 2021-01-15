@@ -5,13 +5,12 @@
 {% block title %} Jagrati | Home {% endblock %}
 
 {% block style %}
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href='{% static "home/css/style.css" %}'>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.theme.min.css">
-
 {% endblock %}
 
 
@@ -74,7 +73,7 @@
             <div class="navbar1">
                 <ul>
                     <li><a href="{% url 'accounts:login_signup' %}" class="button" >Login</a></li>
-                    <li><button class="button" onclick="donate_us()">Donate</button></li>
+                    <li><button data-toggle="modal" data-target="#donModal" class="button" onclick="donate_us()">Donate</button></li>
                     
                 </ul>
             </div>
@@ -349,38 +348,59 @@
             <p data-aos="zoom-in" data-aos-delay="100" data-aos-duration="700" data-aos-anchor="#donate-us h1">Jagrati, an initiative of IIITians, promotes education in villages. Along with that, we try to develop cultural values in these students so that they may serve the nation. At Jagrati, we help these little kids to find their passion and shape their lives.
             </p>
             <div data-aos="fade" data-aos-delay="500" data-aos-easing='ease-in-linear' data-aos-duration="1000" data-aos-anchor="#donate-us h1">
-                <button class="don-button" onclick="donate_us()">Donate</button>
+                <button data-toggle="modal" data-target="#donModal" class="don-button" onclick="donate_us()">Donate</button>
             </div>
         </div>
     </section>
     <!-- Donate Us section ends -->
 
     <!-- Donate Us Modal begins -->
-    <div id="don-modal">
-        <div class="don-modal-contents">
-            <span class="close" id="don-close">&times</span>
-            <div class="don-box1">
-                    <h2>Donate Us</h2>
+<div class="modal fade" id="donModal" tabindex="-1" role="dialog" aria-labelledby="donModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content don-content">
+        <div class="modal-header don-header text-center">
+            <h5 class="modal-title w-100" id="donModalLabel">Donate Us</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body don-body">
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item don-item active">
+                                        <h3>Bank Details</h3>
+                                        <ul>
+                                            <li><b>Account Name</b>:JAGRATI</li>
+                                            <li><b>Account No.</b>:xxxxxxxxxxx</li>
+                                            <li><b class="pr-4">IFSC Code</b>:XXXXxxxxxxx</li>
+                                        </ul>
                 </div>
-            <div class="container">
-                <div class="don-box2">
-                    <h3>Bank Details</h3>
-                    <h4>Account Name</h4>
-                    <p>JAGRATI</p>
-                    <h4>Account No.</h4>
-                    <p>xxxxxxxxxxx</p>
-                    <h4>IFSC Code</h4>
-                    <p>XXXXxxxxxxx</p>
+                <div class="carousel-item don-item">
+                                    <h3>Contact Details</h3>
+                                    <ul>
+                                        <li><i class="fas fa-mobile fa-fw pr-4" ></i>+91-xxxxx-xxxxx</li>
+                                        <li><i class="fas fa-envelope fa-fw pr-4" ></i>jagrati@iiitdmj.ac.in</li>
+                                        <li><i class="fas fa-map-marker-alt fa-fw pr-4" ></i>PDPM IIITDM JABALPUR</li>
+                                    </ul>
                 </div>
-                <div class="don-box3">
-                    <h3>Contact Details</h3>
-                    <p><i class="fas fa-mobile fa-2x"></i>  +91-xxxxx-xxxxx</p>
-                    <p><i class="fas fa-envelope fa-2x"></i>  jagrati@iiitdmj.ac.in</p>
-                    <p><i class="fas fa-map-marker-alt fa-2x"></i>  PDPM IIITDM JABALPUR</p>
-                </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+                </a>
             </div>
         </div>
     </div>
+  </div>
+</div>
+</div>
     <!-- Donate Us Modal ends -->
 
     <!-- Contact Us section starts -->
@@ -429,6 +449,9 @@
     </footer>
     <!-- Footer ends -->
 
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script type="text/javascript" src='{% static "home/js/myjs.js" %}'></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/glide.js"></script>
     <script type="text/javascript" src='{% static "home/js/glide.js" %}'></script>
