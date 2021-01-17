@@ -29,7 +29,7 @@
                     <input type="radio" name="desig" id="radio-input2" value="F" />
                     <label for="radio-input2">Faculty</label>
                 </div>
-                <input type="email" name="email" placeholder="Email" pattern="/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" required />
+                <input type="email" name="email" placeholder="Email" pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" required />
                 <input type="password" name="password1" placeholder="Password" required />
                 <input type="password" name="password2" placeholder="Confirm Password" required />
                 <span class="form-error"> {{signup_error}} </span>
@@ -43,7 +43,7 @@
                 <h1>Sign in</h1>
                 <br/>
                 <span class="form-error"> {{login_error|safe}} </span>
-                <input type="email" pattern="/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" name="email" placeholder="Email" required />
+                <input type="email" pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" name="email" placeholder="Email" required />
                 <input type="password" name="password" placeholder="Password" required />
                 <a href="{% url 'accounts:password_reset' %}">Forgot your password?</a>
                 <button type='submit' name='submit' value='login'>Sign In</button>
