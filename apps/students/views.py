@@ -75,8 +75,10 @@ def new_student(request):
 
 
 @login_required
-@user_passes_test(has_profile, redirect_field_name=None,
-                  login_url=reverse_lazy('accounts:complete_profile'))
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
 # @permissions_required
 def attendance(request):
     today_cal = Calendar.objects.filter(date=today_date)
