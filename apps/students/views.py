@@ -1,8 +1,5 @@
 from datetime import datetime, date
 
-# third-party
-from openpyxl import load_workbook
-
 import os
 from django.conf import settings
 from django.contrib import messages
@@ -12,8 +9,12 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 
+# third-party
+from openpyxl import load_workbook
+
 from accounts.models import Profile
 from home.models import Calendar, Schedule
+from home.views import has_authenticated_profile
 from .models import Student, StudentAttendance, StudentSchedule
 
 
@@ -22,31 +23,31 @@ today_date = date.today()
 today_day = today_date.strftime("%w")
 
 
-# NON-VIEWS FUNCTIONS
-# Put this in template tags
-def has_profile(user):
-    return Profile.objects.filter(user=user).exists()
-
-
 # VIEWS FUNCTIONS
 
 @login_required
-@user_passes_test(has_profile, redirect_field_name=None,
-                  login_url=reverse_lazy('accounts:complete_profile'))
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
 def index(request):
     return HttpResponse('Hello there!')
 
 
 @login_required
-@user_passes_test(has_profile, redirect_field_name=None,
-                  login_url=reverse_lazy('accounts:complete_profile'))
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
 def profile(request):
     return HttpResponse('Hello there!')
 
 
 @login_required
-@user_passes_test(has_profile, redirect_field_name=None,
-                  login_url=reverse_lazy('accounts:complete_profile'))
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
 # @permissions_required
 def attendance(request):
     today_cal = Calendar.objects.filter(date=today_date)
@@ -113,9 +114,12 @@ def attendance(request):
 
     return render(request, 'students/attendance.html', context)
 
+
 @login_required
-@user_passes_test(has_profile, redirect_field_name=None,
-                  login_url=reverse_lazy('accounts:complete_profile'))
+@user_passes_test(
+    has_authenticated_profile, redirect_field_name=None,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
 # @permissions_required
 def ajax_attendance(request):
     today_cal = Calendar.objects.get(date=today_date)
@@ -133,9 +137,12 @@ def ajax_attendance(request):
 
     return JsonResponse(data)
 
+
 @login_required
-@user_passes_test(has_profile, redirect_field_name=None,
-                  login_url=reverse_lazy('accounts:complete_profile'))
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
 # @permissions_required
 def update_from_sheets(request):
 
