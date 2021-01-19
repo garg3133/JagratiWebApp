@@ -108,6 +108,7 @@
 
         $.ajax({
             url: "{% url 'volunteers:ajax_update_schedule' %}",
+            method: 'POST',
             data: {
                 'sch_day': sch_day,
             },

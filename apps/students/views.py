@@ -49,6 +49,35 @@ def profile(request):
     login_url=reverse_lazy('accounts:complete_profile')
 )
 # @permissions_required
+def new_student(request):
+
+    if request.method == 'POST':
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        gender = request.POST['gender']
+        school_class = request.POST['school_class']
+        village = request.POST['village']
+        contact_no = request.POST.get('contact_no')  # Non-required field
+        guardian_name = request.POST['guardian_name']
+
+        student = Student(
+            first_name=first_name, last_name=last_name,
+            gender=gender, school_class=school_class,
+            village=village, contact_no=contact_no,
+            guardian_name=guardian_name,
+        )
+        student.save()
+        
+        messages.success(request, "Student added successfully!")
+        return redirect('students:new_student')
+
+    return render(request, 'students/new_student.html', {'villages': Student.VILLAGE})
+
+
+@login_required
+@user_passes_test(has_profile, redirect_field_name=None,
+                  login_url=reverse_lazy('accounts:complete_profile'))
+# @permissions_required
 def attendance(request):
     today_cal = Calendar.objects.filter(date=today_date)
     # TO BE REMOVED...
