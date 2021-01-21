@@ -63,24 +63,6 @@ def index(request):
     has_authenticated_profile,
     login_url=reverse_lazy('accounts:complete_profile')
 )
-def search(request):
-    query = request.GET['query']
-    student_first_name = Student.objects.get(first_name__iexact == query)
-    student_last_name = Student.objects.get(last_name__iexact == query)
-    students = student_first_name.union(student_last_name)
-    context = {
-        "students" : students,
-        "query"    : query,
-    }
-    if students.count() == 0:
-        messages.error(request, "No profile found")
-    return render(request,"students/search_students.html",context)
-
-@login_required
-@user_passes_test(
-    has_authenticated_profile,
-    login_url=reverse_lazy('accounts:complete_profile')
-)
 def profile(request):
     return HttpResponse('Hello there!')
 
