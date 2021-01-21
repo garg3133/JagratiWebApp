@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+
+         {% load static %}
+         {% static "logo.png" as logo %}
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>{% block title %}Jagrati | Students List{% endblock %}</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <!-- Font Awesome CSS -->
+        <link rel="stylesheet" href="{% static 'vendor/css/fontawesome-all.min.css' %}">
+        <!-- Students_list CSS-->
+        <link rel="stylesheet" href="{% static 'css/students_list.css' %}" type="text/css">
+
+    </head>
+    <body>
+
+        <!-- Navbar -->
+        <nav class="navbar">
+            <a class="navbar-brand" href="#">
+                {% load static %}
+                <img src="{{ logo }}" width="150" height="100" alt="">
+            </a>
+                <h3 class="nav-text">Students List</h3>
+        </nav>
+        
+         <!-- Search Bar -->
+        <div class="search-bar">
+            <div class="row">
+                <div class="col-filter col-4 dropdown float-right">
+                    <button class="btn btn-primary dropdown-toggle w-25" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Filter By
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item">Increasing Order (01 - 10)</a>
+                        <a class="dropdown-item">Decreasing Order (10 - 01)</a>
+                        <a class="dropdown-item">Show Class Only</a>
+                    </div>
+                </div>
+                <div class="col-search col-8">
+                     <div class="input-group mb-3"> <input type="text" class="form-control">
+                    <div class="input-group-append"><button class="btn btn-primary"><i class="fas fa-search"></i></button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+         <!-- List Of Students -->
+        <ul class="cards">
+        {% for student in students %}
+        <li class="cards__item">
+            <div class="card">
+            <div class="card__image">
+                <img src="https://picsum.photos/200/200" class="rounded-circle">
+            </div>
+            <div class="card__content">
+                <div class="card__title">{{ student.first_name }} {{ student.last_name}}</div>
+                <p class="card__text">Class {{ student.school_class }}</p>
+            </div>
+            </div>
+        </li>
+        {% endfor %}
+        </ul>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
+</html>
