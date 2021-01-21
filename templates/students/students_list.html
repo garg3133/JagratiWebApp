@@ -1,8 +1,4 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
 <html>
     <head>
 
@@ -11,7 +7,7 @@
 
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>{% block title %}Jagrati | Students List{% endblock %}</title>
+        <title> {% block title %}Jagrati | Students List{% endblock title%} </title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
@@ -43,19 +39,21 @@
                         Filter By
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item">Increasing Order (01 - 10)</a>
-                        <a class="dropdown-item">Decreasing Order (10 - 01)</a>
-                        <a class="dropdown-item">Show Class Only</a>
+                        <option class="dropdown-item"  id="name_asc">Name - Ascending Order</li>
+                        <option class="dropdown-item"  id="name_dsc">Name - Descending Order</li>
+                        <option class="dropdown-item"  id="class_asc">Class - Ascending Order</li>
+                        <option class="dropdown-item"  id="class_dsc">Class - Descending Order</li>
                     </div>
                 </div>
-                <div class="col-search col-8">
-                     <div class="input-group mb-3"> <input type="text" class="form-control">
-                    <div class="input-group-append"><button class="btn btn-primary"><i class="fas fa-search"></i></button></div>
-                    </div>
+                <form method="get" action="/search" class="col-search col-8">
+                     <div class="input-group mb-3"> <input type="text" class="form-control" placeholder="Search by name / class..." name="query" id="query">
+                    <div class="input-group-append"><button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button></div>
+                    </form>
                 </div>
             </div>
         </div>
 
+        {% block content %}
         
          <!-- List Of Students -->
         <ul class="cards">
@@ -73,6 +71,8 @@
         </li>
         {% endfor %}
         </ul>
+
+        {% endblock %}
 
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

@@ -9,6 +9,12 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 
+
+# Django-Filter-Backend
+from rest_framework.generics import ListAPIView
+from rest_framework.filters import SearchFilter, OrderingFilter
+
+
 # third-party
 from openpyxl import load_workbook
 
@@ -16,7 +22,7 @@ from accounts.models import Profile
 from home.models import Calendar, Schedule
 from home.views import has_authenticated_profile
 from .models import Student, StudentAttendance, StudentSchedule
-
+from apps.students.api.serializers import StudentSerializer
 
 # GLOBAL VARIABLES
 today_date = date.today()
@@ -24,6 +30,14 @@ today_day = today_date.strftime("%w")
 
 
 # VIEWS FUNCTIONS
+
+class StudentAPIView(ListAPIView):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+    filter_backends = (SearchFilter, OrderingFilter)
+    search_fields = ('first_name','last_name','school_class')
+    filter_fields = ('school_class','first_name','last_name')
+
 
 @login_required
 @user_passes_test(
@@ -34,9 +48,28 @@ def index(request):
     students = Student.objects.all()
     context = {
         "students" : students
-    } 
+    }
     return render(request,"students/students_list.html",context)
 
+
+@login_required
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
+def search(request):
+    # query = request.GET['query']
+    # student_first_name = Student.objects.filter(first_name__icontains == query)
+    # student_last_name = Student.objects.filter(last_name__icontains == query)
+    # students = student_first_name.union(student_last_name)
+    # context = {
+    #     "students" : students,
+    #     "query"    : query,
+    # }
+    # if students.count() == 0:
+    #     messages.error(request, "No profile found")
+    # return render(request,"students/search_students.html",context)
+    return render(request, "students/search_students.html")
 
 @login_required
 @user_passes_test(

@@ -1,0 +1,26 @@
+{% extends 'students_list.html' %}
+
+{% block title %} Search Results {% endblock title %} 
+
+{% block content %}
+        <h1>Search Results</h1>
+        {% if students|length < 0 %}
+            <p>Your search - {{query}} - did not match any student profile</p>
+        {% endif %}
+        <ul class="cards">
+        {% for student in students %}
+        <li class="cards__item">
+            <div class="card">
+            <div class="card__image">
+                <img src="https://picsum.photos/200/200" class="rounded-circle">
+            </div>
+            <div class="card__content">
+                <div class="card__title">{{ student.first_name }} {{ student.last_name}}</div>
+                <p class="card__text">Class {{ student.school_class }}</p>
+            </div>
+            </div>
+        </li>
+        {% endfor %}
+        </ul>
+
+{% endblock %}
