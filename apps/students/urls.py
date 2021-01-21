@@ -5,7 +5,7 @@ from . import views
 app_name = 'students'
 urlpatterns = [
     path('', views.index, name='index'),
-    path('search/',views.search, name='search'),
+    path('search/',views.SearchResultsView.as_view(), name='search_results'),
     path('new/', views.new_student, name='new_student'),
     path('profile/<int:pk>/', views.profile, name='profile'),
     path('attendance/', views.attendance, name='attendance'),

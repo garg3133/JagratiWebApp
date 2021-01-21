@@ -8,10 +8,12 @@ from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
+from django.db.models import Q, Value
+from django.db.models.functions import Concat
 
 
 # Django-Filter-Backend
-from rest_framework.generics import ListAPIView
+from django.views.generic import ListView
 from rest_framework.filters import SearchFilter, OrderingFilter
 
 
@@ -31,12 +33,16 @@ today_day = today_date.strftime("%w")
 
 # VIEWS FUNCTIONS
 
-class StudentAPIView(ListAPIView):
-    queryset = Student.objects.all()
-    serializer_class = StudentSerializer
-    filter_backends = (SearchFilter, OrderingFilter)
-    search_fields = ('first_name','last_name','school_class')
-    filter_fields = ('school_class','first_name','last_name')
+class SearchResultsView(ListView):
+    model = Student
+    template_name = 'students/search_results.html'
+    
+    def get_queryset(self): # new
+        query = self.request.GET.get('query')
+        queryset = Student.objects.annotate(fullname=Concat('first_name', Value(' '), 'last_name'))
+        return queryset.filter(
+            Q(fullname__icontains= query) | Q(fullname__icontains = query)
+        )
 
 
 @login_required
@@ -58,18 +64,17 @@ def index(request):
     login_url=reverse_lazy('accounts:complete_profile')
 )
 def search(request):
-    # query = request.GET['query']
-    # student_first_name = Student.objects.filter(first_name__icontains == query)
-    # student_last_name = Student.objects.filter(last_name__icontains == query)
-    # students = student_first_name.union(student_last_name)
-    # context = {
-    #     "students" : students,
-    #     "query"    : query,
-    # }
-    # if students.count() == 0:
-    #     messages.error(request, "No profile found")
-    # return render(request,"students/search_students.html",context)
-    return render(request, "students/search_students.html")
+    query = request.GET['query']
+    student_first_name = Student.objects.get(first_name__iexact == query)
+    student_last_name = Student.objects.get(last_name__iexact == query)
+    students = student_first_name.union(student_last_name)
+    context = {
+        "students" : students,
+        "query"    : query,
+    }
+    if students.count() == 0:
+        messages.error(request, "No profile found")
+    return render(request,"students/search_students.html",context)
 
 @login_required
 @user_passes_test(
