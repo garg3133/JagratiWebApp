@@ -751,6 +751,11 @@ nav{
 .con-sidenav a:hover{
 	right:-10px;
 }
+
+.con-sidenav i{
+	margin-right: 5px;
+	font-size: 16px;
+}
 /*FOOTER STARTS*/
 
 footer{
