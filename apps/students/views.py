@@ -39,8 +39,13 @@ def index(request):
     has_authenticated_profile,
     login_url=reverse_lazy('accounts:complete_profile')
 )
-def profile(request):
-    return HttpResponse('Hello there!')
+def profile(request, pk):
+    profile = get_object_or_404(Student, id=pk)
+    context = {
+        'profile': profile
+    }
+    return render(request, 'students/profile.html', context)
+    
 
 
 @login_required
@@ -211,3 +216,6 @@ def update_from_sheets(request):
         return redirect('students:index')
 
     return render(request, 'students/update_from_sheets.html')
+
+def update_profile(req):
+    return HttpResponse('Hello there!')
