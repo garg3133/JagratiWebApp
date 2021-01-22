@@ -737,8 +737,8 @@ nav{
 .con-sidenav a{
 	position: fixed;
 	bottom: 90px;
-	right: -90px;
-	width: 100px;
+	right: -95px;
+	width: 105px;
 	padding: 15px;
 	text-decoration: none;
 	color: white;
@@ -750,6 +750,11 @@ nav{
 }
 .con-sidenav a:hover{
 	right:-10px;
+}
+
+.con-sidenav i{
+	margin-right: 8px;
+	font-size: 16px;
 }
 /*FOOTER STARTS*/
 
