@@ -45,7 +45,6 @@ def profile(request, pk):
         'profile': profile
     }
     return render(request, 'students/profile.html', context)
-    
 
 
 @login_required
@@ -72,7 +71,7 @@ def new_student(request):
             guardian_name=guardian_name,
         )
         student.save()
-        
+
         messages.success(request, "Student added successfully!")
         return redirect('students:new_student')
 
