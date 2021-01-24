@@ -60,6 +60,11 @@
                     <h1>Hello, Friend!</h1>
                     <p>Enter your personal details and start journey with us</p>
                     <button class="ghost" id="signUp">Sign Up</button>
+                    <div class="social">
+                        <ul>
+                            <button type='submit'><a href="{% url "social:begin" "google-oauth2" %}">Sign in with Google</a></button>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
