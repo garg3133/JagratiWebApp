@@ -210,16 +210,14 @@ def complete_profile(request):
     return render(request, 'accounts/volunteer_profile.html')
 
 def ajax_volunteer_rollcheck(request):
-    rollNo = request.POST['roll']
-    print(rollNo)
-    roll_no = Volunteer.objects.filter(roll_no=rollNo)
+    roll_no = request.GET.get('roll')
+    duplicate_rollcheck = Volunteer.objects.filter(roll_no=roll_no)
     data = {}
-    if roll_no.exists():
+    if duplicate_rollcheck.exists():
         data['isExist'] = True
-        return JsonResponse(data)
     else:
         data['isExist'] = False
-        return JsonResponse(data)
+    return JsonResponse(data)
 
 def logout_view(request):
     next_site = request.GET.get('next', 'home:index')

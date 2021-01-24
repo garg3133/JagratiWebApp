@@ -169,44 +169,25 @@
 {% block scripts %}
     <!--  script for AJAX call -->
     <script>
-        {#$("#rollNo").focusout(function(){#}
-        {#    console.log('roll');#}
-        {#    $.post("{% url 'accounts:ajax_volunteer_rollcheck' %}",#}
-        {#    {#}
-        {#        roll: document.getElementById('rollNo').value,#}
-        {#        'csrfmiddlewaretoken': '{{ csrf_token }}',#}
-        {#    },#}
-        {#    function(data,status){#}
-        {#        if (data.isExist) {#}
-        {#            console.log(data);#}
-        {#            document.getElementById('rollNo').setCustomValidity("Duplicate roll encountered.");#}
-        {#            document.getElementById('duplicate').innerText = "Duplicate roll encountered.";#}
-        {#        } else {#}
-        {#            document.getElementById('rollNo').setCustomValidity("");#}
-        {#            document.getElementById('duplicate').innerText = "Valid roll number is required.";#}
-        {#        }#}
-        {#    });#}
-        // {#});#}
-
         $("#rollNo").focusout(function () {
             $.ajax({
                 url: "{% url 'accounts:ajax_volunteer_rollcheck' %}",
                 data: {
                     'roll': document.getElementById('rollNo').value,
-                    'csrfmiddlewaretoken': '{{ csrf_token }}',
                 },
                 dataType: 'json',
-                method: 'POST',
                 success: function (data, status) {
-                    console.log("Status is " + status);
                     if (data.isExist) {
-                        console.log("Data is: " + data);
                         document.getElementById('rollNo').setCustomValidity("Duplicate roll encountered.");
                         document.getElementById('duplicate').innerText = "Duplicate roll encountered.";
                     } else {
                         document.getElementById('rollNo').setCustomValidity("");
                         document.getElementById('duplicate').innerText = "Valid roll number is required.";
                     }
+                },
+                error: function () {
+                    document.getElementById('rollNo').setCustomValidity("Unknown error has occurred.");
+                    document.getElementById('duplicate').innerText = "Unknown error has occurred.";
                 }
             });
         });
