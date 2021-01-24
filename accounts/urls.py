@@ -25,6 +25,6 @@ urlpatterns = [
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
 
     #AJAX call URLs
-    path('ajax_volun_roll/', views.ajax_volunteer_rollcheck, name='volunteer_rollcheck'),
+    path('ajax_volunteer_rollcheck/', views.ajax_volunteer_rollcheck, name='ajax_volunteer_rollcheck'),
 
 ]

@@ -211,6 +211,7 @@ def complete_profile(request):
 
 def ajax_volunteer_rollcheck(request):
     rollNo = request.POST['roll']
+    print(rollNo)
     roll_no = Volunteer.objects.filter(roll_no=rollNo)
     data = {}
     if roll_no.exists():
