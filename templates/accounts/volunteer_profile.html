@@ -24,7 +24,6 @@
 
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <p class="text-center text-danger mb-1 mt-3">{{ duplicate_error }}</p>
             <form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
                 {% csrf_token %}
                 <div class="row">
@@ -169,13 +168,14 @@
 {% block scripts %}
     <!--  script for AJAX call -->
     <script>
-        $("#rollNo").focusout(function () {
+        $("#rollNo").keyup(function () {
             $.ajax({
                 url: "{% url 'accounts:ajax_volunteer_rollcheck' %}",
                 data: {
                     'roll': document.getElementById('rollNo').value,
                 },
                 dataType: 'json',
+                async: false,
                 success: function (data, status) {
                     if (data.isExist) {
                         document.getElementById('rollNo').setCustomValidity("Duplicate roll encountered.");

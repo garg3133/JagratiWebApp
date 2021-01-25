@@ -144,13 +144,6 @@ def complete_profile(request):
     # if user.desig == 'v':
     if request.method == 'POST':
         roll_no = request.POST['roll_no']
-        # To check whether entered roll number is already existed or not?
-        context = {}
-        duplicate_roll_check = Volunteer.objects.filter(roll_no=roll_no)
-        if duplicate_roll_check.exists():
-            context['duplicate_error'] = "A volunteer with entered roll no. already exists."
-            return render(request, 'accounts/volunteer_profile.html', context)
-
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
         gender = request.POST['gender']
@@ -213,10 +206,7 @@ def ajax_volunteer_rollcheck(request):
     roll_no = request.GET.get('roll')
     duplicate_rollcheck = Volunteer.objects.filter(roll_no=roll_no)
     data = {}
-    if duplicate_rollcheck.exists():
-        data['isExist'] = True
-    else:
-        data['isExist'] = False
+    data['isExist'] = True if duplicate_rollcheck.exists() else False
     return JsonResponse(data)
 
 def logout_view(request):
