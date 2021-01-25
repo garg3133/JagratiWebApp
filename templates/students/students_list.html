@@ -35,20 +35,17 @@
         <div class="search-bar">
             <div class="row">
                 <div class="col-filter col-4 dropdown float-right">
-                    <button class="btn btn-primary dropdown-toggle w-25" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Filter By
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <option class="dropdown-item"  id="name_asc">Name - Ascending Order</li>
-                        <option class="dropdown-item"  id="name_dsc">Name - Descending Order</li>
-                        <option class="dropdown-item"  id="class_asc">Class - Ascending Order</li>
-                        <option class="dropdown-item"  id="class_dsc">Class - Descending Order</li>
-                    </div>
+                    <select id="sort" onchange="sort()">
+                        <option>Class</option>
+                    </select>
                 </div>
-                <form method="get" action="search/" class="col-search col-8">
-                     <div class="input-group mb-3"> <input type="text" class="form-control" placeholder="Search by name / class..." name="query" id="query">
-                    <div class="input-group-append"><button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button></div>
-                    </form>
+                <form method="get" action="{% url 'students:search_results'%}" class="col-search col-8">
+                     <div class="input-group mb-3"> 
+                        <input type="text" class="form-control" placeholder="Search by name / class..." name="query" id="query">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
+                        </div>
+                </form>
                 </div>
             </div>
         </div>
@@ -78,5 +75,17 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script type="text/javascript">s 
+        function sort(){
+                        var sortid = $('#sort').val();
+                        $.ajax({
+                            type: "POST",
+                            url: "/sort/",
+                            data: { sortid: sortid },
+                        }).done(function(data){
+                            $('#cards').html(data.html);
+                        });
+                }
+    </script> 
     </body>
 </html>

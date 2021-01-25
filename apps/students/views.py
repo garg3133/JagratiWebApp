@@ -41,7 +41,7 @@ class SearchResultsView(ListView):
         query = self.request.GET.get('query')
         queryset = Student.objects.annotate(fullname=Concat('first_name', Value(' '), 'last_name'))
         return queryset.filter(
-            Q(fullname__icontains= query) | Q(fullname__icontains = query)
+            Q(fullname__icontains= query)
         )
 
 
