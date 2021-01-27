@@ -40,20 +40,20 @@
     </div>
 
     <!-- Toast -->
-    {% for message in messages %}
-    <div class="row justify-content-center">
-        <div style="position: fixed; bottom: 64px; left: 10px; z-index: 10;">
-            <div class="toast {{ message.tags }}" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3500">
-                <div class="toast-body p-2 px-3">
-                    <strong class="mr-auto">{{message}}</strong>
-                    <button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% endfor %}
+    <div id="alert-toast-div" class="row justify-content-center">
+		<div style="position: fixed; bottom: 64px; left: 10px; z-index: 10;">
+			{% for message in messages %}
+			<div class="toast {{ message.tags }}" id="alert_toast{{ forloop.counter }}" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3500">
+				<div class="toast-body p-2 px-3">
+					<strong class="mr-auto">{{message}}</strong>
+					<button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
 
     {% include 'snippets/footer.html' %}
 
@@ -67,13 +67,15 @@
 
     <!-- Script for Toast -->
     <script>
-        if("{% for message in messages %}{{message}}{% endfor %}"){
-            $('#alert_toast').toast('show');
-            if("{% for message in messages %}{{message.level}}{% endfor %}" == "40")
-                document.getElementById("alert_toast").classList.add("bg-danger");
-            else
-                document.getElementById("alert_toast").classList.add("bg-success");
-        }	
+        "{% for message in messages %}"
+		if("{{message}}"){
+			$("#alert_toast{{ forloop.counter }}").toast("show");
+			if("{{message.level}}" == "40")
+				$("#alert_toast{{ forloop.counter }}").addClass("bg-danger");
+			else
+				$("#alert_toast{{ forloop.counter }}").addClass("bg-success");
+		}
+		"{% endfor %}"
     </script>
 
     {% block scripts %}
