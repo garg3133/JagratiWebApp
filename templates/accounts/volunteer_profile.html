@@ -24,15 +24,14 @@
 
     <div class="row justify-content-center">
         <div class="col-md-8">
-
             <form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
                 {% csrf_token %}
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="rollNo">Roll No.</label>
                         <input name="roll_no" type="number" class="form-control" id="rollNo" placeholder="" value="" required>
-                        <div class="invalid-feedback">
-                            Valid Roll No. is required.
+                        <div class="invalid-feedback" id="duplicate">
+                            Valid roll number is required.
                         </div>
                     </div>
                 </div>
@@ -151,7 +150,7 @@
                 <hr class="mb-4">
                 <div class="row justify-content-center mb-4">
                     <div class="col-md-6">
-                        <button type="submit" class="btn btn-primary btn-lg btn-block" type="submit">Continue</button>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">Continue</button>
                     </div>
                 </div>
                 
@@ -167,6 +166,33 @@
 
 
 {% block scripts %}
+    <!--  script for AJAX call -->
+    <script>
+        $("#rollNo").keyup(function () {
+            $.ajax({
+                url: "{% url 'accounts:ajax_volunteer_rollcheck' %}",
+                data: {
+                    'roll': document.getElementById('rollNo').value,
+                },
+                dataType: 'json',
+                async: false,
+                success: function (data, status) {
+                    if (data.isExist) {
+                        document.getElementById('rollNo').setCustomValidity("Duplicate roll encountered.");
+                        document.getElementById('duplicate').innerText = "Duplicate roll encountered.";
+                    } else {
+                        document.getElementById('rollNo').setCustomValidity("");
+                        document.getElementById('duplicate').innerText = "Valid roll number is required.";
+                    }
+                },
+                error: function () {
+                    document.getElementById('rollNo').setCustomValidity("Unknown error has occurred.");
+                    document.getElementById('duplicate').innerText = "Unknown error has occurred.";
+                }
+            });
+        });
+    </script>
+
     <script type="text/javascript">
         (function () {
             'use strict'
