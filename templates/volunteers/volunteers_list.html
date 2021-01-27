@@ -52,7 +52,6 @@
 
         $.ajax({
             url: "{% url 'volunteers:ajax_volunteers_list' %}",
-            method: 'POST',
             data: {
                 'vol_list_day': vol_list_day,
             },
