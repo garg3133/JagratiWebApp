@@ -7,6 +7,7 @@ from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
+from django.utils.crypto import get_random_string
 
 # Create your models here.
 
@@ -15,7 +16,8 @@ class UserManager(BaseUserManager):
         if not email:
             raise ValueError("User must have an email address")
         if not password:
-            raise ValueError("User must have a password")
+            password=get_random_string(length=10);
+            #raise ValueError("User must have a password")
         user = self.model(
             email=self.normalize_email(email),
         )

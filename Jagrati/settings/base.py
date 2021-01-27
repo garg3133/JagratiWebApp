@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'apps.volunteers',
     'apps.feedbacks',
     'apps.misc',
+    'social_django'
 ]
 
 REST_FRAMEWORK = {
@@ -118,3 +119,12 @@ DATE_FORMAT = 'Y-m-d'
 
 
 AUTH_USER_MODEL = 'accounts.User'
+
+AUTHENTICATION_BACKENDS=['django.contrib.auth.backends.ModelBackend',
+                         'social_core.backends.google.GoogleOAuth2']
+
+ALLOWED_HOSTS=['jagrati.herokuapp.com','localhost','127.0.0.1']
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '108126785604-k1sngb8ohsodee9rdvq5k5q9t3tss8k6.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'RvEINK8clQL0ld4tBZxXalf8'
+
