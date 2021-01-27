@@ -200,6 +200,7 @@ def complete_profile(request):
 
     return render(request, 'accounts/volunteer_profile.html')
 
+@login_required
 def ajax_volunteer_rollcheck(request):
     roll_no = request.GET.get('roll')
     duplicate_rollcheck = Volunteer.objects.filter(roll_no=roll_no)
