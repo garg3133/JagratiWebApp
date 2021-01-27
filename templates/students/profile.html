@@ -1,0 +1,99 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+
+{% block title %} Jagrati | Student Profile {% endblock %}
+
+{% block style %}
+	<style>
+		@media screen and (max-width: 600px) {
+			.container{
+				width: 85vw;
+			}
+		}
+
+	</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+	<div class="py-3 mt-3 text-center">
+		<h2>
+			Student Profile 
+		</h2>
+	</div>
+
+	<div class="row justify-content-center mb-5">
+		<div class="col-lg-8 border rounded shadow px-5 py-4">
+			<div class="row justify-content-center">
+				<div class="col-md-4 mb-4 align-self-center text-center">
+					{% if profile.profile_image %}
+						<img class="rounded-circle" style="height: 150px; width: 150px;" src="{{ profile.profile_image.url }}" alt="profile_image">
+					{% elif profile.gender == 'M' %}
+						<img class="rounded-circle" style="height: 150px; width: 150px;" src="{% static 'home/images/man.png' %}" alt="profile_image">
+					{% elif profile.gender == 'F' %}
+						<img class="rounded-circle" style="height: 150px; width: 150px;" src="{% static 'home/images/woman.png' %}" alt="profile_image">
+					{% else %}
+						<img class="rounded-circle" style="height: 150px; width: 150px;" src="{% static 'home/images/man.png' %}" alt="profile_image">
+					{% endif %}
+				</div>
+				<div class="col-md-8 my-3">
+					<div class="row justify-content-center">
+						<div class="col-6 col-lg-4 mb-3 align-self-center">
+							<strong>Name: </strong>
+						</div>
+						<div class="col-6 col-lg-8 mb-3">
+							{{ profile.get_full_name }}
+						</div>
+					</div>
+					<div class="row justify-content-center">
+						<div class="col-6 col-lg-4 mb-3 align-self-center">
+							<strong>Class: </strong>
+						</div>
+						<div class="col-6 col-lg-8 mb-3">
+							{{ profile.school_class }}
+						</div>
+					</div>
+					<div class="row justify-content-center">
+						<div class="col-6 col-lg-4 mb-3 align-self-center">
+							<strong>Village: </strong>
+						</div>
+						<div class="col-6 col-lg-8 mb-3">
+							{{ profile.get_village_display }}
+						</div>
+					</div>
+					<div class="row justify-content-center">
+						<div class="col-6 col-lg-4 mb-3 align-self-center">
+							<strong>Gender: </strong>
+						</div>
+						<div class="col-6 col-lg-8 mb-3">
+							{{ profile.get_gender_display }}
+						</div>
+					</div>
+					<div class="row justify-content-center">
+						<div class="col-6 col-lg-4 mb-3 align-self-center">
+							<strong>Guardian name: </strong>
+						</div>
+						<div class="col-6 col-lg-8 mb-3">
+							{{ profile.guardian_name}}
+						</div>
+					</div>
+					<div class="row justify-content-center">
+						<div class="col-6 col-lg-4 mb-3 align-self-center">
+							<strong>Contact No. : </strong>
+						</div>
+						<div class="col-6 col-lg-8 mb-3">
+							{{ profile.contact_no }}
+						</div>
+					</div>
+					
+				</div>
+			</div>
+			<div class="row justify-content-center pt-3">
+				<a href="{% url 'students:update_profile' %}" class="btn btn-info mx-3 my-2">Edit Profile</a> 
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
