@@ -175,7 +175,6 @@
                     'roll': document.getElementById('rollNo').value,
                 },
                 dataType: 'json',
-                async: false,
                 success: function (data, status) {
                     if (data.isExist) {
                         document.getElementById('rollNo').setCustomValidity("Duplicate roll encountered.");
@@ -206,6 +205,22 @@
                     if (form.checkValidity() === false) {
                         event.preventDefault()
                         event.stopPropagation()
+
+                        // Show alert toast
+                        $('#alert-toast-div > div').html(
+                            `<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3500">
+                                <div class="toast-body p-2 px-3">
+                                    <strong class="mr-auto">Please check the form again.</strong>
+                                    <button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            </div>`
+                        )
+
+                        $("#alert_toast").toast("show");
+                        $("#alert_toast").addClass("bg-danger");
+
                     }
                     form.classList.add('was-validated')
                     }, false)
