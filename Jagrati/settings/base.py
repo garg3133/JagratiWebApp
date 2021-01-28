@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig',
     'rest_framework',
     'rest_framework.authtoken',
+    'social_django',
 
     'home',
     'accounts',
@@ -39,7 +40,7 @@ INSTALLED_APPS = [
     'apps.volunteers',
     'apps.feedbacks',
     'apps.misc',
-    'social_django'
+
 ]
 
 REST_FRAMEWORK = {
@@ -59,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'Jagrati.urls'
@@ -75,6 +77,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'home.context_processors.database_context',       #for accessing models from templates... Or Use Inclusion Tags
+                
+                'social_django.context_processors.backends',  # <--
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -82,6 +87,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Jagrati.wsgi.application'
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.google.GoogleOAuth2'
+]
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -120,11 +129,6 @@ DATE_FORMAT = 'Y-m-d'
 
 AUTH_USER_MODEL = 'accounts.User'
 
-AUTHENTICATION_BACKENDS=['django.contrib.auth.backends.ModelBackend',
-                         'social_core.backends.google.GoogleOAuth2']
-
-ALLOWED_HOSTS=['jagrati.herokuapp.com','localhost','127.0.0.1']
-
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '108126785604-k1sngb8ohsodee9rdvq5k5q9t3tss8k6.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'RvEINK8clQL0ld4tBZxXalf8'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
 
