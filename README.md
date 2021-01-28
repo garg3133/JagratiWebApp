@@ -46,11 +46,11 @@ And additional requirements are in [**requirements.txt**](https://github.com/gar
 
 - [ ] List of all Students
 - [ ] List of all Volunteers
-- [ ] Student Profile
-- [ ] Volunteer profile
+- [x] Student Profile
+- [x] Volunteer profile
 - [ ] Update Student Profile
 - [ ] Update Volunteer Profile
-- [ ] Add new Student
+- [x] Add new Student
 - [ ] Calendar containing class schedule, events and other national/international important dates.
 - [ ] Page for Managing Permissions
 - [ ] Page for viewing and managing feedbacks
