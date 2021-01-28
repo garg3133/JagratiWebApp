@@ -8,6 +8,14 @@
 
     <link rel="stylesheet" href="{% static 'accounts/style.css' %}" type="text/css" />
     <script src="{% static 'accounts/style.js' %}" type="text/javascript" defer></script>
+    <link   rel="stylesheet" 
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
+    crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" 
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" 
+    crossorigin="anonymous">
+    </script>
 
 {% endblock %}
 
@@ -43,6 +51,14 @@
                 <h1>Sign in</h1>
                 <br/>
                 <span class="form-error"> {{login_error|safe}} </span>
+                <div class="row">
+                    <div class="col-md-3">
+                      <a class="btn btn-outline-dark" href="{% url "social:begin" "google-oauth2" %}?next={{ request.path }}" role="button" style="text-transform:none">
+                        <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+                        Login with Google
+                      </a>
+                    </div>
+                </div>
                 <input type="email" pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" name="email" placeholder="Email" required />
                 <input type="password" name="password" placeholder="Password" required />
                 <a href="{% url 'accounts:password_reset' %}">Forgot your password?</a>
@@ -60,11 +76,6 @@
                     <h1>Hello, Friend!</h1>
                     <p>Enter your personal details and start journey with us</p>
                     <button class="ghost" id="signUp">Sign Up</button>
-                    <div class="social">
-                        <ul>
-                            <button type='submit'><a href="{% url "social:begin" "google-oauth2" %}?next={{ request.path }}">Sign in with Google</a></button>
-                        </ul>
-                    </div>
                 </div>
             </div>
         </div>
