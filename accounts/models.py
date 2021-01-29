@@ -17,7 +17,6 @@ class UserManager(BaseUserManager):
             raise ValueError("User must have an email address")
         if not password:
             password = get_random_string(length=10)
-
         user = self.model(
             email=self.normalize_email(email),
         )

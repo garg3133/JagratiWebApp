@@ -89,13 +89,17 @@ And additional requirements are in [**requirements.txt**](https://github.com/gar
 
     SENDER_EMAIL = 'Jagrati <your-email@domain.com>'
     ADMINS_EMAIL = ['email-address-of-admin@domain.com']
+
+    SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'google-oath2-key'
+    SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'google-oath2-secret'
     ```
     where, 
     * `EMAIL_HOST_USER` and `SENDER_EMAIL` is the email address of your Gmail account from which you want to send emails (By default, Django will output email contents in console. To actually send emails to real users, comment line 27 and uncomment line 28 in `Jagrati/settings/development.py`).
     * `EMAIL_HOST_PASSWORD` is the password for that Gmail account.
     * `ADMINS_EMAIL` is a list of email addresses of Admins of the site (who will recieve important updates from the site like when a new user joins in).
+    * `SOCIAL_AUTH_GOOGLE_OAUTH2_KEY` and `SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET` are the API keys for login/signup using Google.
 
-    **Note:** All the changes mentioned above in the `.env` template are *optional* and you do not need to change anything if you want all the email contents to be printed in the console itself. The above changes are required only if you wish to send out real emails to real people.
+    **Note:** All the changes mentioned above in the `.env` template are *optional* and you do not need to change anything if you want all the email contents to be printed in the console itself and you do not wish to use login/signup through Google. The changes in the first 4 lines on `.env` file are required only if you wish to send out real emails to real people and changes in last 2 lines are required only if you wish to use login/signup through Google.
   * Create a copy of `sample-db.sqlite3` in root directory (`JagratiWebApp`) and rename it as `db.sqlite3`.
   * Make migrations `$ python manage.py makemigrations`
   * Migrate the changes to the database `$ python manage.py migrate`

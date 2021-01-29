@@ -11,7 +11,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
     path('accounts/', include('accounts.urls')),
-    path('social-auth/',include('social_django.urls',namespace='social')),
+    path('social-auth/', include('social_django.urls', namespace='social')),
     path('students/', include('apps.students.urls')),
     path('volunteers/', include('apps.volunteers.urls')),
     path('feedbacks/', include('apps.feedbacks.urls')),
