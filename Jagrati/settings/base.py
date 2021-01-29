@@ -60,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
     'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
@@ -78,7 +79,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'home.context_processors.database_context',       #for accessing models from templates... Or Use Inclusion Tags
                 
-                'social_django.context_processors.backends',  # <--
+                'social_django.context_processors.backends',
                 'social_django.context_processors.login_redirect',
             ],
         },
