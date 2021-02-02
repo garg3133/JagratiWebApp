@@ -59,11 +59,9 @@
 				{% csrf_token %}
 				<h1>Sign in</h1>
 				<a class="btn-google"
-				   href="{% url 'social:begin' 'google-oauth2' %}?next=
+				   href="{% url 'social:begin' 'google-oauth2' %}
 					{% if 'next' in request.GET %}
-						{{ request.GET.next }}
-					{% else %}
-						{{ request.path }}
+						?next={{ request.GET.next }}
 					{% endif %}"
 				   role="button" style="text-transform:none">
 						<img width="23px" style="margin-bottom: 3px; margin-right: 8px" alt="Google" src="{% static 'accounts/icon/google.png' %}" />

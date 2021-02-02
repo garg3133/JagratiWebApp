@@ -127,6 +127,7 @@ USE_TZ = True
 
 DATE_FORMAT = 'Y-m-d'
 
+LOGIN_REDIRECT_URL = '/'
 
 AUTH_USER_MODEL = 'accounts.User'
 
