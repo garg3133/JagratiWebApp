@@ -10,6 +10,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.db.models import Q, Value
 from django.db.models.functions import Concat
+from django.db.models import Count 
 
 
 # Django-Filter-Backend
@@ -33,17 +34,41 @@ today_day = today_date.strftime("%w")
 
 # VIEWS FUNCTIONS
 
-class SearchResultsView(ListView):
+class SearchResultsView(ListView): #Search Bar Implementation
     model = Student
     template_name = 'students/search_results.html'
     
     def get_queryset(self): # new
         query = self.request.GET.get('query')
-        queryset = Student.objects.annotate(fullname=Concat('first_name', Value(' '), 'last_name'))
-        return queryset.filter(
+        if query:
+            queryset = Student.objects.annotate(fullname=Concat('first_name', Value(' '), 'last_name'))
+            return queryset.filter(
             Q(fullname__icontains= query)
         )
 
+class SelectClassView(ListView): #Sort by Class Implementation
+    model = Student
+    template_name = 'students/search_results.html'
+    
+    def get_queryset(self): # new
+        query = self.kwargs['select']
+        print(query)
+        return Student.objects.filter(
+            Q(school_class__contains= query)
+        )
+
+class SortNameView(ListView): #Sort by Name Implementation
+    model = Student
+    template_name = 'students/search_results.html'
+    
+    def get_queryset(self): # new
+        query = self.request.GET.get('query')
+        print(query)
+        if query == "asc":
+            print(Student.objects.filter().order_by('first_name'))
+            return Student.objects.filter().order_by('first_name')
+        elif query == "dsc":
+            return Student.objects.filter().order_by('-first_name')
 
 @login_required
 @user_passes_test(

@@ -34,14 +34,33 @@
          <!-- Search Bar -->
         <div class="search-bar">
             <div class="row">
+                {% block filter %}
+                <form class="col-filter col-4 dropdown float-right" method="Post" action="">
+                    <select id="sort">
+                        <option>--Sort Name By--</option>
+                        <option value="asc">Ascending</option>
+                        <option value="dsc">Descending</option>
+                    </select>
+                </form>
                 <div class="col-filter col-4 dropdown float-right">
-                    <select id="sort" onchange="sort()">
-                        <option>Class</option>
+                    <select id="class" onchange="selectClass()">
+                        <option>--Select Class--</option>
+                        <option value="1">Class 01</option>
+                        <option value="2">Class 02</option>
+                        <option value="3">Class 03</option>
+                        <option value="4">Class 04</option>
+                        <option value="5">Class 05</option>
+                        <option value="6">Class 06</option>
+                        <option value="7">Class 07</option>
+                        <option value="8">Class 08</option>
+                        <option value="9">Class 09</option>
+                        <option value="10">Class 10</option>
                     </select>
                 </div>
-                <form method="get" action="{% url 'students:search_results'%}" class="col-search col-8">
+                {% endblock %}
+                <form method="get" action="{% url 'students:search_results'%}" class="col-search col-4">
                      <div class="input-group mb-3"> 
-                        <input type="text" class="form-control" placeholder="Search by name / class..." name="query" id="query">
+                        <input type="text" class="form-control" placeholder="Search by name" name="query" id="query">
                         <div class="input-group-append">
                             <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
                         </div>
@@ -75,17 +94,26 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script type="text/javascript">s 
-        function sort(){
-                        var sortid = $('#sort').val();
-                        $.ajax({
-                            type: "POST",
-                            url: "/sort/",
-                            data: { sortid: sortid },
-                        }).done(function(data){
-                            $('#cards').html(data.html);
-                        });
-                }
+    <script>
+       function selectClass() {
+           let x = document.getElementById("class").value;
+           var url = window.location.href
+            if (x != "--Select Class--")
+                {
+                    if(url.includes("select/") == false)
+                    {
+                        url = url + "select/" + x
+                        location.assign(url)
+                    }
+                    else
+                    {
+                        var new_url = url.split("select/")[0]
+                        new_url = new_url + "select/" + x
+                        location.assign(new_url)
+                    }
+                         
+                }  
+           }
     </script> 
     </body>
 </html>
