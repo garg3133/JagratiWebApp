@@ -62,10 +62,9 @@ class SortNameView(ListView): #Sort by Name Implementation
     template_name = 'students/search_results.html'
     
     def get_queryset(self): # new
-        query = self.request.GET.get('query')
+        query = self.kwargs['sort_by']
         print(query)
         if query == "asc":
-            print(Student.objects.filter().order_by('first_name'))
             return Student.objects.filter().order_by('first_name')
         elif query == "dsc":
             return Student.objects.filter().order_by('-first_name')

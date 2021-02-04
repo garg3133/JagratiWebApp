@@ -36,7 +36,7 @@
             <div class="row">
                 {% block filter %}
                 <form class="col-filter col-4 dropdown float-right" method="Post" action="">
-                    <select id="sort">
+                    <select id="sortName" onchange="sort()">
                         <option>--Sort Name By--</option>
                         <option value="asc">Ascending</option>
                         <option value="dsc">Descending</option>
@@ -100,18 +100,20 @@
            var url = window.location.href
             if (x != "--Select Class--")
                 {
-                    if(url.includes("select/") == false)
-                    {
-                        url = url + "select/" + x
-                        location.assign(url)
-                    }
-                    else
-                    {
-                        var new_url = url.split("select/")[0]
-                        new_url = new_url + "select/" + x
-                        location.assign(new_url)
-                    }
-                         
+                    var new_url = url.split('/')[2] + '/' + url.split('/')[3] + '/select/' + x
+                    console.log(url)
+                    console.log(new_url)
+                }  
+           }
+
+        function sort() {
+           let x = document.getElementById("sortName").value;
+           var url = window.location.href
+            if (x != "--Sort Name By--")
+                {
+                   let new_url = url.split('/')[2] + '/' + url.split('/')[3] + '/sort_by/' + x
+                   url = new_url
+                   location.assign(url)               
                 }  
            }
     </script> 
