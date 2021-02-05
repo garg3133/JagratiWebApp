@@ -216,5 +216,36 @@ def update_from_sheets(request):
 
     return render(request, 'students/update_from_sheets.html')
 
-def update_profile(req):
-    return HttpResponse('Hello there!')
+#update student profile
+
+@login_required
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
+def update_profile(request, pk):
+    profile = get_object_or_404(Student, id=pk)
+    villages = Student.VILLAGE
+
+    context = {
+        'profile': profile,
+        'villages':villages
+    }
+
+    if request.method == 'POST':
+
+        profile.first_name = request.POST['first_name']
+        profile.last_name = request.POST['last_name']
+        profile.gender = request.POST['gender']
+        profile.school_class = request.POST['school_class']
+        profile.village = request.POST['village']
+        profile.contact_no = request.POST['contact_no']
+        profile.guardian_name = request.POST['guardian_name']
+        profile.save()
+
+        messages.success(request, 'Profile updated Successfully!')
+        return redirect('students:profile', pk=pk)
+
+    return render(request, 'students/update_profile.html', context)
+
+
