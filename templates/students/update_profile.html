@@ -1,131 +1,152 @@
 {% extends 'layout.html' %}
+
 {% load static %}
+
 {% block title %} Jagrati | Update Student Profile {% endblock %}
+
 {% block style %}
 <style>
-   @media screen and (max-width: 600px) {
-   .container{
-   width: 85vw;
-   }
-   }
+    @media screen and (max-width: 600px) {
+        .container {
+            width: 85vw;
+        }
+    }
 </style>
 {% endblock %}
+
 {% block content %}
-<!-- UPDATE PROFILE -->
 <div class="container">
-<div class="py-3 mt-3 text-center">
-   <h2>
-      Update Student Profile
-   </h2>
+    <div class="py-3 mt-3 text-center">
+        <h2>
+            Update Student Profile
+        </h2>
+    </div>
+    <form method="POST" class="needs-validation" enctype="multipart/form-data" novalidate>
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-8 border rounded shadow px-5 py-4">
+                <div class="row justify-content-center">
+                    {% csrf_token %}
+                    <div class="col-md-4 mb-4 align-self-center text-center">
+                        {% if profile.profile_image %}
+                        <img class="rounded-circle" style="height: 150px; width: 150px;"
+                            src="{{ profile.profile_image.url }}" alt="profile_image">
+                        {% elif profile.gender == 'M' %}
+                        <img class="rounded-circle" style="height: 150px; width: 150px;"
+                            src="{% static 'home/images/man.png' %}" alt="profile_image">
+                        {% elif profile.gender == 'F' %}
+                        <img class="rounded-circle" style="height: 150px; width: 150px;"
+                            src="{% static 'home/images/woman.png' %}" alt="profile_image">
+                        {% else %}
+                        <img class="rounded-circle" style="height: 150px; width: 150px;"
+                            src="{% static 'home/images/man.png' %}" alt="profile_image">
+                        {% endif %}
+                    </div>
+
+                    <div class="col-md-8 my-3">
+                        <div class="row justify-content-center">
+                            <div class="col-6 mb-3 align-self-center">
+                                <label for="firstName">First name</label>
+                                <input name="first_name" type="text" class="form-control" id="firstName"
+                                    value="{{ profile.first_name }}" required>
+                            </div>
+                            <div class="invalid-feedback">
+                                Valid First Name is required.
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label for="lastName">Last name</label>
+                                <input name="last_name" type="text" class="form-control" id="lastName"
+                                    value="{{ profile.last_name }}" required>
+                            </div>
+                            <div class="invalid-feedback">
+                                Valid Last Name is required.
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-center">
+                            <div class="col-6 mb-3 align-self-center">
+                                <label for="gender">Gender</label>
+                                <select name="gender" class="custom-select d-block w-100" id="gender" required>
+                                    <option value="M" {% if profile.gender == "M" %} selected {% endif %}>Male</option>
+                                    <option value="F" {% if profile.gender == "F" %} selected {% endif %}>Female</option>
+                                    <option value="O" {% if profile.gender == "O" %} selected {% endif %}>Other</option>
+                                </select>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label for="schoolClass">Class</label>
+                                <input name="school_class" type="number" class="form-control" id="schoolClass"
+                                    value="{{ profile.school_class }}" min="1" max="15" required>
+                                <div class="invalid-feedback">
+                                    Please enter a valid class.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-center">
+                            <div class="col-6 mb-3 align-self-center">
+                                <label for="village">Village</label>
+                                <select name="village" class="custom-select d-block w-100" id="village" required>
+                                    {% for village_id, village_name in villages %}
+                                    <option value="{{ village_id }}" {% if profile.village == village_id %} selected {% endif %}>
+                                        {{ village_name }} </option>
+                                    {% endfor %}
+                                </select>
+                                <div class="invalid-feedback">
+                                    Please select a valid village name.
+                                </div>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label for="contactNo">Contact No.</label>
+                                <input name="contact_no" type="tel" pattern="[0-9]{10}" class="form-control"
+                                    id="contactNo" value="{{ profile.contact_no }}">
+                                <div class="invalid-feedback">
+                                    Please enter valid Contact No. (10 Digits).
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mx-1 mb-1">
+                            <label for="guardianName">Guardian name</label>
+                            <input name="guardian_name" type="text" class="form-control" id="guardianName"
+                                value="{{ profile.guardian_name }}" required>
+                            <div class="invalid-feedback">
+                                Please enter a Guardian name.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="mb-3">
+                <div class="row justify-content-center mb-3">
+                    <div class="col-md-6">
+                        <button name="submit" value="update-profile" class="btn btn-primary btn-lg btn-block"
+                            type="submit">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
-<form method="POST" class="needs-validation" enctype="multipart/form-data" novalidate>
-   <div class="row justify-content-center mb-5">
-      <div class="col-lg-8 border rounded shadow px-5 py-4">
-         <div class="row justify-content-center">
-            {% csrf_token %}
-            <div class="col-md-4 mb-4 align-self-center text-center">
-               {% if profile.profile_image %}
-               <img class="rounded-circle" style="height: 150px; width: 150px;" src="{{ profile.profile_image.url }}" alt="profile_image">
-               {% elif profile.gender == 'M' %}
-               <img class="rounded-circle" style="height: 150px; width: 150px;" src="{% static 'home/images/man.png' %}" alt="profile_image">
-               {% elif profile.gender == 'F' %}
-               <img class="rounded-circle" style="height: 150px; width: 150px;" src="{% static 'home/images/woman.png' %}" alt="profile_image">
-               {% else %}
-               <img class="rounded-circle" style="height: 150px; width: 150px;" src="{% static 'home/images/man.png' %}" alt="profile_image">
-               {% endif %}
-            </div>
-            <div class="col-md-8 my-3">
-               <div class="row justify-content-center">
-                  <div class="col-6 col-lg-6 mb-3 align-self-center">
-                     <label for="first_name">First name</label>
-                     <input name="first_name" type="text" class="form-control" id="firstName" value="{{ profile.first_name }}" required>
-                  </div>
-                  <div class="invalid-feedback">
-                     Valid First Name is required.
-                  </div>
-                  <div class="col-6 col-lg-6 mb-3">
-                     <label for="lastName">Last name</label>
-                     <input name="last_name" type="text" class="form-control" id="lastName" value="{{ profile.last_name }}" required>
-                  </div>
-                  <div class="invalid-feedback">
-                     Valid Last Name is required.
-                  </div>
-               </div>
-               <div class="row justify-content-center">
-                  <div class="col-6 col-lg-6 mb-3 align-self-center">
-                     <label for="gender">Gender</label>
-                     <select name="gender" class="custom-select d-block w-100" id="gender" required>
-                     <option value="M" {% if  profile.gender == "M" %} selected {% endif %} >Male</option>
-                     <option value="F" {% if  profile.gender == "F" %} selected {% endif %} >Female</option>
-                     <option value="O" {% if  profile.gender == "O" %} selected {% endif %} >Other</option>
-                     </select>
-                  </div>
-                  <div class="col-6 col-lg-6 mb-3">
-                     <label for="school_class">Class</label>
-                     <input name="school_class" type="number" class="form-control" id="school_class" value="{{ profile.school_class }}" min="1" max="15" required>
-                     <div class="invalid-feedback">
-                        Please enter a valid class.
-                     </div>
-                  </div>
-               </div>
-               <div class="row justify-content-center">
-                  <div class="col-6 col-lg-6 mb-3 align-self-center">
-                     <label for="village">Village</label>
-                     <select name="village" class="custom-select d-block w-100" id="village" required>
-                     {% for village_id, village_name in villages %}
-                     <option value={{ village_id }} {% if profile.village == village_id %} selected {% endif %}>{{ village_name }} </option>
-                     {% endfor %}
-                     </select>
-                     <div class="invalid-feedback">
-                        Please enter a valid village name.
-                     </div>
-                  </div>
-                  <div class="col-6 col-lg-6 mb-3">
-                     <label for="contactNo">Contact No.</label>
-                     <input name="contact_no" type="tel" pattern="[0-9]{10}" class="form-control" id="contactNo" value="{{ profile.contact_no }}">
-                     <div class="invalid-feedback">
-                        Please enter valid Contact No. (10 Digits) .
-                     </div>
-                  </div>
-               </div>
-               <div class="row mx-1 mb-1">
-                  <label for="guardianName">Guardian name</label>
-                  <input name="guardian_name" type="text" class="form-control" id="guardianName" value="{{ profile.guardian_name }}" required>
-                  <div class="invalid-feedback">
-                     Please enter a guardian name.
-                  </div>
-               </div>
-            </div>
-         </div>
-         <hr class="mb-3">
-         <div class="row justify-content-center mb-3">
-            <div class="col-md-6">
-               <button name="submit" value="update-profile" class="btn btn-primary btn-lg btn-block" type="submit">Update</button>
-            </div>
-         </div>
-      </div>
-</form>
-</div>
+{% endblock %}
+
 {% block scripts %}
 <script type="text/javascript">
-   (function () {
-       'use strict'
-       window.addEventListener('load', function () {
-           // Fetch all the forms we want to apply custom Bootstrap validation styles to
-           var forms = document.getElementsByClassName('needs-validation')
-   
-           // Loop over them and prevent submission
-           Array.prototype.filter.call(forms, function (form) {
-               form.addEventListener('submit', function (event) {
-               if (form.checkValidity() === false) {
-                   event.preventDefault()
-                   event.stopPropagation()
-               }
-               form.classList.add('was-validated')
-               }, false)
-           })
-       }, false)
-   }())
+    (function () {
+        'use strict'
+        window.addEventListener('load', function () {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        }, false)
+    }())
 </script>
-{% endblock %}
 {% endblock %}

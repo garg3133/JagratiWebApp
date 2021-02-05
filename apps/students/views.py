@@ -229,11 +229,10 @@ def update_profile(request, pk):
 
     context = {
         'profile': profile,
-        'villages':villages
+        'villages': villages,
     }
 
     if request.method == 'POST':
-
         profile.first_name = request.POST['first_name']
         profile.last_name = request.POST['last_name']
         profile.gender = request.POST['gender']
@@ -243,7 +242,7 @@ def update_profile(request, pk):
         profile.guardian_name = request.POST['guardian_name']
         profile.save()
 
-        messages.success(request, 'Profile updated Successfully!')
+        messages.success(request, 'Profile updated successfully!')
         return redirect('students:profile', pk=pk)
 
     return render(request, 'students/update_profile.html', context)
