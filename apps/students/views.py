@@ -225,7 +225,7 @@ def update_from_sheets(request):
 )
 def update_profile(request, pk):
     profile = get_object_or_404(Student, id=pk)
-    villages = Student._meta.get_field('village').choices
+    villages = Student.VILLAGE
 
     context = {
         'profile': profile,
@@ -244,7 +244,7 @@ def update_profile(request, pk):
         profile.save()
 
         messages.success(request, 'Profile updated Successfully!')
-        return redirect('students:index')
+        return redirect('students:profile', pk=pk)
 
     return render(request, 'students/update_profile.html', context)
 
