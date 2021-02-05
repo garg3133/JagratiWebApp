@@ -225,9 +225,11 @@ def update_from_sheets(request):
 )
 def update_profile(request, pk):
     profile = get_object_or_404(Student, id=pk)
+    villages = Student._meta.get_field('village').choices
 
     context = {
         'profile': profile,
+        'villages':villages
     }
 
     if request.method == 'POST':
