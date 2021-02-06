@@ -58,7 +58,7 @@
                     </select>
                 </div>
                 {% endblock %}
-                <form method="get" action="{% url 'students:search_results'%}" class="col-search col-4">
+               <form method="get" action="{% url 'students:search_results'%}" class="col-search col-4">
                      <div class="input-group mb-3"> 
                         <input type="text" class="form-control" placeholder="Search by name" name="query" id="query">
                         <div class="input-group-append">
@@ -95,26 +95,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script>
+       function redirect(name, value, url) {
+            url = url.split('/')[0] + '//' + url.split('/')[2] + '/' + url.split('/')[3] + `/${name}/` + value
+            location.href = url
+       }
+
+
+
        function selectClass() {
            let x = document.getElementById("class").value;
            var url = window.location.href
             if (x != "--Select Class--")
-                {
-                    var new_url = url.split('/')[2] + '/' + url.split('/')[3] + '/select/' + x
-                    console.log(url)
-                    console.log(new_url)
-                }  
+                redirect('select',x,url)
            }
 
         function sort() {
            let x = document.getElementById("sortName").value;
            var url = window.location.href
             if (x != "--Sort Name By--")
-                {
-                   let new_url = url.split('/')[2] + '/' + url.split('/')[3] + '/sort_by/' + x
-                   url = new_url
-                   location.assign(url)               
-                }  
+                redirect('sort_by',x,url)
            }
     </script> 
     </body>
