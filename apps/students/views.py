@@ -54,7 +54,7 @@ class SelectClassView(ListView): #Sort by Class Implementation
         query = self.kwargs['select']
         print(query)
         return Student.objects.filter(
-            Q(school_class__contains= query)
+            Q(school_class__exact = query)
         )
 
 class SortNameView(ListView): #Sort by Name Implementation
