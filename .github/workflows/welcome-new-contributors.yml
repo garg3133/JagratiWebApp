@@ -1,4 +1,4 @@
-name: Greetings
+name: 'Welcome new contributors'
 
 on:
   issues:
@@ -7,11 +7,11 @@ on:
     types: [opened]
 
 jobs:
-  greeting:
+  greet-the-contributor:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/first-interaction@v1
+    - uses: garg3133/welcome-new-contributors@v1
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
-        issue-message: 'Hi! Thanks for opening your first issue at JagratiWebApp, really appreciate it. :raised_hands:'
+        issue-message: 'Hi! Thanks for opening your first issue at JagratiWebApp. We really appreciate it. :raised_hands:'
         pr-message: 'Congratulations for making your first Pull Request at JagratiWebApp!! :tada: Someone from our team will review it soon.'
