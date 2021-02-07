@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from .forms import SectionAdminForm
 from .models import Calendar, ClassworkHomework, Schedule, Section
 
 @admin.register(Calendar)
@@ -24,6 +25,9 @@ class ScheduleAdmin(admin.ModelAdmin):
 
 @admin.register(Section)
 class SectionAdmin(admin.ModelAdmin):
-    list_display = ('section_id', 'name')
-    search_fields = ('name',)
+    form = SectionAdminForm
+
+    list_display = ('section_id', 'name', 'parent_section', 'is_parent_section')
+    search_fields = ('name', 'parent_section')
+    list_filter = ('parent_section', 'is_parent_section')
     ordering = ('section_id',)
