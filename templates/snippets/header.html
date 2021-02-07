@@ -67,11 +67,11 @@
             {% endif %}
 
             {% else %}
+             <li class="nav-item">
+                <a class="btn btn-outline-danger" href="{% url 'home:index' %}">Home</a>
+            </li>
             <li class="nav-item">
                 <a class="btn btn-outline-danger" href="{% url 'accounts:login_signup' %}">Sign In</a>
-            </li>
-            <li>
-                <a class="btn btn-outline-danger" href="{% url 'home:index' %}">Home</a>
             </li>
             {% endif %}
         </ul>
