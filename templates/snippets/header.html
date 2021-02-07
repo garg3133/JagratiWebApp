@@ -2,7 +2,6 @@
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 bg-dark border-bottom shadow-sm sticky-top">
     <h2 class="mb-3 my-md-0 mr-md-auto font-weight-normal">
         <a class="text-decoration-none" href="{% url 'home:index' %}" style="color:#ff8c00;">Jagrati</a>
-        <!--Change this-->
     </h2>
     <!-- <nav class="my-2 my-md-0 mr-md-3">
         <a class="p-2 text-dark" href="#">Features</a>
@@ -70,6 +69,9 @@
             {% else %}
             <li class="nav-item">
                 <a class="btn btn-outline-danger" href="{% url 'accounts:login_signup' %}">Sign In</a>
+            </li>
+            <li>
+                <a class="btn btn-outline-danger" href="{% url 'home:index' %}">Home</a>
             </li>
             {% endif %}
         </ul>
