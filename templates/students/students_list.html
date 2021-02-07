@@ -1,8 +1,4 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
 <html>
     <head>
 
@@ -11,7 +7,7 @@
 
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>{% block title %}Jagrati | Students List{% endblock %}</title>
+        <title> {% block title %}Jagrati | Students List{% endblock title%} </title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
@@ -38,24 +34,42 @@
          <!-- Search Bar -->
         <div class="search-bar">
             <div class="row">
+                {% block filter %}
+                <form class="col-filter col-4 dropdown float-right" method="Post" action="">
+                    <select id="sortName" onchange="sort()">
+                        <option>--Sort Name By--</option>
+                        <option value="asc">Ascending</option>
+                        <option value="dsc">Descending</option>
+                    </select>
+                </form>
                 <div class="col-filter col-4 dropdown float-right">
-                    <button class="btn btn-primary dropdown-toggle w-25" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Filter By
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item">Increasing Order (01 - 10)</a>
-                        <a class="dropdown-item">Decreasing Order (10 - 01)</a>
-                        <a class="dropdown-item">Show Class Only</a>
-                    </div>
+                    <select id="class" onchange="selectClass()">
+                        <option>--Select Class--</option>
+                        <option value="1">Class 01</option>
+                        <option value="2">Class 02</option>
+                        <option value="3">Class 03</option>
+                        <option value="4">Class 04</option>
+                        <option value="5">Class 05</option>
+                        <option value="6">Class 06</option>
+                        <option value="7">Class 07</option>
+                        <option value="8">Class 08</option>
+                        <option value="9">Class 09</option>
+                        <option value="10">Class 10</option>
+                    </select>
                 </div>
-                <div class="col-search col-8">
-                     <div class="input-group mb-3"> <input type="text" class="form-control">
-                    <div class="input-group-append"><button class="btn btn-primary"><i class="fas fa-search"></i></button></div>
-                    </div>
+                {% endblock %}
+               <form method="get" action="{% url 'students:search_results'%}" class="col-search col-4">
+                     <div class="input-group mb-3"> 
+                        <input type="text" class="form-control" placeholder="Search by name" name="query" id="query">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
+                        </div>
+                </form>
                 </div>
             </div>
         </div>
 
+        {% block content %}
         
          <!-- List Of Students -->
         <ul class="cards">
@@ -74,9 +88,33 @@
         {% endfor %}
         </ul>
 
+        {% endblock %}
+
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script>
+       function redirect(name, value, url) {
+            url = url.split('/')[0] + '//' + url.split('/')[2] + '/' + url.split('/')[3] + `/${name}/` + value
+            location.href = url
+       }
+
+
+
+       function selectClass() {
+           let x = document.getElementById("class").value;
+           var url = window.location.href
+            if (x != "--Select Class--")
+                redirect('select',x,url)
+           }
+
+        function sort() {
+           let x = document.getElementById("sortName").value;
+           var url = window.location.href
+            if (x != "--Sort Name By--")
+                redirect('sort_by',x,url)
+           }
+    </script> 
     </body>
 </html>
