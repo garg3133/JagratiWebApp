@@ -21,7 +21,8 @@ def index(request):
         return redirect('feedbacks:feedback_submitted')
 
     context = {
-        'logout_redirect_site' : 'feedback',
+        'logout_redirect_site': request.path,
+        'login_redirect_site': request.path,
     }
     return render(request, 'feedbacks/index.html', context)
 

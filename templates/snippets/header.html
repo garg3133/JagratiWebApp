@@ -1,3 +1,4 @@
+<!-- PLEASE IGNORE THE COMMENTS BELOW -->
 {% comment %}
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 bg-dark border-bottom shadow-sm sticky-top">
     <h2 class="mb-3 my-md-0 mr-md-auto font-weight-normal">
@@ -23,7 +24,10 @@
     {% endif %}
 </div>
 {% endcomment %}
+<!-- COMMENTS END HERE -->
 
+
+<!-- HEADER STARTS HERE -->
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top p-3 px-md-4">
     <h2 class="my-0 mr-md-auto font-weight-normal">
         <a class="text-decoration-none" href="{% url 'home:index' %}" style="color:#ff8c00;">Jagrati</a>
@@ -34,43 +38,27 @@
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavbar">
         <ul class="navbar-nav">
-            <!-- <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
+            {% if not user.is_authenticated %}
+            <li class="nav-item">
+                <a class="btn btn-outline-success"
+                    href="{% url 'home:index' %}">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
+                <a class="btn btn-outline-danger"
+                   href="{% url 'accounts:login_signup' %}{% if login_redirect_site %}?next={{ login_redirect_site }}{% endif %}">
+                    Sign In
+                </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li> -->
-
-            <!-- <li class="nav-item">
-                <a class="nav-link" href="#">Home</a>
-            </li> -->
-            {% if user.is_authenticated %}
+            {% else %}
             <li class="nav-item">
                 <a class="btn btn-outline-success mr-sm-3 mb-2 mt-3 my-sm-0"
                     href="{% url 'home:dashboard' %}">Dashboard</a>
             </li>
-
-            <!-- Used in Feedbacks Page -->
-            {% if logout_redirect_site %}
             <li class="nav-item">
                 <a class="btn btn-outline-danger"
-                    href="{% url 'accounts:logout' %}?next={{ logout_redirect_site }}">Sign Out</a>
-            </li>
-            {% else %}
-            <li class="nav-item">
-                <a class="btn btn-outline-danger" href="{% url 'accounts:logout' %}">Sign Out</a>
-            </li>
-            {% endif %}
-
-            {% else %}
-            <li class="nav-item">
-                <a class="btn btn-outline-success" href="{% url 'home:index' %}">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="btn btn-outline-danger" href="{% url 'accounts:login_signup' %}">Sign In</a>
+                   href="{% url 'accounts:logout' %}{% if logout_redirect_site %}?next={{ logout_redirect_site }}{% endif %}">
+                    Sign Out
+                </a>
             </li>
             {% endif %}
         </ul>
