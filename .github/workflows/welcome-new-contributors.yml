@@ -10,9 +10,9 @@ jobs:
   greet-the-contributor:
     runs-on: ubuntu-latest
     steps:
-    - uses: garg3133/welcome-new-contributors@v1.0
+    - uses: garg3133/welcome-new-contributors@v1.1
       with:
         token: ${{ secrets.BOT_ACCESS_TOKEN }}
         is-oauth-token: true
-        issue-message: 'Hi! Thanks for opening your first issue at JagratiWebApp. We really appreciate it. :raised_hands:'
+        issue-message: 'Hi! Thanks for opening your first issue at JagratiWebApp :rocket: We really appreciate it. :raised_hands:'
         pr-message: 'Congratulations for making your first Pull Request at JagratiWebApp!! :tada: Someone from our team will review it soon.'
