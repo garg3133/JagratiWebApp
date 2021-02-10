@@ -82,6 +82,9 @@
         margin: 5px 0;
     }
 
+    .wbreak {
+        word-wrap: break-word;
+    }
 
     @media(max-width: 767px){
         .sidebar{
@@ -113,32 +116,41 @@
         <nav class="collapse col-md-4 col-lg-3 d-md-block bg-light sidebar" id="dash-sidebar">
             <div class="sidebar-sticky pb-4 pb-md-0">
                 <ul class="sidebar-list nav flex-column text-center">
-                    <li class="nav-item">
-                        {% if profile.profile_image %}
-                            <img class="sidebar-img rounded-circle my-3" src='{{ profile.profile_image.url }}' alt="v">
-                        {% elif profile.gender == 'M' %}
-                            <img class="sidebar-img rounded-circle my-3" src="{% static 'home/images/man.png' %}" alt="v">
-                        {% elif profile.gender == 'F' %}
-                            <img class="sidebar-img rounded-circle my-3" src="{% static 'home/images/woman.png' %}" alt="v">
-                        {% else %}
-                            <img class="sidebar-img my-3" src="{% static 'home/logo.png' %}" alt="v">
+                    <div class="card px-2 py-2 mt-4 shadow-sm bg-white">
+                        <li class="nav-item">
+                            {% if profile.profile_image %}
+                                <img class="sidebar-img rounded-circle my-3" src='{{ profile.profile_image.url }}' alt="v">
+                            {% elif profile.gender == 'M' %}
+                                <img class="sidebar-img rounded-circle my-3" src="{% static 'home/images/man.png' %}" alt="v">
+                            {% elif profile.gender == 'F' %}
+                                <img class="sidebar-img rounded-circle my-3" src="{% static 'home/images/woman.png' %}" alt="v">
+                            {% else %}
+                                <img class="sidebar-img my-3" src="{% static 'home/logo.png' %}" alt="v">
+                            {% endif %}
+                            <!--  rounded-circle -->
+                        </li>
+
+                        {% if profile is not None %}
+                            <li class="nav-item">
+                                <h5>{{ profile.get_full_name }}</h5>
+                            </li>
+                            <li class="nav-item">
+                                <h5 class="wbreak">{{ user.email }}</h5>
+                            </li>
+                            {% if volun.desig is None %}
+                                <li class="nav-item">
+                                    <h5 class="text-danger">Volunteer</h5>
+                                </li>
+                            {% else %} 
+                                <li class="nav-item">
+                                    <h5>{{ volun.desig.name }}</h5>
+                                </li>
+                            {% endif %}
                         {% endif %}
-                        <!--  rounded-circle -->
-                    </li>
 
-                    {% if profile is not None %}
-                        <li class="nav-item">
-                            <h5>Name: <span class="lead"> {{ profile.get_full_name }}</span> </h5>
-                        </li>
-                        <li class="nav-item">
-                            <h5>Roll No: <span class="lead">{{ volun.roll_no }}</span> </h5>
-                        </li>
-                    {% endif %}
-
-                    <li class="nav-item">
-                        <h5>Email: <span class="lead">{{ user.email }}</span> </h5>
-                    </li>
-
+                        <a href="{% url 'volunteers:profile' profile.user_id %}" class="stretched-link"></a>
+                    </div>
+                    
                     {% if volun.desig is None %}
                         <li class="nav-item">
                             <h5 class="mt-3">Schedule</h5>
