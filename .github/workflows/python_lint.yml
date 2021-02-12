@@ -3,7 +3,7 @@
 ## PyLint GitHub Actions ##
 ###########################
 ###########################
-name: PyLint Code Base
+name: Lint the Code Base
 
 #
 # Documentation:
