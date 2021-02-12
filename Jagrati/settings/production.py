@@ -2,7 +2,7 @@
 
 from .base import *
 
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = config("SECRET_KEY")
 
 DEBUG = config("DEBUG", cast=bool)
 
@@ -12,21 +12,21 @@ ALLOWED_HOSTS = ast.literal_eval(config("ALLOWED_HOSTS"))
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'NAME': config("DB_NAME"),
-        'ENGINE': 'mysql.connector.django',
-        'USER': config("DB_USER"),
-        'PASSWORD': config("DB_PASS"),
-        'HOST' : config("DB_HOST"),
-        'OPTIONS': {
-            'autocommit': True,
+    "default": {
+        "NAME": config("DB_NAME"),
+        "ENGINE": "mysql.connector.django",
+        "USER": config("DB_USER"),
+        "PASSWORD": config("DB_PASS"),
+        "HOST": config("DB_HOST"),
+        "OPTIONS": {
+            "autocommit": True,
         },
     }
 }
 
 # EMAIL SETTINGS
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool)
 # EMAIL_USE_SSL = config("EMAIL_USE_SSL", cast=bool)
@@ -43,11 +43,13 @@ ADMINS_EMAIL = ast.literal_eval(config("ADMINS_EMAIL"))
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_ROOT = config("STATIC_ROOT")
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
 
 MEDIA_ROOT = config("MEDIA_ROOT")
-MEDIA_URL = '/media/'
+MEDIA_URL = "/media/"
 
 TEMP_ROOT = config("TEMP_ROOT")
 
-STATICFILES_DIRS = [ BASE_DIR+"/static", ]
+STATICFILES_DIRS = [
+    BASE_DIR + "/static",
+]

@@ -43,7 +43,8 @@ class UserAdmin(BaseUserAdmin):
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         ('Personal info', {'fields': ('desig',)}),
-        ('Permissions', {'fields': ('is_active', 'auth', 'is_staff', 'is_superuser')}),
+        ('Permissions', {'fields': ('is_active',
+                                    'auth', 'is_staff', 'is_superuser')}),
         ('Permissions and Groups', {'fields': ('user_permissions', 'groups')}),
         ('Others', {'fields': ('date_joined', 'last_login')}),
     )
@@ -53,10 +54,11 @@ class UserAdmin(BaseUserAdmin):
         (None, {
             'classes': ('wide',),
             'fields': ('email', 'password1', 'password2', 'desig')}
-        ),
+         ),
     )
 
     ordering = ('email',)
+
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
@@ -80,6 +82,7 @@ class ProfileAdmin(admin.ModelAdmin):
     get_auth.short_description = 'Auth'
     get_auth.admin_order_field = 'user__auth'
     get_auth.boolean = True
+
 
 @admin.register(AuthorisedDevice)
 class AuthorisedDeviceAdmin(admin.ModelAdmin):
