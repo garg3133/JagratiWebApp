@@ -16,6 +16,8 @@ name: PyLint Code Base
 on:
   pull_request:
     branches: [master]
+  push:
+    branches: [master]
 
 ###############
 # Set the Job #
