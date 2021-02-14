@@ -7,7 +7,10 @@ db.sqlite3
 media
 **/migrations/*
 !**/migrations/__init__.py
+
+# IDEs #
 .vscode
+.idea
 
 # Backup files # 
 *.bak 
