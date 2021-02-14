@@ -282,3 +282,15 @@ def ajax_update_schedule(request):
         data[sch.section.section_id] = sch.section.name
 
     return JsonResponse(data)
+
+@login_required
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
+@user_passes_test(
+    is_volunteer, redirect_field_name=None,
+    login_url=reverse_lazy('home:dashboard')
+)
+def class_schedule(request):
+    return render(request, 'volunteers/class_schedule.html')    
