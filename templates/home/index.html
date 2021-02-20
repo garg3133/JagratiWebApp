@@ -12,35 +12,6 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.theme.min.css">
-    <style type="text/css">
-    	#myBtn {
-            display: none;
-            position: fixed;
-            bottom: 15px;
-            right: 10px;
-            z-index: 99;
-            font-size: 25px;
-            border: none;
-            outline: none;
-            background-color: #ff8c00;
-            color: white;
-            font-color: blue;
-            cursor: pointer;
-            padding: 6px;
-            border-radius: 50%;
-            height: 50px;
-            width: 50px;
-        }
-
-        .fa-angle-double-up {
-            font-weight: bolder;
-        }
-
-        #myBtn:hover {
-            background-color: #D3D3D3;
-        }
-
-    </style>
 
 {% endblock %}
 
@@ -141,8 +112,6 @@
         </div>
     </section>
     <!-- Showcase ends -->
-
-    <button onclick="topFunction()" id="myBtn" title="Go to top" class="ml-5"><i class="fa fa-angle-double-up" aria-hidden="true" style="color: black;font-weight: bolder;"></i></button>
 
     <!-- About section starts -->
     <section id="about-us">
@@ -453,6 +422,9 @@
     </div>
     <!-- Contact Us section ends -->
 
+    <!-- Scroll to top button --->
+    <button onclick="topFunction()" id="scrollToTopButton" title="Go to top" class="ml-5"><i class="fa fa-angle-double-up" aria-hidden="true" style="color: black;font-weight: bolder;"></i></button>
+
     <!-- Footer starts -->
     <footer>
         <div class="container">
@@ -467,13 +439,13 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         
-        var mybutton = document.getElementById("myBtn");
+        var scrollTopButton = document.getElementById("scrollToTopButton");
         window.onscroll = function() {scrollFunction()};
         function scrollFunction() {
             if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                mybutton.style.display = "block";
+                scrollTopButton.style.display = "block";
             } else {
-                mybutton.style.display = "none";
+                scrollTopButton.style.display = "none";
             }
         }
 

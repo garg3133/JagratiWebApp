@@ -755,6 +755,32 @@ nav{
 	margin-right: 8px;
 	font-size: 16px;
 }
+/*SCROLL TO TOP BUTTON*/
+
+#scrollToTopButton {
+    display: none;
+    position: fixed;
+    bottom: 15px;
+    right: 10px;
+    z-index: 99;
+    font-size: 25px;
+    border: none;
+    outline: none;
+    background-color: #ff8c00;
+    color: white;
+    font-color: blue;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+}
+.fa-angle-double-up {
+    font-weight: bolder;
+}
+#scrollToTopButton:hover {
+    background-color: #D3D3D3;
+}
 /*FOOTER STARTS*/
 
 footer{
