@@ -105,7 +105,17 @@ And additional requirements are in [**requirements.txt**](https://github.com/gar
   * Migrate the changes to the database `$ python manage.py migrate`
   * Create admin `$ python manage.py createsuperuser`
   * Run the server `$ python manage.py runserver`
- 
+
+ ### Setting-up the project in docker
+    Docker  use OS-level virtualization to deliver software in packages called containers. Containers are isolated from one another and bundle their own software, libraries and configuration files. For instance when you want to contribute to this project and you have a fresh OS or you are working from a alien system or environment. You can directly proceed to contribute to code. Docker will take care of the rest like setting up a fully functional environment for testing. 
+  * Clone the repository to your local machine `$ git clone https://github.com/<your-github-username>/JagratiWebApp.git`
+  * Build the docker file to an image `sudo docker build -t IMAGE_NAME .`
+  * Run the docker image `sudo docker run -p 8000:8000 image_name`
+  * The server will start at default port, head to web browser to test
+
+ **Note:** Docker container will copy the files in the repository, One should always do proceduers in setting up project like configuring `.env` file and `sample-db.sqlite3` renaming.
+
+
 
 ### Contributing Guidelines 
   * Feel free to open an issue to report a bug or request a new feature.
