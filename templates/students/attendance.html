@@ -92,7 +92,7 @@
         let stu_class = $(this).val();
 
         $.ajax({
-            url: "{% url 'students:ajax_attendance' %}",
+            url: "{% url 'students:ajax_attendance_fetch_students' %}",
             data: {
                 'stu_class': stu_class,
             },
