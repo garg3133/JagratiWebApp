@@ -172,6 +172,7 @@ def ajax_attendance_fetch_students(request):
 
     return JsonResponse(data)
 
+
 def ajax_student_attendance(request):
     stu_id = request.GET['std_id']
     stu_att = StudentAttendance.objects.get(student__id=stu_id, cal_date=today_date)
@@ -179,6 +180,7 @@ def ajax_student_attendance(request):
     stu_att.save()
     data = {'success': True}
     return JsonResponse(data)
+
 
 @login_required
 @user_passes_test(
@@ -199,7 +201,7 @@ def update_from_sheets(request):
         sheet_obj = wb_obj.active
         max_row = sheet_obj.max_row
 
-        for i in range(3, max_row+1):
+        for i in range(3, max_row + 1):
             first_name = sheet_obj.cell(row=i, column=2).value
             last_name = sheet_obj.cell(row=i, column=3).value
             school_class = sheet_obj.cell(row=i, column=4).value
@@ -223,7 +225,7 @@ def update_from_sheets(request):
 
     return render(request, 'students/update_from_sheets.html')
 
-#update student profile
+# update student profile
 
 @login_required
 @user_passes_test(
