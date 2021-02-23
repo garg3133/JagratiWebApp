@@ -59,7 +59,7 @@
                             <td>
                                 <div class="custom-control custom-switch">
                                     <input type="checkbox" name="attended" value="{{stu_att.student.id}}" class="custom-control-input"
-                                        id="s{{ stu_att.id }}" {% if stu_att.present %}checked{% endif %}>
+                                        id="s{{ stu_att.id }}" onchange="attendance({{ stu_att.student.id }})" {% if stu_att.present %}checked{% endif %}>
                                     <label class="custom-control-label" for="s{{ stu_att.id }}"></label>
                                 </div>
                             </td>
@@ -82,6 +82,21 @@
 {% endblock %}
 
 {% block scripts-sidebar %}
+
+<script>
+    function attendance (student_id) {
+        $.ajax({
+            url: "{% url 'students:ajax_student_attendance' %}",
+            data: {
+                'std_id': student_id,
+            },
+            dataType: 'json',
+            success: function (data) {
+
+            }
+        });
+    }
+</script>
 
 <!-- AJAX for Student Attendance -->
 

@@ -172,6 +172,13 @@ def ajax_attendance_fetch_students(request):
 
     return JsonResponse(data)
 
+def ajax_student_attendance(request):
+    stu_id = request.GET['std_id']
+    stu_att = StudentAttendance.objects.get(student__id=stu_id, cal_date=today_date)
+    stu_att.present = not stu_att.present
+    stu_att.save()
+    data = {'success': True}
+    return JsonResponse(data)
 
 @login_required
 @user_passes_test(
