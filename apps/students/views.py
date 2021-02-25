@@ -17,7 +17,6 @@ from home.models import Calendar, Schedule
 from home.views import has_authenticated_profile
 from .models import Student, StudentAttendance, StudentSchedule
 
-
 # GLOBAL VARIABLES
 today_date = date.today()
 today_day = today_date.strftime("%w")
@@ -54,7 +53,6 @@ def profile(request, pk):
 )
 # @permissions_required
 def new_student(request):
-
     if request.method == 'POST':
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
@@ -97,7 +95,7 @@ def attendance(request):
     # ...TILL HERE
 
     context = {
-        'today_date' : today_date,
+        'today_date': today_date,
     }
 
     if today_cal.class_scheduled:
@@ -108,7 +106,8 @@ def attendance(request):
                 stu_attendance = StudentAttendance(student=stu_sch.student, cal_date=today_cal)
                 stu_attendance.save()
 
-        elif StudentAttendance.objects.filter(cal_date__date=today_date).count() != StudentSchedule.objects.filter(day=today_day).count():
+        elif StudentAttendance.objects.filter(cal_date__date=today_date).count() != StudentSchedule.objects.filter(
+                day=today_day).count():
             # Some new students added in today's schedule (not necessarily present today)
             today_stu_sch = StudentSchedule.objects.filter(day=today_day)
             for stu_sch in today_stu_sch:
@@ -145,7 +144,7 @@ def attendance(request):
 
     context['stu_att_today'] = StudentAttendance.objects.filter(
         cal_date=today_cal, student__school_class__range=(1, 3)).order_by(
-            'student__school_class', 'student__first_name', 'student__last_name')
+        'student__school_class', 'student__first_name', 'student__last_name')
 
     return render(request, 'students/attendance.html', context)
 
@@ -189,7 +188,6 @@ def ajax_student_attendance(request):
 )
 # @permissions_required
 def update_from_sheets(request):
-
     if request.method == 'POST':
         sheet = request.FILES['sheet']
         # Temporarily save the file
@@ -209,14 +207,17 @@ def update_from_sheets(request):
             guardian_name = sheet_obj.cell(row=i, column=6).value
             contact_no = sheet_obj.cell(row=i, column=7).value
 
-            if not Student.objects.filter(first_name=first_name, last_name=last_name, school_class=school_class, village=village, guardian_name=guardian_name).exists():
-                student = Student(first_name=first_name, last_name=last_name, school_class=school_class, village=village, guardian_name=guardian_name)
+            if not Student.objects.filter(first_name=first_name, last_name=last_name, school_class=school_class,
+                                          village=village, guardian_name=guardian_name).exists():
+                student = Student(first_name=first_name, last_name=last_name, school_class=school_class,
+                                  village=village, guardian_name=guardian_name)
                 if contact_no is not None:
                     student.contact_no = contact_no
                 student.save()
                 for day, day_name in Schedule.DAY:
                     print(day)
-                    stu_sch = StudentSchedule(student=student, schedule=Schedule.objects.get(day=day, section__section_id='4A'))
+                    stu_sch = StudentSchedule(student=student,
+                                              schedule=Schedule.objects.get(day=day, section__section_id='4A'))
                     stu_sch.save()
         # Delete the file
         os.remove(file_path)
@@ -224,6 +225,7 @@ def update_from_sheets(request):
         return redirect('students:index')
 
     return render(request, 'students/update_from_sheets.html')
+
 
 # update student profile
 
@@ -255,5 +257,3 @@ def update_profile(request, pk):
         return redirect('students:profile', pk=pk)
 
     return render(request, 'students/update_profile.html', context)
-
-
