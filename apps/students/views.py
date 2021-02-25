@@ -155,7 +155,7 @@ def attendance(request):
     login_url=reverse_lazy('accounts:complete_profile')
 )
 # @permissions_required
-def ajax_attendance_fetch_students(request):
+def ajax_fetch_students(request):
     today_cal = Calendar.objects.get(date=today_date)
     data = {}
     stu_class = request.GET.get('stu_class', None)
@@ -172,7 +172,7 @@ def ajax_attendance_fetch_students(request):
     return JsonResponse(data)
 
 
-def ajax_student_attendance(request):
+def ajax_mark_attendance(request):
     stu_id = request.GET['std_id']
     stu_att = StudentAttendance.objects.get(student__id=stu_id, cal_date=today_date)
     stu_att.present = not stu_att.present

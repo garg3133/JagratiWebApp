@@ -92,7 +92,7 @@
     <script>
         function attendance(student_id) {
             $.ajax({
-                url: "{% url 'students:ajax_student_attendance' %}",
+                url: "{% url 'students:ajax_mark_attendance' %}",
                 data: {
                     'std_id': student_id,
                 },
@@ -113,7 +113,7 @@
             let stu_class = $(this).val();
 
             $.ajax({
-                url: "{% url 'students:ajax_attendance_fetch_students' %}",
+                url: "{% url 'students:ajax_fetch_students' %}",
                 data: {
                     'stu_class': stu_class,
                 },

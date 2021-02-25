@@ -14,7 +14,7 @@ urlpatterns = [
     path('update_from_sheets/', views.update_from_sheets, name='update_from_sheets'),
 
     # AJAX calls
-    path('ajax/ajax_attendance_fetch_students/', views.ajax_attendance_fetch_students, name='ajax_attendance_fetch_students'),
-    path('ajax/ajax_student_attendance/', views.ajax_student_attendance, name='ajax_student_attendance'),
+    path('ajax/fetch_students/', views.ajax_fetch_students, name='ajax_fetch_students'),
+    path('ajax/mark_attendance/', views.ajax_mark_attendance, name='ajax_mark_attendance'),
 
 ]
