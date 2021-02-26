@@ -62,7 +62,8 @@
                                             <input type="checkbox" name="attended" value="{{ stu_att.student.id }}"
                                                    class="custom-control-input"
                                                    id="s{{ stu_att.id }}"
-                                                   onchange="attendance({{ stu_att.student.id }})"
+                                                   onchange="attendance({{ stu_att.student.id }},
+                                                           {{ stu_att.present|yesno:"true, false" }})"
                                                    {% if stu_att.present %}checked{% endif %}>
                                             <label class="custom-control-label" for="s{{ stu_att.id }}"></label>
                                         </div>
@@ -90,15 +91,28 @@
 {% block scripts-sidebar %}
 
     <script>
-        function attendance(student_id) {
+        function attendance(student_id, is_present) {
             $.ajax({
                 url: "{% url 'students:ajax_mark_attendance' %}",
                 data: {
                     'std_id': student_id,
+                    'is_present': !is_present,
                 },
                 dataType: 'json',
                 success: function (data) {
+                    $('#alert-toast-div > div').html(
+                            `<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3500">
+                                <div class="toast-body p-2 px-3">
+                                    <strong class="mr-auto">Attendance marked successfully.</strong>
+                                    <button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            </div>`
+                        )
 
+                        $("#alert_toast").toast("show");
+                        $("#alert_toast").addClass("bg-success");
                 }
             });
         }

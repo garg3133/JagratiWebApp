@@ -174,12 +174,14 @@ def ajax_fetch_students(request):
 
 def ajax_mark_attendance(request):
     stu_id = request.GET['std_id']
+    is_present = request.GET['is_present']
+    print(is_present)
     stu_att = StudentAttendance.objects.get(student__id=stu_id, cal_date=today_date)
     stu_att.present = not stu_att.present
+    stu_att.present = True if is_present else False
     stu_att.save()
     data = {'success': True}
     return JsonResponse(data)
-
 
 @login_required
 @user_passes_test(
