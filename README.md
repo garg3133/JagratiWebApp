@@ -122,9 +122,9 @@ And additional requirements are in [**requirements.txt**](https://github.com/gar
 
 <p align="center">
  <a>
- <img  width="240" height="240" src="https://media-exp1.licdn.com/dms/image/C560BAQGh8hr-FgbrHw/company-logo_200_200/0/1602422883512?e=2159024400&v=beta&t=s8IX2pN1J2v5SRRbgzVNzxnQ2rWeeMq2Xb__BYW60qE">
+ <img  width="200" height="200" src="https://media-exp1.licdn.com/dms/image/C560BAQGh8hr-FgbrHw/company-logo_200_200/0/1602422883512?e=2159024400&v=beta&t=s8IX2pN1J2v5SRRbgzVNzxnQ2rWeeMq2Xb__BYW60qE">
 
- <img  width="120" height="140"  src="https://external.fblr4-2.fna.fbcdn.net/safe_image.php?d=AQFdOeGQcpE6LrK8&w=540&h=282&url=https%3A%2F%2Fi.ytimg.com%2Fvi%2FRXbETaqr1ac%2Fhqdefault.jpg&cfs=1&upscale=1&fallback=news_d_placeholder_publisher&_nc_cb=1&_nc_hash=AQFetEESAS7g_oRZ">
+ <img  width="300" height="140"  src="https://external.fblr4-2.fna.fbcdn.net/safe_image.php?d=AQFdOeGQcpE6LrK8&w=540&h=282&url=https%3A%2F%2Fi.ytimg.com%2Fvi%2FRXbETaqr1ac%2Fhqdefault.jpg&cfs=1&upscale=1&fallback=news_d_placeholder_publisher&_nc_cb=1&_nc_hash=AQFetEESAS7g_oRZ">
  
 </p>
 
