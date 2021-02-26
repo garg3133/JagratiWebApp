@@ -96,7 +96,7 @@
                 url: "{% url 'students:ajax_mark_attendance' %}",
                 data: {
                     'std_id': student_id,
-                    'is_present': !is_present,
+                    'is_present': is_present,
                 },
                 dataType: 'json',
                 success: function (data) {
