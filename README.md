@@ -127,3 +127,20 @@ And additional requirements are in [**requirements.txt**](https://github.com/gar
  <img  width="420" height="120"  src="https://external.fblr4-2.fna.fbcdn.net/safe_image.php?d=AQFdOeGQcpE6LrK8&w=540&h=282&url=https%3A%2F%2Fi.ytimg.com%2Fvi%2FRXbETaqr1ac%2Fhqdefault.jpg&cfs=1&upscale=1&fallback=news_d_placeholder_publisher&_nc_cb=1&_nc_hash=AQFetEESAS7g_oRZ">
  
 </p>
+
+</br>
+
+## 🌟 Contributors 
+
+Thanks to these wonderful people ✨✨:
+
+<table>
+	<tr>
+		<td>
+			<a href="https://github.com/garg3133/JagratiWebApp/graphs/contributors">
+  				<img src="https://contrib.rocks/image?repo=garg3133/JagratiWebApp" />
+			</a>
+		</td>
+	</tr>
+</table>
+
