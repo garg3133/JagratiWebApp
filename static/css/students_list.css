@@ -1,0 +1,134 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+
+.navbar {
+    background: rgba(255, 140, 0, 0.55);
+}
+
+.nav-text {
+    display: flex;
+    flex-shrink: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    position: absolute;
+    left: 50%;
+    transform: translatex(-50%);    
+}
+
+.search-bar {
+    display: flex;
+    padding: 10px 10px;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.col-filter, .col-search {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex: 1;
+}
+
+.form-control {
+    border-radius: 7px;
+    border: 1.5px solid #E3E6ED;
+}
+
+input.form-control:focus {
+    box-shadow: none;
+    border: 1.5px solid #E3E6ED;
+    background-color: #F7F8FD;
+    letter-spacing: 1px
+}
+
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.cards__item {
+    display: flex;
+    padding: 1rem;
+
+    @media(min-width: 40rem) {
+        width: 50%;
+    }
+
+    @media(min-width: 56rem) {
+        width: 33.3333%;
+    }
+}
+
+.card {
+    background-color: white;
+    border-radius: 0.25rem;
+    box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    &:hover {
+        .card__image {
+            filter: contrast(100%);
+        }
+    }
+}
+
+.card__content {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    padding: 1rem;
+    background: rgba(196, 196, 196, 0.5);
+}
+
+.card__image {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+    filter: contrast(70%);
+    overflow: hidden;
+    position: relative;
+    padding: 30px 30px;
+    transition: filter 0.5s cubic-bezier(.43, .41, .22, .91);
+    ;
+
+
+    @media(min-width: 40rem) {
+        &::before {
+            padding-top: 66.6%; // 3:2 aspect ratio
+        }
+    }
+}
+
+
+.card__title {
+    color: #666666;
+    font-size: 1.25rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.card__text {
+    flex: 1 1 auto;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+}
