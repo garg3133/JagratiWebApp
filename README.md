@@ -107,14 +107,34 @@ And additional requirements are in [**requirements.txt**](https://github.com/gar
   * Run the server `$ python manage.py runserver`
 
  ### Setting-up the project in docker
-    Docker  use OS-level virtualization to deliver software in packages called containers. Containers are isolated from one another and bundle their own software, libraries and configuration files. For instance when you want to contribute to this project and you have a fresh OS or you are working from a alien system or environment. You can directly proceed to contribute to code. Docker will take care of the rest like setting up a fully functional environment for testing. 
+
+  * Download and install Git.
+  * Fork the Repository.
   * Clone the repository to your local machine `$ git clone https://github.com/<your-github-username>/JagratiWebApp.git`
+  * Change directory to JagratiWebApp `$ cd JagratiWebApp`
+  * Create a new file in root folder of repository (`JagratiWebApp`) with name `.env` (only `.env` and not `.env.txt`) and add the following content in it:
+    ```
+    EMAIL_HOST_USER = 'your-email@domain.com'
+    EMAIL_HOST_PASSWORD = 'your-password'
+
+    SENDER_EMAIL = 'Jagrati <your-email@domain.com>'
+    ADMINS_EMAIL = ['email-address-of-admin@domain.com']
+
+    SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'google-oauth2-key'
+    SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'google-oauth2-secret'
+    ```
+    
+    where, 
+    * `EMAIL_HOST_USER` and `SENDER_EMAIL` is the email address of your Gmail account from which you want to send emails (By default, Django will output email contents in console. To actually send emails to real users, comment line 27 and uncomment line 28 in `Jagrati/settings/development.py`).
+    * `EMAIL_HOST_PASSWORD` is the password for that Gmail account.
+    * `ADMINS_EMAIL` is a list of email addresses of Admins of the site (who will recieve important updates from the site like when a new user joins in).
+    * `SOCIAL_AUTH_GOOGLE_OAUTH2_KEY` and `SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET` are the API keys for login/signup using Google.
+   
+  * Create a copy of `sample-db.sqlite3` in root directory (`JagratiWebApp`) and rename it as `db.sqlite3`.
+    
   * Build the docker file to an image `sudo docker build -t IMAGE_NAME .`
   * Run the docker image `sudo docker run -p 8000:8000 image_name`
   * The server will start at default port, head to web browser to test
-
- **Note:** Docker container will copy the files in the repository, One should always do proceduers in setting up project like configuring `.env` file and `sample-db.sqlite3` renaming.
-
 
 
 ### Contributing Guidelines 
