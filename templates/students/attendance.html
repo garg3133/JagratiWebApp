@@ -62,8 +62,7 @@
                                             <input type="checkbox" name="attended" value="{{ stu_att.student.id }}"
                                                    class="custom-control-input"
                                                    id="s{{ stu_att.id }}"
-                                                   onchange="attendance({{ stu_att.student.id }},
-                                                           {{ stu_att.present|yesno:"true, false" }})"
+                                                   onchange="attendance({{ stu_att.student.id }}, {{ stu_att.id }})"
                                                    {% if stu_att.present %}checked{% endif %}>
                                             <label class="custom-control-label" for="s{{ stu_att.id }}"></label>
                                         </div>
@@ -91,7 +90,10 @@
 {% block scripts-sidebar %}
 
     <script>
-        function attendance(student_id, is_present) {
+        function attendance(student_id, checkboxID) {
+            let student = document.getElementById('s' + checkboxID);
+            let is_present = student.checked;
+            console.log(is_present);
             $.ajax({
                 url: "{% url 'students:ajax_mark_attendance' %}",
                 data: {
@@ -99,20 +101,36 @@
                     'is_present': is_present,
                 },
                 dataType: 'json',
-                success: function (data) {
+                success: function (data, status) {
                     $('#alert-toast-div > div').html(
-                            `<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3500">
-                                <div class="toast-body p-2 px-3">
-                                    <strong class="mr-auto">Attendance marked successfully.</strong>
-                                    <button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                            </div>`
+                        `<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3500">
+                            <div class="toast-body p-2 px-3">
+                                <strong class="mr-auto">Attendance marked successfully.</strong>
+                                <button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>`
+                    )
+
+                    $("#alert_toast").toast("show");
+                    $("#alert_toast").addClass("bg-success");
+                },
+                error: function (data, status) {
+                    is_present ? student.checked = false : student.checked = true;
+                    $('#alert-toast-div > div').html(
+                        `<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3500">
+                            <div class="toast-body p-2 px-3">
+                                <strong class="mr-auto">Something went wrong.</strong>
+                                <button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>`
                         )
 
                         $("#alert_toast").toast("show");
-                        $("#alert_toast").addClass("bg-success");
+                        $("#alert_toast").addClass("bg-danger");
                 }
             });
         }
