@@ -62,7 +62,7 @@
                                             <input type="checkbox" name="attended" value="{{ stu_att.student.id }}"
                                                    class="custom-control-input"
                                                    id="s{{ stu_att.id }}"
-                                                   onchange="attendance({{ stu_att.student.id }}, {{ stu_att.id }})"
+                                                   onchange="attendance('{{ stu_att.student.id }}', 's{{ stu_att.id }}')"
                                                    {% if stu_att.present %}checked{% endif %}>
                                             <label class="custom-control-label" for="s{{ stu_att.id }}"></label>
                                         </div>
@@ -74,13 +74,13 @@
                     </div>
                 </div>
                 <!-- <p class="text-center text-danger mt-1">{{cwhw_error}}</p> -->
-                <div class="row justify-content-center mb-4">
+                <!-- <div class="row justify-content-center mb-4">
                     <div class="col-md-4">
                         <button name="submit" value="stu-att" class="btn btn-primary btn-lg btn-block" type="submit">
                             Submit
                         </button>
                     </div>
-                </div>
+                </div> -->
             </form>
         {% endif %}
     </div>
@@ -90,9 +90,9 @@
 {% block scripts-sidebar %}
 
     <script>
-        function attendance(student_id, checkboxID) {
-            let student = document.getElementById('s' + checkboxID);
-            let is_present = student.checked;
+        function attendance(student_id, checkbox_id) {
+            let att_checkbox = document.getElementById(checkbox_id);
+            let is_present = att_checkbox.checked;
             console.log(is_present);
             $.ajax({
                 url: "{% url 'students:ajax_mark_attendance' %}",
@@ -103,9 +103,9 @@
                 dataType: 'json',
                 success: function (data, status) {
                     $('#alert-toast-div > div').html(
-                        `<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3500">
+                        `<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="500">
                             <div class="toast-body p-2 px-3">
-                                <strong class="mr-auto">Attendance marked successfully.</strong>
+                                <strong class="mr-auto">Attendance updated.</strong>
                                 <button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -117,7 +117,8 @@
                     $("#alert_toast").addClass("bg-success");
                 },
                 error: function (data, status) {
-                    is_present ? student.checked = false : student.checked = true;
+                    // Un-toggle the checkbox
+                    is_present ? att_checkbox.checked = false : att_checkbox.checked = true;
                     $('#alert-toast-div > div').html(
                         `<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3500">
                             <div class="toast-body p-2 px-3">
@@ -127,10 +128,10 @@
                                 </button>
                             </div>
                         </div>`
-                        )
+                    )
 
-                        $("#alert_toast").toast("show");
-                        $("#alert_toast").addClass("bg-danger");
+                    $("#alert_toast").toast("show");
+                    $("#alert_toast").addClass("bg-danger");
                 }
             });
         }

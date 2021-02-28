@@ -172,6 +172,12 @@ def ajax_fetch_students(request):
     return JsonResponse(data)
 
 
+@login_required
+@user_passes_test(
+    has_authenticated_profile, redirect_field_name=None,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
+# @permissions_required
 def ajax_mark_attendance(request):
     stu_id = request.GET['std_id']
     is_present = request.GET['is_present']
@@ -180,6 +186,7 @@ def ajax_mark_attendance(request):
     stu_att.save()
     data = {'success': True}
     return JsonResponse(data)
+
 
 @login_required
 @user_passes_test(
