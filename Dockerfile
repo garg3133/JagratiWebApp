@@ -1,4 +1,4 @@
-# Dockerfile wriiten for continous development 
+# Dockerfile written for continuous development 
 # Running on django development server
 # Making it easy for contributers across all environment to setup a Django platform in seconds
 # 

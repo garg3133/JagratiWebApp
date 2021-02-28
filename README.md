@@ -82,7 +82,7 @@ And additional requirements are in [**requirements.txt**](https://github.com/gar
   * Create a virtual environment `$ virtualenv env -p python3.7`  
   * Activate the env: `$ source env/bin/activate` (for linux) `> ./env/Scripts/activate` (for Windows PowerShell)
   * Install the requirements: `$ pip install -r requirements.txt`
-  * Create a new file in root folder of repository (`JagratiWebApp`) with name `.env` (only `.env` and not `.env.txt`) and add the following content in it:
+  * Create a new file in the root directory of the repository (`JagratiWebApp`) with name `.env` (only `.env` and not `.env.txt`) and add the following content in it:
     ```
     EMAIL_HOST_USER = 'your-email@domain.com'
     EMAIL_HOST_PASSWORD = 'your-password'
@@ -92,7 +92,9 @@ And additional requirements are in [**requirements.txt**](https://github.com/gar
 
     SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'google-oauth2-key'
     SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'google-oauth2-secret'
-    ```
+    ```  
+    or, just copy the `.env.save` file from `samples` directory to the root directory (`JagratiWebApp`) and rename it to `.env` (only `.env` and not `.env.txt`)  
+  
     where, 
     * `EMAIL_HOST_USER` and `SENDER_EMAIL` is the email address of your Gmail account from which you want to send emails (By default, Django will output email contents in console. To actually send emails to real users, comment line 27 and uncomment line 28 in `Jagrati/settings/development.py`).
     * `EMAIL_HOST_PASSWORD` is the password for that Gmail account.
@@ -108,33 +110,17 @@ And additional requirements are in [**requirements.txt**](https://github.com/gar
 
  ### Setting-up the project in docker
 
-  * Download and install Git.
   * Fork the Repository.
   * Clone the repository to your local machine `$ git clone https://github.com/<your-github-username>/JagratiWebApp.git`
   * Change directory to JagratiWebApp `$ cd JagratiWebApp`
-  * Create a new file in root folder of repository (`JagratiWebApp`) with name `.env` (only `.env` and not `.env.txt`) and add the following content in it:
-    ```
-    EMAIL_HOST_USER = 'your-email@domain.com'
-    EMAIL_HOST_PASSWORD = 'your-password'
-
-    SENDER_EMAIL = 'Jagrati <your-email@domain.com>'
-    ADMINS_EMAIL = ['email-address-of-admin@domain.com']
-
-    SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'google-oauth2-key'
-    SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'google-oauth2-secret'
-    ```
+  * Copy the `.env.save` file from `samples` directory to the root directory (`JagratiWebApp`) and rename it to `.env` (only `.env` and not `.env.txt`).  
     
-    where, 
-    * `EMAIL_HOST_USER` and `SENDER_EMAIL` is the email address of your Gmail account from which you want to send emails (By default, Django will output email contents in console. To actually send emails to real users, comment line 27 and uncomment line 28 in `Jagrati/settings/development.py`).
-    * `EMAIL_HOST_PASSWORD` is the password for that Gmail account.
-    * `ADMINS_EMAIL` is a list of email addresses of Admins of the site (who will recieve important updates from the site like when a new user joins in).
-    * `SOCIAL_AUTH_GOOGLE_OAUTH2_KEY` and `SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET` are the API keys for login/signup using Google.
+    (Read the [above](https://github.com/garg3133/JagratiWebApp#setting-up-the-project) section for details on all the variables used in `.env` file)
    
-  * Create a copy of `sample-db.sqlite3` in root directory (`JagratiWebApp`) and rename it as `db.sqlite3`.
-    
-  * Build the docker file to an image `sudo docker build -t IMAGE_NAME .`
-  * Run the docker image `sudo docker run -p 8000:8000 image_name`
-  * The server will start at default port, head to web browser to test
+  * Copy `sample-db.sqlite3` from `samples` directory to the root directory (`JagratiWebApp`) and rename it to `db.sqlite3`.
+  * Build the docker file to an image `sudo docker build -t <IMAGE_NAME> .`
+  * Run the docker image `sudo docker run -p 8000:8000 <IMAGE_NAME>`
+  * The server will start at default port (8000), head over to your web browser to test.
 
 
 ### Contributing Guidelines 
