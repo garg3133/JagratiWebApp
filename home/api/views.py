@@ -18,8 +18,8 @@ from accounts.tokens import account_activation_token
 from home.api.serializers import UpdateProfileSerializer
 from accounts.models import Profile
 
-
 # VIEWS FUNCTIONS
+
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -49,20 +49,24 @@ def create_profile_view(request):
         from_email = settings.DEFAULT_FROM_EMAIL
         to = settings.ADMINS_EMAIL
         subject = '[noreply] New User Signed Up'
-        html_message = render_to_string('accounts/email/account_authentication_email.html', {
-            'volun': volun,
-            'domain': current_site.domain,
-            'uid':urlsafe_base64_encode(force_bytes(volun.email.pk)),
-            'token':account_activation_token.make_token(volun.email),
-        })
+        html_message = render_to_string(
+            'accounts/email/account_authentication_email.html', {
+                'volun': volun,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(volun.email.pk)),
+                'token': account_activation_token.make_token(volun.email),
+            })
         plain_message = strip_tags(html_message)
         send_mail(
-            subject, plain_message, from_email, to,
-            fail_silently=False, html_message=html_message,
+            subject,
+            plain_message,
+            from_email,
+            to,
+            fail_silently=False,
+            html_message=html_message,
         )
         return Response(data, status=201)
     return Response(serializer.errors, status=400)
-
 
 
 @api_view(['GET', 'PUT'])

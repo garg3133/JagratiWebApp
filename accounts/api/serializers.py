@@ -4,16 +4,19 @@ from accounts.models import User, Profile
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
-    password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
+    password2 = serializers.CharField(style={'input_type': 'password'},
+                                      write_only=True)
 
     class Meta:
         model = User
         fields = ['email', 'password', 'password2']
         extra_kwargs = {
-            'password': {'write_only': True},
-        }	
+            'password': {
+                'write_only': True
+            },
+        }
 
-    def	save(self):
+    def save(self):
         user = User(
             email=self.validated_data['email'],
             is_active=False,
@@ -33,9 +36,12 @@ class RegistrationSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+
 class CreateProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ['first_name', 'last_name', 'gender', 'contact_no',
-                  'alt_email', 'street_address1', 'street_address2',
-                  'city', 'state', 'pincode', 'profile_image']
+        fields = [
+            'first_name', 'last_name', 'gender', 'contact_no', 'alt_email',
+            'street_address1', 'street_address2', 'city', 'state', 'pincode',
+            'profile_image'
+        ]

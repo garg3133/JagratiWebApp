@@ -23,7 +23,6 @@ DATABASES = {
     }
 }
 
-
 # EMAIL SETTINGS
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -38,7 +37,6 @@ EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = config("SENDER_EMAIL")
 ADMINS_EMAIL = ast.literal_eval(config("ADMINS_EMAIL"))
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
@@ -47,6 +45,8 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-STATICFILES_DIRS = [ BASE_DIR+"/static", ]
+STATICFILES_DIRS = [
+    BASE_DIR + "/static",
+]
 
 TEMP_ROOT = os.path.join(BASE_DIR, 'temp')

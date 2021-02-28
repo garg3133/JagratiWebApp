@@ -4,12 +4,9 @@ from home.models import Calendar, Schedule
 
 # Create your models here.
 
+
 class Student(models.Model):
-    GENDER = (
-        ('M', 'Male'),
-        ('F', 'Female'),
-        ('O', 'Other')
-    )
+    GENDER = (('M', 'Male'), ('F', 'Female'), ('O', 'Other'))
     VILLAGE = (
         ('G', 'Gadheri'),
         ('M', 'Mehgawan'),
@@ -35,12 +32,16 @@ class Student(models.Model):
 
 
 class StudentSchedule(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='student_schedules')
+    student = models.ForeignKey(Student,
+                                on_delete=models.CASCADE,
+                                related_name='student_schedules')
     day = models.IntegerField(choices=Schedule.DAY, blank=True)
-    schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE, related_name='student_schedules')
+    schedule = models.ForeignKey(Schedule,
+                                 on_delete=models.CASCADE,
+                                 related_name='student_schedules')
 
     class Meta:
-        unique_together = (('student', 'day'),)
+        unique_together = (('student', 'day'), )
         verbose_name = 'Student Schedule'
         verbose_name_plural = 'Students Schedule'
 
@@ -53,13 +54,17 @@ class StudentSchedule(models.Model):
 
 
 class StudentAttendance(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='student_attendance')
-    cal_date = models.ForeignKey(Calendar, on_delete=models.CASCADE, related_name='student_attendance')
+    student = models.ForeignKey(Student,
+                                on_delete=models.CASCADE,
+                                related_name='student_attendance')
+    cal_date = models.ForeignKey(Calendar,
+                                 on_delete=models.CASCADE,
+                                 related_name='student_attendance')
     present = models.BooleanField(default=False)
     hw_done = models.BooleanField(default=False, verbose_name="HomeWork Done")
 
     class Meta:
-        unique_together = (('student', 'cal_date'),)
+        unique_together = (('student', 'cal_date'), )
         verbose_name = 'Student Attendance'
         verbose_name_plural = 'Students Attendance'
 

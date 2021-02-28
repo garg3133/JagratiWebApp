@@ -35,60 +35,74 @@ class UserAdmin(BaseUserAdmin):
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
     list_display = ('email', 'desig', 'auth')
-    search_fields = ('email',)
+    search_fields = ('email', )
     readonly_fields = ('date_joined', 'last_login')
 
     filter_horizontal = ('user_permissions', 'groups')
     list_filter = ('desig', 'auth', 'is_active', 'is_staff')
     fieldsets = (
-        (None, {'fields': ('email', 'password')}),
-        ('Personal info', {'fields': ('desig',)}),
-        ('Permissions', {'fields': ('is_active', 'auth', 'is_staff', 'is_superuser')}),
-        ('Permissions and Groups', {'fields': ('user_permissions', 'groups')}),
-        ('Others', {'fields': ('date_joined', 'last_login')}),
+        (None, {
+            'fields': ('email', 'password')
+        }),
+        ('Personal info', {
+            'fields': ('desig', )
+        }),
+        ('Permissions', {
+            'fields': ('is_active', 'auth', 'is_staff', 'is_superuser')
+        }),
+        ('Permissions and Groups', {
+            'fields': ('user_permissions', 'groups')
+        }),
+        ('Others', {
+            'fields': ('date_joined', 'last_login')
+        }),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
     # overrides get_fieldsets to use this attribute when creating a user.
-    add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('email', 'password1', 'password2', 'desig')}
-        ),
-    )
+    add_fieldsets = ((None, {
+        'classes': ('wide', ),
+        'fields': ('email', 'password1', 'password2', 'desig')
+    }), )
 
-    ordering = ('email',)
+    ordering = ('email', )
+
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('get_full_name', 'get_email', 'get_desig', 'get_auth')
     search_fields = ('first_name', 'last_name', 'email')
     list_filter = ('user__desig', 'user__auth')
-    ordering = ('-user__date_joined',)
+    ordering = ('-user__date_joined', )
 
     inlines = [VolunteerInline]
 
     def get_email(self, obj):
         return obj.user.email
+
     get_email.short_description = 'Email'
 
     def get_desig(self, obj):
         return obj.user.get_desig_display()
+
     get_desig.short_description = 'Designation'
 
     def get_auth(self, obj):
         return obj.user.auth
+
     get_auth.short_description = 'Auth'
     get_auth.admin_order_field = 'user__auth'
     get_auth.boolean = True
+
 
 @admin.register(AuthorisedDevice)
 class AuthorisedDeviceAdmin(admin.ModelAdmin):
     list_display = ('get_email', 'device_id', 'active')
     search_fields = ('user__email', 'device_id')
-    list_filter = ('active',)
+    list_filter = ('active', )
     ordering = ('user__email', 'device_id')
 
     def get_email(self, obj):
         return obj.user.email
+
     get_email.short_description = 'Email'
     get_email.admin_order_field = 'user__email'

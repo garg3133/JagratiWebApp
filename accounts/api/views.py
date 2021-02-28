@@ -20,8 +20,8 @@ from accounts.tokens import account_activation_token
 from accounts.models import User, Profile, AuthorisedDevice
 from apps.volunteers.api.serializers import CreateVolunteerSerializer
 
-
 # NON-VIEWS FUNCTIONS
+
 
 def validate_email(email):
     """Returns None if User with 'email' does not exists."""
@@ -36,7 +36,10 @@ def validate_email(email):
 
 # VIEWS FUNCTIONS
 
-@api_view(['POST', ])
+
+@api_view([
+    'POST',
+])
 @permission_classes([])
 @authentication_classes([])
 def registration_view(request):
@@ -63,16 +66,21 @@ def registration_view(request):
             from_email = settings.DEFAULT_FROM_EMAIL
             to = [user.email]
             subject = 'Jagrati Acount Activation'
-            html_message = render_to_string('accounts/email/account_activation_email.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': account_activation_token.make_token(user),
-            })
+            html_message = render_to_string(
+                'accounts/email/account_activation_email.html', {
+                    'user': user,
+                    'domain': current_site.domain,
+                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                    'token': account_activation_token.make_token(user),
+                })
             plain_message = strip_tags(html_message)
             send_mail(
-                subject, plain_message, from_email, to,
-                fail_silently=False, html_message=html_message,
+                subject,
+                plain_message,
+                from_email,
+                to,
+                fail_silently=False,
+                html_message=html_message,
             )
 
         else:
@@ -107,7 +115,8 @@ class LoginView(APIView):
             # For cpanel...
             if not user.is_active:
                 data['response'] = 'Error'
-                data['error_message'] = 'User Account not Activated. Please check your inbox/spam for an Account Activation Email.'
+                data[
+                    'error_message'] = 'User Account not Activated. Please check your inbox/spam for an Account Activation Email.'
                 return Response(data, status=403)
             # ...till here.
 
@@ -116,11 +125,13 @@ class LoginView(APIView):
                 # If User has already completed the profile
                 # but is not yet verified by the admin
                 data['response'] = 'Error'
-                data['error_message'] = 'User is not yet authenticated by the Admin. Kindly contact Admin.'
+                data[
+                    'error_message'] = 'User is not yet authenticated by the Admin. Kindly contact Admin.'
                 return Response(data, status=403)
 
             # Save the device_id of the user
-            device_info = AuthorisedDevice.objects.filter(user=user, device_id=device_id)
+            device_info = AuthorisedDevice.objects.filter(user=user,
+                                                          device_id=device_id)
             if device_info.exists():
                 device_info = device_info[0]
                 device_info.active = True
@@ -141,9 +152,11 @@ class LoginView(APIView):
             data['response'] = 'Error'
 
             user = User.objects.filter(email=email)
-            if user.exists() and user[0].check_password(password) and not user[0].is_active:
+            if user.exists() and user[0].check_password(
+                    password) and not user[0].is_active:
                 # Authentication failed because user is not active
-                data['error_message'] = 'User Account not Activated. Please check your inbox/spam for an Account Activation Email.'
+                data[
+                    'error_message'] = 'User Account not Activated. Please check your inbox/spam for an Account Activation Email.'
             else:
                 data['error_message'] = 'Invalid credentials'
 
@@ -181,17 +194,22 @@ def complete_profile_view(request):
         from_email = settings.DEFAULT_FROM_EMAIL
         to = settings.ADMINS_EMAIL
         subject = '[noreply] New User Signed Up'
-        html_message = render_to_string('accounts/email/account_authentication_email.html', {
-            'profile': profile,
-            'volun': volun,
-            'domain': current_site.domain,
-            'uid':urlsafe_base64_encode(force_bytes(user.pk)),
-            'token':account_activation_token.make_token(user),
-        })
+        html_message = render_to_string(
+            'accounts/email/account_authentication_email.html', {
+                'profile': profile,
+                'volun': volun,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': account_activation_token.make_token(user),
+            })
         plain_message = strip_tags(html_message)
         send_mail(
-            subject, plain_message, from_email, to,
-            fail_silently=False, html_message=html_message,
+            subject,
+            plain_message,
+            from_email,
+            to,
+            fail_silently=False,
+            html_message=html_message,
         )
         return Response(data, status=201)
 
@@ -202,6 +220,7 @@ def complete_profile_view(request):
     if not volun_serializer.is_valid():
         errors.update(volun_serializer.errors)
     return Response(errors, status=400)
+
 
 class LogoutView(APIView):
     authentication_classes = [TokenAuthentication]
@@ -221,6 +240,7 @@ class LogoutView(APIView):
             data['response'] = "Logged out successfully"
             return Response(data, status=200)
 
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 @authentication_classes([TokenAuthentication])
@@ -233,7 +253,8 @@ def check_login_status(request):
         data['error_message'] = 'Device id is missing.'
         return Response(data, status=400)
     else:
-        device_info = AuthorisedDevice.objects.filter(user=request.user, device_id=device_id)
+        device_info = AuthorisedDevice.objects.filter(user=request.user,
+                                                      device_id=device_id)
         if device_info.exists() and device_info[0].active:
             data['login_status'] = True
         else:

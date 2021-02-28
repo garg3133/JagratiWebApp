@@ -17,7 +17,7 @@ DATABASES = {
         'ENGINE': 'mysql.connector.django',
         'USER': config("DB_USER"),
         'PASSWORD': config("DB_PASS"),
-        'HOST' : config("DB_HOST"),
+        'HOST': config("DB_HOST"),
         'OPTIONS': {
             'autocommit': True,
         },
@@ -38,7 +38,6 @@ EMAIL_PORT = config("EMAIL_PORT", cast=int)
 DEFAULT_FROM_EMAIL = config("SENDER_EMAIL")
 ADMINS_EMAIL = ast.literal_eval(config("ADMINS_EMAIL"))
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
@@ -50,4 +49,6 @@ MEDIA_URL = '/media/'
 
 TEMP_ROOT = config("TEMP_ROOT")
 
-STATICFILES_DIRS = [ BASE_DIR+"/static", ]
+STATICFILES_DIRS = [
+    BASE_DIR + "/static",
+]
