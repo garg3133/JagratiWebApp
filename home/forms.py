@@ -13,6 +13,7 @@ class SectionAdminForm(forms.ModelForm):
         is_parent_section = cleaned_data.get('is_parent_section')
         if parent_section and is_parent_section:
             raise forms.ValidationError(
-                "A section cannot be a parent section and a child section at the same time. Only two level of parent-child relationship is allowed."
+                "A section cannot be a parent section and a child section at the same time. "
+                "Only two level of parent-child relationship is allowed."
             )
         return cleaned_data

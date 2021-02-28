@@ -38,7 +38,8 @@ def login_signup(request):
                 # For cpanel...
                 if not user.is_active:
                     context[
-                        'login_error'] = 'Account not Activated.<br><a href="#">Resend Activation Email?</a>'
+                        'login_error'] = 'Account not Activated.<br><a href="#">' \
+                                         'Resend Activation Email?</a>'
                     return render(request, 'accounts/login_signup.html',
                                   context)
                 # ...till here.
@@ -48,7 +49,8 @@ def login_signup(request):
                     # If User has already completed the profile
                     # but is not yet verified by the admin
                     context[
-                        'login_error'] = 'User is not yet authenticated by the Admin. Kindly contact Admin.'
+                        'login_error'] = 'User is not yet authenticated by the Admin. ' \
+                                         'Kindly contact Admin.'
                     return render(request, 'accounts/login_signup.html',
                                   context)
 
@@ -64,7 +66,8 @@ def login_signup(request):
                         password) and not user[0].is_active:
                     # Authentication failed because user is not active
                     context[
-                        'login_error'] = 'Account not Activated.<br><a href="#">Resend Activation Email?</a>'
+                        'login_error'] = 'Account not Activated.<br><a href="#">' \
+                                         'Resend Activation Email?</a>'
                 else:
                     context['login_error'] = 'Invalid credentials'
                 return render(request, 'accounts/login_signup.html', context)
@@ -262,7 +265,8 @@ def account_activation(request, uidb64, token):
         messages.success(request, "Account Activated Successfully!")
         return redirect('accounts:complete_profile')
     else:
-        msg = "You have either entered a wrong link or your account has already been activated."
+        msg = "You have either entered a wrong link or your account has " \
+              "already been activated."
         return render(request, 'accounts/token_expired.html', {
             'msg': msg,
             'act_token': True
@@ -305,7 +309,8 @@ def account_authentication(request, uidb64, token):
 
         return redirect('accounts:account_authenticated')
     else:
-        msg = "You have either entered a wrong link or some admin has already authenticated this account."
+        msg = "You have either entered a wrong link or some admin has " \
+              "already authenticated this account."
         return render(request, 'accounts/token_expired.html', {'msg': msg})
 
 

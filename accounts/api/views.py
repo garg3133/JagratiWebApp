@@ -30,7 +30,7 @@ def validate_email(email):
         user = User.objects.get(email=email)
     except User.DoesNotExist:
         return None
-    if user != None:
+    if user is not None:
         return email
 
 
@@ -48,7 +48,7 @@ def registration_view(request):
         data = {}
         # Validate Email (Password Validation in serializers.py)
         email = request.data.get('email', '0')
-        if validate_email(email) != None:
+        if validate_email(email) is not None:
             data['response'] = 'Error'
             data['error_message'] = 'That email is already in use.'
             return Response(data)
@@ -115,8 +115,8 @@ class LoginView(APIView):
             # For cpanel...
             if not user.is_active:
                 data['response'] = 'Error'
-                data[
-                    'error_message'] = 'User Account not Activated. Please check your inbox/spam for an Account Activation Email.'
+                data['error_message'] = 'User Account not Activated. ' \
+                                        'Please check your inbox/spam for an Account Activation Email.'
                 return Response(data, status=403)
             # ...till here.
 
@@ -125,8 +125,7 @@ class LoginView(APIView):
                 # If User has already completed the profile
                 # but is not yet verified by the admin
                 data['response'] = 'Error'
-                data[
-                    'error_message'] = 'User is not yet authenticated by the Admin. Kindly contact Admin.'
+                data['error_message'] = 'User is not yet authenticated by the Admin. Kindly contact Admin.'
                 return Response(data, status=403)
 
             # Save the device_id of the user
@@ -155,8 +154,8 @@ class LoginView(APIView):
             if user.exists() and user[0].check_password(
                     password) and not user[0].is_active:
                 # Authentication failed because user is not active
-                data[
-                    'error_message'] = 'User Account not Activated. Please check your inbox/spam for an Account Activation Email.'
+                data['error_message'] = 'User Account not Activated. ' \
+                                        'Please check your inbox/spam for an Account Activation Email.'
             else:
                 data['error_message'] = 'Invalid credentials'
 
