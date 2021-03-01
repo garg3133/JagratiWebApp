@@ -1,6 +1,7 @@
 # CONTAINS SETTINGS FOR PRODUCTION
 
 from .base import *
+import ast
 
 SECRET_KEY = config('SECRET_KEY')
 
@@ -17,7 +18,7 @@ DATABASES = {
         'ENGINE': 'mysql.connector.django',
         'USER': config("DB_USER"),
         'PASSWORD': config("DB_PASS"),
-        'HOST' : config("DB_HOST"),
+        'HOST': config("DB_HOST"),
         'OPTIONS': {
             'autocommit': True,
         },
@@ -50,4 +51,4 @@ MEDIA_URL = '/media/'
 
 TEMP_ROOT = config("TEMP_ROOT")
 
-STATICFILES_DIRS = [ BASE_DIR+"/static", ]
+STATICFILES_DIRS = [BASE_DIR+"/static", ]
