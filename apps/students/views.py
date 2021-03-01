@@ -1,4 +1,4 @@
-from datetime import datetime, date
+from datetime import date
 
 import os
 from django.conf import settings
@@ -7,12 +7,11 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 
 # third-party
 from openpyxl import load_workbook
 
-from accounts.models import Profile
 from home.models import Calendar, Schedule
 from home.views import has_authenticated_profile
 from .models import Student, StudentAttendance, StudentSchedule
@@ -39,6 +38,7 @@ def index(request):
     login_url=reverse_lazy('accounts:complete_profile')
 )
 def profile(request, pk):
+    """View student profile."""
     profile = get_object_or_404(Student, id=pk)
     context = {
         'profile': profile
@@ -53,6 +53,7 @@ def profile(request, pk):
 )
 # @permissions_required
 def new_student(request):
+    """Add new student."""
     if request.method == 'POST':
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
@@ -81,8 +82,40 @@ def new_student(request):
     has_authenticated_profile,
     login_url=reverse_lazy('accounts:complete_profile')
 )
+def update_profile(request, pk):
+    """Update student profile."""
+    profile = get_object_or_404(Student, id=pk)
+    villages = Student.VILLAGE
+
+    context = {
+        'profile': profile,
+        'villages': villages,
+    }
+
+    if request.method == 'POST':
+        profile.first_name = request.POST['first_name']
+        profile.last_name = request.POST['last_name']
+        profile.gender = request.POST['gender']
+        profile.school_class = request.POST['school_class']
+        profile.village = request.POST['village']
+        profile.contact_no = request.POST['contact_no']
+        profile.guardian_name = request.POST['guardian_name']
+        profile.save()
+
+        messages.success(request, 'Profile updated successfully!')
+        return redirect('students:profile', pk=pk)
+
+    return render(request, 'students/update_profile.html', context)
+
+
+@login_required
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
 # @permissions_required
 def attendance(request):
+    """Student attendance page."""
     today_cal = Calendar.objects.filter(date=today_date)
     # TO BE REMOVED...
     # Update today's date in Calendar if not already there
@@ -103,7 +136,8 @@ def attendance(request):
             # Create Empty Student Attendance Instances
             today_stu_sch = StudentSchedule.objects.filter(day=today_day)
             for stu_sch in today_stu_sch:
-                stu_attendance = StudentAttendance(student=stu_sch.student, cal_date=today_cal)
+                stu_attendance = StudentAttendance(
+                    student=stu_sch.student, cal_date=today_cal)
                 stu_attendance.save()
 
         elif StudentAttendance.objects.filter(cal_date__date=today_date).count() != StudentSchedule.objects.filter(
@@ -112,7 +146,8 @@ def attendance(request):
             today_stu_sch = StudentSchedule.objects.filter(day=today_day)
             for stu_sch in today_stu_sch:
                 if not StudentAttendance.objects.filter(student=stu_sch.student, cal_date=today_cal).exists():
-                    stu_attendance = StudentAttendance(student=stu_sch.student, cal_date=today_cal)
+                    stu_attendance = StudentAttendance(
+                        student=stu_sch.student, cal_date=today_cal)
                     stu_attendance.save()
     else:
         context['no_class_today'] = True
@@ -135,7 +170,8 @@ def attendance(request):
             stu_att.save()
 
         for stu_id in stu_array:
-            stu_att = StudentAttendance.objects.get(student__id=stu_id, cal_date=today_date)
+            stu_att = StudentAttendance.objects.get(
+                student__id=stu_id, cal_date=today_date)
             stu_att.present = True
             stu_att.save()
 
@@ -156,18 +192,22 @@ def attendance(request):
 )
 # @permissions_required
 def ajax_fetch_students(request):
+    """Fetch students based on class-group selected on student attendance page."""
     today_cal = Calendar.objects.get(date=today_date)
     data = {}
     stu_class = request.GET.get('stu_class', None)
     class_range_min, class_range_max = stu_class.split('-')
 
     stu_att_today = StudentAttendance.objects.filter(
-        cal_date=today_cal, student__school_class__range=(class_range_min, class_range_max),
+        cal_date=today_cal, student__school_class__range=(
+            class_range_min, class_range_max),
     ).order_by('student__school_class', 'student__first_name', 'student__last_name')
 
     for stu_att in stu_att_today:
-        key = str(stu_att.student.school_class) + stu_att.student.get_full_name  # For sorting purpose.
-        data[key] = [stu_att.student.id, stu_att.student.get_full_name, stu_att.student.school_class, stu_att.present]
+        # key --> For sorting purpose.
+        key = str(stu_att.student.school_class) + stu_att.student.get_full_name
+        data[key] = [stu_att.student.id, stu_att.student.get_full_name,
+                     stu_att.student.school_class, stu_att.present]
 
     return JsonResponse(data)
 
@@ -179,9 +219,11 @@ def ajax_fetch_students(request):
 )
 # @permissions_required
 def ajax_mark_attendance(request):
+    """Mark/unmark student attendance."""
     stu_id = request.GET['std_id']
     is_present = request.GET['is_present']
-    stu_att = StudentAttendance.objects.get(student__id=stu_id, cal_date=today_date)
+    stu_att = StudentAttendance.objects.get(
+        student__id=stu_id, cal_date=today_date)
     stu_att.present = True if is_present == 'true' else False
     stu_att.save()
     data = {'success': True}
@@ -195,6 +237,7 @@ def ajax_mark_attendance(request):
 )
 # @permissions_required
 def update_from_sheets(request):
+    """Create Student model instances from excel sheet."""
     if request.method == 'POST':
         sheet = request.FILES['sheet']
         # Temporarily save the file
@@ -232,35 +275,3 @@ def update_from_sheets(request):
         return redirect('students:index')
 
     return render(request, 'students/update_from_sheets.html')
-
-
-# update student profile
-
-@login_required
-@user_passes_test(
-    has_authenticated_profile,
-    login_url=reverse_lazy('accounts:complete_profile')
-)
-def update_profile(request, pk):
-    profile = get_object_or_404(Student, id=pk)
-    villages = Student.VILLAGE
-
-    context = {
-        'profile': profile,
-        'villages': villages,
-    }
-
-    if request.method == 'POST':
-        profile.first_name = request.POST['first_name']
-        profile.last_name = request.POST['last_name']
-        profile.gender = request.POST['gender']
-        profile.school_class = request.POST['school_class']
-        profile.village = request.POST['village']
-        profile.contact_no = request.POST['contact_no']
-        profile.guardian_name = request.POST['guardian_name']
-        profile.save()
-
-        messages.success(request, 'Profile updated successfully!')
-        return redirect('students:profile', pk=pk)
-
-    return render(request, 'students/update_profile.html', context)
