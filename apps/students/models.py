@@ -5,7 +5,6 @@ from imagekit.processors import ResizeToFill
 
 from home.models import Calendar, Schedule
 
-# Create your models here.
 
 class Student(models.Model):
     GENDER = (
@@ -24,7 +23,7 @@ class Student(models.Model):
     last_name = models.CharField(max_length=50)
     gender = models.CharField(max_length=1, choices=GENDER, default='M')
     profile_image = ProcessedImageField(
-        upload_to='students/profile_pics', processors=[ResizeToFill(300,300)],
+        upload_to='students/profile_pics', processors=[ResizeToFill(300, 300)],
         format='JPEG', options={'quality': 60}, blank=True)
     school_class = models.IntegerField()
     village = models.CharField(max_length=3, choices=VILLAGE)
@@ -41,9 +40,11 @@ class Student(models.Model):
 
 
 class StudentSchedule(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='student_schedules')
+    student = models.ForeignKey(
+        Student, on_delete=models.CASCADE, related_name='student_schedules')
     day = models.IntegerField(choices=Schedule.DAY, blank=True)
-    schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE, related_name='student_schedules')
+    schedule = models.ForeignKey(
+        Schedule, on_delete=models.CASCADE, related_name='student_schedules')
 
     class Meta:
         unique_together = (('student', 'day'),)
@@ -59,8 +60,10 @@ class StudentSchedule(models.Model):
 
 
 class StudentAttendance(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='student_attendance')
-    cal_date = models.ForeignKey(Calendar, on_delete=models.CASCADE, related_name='student_attendance')
+    student = models.ForeignKey(
+        Student, on_delete=models.CASCADE, related_name='student_attendance')
+    cal_date = models.ForeignKey(
+        Calendar, on_delete=models.CASCADE, related_name='student_attendance')
     present = models.BooleanField(default=False)
     hw_done = models.BooleanField(default=False, verbose_name="HomeWork Done")
 
