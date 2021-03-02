@@ -62,12 +62,13 @@ def new_student(request):
         village = request.POST['village']
         contact_no = request.POST.get('contact_no')  # Non-required field
         guardian_name = request.POST['guardian_name']
+        profile_image = request.FILES.get('profile_image')
 
         student = Student(
             first_name=first_name, last_name=last_name,
-            gender=gender, school_class=school_class,
-            village=village, contact_no=contact_no,
-            guardian_name=guardian_name,
+            gender=gender, profile_image=profile_image,
+            school_class=school_class, village=village,
+            contact_no=contact_no, guardian_name=guardian_name,
         )
         student.save()
 

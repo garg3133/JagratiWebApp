@@ -1,5 +1,8 @@
 from django.db import models
 
+from imagekit.models import ProcessedImageField
+from imagekit.processors import ResizeToFill
+
 from home.models import Calendar, Schedule
 
 # Create your models here.
@@ -20,6 +23,9 @@ class Student(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     gender = models.CharField(max_length=1, choices=GENDER, default='M')
+    profile_image = ProcessedImageField(
+        upload_to='students/profile_pics', processors=[ResizeToFill(300,300)],
+        format='JPEG', options={'quality': 60}, blank=True)
     school_class = models.IntegerField()
     village = models.CharField(max_length=3, choices=VILLAGE)
     contact_no = models.CharField(max_length=13, blank=True)
