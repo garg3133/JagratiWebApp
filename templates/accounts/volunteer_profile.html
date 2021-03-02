@@ -1,18 +1,17 @@
 {% extends 'layout.html' %}
 
 {% block style %}
-    <style>
-        /* .container {
+<style>
+    /* .container {
             max-width: 960px;
         } */
 
-        @media screen and (max-width: 600px) {
-            .container{
-                width: 85vw;
-            }
+    @media screen and (max-width: 600px) {
+        .container {
+            width: 85vw;
         }
-
-    </style>
+    }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -29,7 +28,7 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="rollNo">Roll No.</label>
-                        <input name="roll_no" type="number" class="form-control" id="rollNo" placeholder="" value="" required>
+                        <input name="roll_no" type="number" class="form-control" id="rollNo" required>
                         <div class="invalid-feedback" id="duplicate">
                             Valid roll number is required.
                         </div>
@@ -39,14 +38,14 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="firstName">First name</label>
-                        <input name="first_name" type="text" class="form-control" id="firstName" placeholder="" value="" required>
+                        <input name="first_name" type="text" class="form-control" id="firstName" required>
                         <div class="invalid-feedback">
                             Valid First Name is required.
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="lastName">Last name</label>
-                        <input name="last_name" type="text" class="form-control" id="lastName" placeholder="" value="" required>
+                        <input name="last_name" type="text" class="form-control" id="lastName" required>
                         <div class="invalid-feedback">
                             Valid Last Name is required.
                         </div>
@@ -64,7 +63,8 @@
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="batch">Batch</label>
-                        <input name="batch" type="number" class="form-control" id="batch" placeholder="2018" min="2005" max="{% now 'Y' %}" required>
+                        <input name="batch" type="number" class="form-control" id="batch" placeholder="2018" min="2005"
+                            max="{% now 'Y' %}" required>
                         <div class="invalid-feedback">
                             Please enter a valid batch.
                         </div>
@@ -91,31 +91,35 @@
                     </div>
                     <div class="col-md-8 mb-3">
                         <label for="contactNo">Contact No.</label>
-                        <input name="contact_no" type="tel" pattern="[0-9]{10}" class="form-control" id="contactNo" placeholder="" value="" required>
+                        <input name="contact_no" type="tel" pattern="[0-9]{10}" class="form-control" id="contactNo"
+                            required>
                         <div class="invalid-feedback">
                             Valid Contact No. (10 Digits) is required.
                         </div>
                     </div>
                 </div>
-            
+
                 <div class="mb-3">
-                    <label for="altemail">Alternate Email <span class="text-muted">(Optional)</span></label>
-                    <input name="alt_email" type="email" class="form-control" id="altemail" placeholder="you@example.com">
+                    <label for="altEmail">Alternate Email <span class="text-muted">(Optional)</span></label>
+                    <input name="alt_email" type="email" class="form-control" id="altEmail"
+                        placeholder="you@example.com">
                 </div>
-            
+
                 <div class="mb-3">
                     <label for="address">Address</label>
-                    <input name="street_address1" type="text" class="form-control" id="address" placeholder="1234 Main St" required>
+                    <input name="street_address1" type="text" class="form-control" id="address"
+                        placeholder="1234 Main St" required>
                     <div class="invalid-feedback">
                         Please enter your address.
                     </div>
                 </div>
-            
+
                 <div class="mb-3">
                     <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
-                    <input name="street_address2" type="text" class="form-control" id="address2" placeholder="Apartment or suite">
+                    <input name="street_address2" type="text" class="form-control" id="address2"
+                        placeholder="Apartment or suite">
                 </div>
-            
+
                 <div class="row">
                     <div class="col-md-5 mb-3">
                         <label for="city">City</label>
@@ -126,7 +130,7 @@
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="state">State</label>
-                        <input name="state" type="text" class="form-control" id="state" placeholder="" value="" required>
+                        <input name="state" type="text" class="form-control" id="state" required>
                         <div class="invalid-feedback">
                             Please provide a valid state.
                         </div>
@@ -143,7 +147,7 @@
                 <!-- Add profile picture -->
                 <div class="mb-3">
                     <label for="profileImage">Profile Picture <span class="text-muted">(Optional)</span></label>
-                    <input name="profile_image" type="file" id="profileImage" class="form-control-file" placeholder="" value="">
+                    <input name="profile_image" type="file" id="profileImage" class="form-control-file">
                 </div>
 
                 <hr class="mb-4">
@@ -152,55 +156,53 @@
                         <button type="submit" class="btn btn-primary btn-lg btn-block">Continue</button>
                     </div>
                 </div>
-                
+
             </form>
 
         </div>
-    </div>	
+    </div>
 
 </div>
-
-
 {% endblock %}
 
 
 {% block scripts %}
-    <!--  script for AJAX call -->
-    <script>
-        $("#rollNo").keyup(function () {
-            $.ajax({
-                url: "{% url 'accounts:ajax_volunteer_rollcheck' %}",
-                data: {
-                    'roll': document.getElementById('rollNo').value,
-                },
-                dataType: 'json',
-                success: function (data, status) {
-                    if (data.isExist) {
-                        document.getElementById('rollNo').setCustomValidity("Duplicate roll encountered.");
-                        document.getElementById('duplicate').innerText = "Duplicate roll encountered.";
-                    } else {
-                        document.getElementById('rollNo').setCustomValidity("");
-                        document.getElementById('duplicate').innerText = "Valid roll number is required.";
-                    }
-                },
-                error: function () {
-                    document.getElementById('rollNo').setCustomValidity("Unknown error has occurred.");
-                    document.getElementById('duplicate').innerText = "Unknown error has occurred.";
+<!--  script for AJAX call -->
+<script>
+    $("#rollNo").keyup(function () {
+        $.ajax({
+            url: "{% url 'accounts:ajax_volunteer_rollcheck' %}",
+            data: {
+                'roll': document.getElementById('rollNo').value,
+            },
+            dataType: 'json',
+            success: function (data, status) {
+                if (data.isExist) {
+                    document.getElementById('rollNo').setCustomValidity("Duplicate roll encountered.");
+                    document.getElementById('duplicate').innerText = "Duplicate roll encountered.";
+                } else {
+                    document.getElementById('rollNo').setCustomValidity("");
+                    document.getElementById('duplicate').innerText = "Valid roll number is required.";
                 }
-            });
+            },
+            error: function () {
+                document.getElementById('rollNo').setCustomValidity("Unknown error has occurred.");
+                document.getElementById('duplicate').innerText = "Unknown error has occurred.";
+            }
         });
-    </script>
+    });
+</script>
 
-    <script type="text/javascript">
-        (function () {
-            'use strict'
-            window.addEventListener('load', function () {
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                var forms = document.getElementsByClassName('needs-validation')
+<script type="text/javascript">
+    (function () {
+        'use strict'
+        window.addEventListener('load', function () {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation')
 
-                // Loop over them and prevent submission
-                Array.prototype.filter.call(forms, function (form) {
-                    form.addEventListener('submit', function (event) {
+            // Loop over them and prevent submission
+            Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
                     if (form.checkValidity() === false) {
                         event.preventDefault()
                         event.stopPropagation()
@@ -222,19 +224,19 @@
 
                     }
                     form.classList.add('was-validated')
-                    }, false)
-                })
-            }, false)
-        }())
-    </script>
+                }, false)
+            })
+        }, false)
+    }())
+</script>
 
-    <!-- Script for Date Picker -->
-    <script type="text/javascript">
-        $('#dob').datepicker({
-            weekStart: 1,
-            autoclose: true,
-            todayHighlight: true,
-        });
-        $('#dob').datepicker("setDate", "{% now 'Y-m-d'%}");
-    </script>
+<!-- Script for Date Picker -->
+<script type="text/javascript">
+    $('#dob').datepicker({
+        weekStart: 1,
+        autoclose: true,
+        todayHighlight: true,
+    });
+    $('#dob').datepicker("setDate", "{% now 'Y-m-d'%}");
+</script>
 {% endblock %}
