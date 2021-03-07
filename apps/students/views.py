@@ -3,7 +3,9 @@ from datetime import date
 import os
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import (
+    login_required, user_passes_test, permission_required
+)
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -51,7 +53,7 @@ def profile(request, pk):
     has_authenticated_profile,
     login_url=reverse_lazy('accounts:complete_profile')
 )
-# @permissions_required
+@permission_required('students.add_student', raise_exception=True)
 def new_student(request):
     """Add new student."""
     if request.method == 'POST':
@@ -83,6 +85,7 @@ def new_student(request):
     has_authenticated_profile,
     login_url=reverse_lazy('accounts:complete_profile')
 )
+@permission_required('students.change_student', raise_exception=True)
 def update_profile(request, pk):
     """Update student profile."""
     profile = get_object_or_404(Student, id=pk)
