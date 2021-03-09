@@ -78,6 +78,8 @@ And additional requirements are in [**requirements.txt**](https://github.com/gar
   * Fork the Repository.
   * Clone the repository to your local machine `$ git clone https://github.com/<your-github-username>/JagratiWebApp.git`
   * Change directory to JagratiWebApp `$ cd JagratiWebApp`
+  * Add a reference to the original repository  
+   `$ git remote add upstream https://github.com/garg3133/JagratiWebApp.git`
   * Install virtualenv `$ pip3 install virtualenv`
   * Create a virtual environment `$ virtualenv env -p python3.7`  
   * Activate the env: `$ source env/bin/activate` (for linux) `> ./env/Scripts/activate` (for Windows PowerShell)
@@ -107,6 +109,10 @@ And additional requirements are in [**requirements.txt**](https://github.com/gar
   * Migrate the changes to the database `$ python manage.py migrate`
   * Create admin `$ python manage.py createsuperuser`
   * Run the server `$ python manage.py runserver`
+  
+#### 💡️ **Pro Tip:** 
+  * Always keep your master branch in sync with the main repository (by running `$ git pull upstream master` on your local master branch). 
+  * Always create a new branch before making any changes (`$ git checkout -b <new-branch-name>`), never ever make any changes directly on the master branch.
 
  ### Setting-up the project in docker
 
