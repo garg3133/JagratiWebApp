@@ -135,121 +135,38 @@
             <div class="glide">
                   <div class="glide__track" data-glide-el="track">
                     <ul class="glide__slides">
+                        
+                        {% for initiative in initiatives %}
+
                           <li class="glide__slide">
                               <div class="card">
                                 <div class="card-img">
-                                    <img src='{% static "home/images/02.jpg" %}'>
+                                    <img src={{initiative.thumbnail}}>
                                 </div>
-                                <h2 class="card_h2">Evening Classes</h2>
+                                
+                                <h2 class="card_h2">{{initiative.title}}</h2>
                                 <div class="card1">
                                     <!-- <h4>Evening Classes</h4> -->
-                                    <p>After a strained and hectic morning class schedule, what better refreshment can there be than seeing the same classrooms now filled with curious cats and jolly spirits. Seeing innocent smiles on their face pushes all the tensions and confusions to the back of our minds leaving it light and joyous .The eagerness to learn and explore something new never goes out. This along with a bit of fun and frolic is sufficient for their day and enough for our satisfaction. </p>
+                                    <p>{{initiative.description}} </p>
                                 </div>
                             </div>
                         </li>
-                          <li class="glide__slide">
-                              <div class="card">
-                                <div class="card-img">
-                                    <img src='{% static "home/images/02.jpg" %}'>
-                                </div>
-                                <h2 class="card_h2">Books Distribution</h2>
-                                <div class="card1">
-                                    <!-- <h4>Books Distribution</h4> -->
-                                    <p>Jagrati which once started with providing primary education and facilities to the children is now much more than that. We now look upon the society as a whole rather than focussing on a particular objective. What better way to promote and ignite a light of awareness towards education among kids than to hand them the pivot of education. The books distributed among them kindle in them, the importance of reading and make them realize the wonders a book is capable of bringing into their lives. </p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="glide__slide">
-                              <div class="card">
-                                <div class="card-img">
-                                    <img src='{% static "home/images/02.jpg" %}'>
-                                </div>
-                                <h2 class="card_h2">Cloth Distribution</h2>
-                                <div class="card1">
-                                    <!-- <h4>Cloth Distribution</h4> -->
-                                    <p>No bigger virtue than to cover a needy!!! Jagrati understands the necessity of some of the basic needs of everyone and how the under privileged people struggle for it. The cloth donation camps looks after fulfilling the needs of those people. </p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="glide__slide">
-                              <div class="card">
-                                <div class="card-img">
-                                    <img src='{% static "home/images/02.jpg" %}'>
-                                </div>
-                                <h2 class="card_h2">Blood Donation</h2>
-                                <div class="card1">
-                                    <!-- <h4>Blood Donation</h4> -->
-                                    <p>Save a life!!! Saving a life can be one of the best self-satifactions one could ever possess in his or her entire life. Our blood donation camps look forward on doing the same. It received an overwhelming support from the institute and is one of the biggest success of Jagrati till date. The participation of the faculties added to its success. As they say, "karke dekho, achcha lagta hai", it indeed proved true. Medical camps the under privileged who cannot afford getting basic check-ups done were provided with basic fitness tests here in our institute. A step towards a healthy living society is never a failure. </p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="glide__slide">
-                              <div class="card">
-                                <div class="card-img">
-                                    <img src='{% static "home/images/02.jpg" %}'>
-                                </div>
-                                <h2 class="card_h2">Plantation Drive</h2>
-                                <div class="card1">
-                                    <!-- <h4>Plantation Drive</h4> -->
-                                    <p>To live life is to give one!! The tiny little roots planted during this plantation drive will continue to support life to millions of people for many years to come. Seeing them growing big and old will be the eternal bliss one could ever wish for.</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="glide__slide">
-                              <div class="card">
-                                <div class="card-img">
-                                    <img src='{% static "home/images/02.jpg" %}'>
-                                </div>
-                                <h2 class="card_h2">Cultural and Fun Activities</h2>
-                                <div class="card1">
-                                    <!-- <h4>Cultural and Fun Activities</h4> -->
-                                    <p>So here the fun part starts. Jagrati has now become an integral part of almost every cultural event organised by our institute. This is much more a fun to the children then to us. Little feet jumping in a synchronised and well-coordinated manner on the big stage in front of a big audience or a group of them singing their hearts out has always been a visual delight to the entire institute. The appreciation received has always proved motivating for them. </p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="glide__slide">
-                              <div class="card">
-                                <div class="card-img">
-                                    <img src='{% static "home/images/02.jpg" %}'>
-                                </div>
-                                <h2 class="card_h2">Awareness Rally</h2>
-                                <div class="card1">
-                                    <!-- <h4>Awareness Rally</h4> -->
-                                    <p>It doesn’t matter how hard we put our efforts into this unless and until we are joined and supported by the society as well. The awareness rallies conducted by Jagrati have looked forward to ignite the same spirit of working in togetherness towards a better future of the country. </p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="glide__slide">
-                              <div class="card">
-                                <div class="card-img">
-                                    <img src='{% static "home/images/02.jpg" %}'>
-                                </div>
-                                <h2 class="card_h2">Festivals</h2>
-                                <div class="card1">
-                                    <!-- <h4>Festivals</h4> -->
-                                    <p>Ever festival has always been a delight with Jagrati. The colours of Holi seemed to be more colourful while celebrating it with the kids. Diyas of the Diwali became all the more bright when lit by those little hands and the crackers were better enjoyed when bursted by them. Be it Rakhsha Bandhan where the little girls tied rakhi or the Navratri where they worshipped Maa Durga, every festival carries millions of memories with it. </p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="glide__slide">
-                              <div class="card">
-                                <div class="card-img">
-                                    <img src='{% static "home/images/02.jpg" %}'>
-                                </div>
-                                <h2 class="card_h2">Old Age Home Visit</h2>
-                                <div class="card1">
-                                    <!-- <h4>Old Age Home Visit</h4> -->
-                                    <p>Jagrati has also extended its helping hands to the old souls who have been looked down upon by the society and have now hidden themselves into a room away from the light of the outside world. Holding their hands and giving them a support gave them a genuine pleasure which is beyond explanation. Talking to them and sharing words of hope granted us with their unfathomable experience and knowledge of life. The day was an experience of a lifetime. </p>
-                                </div>
-                            </div>
-                        </li>
+                        
+                        
+                        
+                                             
+                                            
+                 
+                     {% endfor %}    
                     </ul>
+                    
                   </div>
                 <div class="glide__arrows disable_arrows" data-glide-el="controls">
                     <button class="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
                     <button class="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
                   </div>
                   <div class="glide__bullets" data-glide-el="controls[nav]">
+                      
                     <button class="glide__bullet" data-glide-dir="=0"></button>
                     <button class="glide__bullet" data-glide-dir="=1"></button>
                     <button class="glide__bullet" data-glide-dir="=2"></button>
@@ -257,8 +174,8 @@
                     <button class="glide__bullet" data-glide-dir="=4"></button>
                     <button class="glide__bullet" data-glide-dir="=5"></button>
                     <button class="glide__bullet" data-glide-dir="=6"></button>
-                    <button class="glide__bullet" data-glide-dir="=7"></button>
-                    <button class="glide__bullet" data-glide-dir="=8"></button>
+                    
+                    
                   </div>
             </div>
         </div>

@@ -14,6 +14,7 @@ from accounts.models import Profile
 from apps.students.models import Student, StudentAttendance, StudentSchedule
 from apps.volunteers.models import Volunteer, VolunteerAttendance, VolunteerSchedule
 from .models import Calendar, ClassworkHomework, Schedule, Section
+from apps.misc.models import Initiative
 
 
 # NON-VIEWS FUNCTIONS
@@ -33,7 +34,8 @@ def is_volunteer(user):
 def index(request):
     if request.user.is_authenticated:
         return redirect('home:dashboard')
-    return render(request, 'home/index.html')
+    initiatives=Initiative.objects.all()    
+    return render(request, 'home/index.html',{'initiatives':initiatives})
 
 
 @login_required
