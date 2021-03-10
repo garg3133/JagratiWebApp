@@ -141,42 +141,34 @@
                           <li class="glide__slide">
                               <div class="card">
                                 <div class="card-img">
-                                    <img src={{initiative.thumbnail}}>
+                                  {% if not initiative.thumbnail %}  
+                                    <img src="{{ initiative.thumb_url }}">
+                                  {% else %} 
+                                    <img src="{{ initiative.thumbnail }}">
+                                  {% endif %}
                                 </div>
                                 
-                                <h2 class="card_h2">{{initiative.title}}</h2>
+                                <h2 class="card_h2">{{ initiative.title }}</h2>
                                 <div class="card1">
                                     <!-- <h4>Evening Classes</h4> -->
-                                    <p>{{initiative.description}} </p>
+                                    <p>{{ initiative.description }} </p>
                                 </div>
                             </div>
-                        </li>
+                         </li>
+                        {% endfor %}    
+                    </ul> 
+                 </div>       
                         
-                        
-                        
-                                             
-                                            
-                 
-                     {% endfor %}    
-                    </ul>
-                    
-                  </div>
-                <div class="glide__arrows disable_arrows" data-glide-el="controls">
+                 <div class="glide__arrows disable_arrows" data-glide-el="controls">
                     <button class="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
                     <button class="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
                   </div>
                   <div class="glide__bullets" data-glide-el="controls[nav]">
-                      
-                    <button class="glide__bullet" data-glide-dir="=0"></button>
-                    <button class="glide__bullet" data-glide-dir="=1"></button>
-                    <button class="glide__bullet" data-glide-dir="=2"></button>
-                    <button class="glide__bullet" data-glide-dir="=3"></button>
-                    <button class="glide__bullet" data-glide-dir="=4"></button>
-                    <button class="glide__bullet" data-glide-dir="=5"></button>
-                    <button class="glide__bullet" data-glide-dir="=6"></button>
+                    {% for initiative in initiatives %}
+                        <button class="glide__bullet" data-glide-dir={{forloop.counter0}}></button>
+                    {% endfor %}
                     
-                    
-                  </div>
+                 </div>
             </div>
         </div>
     </section>
@@ -344,4 +336,10 @@
         }
     </script>
     <script>AOS.init({once: true});</script>
-{% endblock %}
+{% endblock %}                            
+                                           
+                 
+                     
+                    
+                  
+                
