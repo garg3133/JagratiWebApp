@@ -133,45 +133,39 @@
         <div class="container">
             <h1>Our Initiatives</h1>
             <div class="glide">
-                  <div class="glide__track" data-glide-el="track">
+                <div class="glide__track" data-glide-el="track">
                     <ul class="glide__slides">
-                        
                         {% for initiative in initiatives %}
-
-                          <li class="glide__slide">
-                              <div class="card">
-                                <div class="card-img">
-                                  {% if not initiative.thumbnail %}  
-                                    <img src="{{ initiative.thumb_url }}">
-                                  {% else %} 
-                                    <img src="{{ initiative.thumbnail }}">
-                                  {% endif %}
+                            <li class="glide__slide">
+                                <div class="card">
+                                    <div class="card-img">
+                                        {% if  initiative.thumbnail %}  
+                                            <img src="{{ initiative.thumbnail.url }}">
+                                        {% else %} 
+                                            <img src="{{ initiative.thumb_url }}">
+                                        {% endif %}
+                                    </div>
+                                    <h2 class="card_h2">{{ initiative.title }}</h2>
+                                    <div class="card1">
+                                        <p>{{ initiative.description }} </p>
+                                    </div>
                                 </div>
-                                
-                                <h2 class="card_h2">{{ initiative.title }}</h2>
-                                <div class="card1">
-                                    <!-- <h4>Evening Classes</h4> -->
-                                    <p>{{ initiative.description }} </p>
-                                </div>
-                            </div>
-                         </li>
+                            </li>
                         {% endfor %}    
                     </ul> 
-                 </div>       
-                        
-                 <div class="glide__arrows disable_arrows" data-glide-el="controls">
+                </div>       
+                <div class="glide__arrows disable_arrows" data-glide-el="controls">
                     <button class="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
                     <button class="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
-                  </div>
-                  <div class="glide__bullets" data-glide-el="controls[nav]">
+                </div>
+                <div class="glide__bullets" data-glide-el="controls[nav]">
                     {% for initiative in initiatives %}
                         <button class="glide__bullet" data-glide-dir={{forloop.counter0}}></button>
                     {% endfor %}
-                    
-                 </div>
+                </div>
             </div>
         </div>
-    </section>
+    </section>      
     <!-- Initiatives SEction ends -->
 
     <!-- Services section starts -->
@@ -342,4 +336,6 @@
                      
                     
                   
+                            
                 
+    
