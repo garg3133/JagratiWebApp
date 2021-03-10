@@ -134,7 +134,7 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="profileImage">Profile Picture <span class="text-muted">(Optional)</span></label>
-                        <input name="profile_image" type="file" id="profileImage">
+                        <input name="profile_image" type="file" id="profileImage" onchange="imageValidation()">
                     </div>
                 </div>
 
@@ -171,6 +171,18 @@
             })
         }, false)
     }())
+</script>
+
+<script type="text/javascript">
+    function imageValidation() {
+        var fileInput = document.getElementById('profileImage');
+        var filePath = fileInput.value;
+        var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+        if(!allowedExtensions.exec(filePath)) {
+            alert('Please upload file having extensions .jpeg, .jpg, .png or .gif only.');
+            fileInput.value = '';
+        }
+    }
 </script>
 
 <!-- Script for Update Profile Date Pickers -->
