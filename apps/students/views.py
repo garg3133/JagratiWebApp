@@ -135,27 +135,26 @@ def attendance(request):
         'today_date': today_date,
     }
 
-    if today_cal.class_scheduled:
-        if not StudentAttendance.objects.filter(cal_date__date=today_date).exists():
-            # Create Empty Student Attendance Instances
-            today_stu_sch = StudentSchedule.objects.filter(day=today_day)
-            for stu_sch in today_stu_sch:
+    if not today_cal.class_scheduled:
+        context['no_class_today'] = True
+        return render(request, 'students/attendance.html', context)
+
+    today_stu_sch = StudentSchedule.objects.filter(day=today_day)
+    today_stu_att = StudentAttendance.objects.filter(cal_date__date=today_date)
+
+    if not today_stu_att.exists():
+        # Create Empty Student Attendance Instances
+        for stu_sch in today_stu_sch:
+            stu_attendance = StudentAttendance(
+                student=stu_sch.student, cal_date=today_cal)
+            stu_attendance.save()
+    elif today_stu_att.count() != today_stu_sch.count():
+        # Some new students added in today's schedule (not necessarily present today)
+        for stu_sch in today_stu_sch:
+            if not today_stu_att.filter(student=stu_sch.student).exists():
                 stu_attendance = StudentAttendance(
                     student=stu_sch.student, cal_date=today_cal)
                 stu_attendance.save()
-
-        elif StudentAttendance.objects.filter(cal_date__date=today_date).count() != StudentSchedule.objects.filter(
-                day=today_day).count():
-            # Some new students added in today's schedule (not necessarily present today)
-            today_stu_sch = StudentSchedule.objects.filter(day=today_day)
-            for stu_sch in today_stu_sch:
-                if not StudentAttendance.objects.filter(student=stu_sch.student, cal_date=today_cal).exists():
-                    stu_attendance = StudentAttendance(
-                        student=stu_sch.student, cal_date=today_cal)
-                    stu_attendance.save()
-    else:
-        context['no_class_today'] = True
-        return render(request, 'students/attendance.html', context)
 
     context['stu_att_today'] = StudentAttendance.objects.filter(
         cal_date=today_cal, student__school_class__range=(1, 3)).order_by(
