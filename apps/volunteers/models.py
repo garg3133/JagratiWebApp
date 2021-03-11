@@ -59,9 +59,6 @@ class VolunteerSchedule(models.Model):
     def __str__(self):
         return f'{self.volun} - {self.schedule}'
 
-    def save(self, *args, **kwargs):
-        self.day = Schedule.objects.get(id=self.schedule.id).day
-        super(VolunteerSchedule, self).save(*args, **kwargs)
 
 class VolunteerAttendance(models.Model):
     volun = models.ForeignKey(Volunteer, on_delete=models.CASCADE, related_name='volun_attendance')

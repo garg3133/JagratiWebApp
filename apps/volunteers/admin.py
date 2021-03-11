@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from .forms import VolunteerScheduleAdminForm
 from .models import (
     Designation, Volunteer, VolunteerSchedule,
     VolunteerAttendance, UpdateScheduleRequest,
@@ -37,6 +38,8 @@ class VolunteerAdmin(admin.ModelAdmin):
 
 @admin.register(VolunteerSchedule)
 class VolunteerScheduleAdmin(admin.ModelAdmin):
+    form = VolunteerScheduleAdminForm
+
     list_display = ('get_roll', 'get_name', 'day', 'get_section')
     search_fields = ('volun__roll_no', 'volun__profile__first_name', 'volun__profile__last_name')
     list_filter = ('day',)
