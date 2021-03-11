@@ -138,3 +138,37 @@ And additional requirements are in [**requirements.txt**](https://github.com/gar
 
 ## 💥 How to Contribute ?
 - If you wish to contribute kindly check the [CONTRIBUTING.md](https://github.com/garg3133/JagratiWebApp/blob/master/CONTRIBUTING.md)🤝
+
+### This Project is a part of the following Open Source Program
+
+<p align="center">
+<a href="https://gssoc.girlscript.tech/"  target="_blank"> 
+  <img src="https://github.com/nilisha-jais/JagratiWebApp/blob/master/static/gssoc_banner.png" alt="GSSOC"/>
+</a>
+&nbsp;&nbsp;
+<a href="https://mexili.org/winter_of_code/#/"  target="_blank"> 
+  <img src="https://github.com/nilisha-jais/JagratiWebApp/blob/master/static/mexiliWoc_banner.png" alt="Mexili" /> 
+</a>
+&nbsp;&nbsp;
+ <a href="https://kwoc.kossiitkgp.org/"  target="_blank"> 
+  <img src="https://github.com/nilisha-jais/JagratiWebApp/blob/master/static/kwoc_banner.png" alt="KWOC"/>
+</a>
+&nbsp;&nbsp;
+<a href="https://swoc.tech/"  target="_blank"> 
+  <img src="https://github.com/nilisha-jais/JagratiWebApp/blob/master/static/swoc_banner.png" alt="Swoc" /> 
+</a>
+</p>
+
+## Project Maintainer 😃
+
+<table>
+  <tbody><tr>
+    <td align="center"><a href="https://github.com/garg3133"><img alt="" src="https://avatars.githubusercontent.com/u/39924567?s=400&v=4" width="130px;"><br><sub><b> Priyansh Garg </b></sub></a><br><a href="https://github.com/garg3133/JagratiWebApp/commits?author=garg3133" title="Code">💻 </a></td> </a></td>
+  </tr>
+</tbody></table>
+
+## Our valuable Contributors👩‍💻👨‍💻 :
+<a href="https://github.com/garg3133/JagratiWebApp/graphs/contributors">
+  <img src="https://contributors-img.web.app/image?repo=garg3133/JagratiWebApp" />
+</a>
+
