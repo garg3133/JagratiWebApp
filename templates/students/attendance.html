@@ -150,20 +150,37 @@
             },
             dataType: 'json',
             success: function (data) {
-                let stu_att_table = '<thead><tr><th>Student Name</th><th>Class</th><th>Mark Present</th></tr></thead><tbody>';
+                let stu_att_table =
+                    `<thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Class</th>
+                            <th>Mark Present</th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
                 let checked = '';
 
-                Object.entries(data).forEach(([key, [stu_id, name, school_class, present]]) => {
+                Object.entries(data).forEach(([key, [stu_att_id, stu_id, name, school_class, present]]) => {
                     if (present) checked = 'checked';
                     else checked = '';
 
                     if (school_class == 13) school_class = "JNV_4"
                     else if (school_class == 14) school_class = "JNV_5"
 
-                    stu_att_table += '<tr><td>' + name + '</td><td>' + school_class + '</td> \
-                    <td><div class="custom-control custom-switch"><input type="checkbox" name="attended" value="' + stu_id + '" \
-                    class="custom-control-input" id="s' + stu_id + '" ' + checked + '><label class="custom-control-label" \
-                    for="s' + stu_id + '"></label></div></td></tr>';
+                    stu_att_table +=
+                        `<tr>
+                            <td>${name}</td>
+                            <td>${school_class}</td>
+                            <td>
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" name="attended" value="${stu_id}"
+                                        class="custom-control-input" id="s${stu_att_id}" 
+                                        onchange="attendance('${stu_id}', 's${stu_att_id}')" ${checked}>
+                                    <label class="custom-control-label" for="s${stu_att_id}"></label>
+                                </div>
+                            </td>
+                        </tr>`;
                 });
 
                 stu_att_table += '</tbody>';
