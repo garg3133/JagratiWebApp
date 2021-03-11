@@ -101,14 +101,16 @@ nav{
 	top: 0;
 	background-color: #ff8c00;
 	z-index: 2;
+	font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;	
 }
 .navbut{
-	border: 1px red solid;
+	border: 1px black solid;
 	border-radius: 4px;
 	background-color: #ff8c00;
 	padding: 3px 10px;
 	cursor: pointer;
 	transition: 0.5s;
+	margin: 5.5px;	
 }
 .navbut:hover{
 	background-color: red;
@@ -127,7 +129,8 @@ nav{
 /*Right nav bar*/
 .navbar1{
 	float: right;
-	margin: 5px 0;
+	/*margin: 5px 0;*/
+	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 .navbar1 ul{
 	list-style: none;
@@ -136,21 +139,25 @@ nav{
 }
 .navbar1 li{
 	display: inline;
-	padding: 0 5px;
 	color: black;
 }
 .navbar1 .button{
 	position: relative;
-	padding: 3px 10px;
+	padding: 13.5px 11px;
 	background-color: #ff8c00;
-	font-size: 15px;
+	font-size: 18px;
+	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+	border: none;
+	border-radius: 0px;
 	overflow: hidden;
 	transition: 0.5s ease;
 }
 .navbar1 .button:hover{
 	background-color: red;
 	color: white;
-	padding: 3px 12px;
+	font-weight: bold;
+	outline: none;
+	/*padding: 3px 12px;*/
 }
 /*.navbar1 .button:before{
 	content: "";
@@ -182,6 +189,8 @@ nav{
 /*navbar in full size*/
 .navbar{
 	float: left;
+	font-size: 0px;
+	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 	/*margin: 5px 0;*/
 }
 .navbar ul{
@@ -196,11 +205,13 @@ nav{
 }
 .navbar a{
 	display: inline-block;
-	padding: 6.5px;
+	font-size: 18px;
+	padding: 10.5px;
 	transition: 0.4s;
 }
 .navbar a:hover{
 	background-color: red;
+	font-weight: bold;
 }
 
 /*button-controlled nav bar*/
