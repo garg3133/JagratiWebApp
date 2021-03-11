@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from .forms import StudentScheduleAdminForm
 from .models import (
     Student, StudentAttendance, StudentSchedule,
 )
@@ -19,6 +20,8 @@ class StudentAdmin(admin.ModelAdmin):
 
 @admin.register(StudentSchedule)
 class StudentScheduleAdmin(admin.ModelAdmin):
+    form = StudentScheduleAdminForm
+
     list_display = ('get_class', 'get_name', 'day', 'get_section')
     search_fields = ('student__first_name', 'student__last_name')
     list_filter = ('day', 'student__school_class', 'schedule__section__name')
