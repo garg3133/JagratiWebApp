@@ -5,10 +5,10 @@ from .models import (
     Student, StudentAttendance, StudentSchedule,
 )
 
-# Register your models here.
+
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ( 'get_name', 'school_class', 'village')
+    list_display = ('get_name', 'school_class', 'village')
     search_fields = ('first_name', 'last_name')
     list_filter = ('school_class', 'village')
     ordering = ('school_class', 'first_name')
@@ -17,6 +17,7 @@ class StudentAdmin(admin.ModelAdmin):
         return obj.get_full_name
     get_name.short_description = 'Name'
     get_name.admin_order_field = 'first_name'
+
 
 @admin.register(StudentSchedule)
 class StudentScheduleAdmin(admin.ModelAdmin):
@@ -42,11 +43,14 @@ class StudentScheduleAdmin(admin.ModelAdmin):
     get_section.short_description = 'Section'
     get_section.admin_order_field = 'schedule__section__section_id'
 
+
 @admin.register(StudentAttendance)
 class StudentAttendanceAdmin(admin.ModelAdmin):
-    list_display = ('cal_date', 'get_name', 'get_class', 'get_village', 'present', 'hw_done')
+    list_display = ('cal_date', 'get_name', 'get_class',
+                    'get_village', 'present', 'hw_done')
     search_fields = ('cal_date', 'student__first_name', 'student__last_name')
-    list_filter = ('present', 'student__school_class', 'student__village', 'hw_done')
+    list_filter = ('present', 'student__school_class',
+                   'student__village', 'hw_done')
     ordering = ('-cal_date', 'student__school_class', 'student__first_name')
 
     def get_name(self, obj):
