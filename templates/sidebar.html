@@ -116,17 +116,31 @@
                 <ul class="sidebar-list nav flex-column text-center">
                     <div class="card px-2 py-2 mt-4 shadow-sm">
                         <li class="nav-item">
-                            {% if profile.profile_image %}
-                            <img class="sidebar-img rounded-circle my-2" src='{{ profile.profile_image.url }}' alt="v">
-                            {% elif profile.gender == 'M' %}
-                            <img class="sidebar-img rounded-circle my-2" src="{% static 'home/images/man.png' %}" alt="v">
-                            {% elif profile.gender == 'F' %}
-                            <img class="sidebar-img rounded-circle my-2" src="{% static 'home/images/woman.png' %}" alt="v">
-                            {% else %}
-                            <img class="sidebar-img my-2" src="{% static 'home/logo.png' %}" alt="v">
-                            {% endif %}
+                            <button type="button" class="btn rounded-circle example-popover p-1" data-container="body" data-toggle="popover" data-placement="bottom" 
+                                data-content="<a class='btn m-0 p-0' role='button' style='width:100%'>
+                                <label for='profileImage'> <span class='text-muted'>Change Profile Picture</span></label>
+                                <input name='profile_image' type='file' id='profileImage' style='display:none'>
+                                </a>
+                                <a href={% if profile.profile_image %}'{{ profile.profile_image.url }}'
+                                {% elif profile.gender == 'M' %}'{% static 'home/images/man.png' %}'
+                                {% elif profile.gender == 'F' %}'{% static 'home/images/woman.png' %}'
+                                {% else %}'{% static 'home/images/man.png' %}'
+                                {% endif %} role='button' class='btn m-0 p-0' style='width:100%' target='_blank'>
+                                <label><span class='text-muted'>View Profile Image</span></a>"
+                                data-html="true">
+                                
+                                    {% if profile.profile_image %}
+                                    <img class="sidebar-img rounded-circle" src='{{ profile.profile_image.url }}' alt="v">
+                                    {% elif profile.gender == 'M' %}
+                                    <img class="sidebar-img rounded-circle" src="{% static 'home/images/man.png' %}" alt="v">
+                                    {% elif profile.gender == 'F' %}
+                                    <img class="sidebar-img rounded-circle" src="{% static 'home/images/woman.png' %}" alt="v">
+                                    {% else %}
+                                    <img class="sidebar-img rounded-circle" src="{% static 'home/logo.png' %}" alt="v">
+                                    {% endif %}
+                                
+                            </button>
                         </li>
-
                         {% if profile is not None %}
                         <li class="nav-item">
                             <h5 class="my-0">{{ profile.get_full_name }}</h5>
@@ -144,8 +158,11 @@
                             </h5>
                         </li>
                         {% endif %}
-
-                        <a href="{% url 'volunteers:profile' profile.user_id %}" class="stretched-link"></a>
+                            {% with request.resolver_match.url_name as url_name %}
+                            {% if url_name != 'update_profile' %}
+                            <a href="{% url 'volunteers:profile' profile.user_id %}" class="stretched-link"></a>
+                            {% endif %}
+                        {% endwith %}
                     </div>
 
                     {% if volun.desig is None %}
@@ -173,6 +190,7 @@
                             <h5>Subject: <span class="lead"> -- </span></h5>
                         </li>
                         {% endif %}
+                    
                     <li class="nav-item">
                         <a href="{% url 'volunteers:update_schedule' %}" class="btn btn-outline-primary mt-3">Update Schedule</a>
                     </li>
@@ -195,6 +213,7 @@
                         <a href="{% url 'volunteers:update_profile' %}" class="btn btn-outline-primary"> Update Profile </a>
                     </li>
                 </ul>
+                
             </div>
         </nav>
 
@@ -240,8 +259,22 @@
 			dash_accordion.classList.add('up');
 		}
 	}
+
+    //document.getElementById("profile_Image").onchange = function() {
+    //    document.getElementById("form").submit();
+    //};
 </script>
 
+<script>
+    $(function () {
+        $('.example-popover').popover({
+            trigger: 'focus',
+            container: '.container-fluid',
+            html: true,
+            sanitize: false
+        });
+    })
+</script>  
 
 {% block scripts-sidebar %}
 {% endblock %}
