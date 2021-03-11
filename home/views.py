@@ -23,6 +23,7 @@ def has_authenticated_profile(user):
        Necessary to access any page on site bar home page."""
     return user.auth is True and Profile.objects.filter(user=user).exists()
 
+
 def is_volunteer(user):
     """To be used in views accessible to volunteers only."""
     return user.desig == 'v'
@@ -58,20 +59,30 @@ def dashboard(request):
     query_date_str = request.GET.get('d', '')
     query_section = request.GET.get('s', '')
 
+    day_dict = {1: 'Monday', 2: 'Tuesday', 3: 'Wednesday',
+                4: 'Thursday', 5: 'Friday', 6: 'Saturday', 7: 'Sunday'}
+
     if query_date_str and query_section:
         query_date = datetime.strptime(query_date_str, '%Y-%m-%d').date()
         query_day = query_date.strftime("%w")
+        print(query_section)
         calendar = Calendar.objects.filter(date=query_date)
+        subject_today = Schedule.objects.filter(
+            day=query_day, section__section_id=query_section).get()
+        sub = subject_today.sub_dict[subject_today.subject]
 
         # If the section is not taught on selected day
         # (URL parameters are altered manually)
-        schedule = Schedule.objects.filter(day=query_day, section__section_id=query_section)
+        schedule = Schedule.objects.filter(
+            day=query_day, section__section_id=query_section)
         if not schedule.exists():
             return redirect('home:dashboard')
 
         context = {
-            'selected_date' : query_date,
-            'selected_section' : query_section,
+            'selected_date': query_date,
+            'selected_section': query_section,
+            'subject_today': sub,
+
         }
         # If calendar instance for that day is not created
         if not calendar.exists():
@@ -86,11 +97,13 @@ def dashboard(request):
             return render(request, 'home/dashboard.html', context)
 
         # Classwork/Homework info
-        cw_hw = ClassworkHomework.objects.filter(cal_date=calendar, section__section_id=query_section).first()
+        cw_hw = ClassworkHomework.objects.filter(
+            cal_date=calendar, section__section_id=query_section).first()
         context['cw_hw'] = cw_hw
 
         # Students Attendance
-        student_attendance = StudentAttendance.objects.filter(cal_date=calendar, present=True).order_by('student__school_class')
+        student_attendance = StudentAttendance.objects.filter(
+            cal_date=calendar, present=True).order_by('student__school_class')
         context['student_attendance'] = student_attendance
 
         if student_attendance.exists():
@@ -101,12 +114,15 @@ def dashboard(request):
             for stu_att in student_attendance:
                 stu_att_village[stu_att.student.village] += 1
             # Mehgawan Side
-            stu_att_village['MS'] = stu_att_village['M'] + stu_att_village['C'] + stu_att_village['A'] + stu_att_village['S']
+            stu_att_village['MS'] = stu_att_village['M'] + \
+                stu_att_village['C'] + \
+                stu_att_village['A'] + stu_att_village['S']
 
             context['stu_att_village'] = stu_att_village
 
         # Volunteers Attendance
-        volun_attendance = VolunteerAttendance.objects.filter(cal_date=calendar, present=True).order_by('volun__roll_no')
+        volun_attendance = VolunteerAttendance.objects.filter(
+            cal_date=calendar, present=True).order_by('volun__roll_no')
         context['volun_attendance'] = volun_attendance
 
         return render(request, 'home/dashboard.html', context)
@@ -153,11 +169,13 @@ def update_cwhw(request):
         hw = request.POST['hw']
         comment = request.POST['comment']
 
-        cw_hw = ClassworkHomework.objects.filter(cal_date=cal_date, section=section)
+        cw_hw = ClassworkHomework.objects.filter(
+            cal_date=cal_date, section=section)
         if cw_hw.exists():
             cw_hw = cw_hw[0]
         else:
-            cw_hw = ClassworkHomework(cal_date=cal_date, section=section, cw='', hw='', comment='')
+            cw_hw = ClassworkHomework(
+                cal_date=cal_date, section=section, cw='', hw='', comment='')
 
         if cw:
             cw_hw.cw += f'{cw}\n - {profile.get_full_name}, {volun.roll_no}\n\n'
