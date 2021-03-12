@@ -54,10 +54,6 @@ class StudentSchedule(models.Model):
     def __str__(self):
         return f'{self.student} - {self.schedule}'
 
-    def save(self, *args, **kwargs):
-        self.day = Schedule.objects.get(id=self.schedule.id).day
-        super(StudentSchedule, self).save(*args, **kwargs)
-
 
 class StudentAttendance(models.Model):
     student = models.ForeignKey(

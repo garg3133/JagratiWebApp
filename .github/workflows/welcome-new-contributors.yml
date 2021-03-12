@@ -14,5 +14,5 @@ jobs:
       with:
         token: ${{ secrets.BOT_ACCESS_TOKEN }}
         is-oauth-token: true
-        issue-message: 'Hi! Thanks for opening your first issue at JagratiWebApp :rocket: We really appreciate it. :raised_hands:'
+        issue-message: 'Hi! Thanks for opening your first issue at JagratiWebApp :rocket: We really appreciate it. :raised_hands: Someone from our team will get back here soon.'
         pr-message: 'Congratulations for making your first Pull Request at JagratiWebApp!! :tada: Someone from our team will review it soon.'

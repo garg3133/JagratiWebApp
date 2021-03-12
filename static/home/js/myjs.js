@@ -81,7 +81,7 @@ function myMap() {
 }
 
 // SHOWCASE TEXT
-const show_p_txt = "give way to changing life of needy children Education";
+const show_p_txt = "Give way to changing the lives of needy children through Education";
 let i=0;
 show_p();
 function show_p(){	
