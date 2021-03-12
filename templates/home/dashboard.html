@@ -30,6 +30,12 @@
         <div class="row justify-content-center mb-4">
             <div class="col-md-4">
                 <button id="continue_button" class="btn btn-primary btn-lg btn-block" type="submit">Continue</button>
+               <br>
+               <div class="row justify-content-center mb-2 ">
+            {% if subject_scheduled %}    
+            <p>Subject scheduled: <b>{{ subject_scheduled  }}</b></p>
+           {% endif %}
+                </div>
             </div>
         </div>
     </form>
