@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Invoice</title>
+    {% load static %}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link href="{% static 'logo.png' %}" rel="icon">
+    <style>
+        @media print {
+            #printPageButton {
+                display: none;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container mt-3">
+        <button class="btn btn-info" style="float: left;" id="printPageButton" onclick="window.location.replace('/');">Return Home</button>
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-primary" id="printPageButton" onclick="window.print();">Print</button>
+        </div>
+
+    </div>
+
+
+
+    <div class="container mt-3">
+
+        <div class="row">
+            <div class="col">
+                <img src="{% static 'logo.png' %}" alt="" style="width: 350px; height: 250px;">
+            </div>
+            <div class="col text-right">
+            
+                <p class="mb-0">Pandit Dwarka Prasad Mishra Indian Institute of Information Technology<br>Design and Manufacturing<br>Jabalpur</p>
+                <p class="mb-0">Pin - 123456</p>
+                <p class="mb-0">Tel. : 9111111111</p>
+                <p class="mb-0">Email : jagrati@iiitdmj.ac.in</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="container mt-5">
+
+        <div class="row">
+            <div class="col">
+                <p class="mb-0 font-weight-bold">Billing Details</p>
+                <h5>{{name}}</h5>
+                <p class="mb-9">{{email}}</p>
+            </div>
+            <div class="col text-right">
+                <h1>Invoice</h1>
+                <p class="mb-0 font-weight-bold">Invoice No.</p>
+                <p class="mb-0">{{orderid}}</p>
+                <p class="mb-0 font-weight-bold">Invoice Details</p>
+                <p class="mb-0">INV{{invoice_num}}</p>
+                <p class="mb-0 font-weight-bold">Invoice Date</p>
+                <p class="mb-0">{{date}}</p>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="container mt-5" style="overflow-x: scroll">
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">S. No.</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">GST</th>
+                    <th scope="col">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Jagrati Donation</td>
+                    <td>0%</td>
+                    <td>{{amount}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+
+
+    <div class="container pt-3 pb-3 mb-5" style="border-top: 1px solid grey; border-bottom: 1px solid grey;">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col">
+                <h4 class="text-center">Total Amount: ₹ {{amount}}</h4>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div style="position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(188, 210, 235);
+    color: black;
+    text-align: center;">
+        <a href="/">Jagrati</a> Copyright © 2021
+    </div>
+
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Thanks for your support!',
+        })
+    </script>
+</body>
+
+</html>

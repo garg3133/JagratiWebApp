@@ -684,6 +684,22 @@ nav{
 .don-box2 p{
 	margin: 0 0 20px;
 }
+.pay-button{
+	padding: 8px 20px;
+	background-color: white;
+	/*color: #616370;*/
+	border: 1px #222 solid;
+	border-radius: 13px;
+	font-size: 15px;
+	margin-bottom: 10px;
+	cursor: pointer;
+	transition: 400ms;
+}
+.pay-button:hover{
+	padding: 8px 25px;
+	background-color: red;
+	color: white;
+}
 
 /*CONTACT US STARTS*/
 

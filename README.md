@@ -94,6 +94,9 @@ And additional requirements are in [**requirements.txt**](https://github.com/gar
 
     SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'google-oauth2-key'
     SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'google-oauth2-secret'
+
+    PAYTM_MID = 'paytm-merchant-id'
+    PAYTM_SECRET = 'paytm-secret-key'
     ```  
     or, just copy the `.env.save` file from `samples` directory to the root directory (`JagratiWebApp`) and rename it to `.env` (only `.env` and not `.env.txt`)  
   

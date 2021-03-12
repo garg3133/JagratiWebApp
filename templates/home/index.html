@@ -5,6 +5,7 @@
 {% block title %} Jagrati | Home {% endblock %}
 
 {% block style %}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <link rel="stylesheet" type="text/css" href='{% static "home/css/style.css" %}'>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
@@ -342,6 +343,7 @@
                     <p>xxxxxxxxxxx</p>
                     <h4>IFSC Code</h4>
                     <p>XXXXxxxxxxx</p>
+                    <center><button onclick="showPay()" class="pay-button">Donate Now</button></center>
                 </div>
                 <div class="don-box3">
                     <h3>Contact Details</h3>
@@ -427,4 +429,34 @@
         }
     </script>
     <script>AOS.init({once: true});</script>
+    <script>
+        const donat_modal = document.getElementById("don-modal")
+        function showPay(){
+            donat_modal.style.display = "none";
+            Swal.fire({
+                title: 'Donation Details',
+                html: `<form action="/payment/paytm/" method="POST" id="payForm"><input type="text" id="name" name="name" class="swal2-input" placeholder="Donator's Name">
+                <input type="email" id="email" name="email" class="swal2-input" placeholder="Donator's Email">
+                <input type="number" id="amount" name="amount" class="swal2-input" placeholder="Amount in ₹"></form>`,
+                confirmButtonText: 'Donate Now',
+                focusConfirm: false,
+                preConfirm: () => {
+                    const name = Swal.getPopup().querySelector('#name').value
+                    const email = Swal.getPopup().querySelector('#email').value
+                    const amount = Swal.getPopup().querySelector('#amount').value
+                    if (!name || !email || !amount) {
+                    Swal.showValidationMessage(`One or more fields is missing.`)
+                    } else if(amount < 1) {
+                        Swal.showValidationMessage(`Please enter valid amount.`)
+                    }
+                    return { name: name, email: email, amount: amount }
+                }
+                }).then((result) => {
+                    if(result.value){
+                        const f = document.getElementById("payForm");
+                        f.submit();
+                    }
+                })
+        }
+    </script>
 {% endblock %}
