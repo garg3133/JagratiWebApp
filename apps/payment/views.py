@@ -1,6 +1,5 @@
 # Standard Libraries
 from datetime import datetime, date
-import json
 
 # Django
 from django.conf import settings
@@ -36,7 +35,8 @@ def payment(request):
         'CHANNEL_ID': 'WEB',
         'CALLBACK_URL': f'http://{get_current_site(request)}/payment/handler/',
     }
-    param_dict['CHECKSUMHASH'] = generate_checksum(param_dict, PAYTM_MERCHANT_KEY)
+    param_dict['CHECKSUMHASH'] = generate_checksum(
+        param_dict, PAYTM_MERCHANT_KEY)
     return render(request, 'payment/paytm.html', {'param_dict': param_dict})
 
 
@@ -48,7 +48,6 @@ def payment_handler(request):
         response_dict[i] = form[i]
         if i == 'CHECKSUMHASH':
             checksum = form[i]
-    
 
     verify = verify_checksum(response_dict, PAYTM_MERCHANT_KEY, checksum)
     new_txn = Transaction(
@@ -71,11 +70,8 @@ def payment_handler(request):
     new_txn.save()
     if verify:
         if response_dict['RESPCODE'] == '01':
-
             order_id = response_dict['ORDERID']
             txn_amount = response_dict['TXNAMOUNT']
-
-            
             context = {
                 'orderid': order_id,
                 'name': name,
@@ -85,12 +81,8 @@ def payment_handler(request):
                 'invoice_num': order_id[3:]
             }
             return render(request, 'payment/invoice.html', context)
-
-        else:
-            return render(request, 'payment/payment_status.html', {'response': response_dict})
-
-    else:
-        return HttpResponse("Invalid")
+        return render(request, 'payment/payment_status.html', {'response': response_dict})
+    return HttpResponse("Invalid")
 
 
 def invoice(request):

@@ -88,18 +88,19 @@ def __get_param_string__(params):
     params_string = []
     for key in sorted(params.keys()):
         if("REFUND" in params[key] or "|" in params[key]):
-            respons_dict = {}
             exit()
         value = params[key]
         params_string.append('' if value == 'null' else str(value))
     return '|'.join(params_string)
 
 
-def __pad__(s): return s + (BLOCK_SIZE - len(s) %
-                            BLOCK_SIZE) * chr(BLOCK_SIZE - len(s) % BLOCK_SIZE)
+def __pad__(s):
+    return s + (BLOCK_SIZE - len(s) %
+                BLOCK_SIZE) * chr(BLOCK_SIZE - len(s) % BLOCK_SIZE)
 
 
-def __unpad__(s): return s[0:-ord(s[-1])]
+def __unpad__(s): 
+    return s[0:-ord(s[-1])]
 
 
 def __encode__(to_encode, iv, key):
