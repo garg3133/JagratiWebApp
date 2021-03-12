@@ -1,14 +1,15 @@
 from django.contrib import admin
 
+from .forms import VolunteerScheduleAdminForm
 from .models import (
     Designation, Volunteer, VolunteerSchedule,
     VolunteerAttendance, UpdateScheduleRequest,
 )
 
-# Register your models here.
 
 class VolunteerInline(admin.StackedInline):
     model = Volunteer
+
 
 @admin.register(Designation)
 class DesignationAdmin(admin.ModelAdmin):
@@ -16,6 +17,7 @@ class DesignationAdmin(admin.ModelAdmin):
     search_fields = ('name', 'parent_desig__name')
     list_filter = ('parent_desig',)
     ordering = ('desig_id',)
+
 
 @admin.register(Volunteer)
 class VolunteerAdmin(admin.ModelAdmin):
@@ -35,10 +37,14 @@ class VolunteerAdmin(admin.ModelAdmin):
     get_auth.admin_order_field = 'profile__user__auth'
     get_auth.boolean = True
 
+
 @admin.register(VolunteerSchedule)
 class VolunteerScheduleAdmin(admin.ModelAdmin):
+    form = VolunteerScheduleAdminForm
+
     list_display = ('get_roll', 'get_name', 'day', 'get_section')
-    search_fields = ('volun__roll_no', 'volun__profile__first_name', 'volun__profile__last_name')
+    search_fields = ('volun__roll_no',
+                     'volun__profile__first_name', 'volun__profile__last_name')
     list_filter = ('day',)
     ordering = ('volun__roll_no',)
 
@@ -57,10 +63,12 @@ class VolunteerScheduleAdmin(admin.ModelAdmin):
     get_section.short_description = 'Section'
     get_section.admin_order_field = 'schedule__section__section_id'
 
+
 @admin.register(VolunteerAttendance)
 class VolunteerAttendanceAdmin(admin.ModelAdmin):
     list_display = ('cal_date', 'get_roll', 'get_name', 'present', 'extra')
-    search_fields = ('cal_date', 'volun__roll_no', 'volun__profile__first_name', 'volun__profile__last_name')
+    search_fields = ('cal_date', 'volun__roll_no',
+                     'volun__profile__first_name', 'volun__profile__last_name')
     list_filter = ('volun__batch', 'present', 'extra')
     ordering = ('-cal_date', '-volun__batch', 'volun__roll_no')
 
@@ -74,10 +82,13 @@ class VolunteerAttendanceAdmin(admin.ModelAdmin):
     get_name.short_description = 'Name'
     get_name.admin_order_field = 'volun__profile__first_name'
 
+
 @admin.register(UpdateScheduleRequest)
 class UpdateScheduleRequestAdmin(admin.ModelAdmin):
-    list_display = ('volun', 'get_name', 'date', 'approved', 'declined', 'by_admin', 'cancelled')
-    search_fields = ('volun__roll_no', 'volun__profile__first_name', 'volun__profile__last_name')
+    list_display = ('volun', 'get_name', 'date', 'approved',
+                    'declined', 'by_admin', 'cancelled')
+    search_fields = ('volun__roll_no',
+                     'volun__profile__first_name', 'volun__profile__last_name')
     list_filter = ('approved', 'declined', 'by_admin', 'cancelled')
     ordering = ('-date',)
 

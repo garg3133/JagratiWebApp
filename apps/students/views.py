@@ -139,52 +139,26 @@ def attendance(request):
         'today_date': today_date,
     }
 
-    if today_cal.class_scheduled:
-        if not StudentAttendance.objects.filter(cal_date__date=today_date).exists():
-            # Create Empty Student Attendance Instances
-            today_stu_sch = StudentSchedule.objects.filter(day=today_day)
-            for stu_sch in today_stu_sch:
-                stu_attendance = StudentAttendance(
-                    student=stu_sch.student, cal_date=today_cal)
-                stu_attendance.save()
-
-        elif StudentAttendance.objects.filter(cal_date__date=today_date).count() != StudentSchedule.objects.filter(
-                day=today_day).count():
-            # Some new students added in today's schedule (not necessarily present today)
-            today_stu_sch = StudentSchedule.objects.filter(day=today_day)
-            for stu_sch in today_stu_sch:
-                if not StudentAttendance.objects.filter(student=stu_sch.student, cal_date=today_cal).exists():
-                    stu_attendance = StudentAttendance(
-                        student=stu_sch.student, cal_date=today_cal)
-                    stu_attendance.save()
-    else:
+    if not today_cal.class_scheduled:
         context['no_class_today'] = True
         return render(request, 'students/attendance.html', context)
 
-    if request.method == 'POST':
-        stu_array = request.POST.getlist('attended')
-        selected_class = request.POST['selected_class']
+    today_stu_sch = StudentSchedule.objects.filter(day=today_day)
+    today_stu_att = StudentAttendance.objects.filter(cal_date__date=today_date)
 
-        # class_range = selected_class.split('-')
-        # class_range_min = class_range[0]
-        # class_range_max = class_range[1]
-        class_range_min, class_range_max = selected_class.split('-')
-
-        # Mark everyone's absent
-        stu_att_today = StudentAttendance.objects.filter(
-            cal_date=today_cal, student__school_class__range=(class_range_min, class_range_max))
-        for stu_att in stu_att_today:
-            stu_att.present = False
-            stu_att.save()
-
-        for stu_id in stu_array:
-            stu_att = StudentAttendance.objects.get(
-                student__id=stu_id, cal_date=today_date)
-            stu_att.present = True
-            stu_att.save()
-
-        messages.success(request, 'Attendance marked successfully!')
-        return redirect('students:attendance')
+    if not today_stu_att.exists():
+        # Create Empty Student Attendance Instances
+        for stu_sch in today_stu_sch:
+            stu_attendance = StudentAttendance(
+                student=stu_sch.student, cal_date=today_cal)
+            stu_attendance.save()
+    elif today_stu_att.count() != today_stu_sch.count():
+        # Some new students added in today's schedule (not necessarily present today)
+        for stu_sch in today_stu_sch:
+            if not today_stu_att.filter(student=stu_sch.student).exists():
+                stu_attendance = StudentAttendance(
+                    student=stu_sch.student, cal_date=today_cal)
+                stu_attendance.save()
 
     context['stu_att_today'] = StudentAttendance.objects.filter(
         cal_date=today_cal, student__school_class__range=(1, 3)).order_by(
@@ -214,7 +188,7 @@ def ajax_fetch_students(request):
     for stu_att in stu_att_today:
         # key --> For sorting purpose.
         key = str(stu_att.student.school_class) + stu_att.student.get_full_name
-        data[key] = [stu_att.student.id, stu_att.student.get_full_name,
+        data[key] = [stu_att.id, stu_att.student.id, stu_att.student.get_full_name,
                      stu_att.student.school_class, stu_att.present]
 
     return JsonResponse(data)
