@@ -113,7 +113,7 @@ def update_profile(request, pk):
         messages.success(request, 'Profile updated successfully!')
         return redirect('students:profile', pk=pk)
 
-    return render(request, 'students/update_profile_pic.html', context)
+    return render(request, 'students/update_profile.html', context)
 
 
 @login_required
