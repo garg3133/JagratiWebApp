@@ -21,29 +21,12 @@
             Update Student Profile
         </h2>
     </div>
-    <form method="POST" class="needs-validation" enctype="multipart/form-data" novalidate>
+    <form method="POST" class="needs-validation" id="form-update-profile" enctype="multipart/form-data" novalidate>
         <div class="row justify-content-center mb-5">
             <div class="col-lg-9 col-xl-8 border rounded shadow px-5 py-4">
                 <div class="row justify-content-center">
                     {% csrf_token %}
-                    <div class="col-md-4 mb-4 align-self-center text-center">
-                        <a tabindex="0" class="btn dismissible-popover rounded-circle p-1" role="button" data-toggle="popover" data-content="{% block updateprofilepic %}{% endblock %}" data-html="true">
-                            {% if profile.profile_image %}
-                            <img class="rounded-circle" style="height: 150px; width: 150px;"
-                                src="{{ profile.profile_image.url }}" alt="profile_image">
-                            {% elif profile.gender == 'M' %}
-                            <img class="rounded-circle" style="height: 150px; width: 150px;"
-                                src="{% static 'home/images/man.png' %}" alt="profile_image">
-                            {% elif profile.gender == 'F' %}
-                            <img class="rounded-circle" style="height: 150px; width: 150px;"
-                                src="{% static 'home/images/woman.png' %}" alt="profile_image">
-                            {% else %}
-                            <img class="rounded-circle" style="height: 150px; width: 150px;"
-                                src="{% static 'home/images/man.png' %}" alt="profile_image">
-                            {% endif %}
-                        </a>
-                    </div>
-
+                    {% include 'students/updatable_profile_image.html' %}
                     <div class="col-md-8 my-3">
                         <div class="row justify-content-center">
                             <div class="col-6 mb-3 align-self-center">
@@ -164,7 +147,7 @@
             fileInput.value = '';
         }
         else{
-            document.getElementById("submit").click();
+            document.getElementById("form-update-profile").submit();
         }
     }
 </script>
@@ -176,7 +159,6 @@
         $('.dismissible-popover').popover({
             sanitize : false,
             trigger : 'focus',
-            html : true,
             placement : 'bottom'
         })
     })
