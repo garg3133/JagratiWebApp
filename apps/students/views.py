@@ -104,12 +104,16 @@ def update_profile(request, pk):
         profile.village = request.POST['village']
         profile.contact_no = request.POST['contact_no']
         profile.guardian_name = request.POST['guardian_name']
+        if 'profile_image' in request.FILES:
+            # Delete the previous profile image.
+            profile.profile_image.delete(False)
+            profile.profile_image = request.FILES.get('profile_image')
         profile.save()
 
         messages.success(request, 'Profile updated successfully!')
         return redirect('students:profile', pk=pk)
 
-    return render(request, 'students/update_profile.html', context)
+    return render(request, 'students/update_profile_pic.html', context)
 
 
 @login_required

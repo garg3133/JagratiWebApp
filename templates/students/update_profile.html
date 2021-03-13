@@ -27,19 +27,21 @@
                 <div class="row justify-content-center">
                     {% csrf_token %}
                     <div class="col-md-4 mb-4 align-self-center text-center">
-                        {% if profile.profile_image %}
-                        <img class="rounded-circle" style="height: 150px; width: 150px;"
-                            src="{{ profile.profile_image.url }}" alt="profile_image">
-                        {% elif profile.gender == 'M' %}
-                        <img class="rounded-circle" style="height: 150px; width: 150px;"
-                            src="{% static 'home/images/man.png' %}" alt="profile_image">
-                        {% elif profile.gender == 'F' %}
-                        <img class="rounded-circle" style="height: 150px; width: 150px;"
-                            src="{% static 'home/images/woman.png' %}" alt="profile_image">
-                        {% else %}
-                        <img class="rounded-circle" style="height: 150px; width: 150px;"
-                            src="{% static 'home/images/man.png' %}" alt="profile_image">
-                        {% endif %}
+                        <a tabindex="0" class="btn dismissible-popover rounded-circle p-1" role="button" data-toggle="popover" data-content="{% block updateprofilepic %}{% endblock %}" data-html="true">
+                            {% if profile.profile_image %}
+                            <img class="rounded-circle" style="height: 150px; width: 150px;"
+                                src="{{ profile.profile_image.url }}" alt="profile_image">
+                            {% elif profile.gender == 'M' %}
+                            <img class="rounded-circle" style="height: 150px; width: 150px;"
+                                src="{% static 'home/images/man.png' %}" alt="profile_image">
+                            {% elif profile.gender == 'F' %}
+                            <img class="rounded-circle" style="height: 150px; width: 150px;"
+                                src="{% static 'home/images/woman.png' %}" alt="profile_image">
+                            {% else %}
+                            <img class="rounded-circle" style="height: 150px; width: 150px;"
+                                src="{% static 'home/images/man.png' %}" alt="profile_image">
+                            {% endif %}
+                        </a>
                     </div>
 
                     <div class="col-md-8 my-3">
@@ -114,11 +116,12 @@
                         </div>
                     </div>
                 </div>
-
+                <!--extra input tag added here beacause input tag in popover doesn't works as it is hidden but can trigger this to work-->
+                <input name="profile_image" type="file" id="profileImage" style="display:none" onchange="imageValidation()">
                 <hr class="mb-3">
                 <div class="row justify-content-center mb-3">
                     <div class="col-md-6">
-                        <button name="submit" value="update-profile" class="btn btn-primary btn-lg btn-block"
+                        <button name="submit" id="submit" value="update-profile" class="btn btn-primary btn-lg btn-block"
                             type="submit">Update</button>
                     </div>
                 </div>
@@ -148,5 +151,34 @@
             })
         }, false)
     }())
+</script>
+
+<!-- Script for Image Validation and auto-submitting the form-->
+<script type="text/javascript">
+    function imageValidation() {
+        var fileInput = document.getElementById('profileImage');
+        var filePath = fileInput.value;
+        var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+        if (!allowedExtensions.exec(filePath)) {
+            alert('Please upload file having extensions .jpeg, .jpg, .png or .gif only.');
+            fileInput.value = '';
+        }
+        else{
+            document.getElementById("submit").click();
+        }
+    }
+</script>
+
+<!--Scripts for popover feature-->
+
+<script>
+    $(function () {
+        $('.dismissible-popover').popover({
+            sanitize : false,
+            trigger : 'focus',
+            html : true,
+            placement : 'bottom'
+        })
+    })
 </script>
 {% endblock %}
