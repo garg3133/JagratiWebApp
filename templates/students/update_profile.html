@@ -21,7 +21,7 @@
             Update Student Profile
         </h2>
     </div>
-    <form method="POST" class="needs-validation" id="form-update-profile" enctype="multipart/form-data" novalidate>
+    <form method="POST" class="needs-validation" id="student-profile-update-form" enctype="multipart/form-data" novalidate>
         <div class="row justify-content-center mb-5">
             <div class="col-lg-9 col-xl-8 border rounded shadow px-5 py-4">
                 <div class="row justify-content-center">
@@ -104,7 +104,7 @@
                 <hr class="mb-3">
                 <div class="row justify-content-center mb-3">
                     <div class="col-md-6">
-                        <button name="submit" id="submit" value="update-profile" class="btn btn-primary btn-lg btn-block"
+                        <button class="btn btn-primary btn-lg btn-block"
                             type="submit">Update</button>
                     </div>
                 </div>
@@ -147,7 +147,7 @@
             fileInput.value = '';
         }
         else{
-            document.getElementById("form-update-profile").submit();
+            $("#student-profile-update-form").submit();
         }
     }
 </script>
