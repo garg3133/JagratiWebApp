@@ -1,0 +1,13 @@
+{% load static %}
+
+<a class='btn m-0 p-0' role='button' style='width:100%'>
+    <label for='profileImage'> <span class='text-muted'>Change Profile Picture</span></label>
+    <input name='profile_image' type='file' id='profileImage' style='display:none' onchange='imageValidation()'>
+</a>
+<a href={% if profile.profile_image %}'{{ profile.profile_image.url }}'
+        {% elif profile.gender == 'M' %}'{% static 'home/images/man.png' %}'
+        {% elif profile.gender == 'F' %}'{% static 'home/images/woman.png' %}'
+        {% else %}'{% static 'home/images/man.png' %}'
+        {% endif %} role='button' class='btn m-0 p-0' style='width:100%' target='_blank'>
+    <label><span class='text-muted'>View Profile Image</span>
+</a>

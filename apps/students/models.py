@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 
 from imagekit.models import ProcessedImageField
@@ -37,6 +38,15 @@ class Student(models.Model):
     @property
     def get_full_name(self):
         return f'{self.first_name} {self.last_name}'
+
+    @property
+    def get_profile_image_url(self):
+        if self.profile_image and hasattr(self.profile_image, 'url'):
+            return self.profile_image.url
+        elif self.gender == 'F':
+            return settings.STATIC_URL + 'home/images/woman.png'
+        else:
+            return settings.STATIC_URL + 'home/images/man.png'
 
 
 class StudentSchedule(models.Model):
