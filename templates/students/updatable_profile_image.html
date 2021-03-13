@@ -1,0 +1,8 @@
+{% load static %}
+
+<div class="col-md-4 mb-4 align-self-center text-center">
+    <a tabindex="0" class="btn dismissible-popover rounded-circle p-1" role="button" data-toggle="popover" data-content="{% include 'students/update_profile_pic.html' %}" data-html="true">
+        <img class="rounded-circle" style="height: 150px; width: 150px;"
+            src="{{profile.get_profile_image_url}}" alt="profile_image">
+    </a>
+</div>
