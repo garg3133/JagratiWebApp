@@ -21,27 +21,14 @@
             Update Student Profile
         </h2>
     </div>
-    <form method="POST" class="needs-validation" enctype="multipart/form-data" novalidate>
+    <form method="POST" class="needs-validation" id="student-profile-update-form" enctype="multipart/form-data" novalidate>
         <div class="row justify-content-center mb-5">
             <div class="col-lg-9 col-xl-8 border rounded shadow px-5 py-4">
                 <div class="row justify-content-center">
                     {% csrf_token %}
                     <div class="col-md-4 mb-4 align-self-center text-center">
-                        {% if profile.profile_image %}
-                        <img class="rounded-circle" style="height: 150px; width: 150px;"
-                            src="{{ profile.profile_image.url }}" alt="profile_image">
-                        {% elif profile.gender == 'M' %}
-                        <img class="rounded-circle" style="height: 150px; width: 150px;"
-                            src="{% static 'home/images/man.png' %}" alt="profile_image">
-                        {% elif profile.gender == 'F' %}
-                        <img class="rounded-circle" style="height: 150px; width: 150px;"
-                            src="{% static 'home/images/woman.png' %}" alt="profile_image">
-                        {% else %}
-                        <img class="rounded-circle" style="height: 150px; width: 150px;"
-                            src="{% static 'home/images/man.png' %}" alt="profile_image">
-                        {% endif %}
+                        {% include 'globals/updatable_profile_image.html' %}
                     </div>
-
                     <div class="col-md-8 my-3">
                         <div class="row justify-content-center">
                             <div class="col-6 mb-3 align-self-center">
@@ -114,11 +101,12 @@
                         </div>
                     </div>
                 </div>
-
+                <!--extra input tag added here beacause input tag in popover doesn't works as it is hidden but can trigger this to work-->
+                <input name="profile_image" type="file" id="profileImage" style="display:none" onchange="imageValidation()">
                 <hr class="mb-3">
                 <div class="row justify-content-center mb-3">
                     <div class="col-md-6">
-                        <button name="submit" value="update-profile" class="btn btn-primary btn-lg btn-block"
+                        <button class="btn btn-primary btn-lg btn-block"
                             type="submit">Update</button>
                     </div>
                 </div>
@@ -148,5 +136,33 @@
             })
         }, false)
     }())
+</script>
+
+<!-- Script for Image Validation and auto-submitting the form-->
+<script type="text/javascript">
+    function imageValidation() {
+        var fileInput = document.getElementById('profileImage');
+        var filePath = fileInput.value;
+        var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+        if (!allowedExtensions.exec(filePath)) {
+            alert('Please upload file having extensions .jpeg, .jpg, .png or .gif only.');
+            fileInput.value = '';
+        }
+        else{
+            $("#student-profile-update-form").submit();
+        }
+    }
+</script>
+
+<!--Scripts for popover feature-->
+
+<script>
+    $(function () {
+        $('.dismissible-popover').popover({
+            sanitize : false,
+            trigger : 'focus',
+            placement : 'bottom'
+        })
+    })
 </script>
 {% endblock %}
