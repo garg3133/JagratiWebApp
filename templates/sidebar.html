@@ -116,15 +116,7 @@
                 <ul class="sidebar-list nav flex-column text-center">
                     <div class="card px-2 py-2 mt-4 shadow-sm">
                         <li class="nav-item">
-                            {% if profile.profile_image %}
-                            <img class="sidebar-img rounded-circle my-2" src='{{ profile.profile_image.url }}' alt="v">
-                            {% elif profile.gender == 'M' %}
-                            <img class="sidebar-img rounded-circle my-2" src="{% static 'home/images/man.png' %}" alt="v">
-                            {% elif profile.gender == 'F' %}
-                            <img class="sidebar-img rounded-circle my-2" src="{% static 'home/images/woman.png' %}" alt="v">
-                            {% else %}
-                            <img class="sidebar-img my-2" src="{% static 'home/logo.png' %}" alt="v">
-                            {% endif %}
+                            <img class="sidebar-img rounded-circle my-2" src='{{ profile.get_profile_image_url }}' alt="v">
                         </li>
 
                         {% if profile is not None %}
