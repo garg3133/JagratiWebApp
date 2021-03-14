@@ -5,14 +5,13 @@
 {% block title %} Jagrati | Volunteer Profile {% endblock %}
 
 {% block style %}
-    <style>
-        @media screen and (max-width: 600px) {
-            .container{
-                width: 85vw;
-            }
+<style>
+    @media screen and (max-width: 600px) {
+        .container {
+            width: 85vw;
         }
-
-    </style>
+    }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -28,7 +27,8 @@
         <div class="col-lg-8 border rounded shadow px-5 py-4">
             <div class="row justify-content-center">
                 <div class="col-md-4 mb-4 align-self-center text-center">
-                    <img class="rounded-circle" style="height: 150px; width: 150px;" src="{{ profile.get_profile_image_url }}" alt="profile_image">
+                    <img class="rounded-circle" style="height: 150px; width: 150px;"
+                        src="{{ profile.get_profile_image_url }}" alt="profile_image">
                 </div>
                 <div class="col-md-8 my-3">
                     <div class="row justify-content-center">
@@ -76,8 +76,11 @@
                             <strong>Designation: </strong>
                         </div>
                         <div class="col-6 col-lg-8 mb-3">
-                            {% if vol_profile.desig is None %} Volunteer {% else %} {{ vol_profile.desig.name }} {% endif %}
-                            
+                            {% if vol_profile.desig is None %}
+                            Volunteer
+                            {% else %}
+                            {{ vol_profile.desig.name }}
+                            {% endif %}
                         </div>
                     </div>
                     {% if self_profile %}
@@ -106,7 +109,7 @@
                 <a href="{% url 'accounts:password_change' %}" class="btn btn-info mx-3 my-2">Change Password</a>
             </div>
             {% endif %}
-                
+
             {% comment %}
             <form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
                 {% csrf_token %}
@@ -153,11 +156,13 @@
                     </div>
                     <div class="col-md-4 mb-3">
                         <!-- <label for="firstName">First name</label> -->
-                        <input name="first_name" type="text" class="form-control" id="firstName" placeholder="" value="{{ profile.first_name }}" required>
+                        <input name="first_name" type="text" class="form-control" id="firstName" placeholder=""
+                            value="{{ profile.first_name }}" required>
                     </div>
                     <div class="col-md-4 mb-3">
                         <!-- <label for="lastName">Last name</label> -->
-                        <input name="last_name" type="text" class="form-control" id="lastName" placeholder="" value="{{ profile.last_name }}" required>
+                        <input name="last_name" type="text" class="form-control" id="lastName" placeholder=""
+                            value="{{ profile.last_name }}" required>
                     </div>
                 </div>
 
@@ -174,41 +179,49 @@
                         <label for="dob">Date of Birth</label>
                         <!-- <input type="text" class="form-control" id="firstName" placeholder="" value="" required> -->
                         <!-- <input name="dob" type="date" class="form-control" id="dob" required> -->
-                        <input name="dob" data-date-format="yyyy-mm-dd" id="dob" class="form-control" value="{{ profile.dob }}" required>
+                        <input name="dob" data-date-format="yyyy-mm-dd" id="dob" class="form-control"
+                            value="{{ profile.dob }}" required>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="profession">Profession</label>
-                        <input name="profession" type="text" class="form-control" id="profession" placeholder="" value="{{ profile.profession }}" required>
+                        <input name="profession" type="text" class="form-control" id="profession" placeholder=""
+                            value="{{ profile.profession }}" required>
                     </div>
                 </div>
 
                 <div class="mb3">
                     <label for="contactNo">Contact No.</label>
-                    <input name="contact_no" type="number" class="form-control" id="contactNo" placeholder="" value="{{ profile.contact_no }}" required>
+                    <input name="contact_no" type="number" class="form-control" id="contactNo" placeholder=""
+                        value="{{ profile.contact_no }}" required>
                 </div>
-            
+
                 <div class="mb-3">
                     <label for="address">Address</label>
-                    <input name="street_address1" type="text" class="form-control" id="address" value="{{ profile.street_address1 }}" required>
+                    <input name="street_address1" type="text" class="form-control" id="address"
+                        value="{{ profile.street_address1 }}" required>
                 </div>
-            
+
                 <div class="mb-3">
                     <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
-                    <input name="street_address2" type="text" class="form-control" id="address2" value="{{ profile.street_address2 }}">
+                    <input name="street_address2" type="text" class="form-control" id="address2"
+                        value="{{ profile.street_address2 }}">
                 </div>
-            
+
                 <div class="row">
                     <div class="col-md-5 mb-3">
-                    <label for="city">City</label>
-                    <input name="city" type="text" class="form-control" id="city" placeholder="" value="{{ profile.city }}" required>
+                        <label for="city">City</label>
+                        <input name="city" type="text" class="form-control" id="city" placeholder=""
+                            value="{{ profile.city }}" required>
                     </div>
                     <div class="col-md-4 mb-3">
-                    <label for="state">State</label>
-                    <input name="state" type="text" class="form-control" id="state" placeholder="" value="{{ profile.state }}" required>
+                        <label for="state">State</label>
+                        <input name="state" type="text" class="form-control" id="state" placeholder=""
+                            value="{{ profile.state }}" required>
                     </div>
                     <div class="col-md-3 mb-3">
-                    <label for="pinCode">PIN Code</label>
-                    <input name="pincode" type="number" class="form-control" id="pinCode" placeholder="{{ profile.pincode }}" required>
+                        <label for="pinCode">PIN Code</label>
+                        <input name="pincode" type="number" class="form-control" id="pinCode"
+                            placeholder="{{ profile.pincode }}" required>
                     </div>
                 </div>
 
