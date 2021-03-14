@@ -1,6 +1,7 @@
 {% load static %}
 
-<a tabindex="0" class="btn dismissible-popover rounded-circle p-1" role="button" data-toggle="popover" data-content="{% include 'globals/updatable_profile_image_popover_content.html' %}" data-html="true">
-    <img class="rounded-circle" style="height: 150px; width: 150px;"
-        src="{{profile.get_profile_image_url}}" alt="profile_image">
+<a tabindex="0" class="btn dismissible-popover rounded-circle p-1" role="button" data-toggle="popover"
+    data-content="{% include 'globals/updatable_profile_image_popover_content.html' %}" data-html="true">
+    <img class="rounded-circle" style="height: 150px; width: 150px;" src="{{profile.get_profile_image_url}}"
+        alt="profile_image">
 </a>
