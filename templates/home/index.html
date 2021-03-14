@@ -12,7 +12,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.theme.min.css">
 {% endblock %}
+{% style box for email%}
+<style>
+    a.email:hover, a.email:active {color: orange;}
+   #email_allign{
 
+   } 
+    }
+</style>
+{% endblock %}
 {% block content %}
     <!-- Header Starts -->
     <header>
@@ -345,8 +353,8 @@
                 </div>
                 <div class="don-box3">
                     <h3>Contact Details</h3>
-                    <p><i class="fas fa-mobile fa-2x"></i>  +91-xxxxx-xxxxx</p>
-                    <p><i class="fas fa-envelope fa-2x"></i> <a href="mailto: jagrati@iiitdmj.ac.in"> jagrati@iiitdmj.ac.in</a></p>
+                    <p><i class="fa fa-phone-square fa-2x"></i>  +91-xxxxx-xxxxx</p>
+                    <p ><a style="text-align: center;" class="email"  href="mailto: jagrati@iiitdmj.ac.in"> <i class="fa fa-envelope-o fa-2x" size="200"></i>jagrati@iiitdmj.ac.in</a></p>
                     <p><i class="fas fa-map-marker-alt fa-2x"></i>  PDPM IIITDM JABALPUR</p>
                 </div>
             </div>
@@ -365,10 +373,14 @@
             <p data-aos="zoom-in" data-aos-delay="100" data-aos-duration="700"><i class="fas fa-map-marker-alt fa-2x"></i>  Pandit Dwarka Prasad Mishra Indian Institute of Information Technology, Design and Manufacturing Jabalpur</p>
             <div>
                 <div class="con-box1" data-aos="fade-down-right">
-                    <p><i class="fas fa-mobile fa-2x"></i>  +91-xxxxx-xxxxx</p>
+                    <p><i class="fa fa-phone-square fa-2x"></i>  +91-xxxxx-xxxxx</p>
                 </div>
-                <div class="con-box1" data-aos="fade-down-left">
-                    <p><i class="fas fa-envelope fa-2x"></i> <a href="mailto: jagrati@iiitdmj.ac.in"> jagrati@iiitdmj.ac.in</a></p>
+                
+                <div class= "con-box1" data-aos="fade-down-left" >
+                   
+                    <p> <a style="text-align: center; " class=" email"  href="mailto: jagrati@iiitdmj.ac.in" ><i class="fa fa-envelope-o fa-2x" aria-hidden="true"></i> <span>jagrati@iiitdmj.ac.in</span></a>
+                        </p>
+                       
                 </div>
             </div>
             <div class="clr"></div>
@@ -392,6 +404,7 @@
     </section>
     <div class="con-sidenav">
         <a href="#contact-us"><i class="fas fa-phone fa-rotate-90"></i>Contact Us</a>
+       
     </div>
     <!-- Contact Us section ends -->
 
@@ -405,7 +418,8 @@
         </div>
     </footer>
     <!-- Footer ends -->
-
+    
+    
     <script type="text/javascript" src='{% static "home/js/myjs.js" %}'></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/glide.js"></script>
     <script type="text/javascript" src='{% static "home/js/glide.js" %}'></script>
@@ -426,5 +440,6 @@
             document.documentElement.scrollTop = 0;
         }
     </script>
+    
     <script>AOS.init({once: true});</script>
 {% endblock %}
