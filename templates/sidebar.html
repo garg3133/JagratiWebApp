@@ -1,0 +1,215 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+
+{% block title %} Jagrati | Dashboard {% endblock %}
+
+{% block style %}
+
+  <link rel="stylesheet" href="{% static 'sidebar/sidebar.css' %}"/>
+
+{% block style-sidebar %}
+{% endblock %}
+
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-end">
+        <a id="dash-accordion" class="btn btn-light w-100 border-0 d-md-none" data-toggle="collapse" href="#dash-sidebar" onclick="change_arrow()">
+            <div class="clearfix">
+                <div class="float-left font-weight-bold pt-1">User Info</div>
+                <div class="float-right">
+                    <i class="arrow down"></i>
+                </div>
+            </div>
+        </a>
+        <nav class="collapse col-md-4 col-lg-3 d-md-block bg-light sidebar" id="dash-sidebar">
+            <div class="sidebar-sticky pb-4 pb-md-0">
+                <ul class="sidebar-list nav flex-column text-center">
+                    <div class="card px-2 py-2 mt-4 shadow-sm">
+                        <li class="nav-item">
+                            {% if profile.profile_image %}
+                            <img class="sidebar-img rounded-circle my-2" src='{{ profile.profile_image.url }}' alt="v">
+                            {% elif profile.gender == 'M' %}
+                            <img class="sidebar-img rounded-circle my-2" src="{% static 'home/images/man.png' %}" alt="v">
+                            {% elif profile.gender == 'F' %}
+                            <img class="sidebar-img rounded-circle my-2" src="{% static 'home/images/woman.png' %}" alt="v">
+                            {% else %}
+                            <img class="sidebar-img my-2" src="{% static 'home/logo.png' %}" alt="v">
+                            {% endif %}
+                        </li>
+
+                        {% if profile is not None %}
+                        <li class="nav-item">
+                            <h5 class="my-0">{{ profile.get_full_name }}</h5>
+                        </li>
+                        <li class="nav-item">
+                            <h5 class="my-0" style="word-break: break-all;">{{ user.email }}</h5>
+                        </li>
+                        <li class="nav-item">
+                            <h5 class="my-2 py-1 text-danger">
+                                {% if volun.desig is None %}
+                                    Volunteer
+                                {% else %}
+                                    {{ volun.desig.name }}
+                                {% endif %}
+                            </h5>
+                        </li>
+                        {% endif %}
+
+                        <a href="{% url 'volunteers:profile' profile.user_id %}" class="stretched-link"></a>
+                    </div>
+
+                    {% if volun.desig is None %}
+                    <li class="nav-item">
+                        <h5 class="mt-3">Schedule</h5>
+                    </li>
+                        {% if volun_sch is not None %}
+                        <li class="nav-item">
+                            <h5>Day: <span class="lead">{{ volun_sch.get_day_display }}</span></h5>
+                        </li>
+                        <li class="nav-item">
+                            <h5>Section: <span class="lead">{{ volun_sch.schedule.section.name }}</span></h5>
+                        </li>
+                        <li class="nav-item">
+                            <h5>Subject: <span class="lead">{{ volun_sch.schedule.get_subject_display }}</span></h5>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <h5>Day: <span class="lead"> -- </span></h5>
+                        </li>
+                        <li class="nav-item">
+                            <h5>Section: <span class="lead"> -- </span></h5>
+                        </li>
+                        <li class="nav-item">
+                            <h5>Subject: <span class="lead"> -- </span></h5>
+                        </li>
+                        {% endif %}
+
+                    {% else %}
+                    <li class="nav-item">
+                        <h5 class="my-5">{{ volun.desig.name }}</h5>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'volunteers:volunteers_list' %}" class="btn btn-outline-primary"> Volunteers </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'students:attendance' %}" class="btn btn-outline-primary"> Student Attendance </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'volunteers:attendance' %}" class="btn btn-outline-primary">Volunteer Attendance </a>
+                    </li>
+                    {% endif %}
+                      <ul id="accordion" class="accordion sidebar-menu-accordion">
+                        <li>
+                    			<div class="link">Manage Classes<i class="fa fa-chevron-down"></i></div>
+                    			<ul class="sidebar-submenu">
+                    				<li><a href="{% url 'home:dashboard' %}">Dashboard</a></li>
+                    				<li><a href="{% url 'volunteers:volunteers_list' %}">Volunteer</a></li>
+                    				<li><a href="#">Schedule</a></li>
+                    			</ul>
+                    		</li>
+                        <li>
+                    			<div class="link">Student<i class="fa fa-chevron-down"></i></div>
+                    			<ul class="sidebar-submenu">
+                    				<li><a href="{% url 'students:attendance' %}">Student Attendance</a></li>
+                    				<li><a href="{% url 'students:new_student' %}">Add new Student</a></li>
+                    				<li><a href="#">All Student</a></li>
+                    			</ul>
+                    		</li>
+                        <li>
+                    			<div class="link">Volunteers<i class="fa fa-chevron-down"></i></div>
+                    			<ul class="sidebar-submenu">
+                    				<li><a href="{% url 'volunteers:attendance' %}">Volunteer Attendance</a></li>
+                    				<li><a href="#">All Volunteer</a></li>
+                    			</ul>
+                    		</li>
+                    		<li>
+                    			<div class="link">Self<i class="fa fa-chevron-down"></i></div>
+                    			<ul class="sidebar-submenu">
+                    				<li><a href="{% url 'volunteers:update_profile' %}">Update Profile</a></li>
+                    				<li><a href="{% url 'volunteers:update_schedule' %}">Update Schedule</a></li>
+                    			</ul>
+                    		</li>
+                      </ul>
+                  </ul>
+            </div>
+        </nav>
+
+        {% block content-sidebar %}
+        {% endblock %}
+
+    </div>
+
+    <div class="row justify-content-end">
+        <div class="col-md-8 col-lg-9 d-none d-md-block" style="height: 54px;"></div>
+    </div>
+
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+<style>
+	footer{
+		position: fixed;
+		bottom: 0;
+		width: 100%;
+	}
+	@media(max-width: 767px){
+		footer{
+			position: static;
+		}
+	}
+</style>
+
+<!-- Script for sidebar-dropdown arrow -->
+<script>
+    let dash_sidebar = document.querySelector("#dash-sidebar");
+    let dash_accordion = document.querySelector("#dash-accordion i");
+
+    function change_arrow(){
+		if(dash_sidebar.classList.contains('show')){
+			dash_accordion.classList.remove('up');
+			dash_accordion.classList.add('down');
+		}
+		else{
+			dash_accordion.classList.remove('down');
+			dash_accordion.classList.add('up');
+		}
+	}
+
+  $(function() {
+	var Accordion = function(el, multiple) {
+		this.el = el || {};
+		this.multiple = multiple || false;
+
+		// Variables privadas
+		var links = this.el.find('.link');
+		// Evento
+		links.on('click', {el: this.el, multiple: this.multiple}, this.dropdown)
+	}
+
+	Accordion.prototype.dropdown = function(e) {
+		var $el = e.data.el;
+			$this = $(this),
+			$next = $this.next();
+
+		$next.slideToggle();
+		$this.parent().toggleClass('open');
+
+		if (!e.data.multiple) {
+			$el.find('.sidebar-submenu').not($next).slideUp().parent().removeClass('open');
+		};
+	}
+
+	var accordion = new Accordion($('#accordion'), false);
+});
+</script>
+
+
+{% block scripts-sidebar %}
+{% endblock %}
+
+{% endblock %}
