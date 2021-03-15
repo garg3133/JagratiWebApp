@@ -78,11 +78,13 @@ And additional requirements are in [**requirements.txt**](https://github.com/gar
   * Fork the Repository.
   * Clone the repository to your local machine `$ git clone https://github.com/<your-github-username>/JagratiWebApp.git`
   * Change directory to JagratiWebApp `$ cd JagratiWebApp`
+  * Add a reference to the original repository  
+   `$ git remote add upstream https://github.com/garg3133/JagratiWebApp.git`
   * Install virtualenv `$ pip3 install virtualenv`
   * Create a virtual environment `$ virtualenv env -p python3.7`  
   * Activate the env: `$ source env/bin/activate` (for linux) `> ./env/Scripts/activate` (for Windows PowerShell)
   * Install the requirements: `$ pip install -r requirements.txt`
-  * Create a new file in root folder of repository (`JagratiWebApp`) with name `.env` (only `.env` and not `.env.txt`) and add the following content in it:
+  * Create a new file in the root directory of the repository (`JagratiWebApp`) with name `.env` (only `.env` and not `.env.txt`) and add the following content in it:
     ```
     EMAIL_HOST_USER = 'your-email@domain.com'
     EMAIL_HOST_PASSWORD = 'your-password'
@@ -92,7 +94,9 @@ And additional requirements are in [**requirements.txt**](https://github.com/gar
 
     SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'google-oauth2-key'
     SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'google-oauth2-secret'
-    ```
+    ```  
+    or, just copy the `.env.save` file from `samples` directory to the root directory (`JagratiWebApp`) and rename it to `.env` (only `.env` and not `.env.txt`)  
+  
     where, 
     * `EMAIL_HOST_USER` and `SENDER_EMAIL` is the email address of your Gmail account from which you want to send emails (By default, Django will output email contents in console. To actually send emails to real users, comment line 27 and uncomment line 28 in `Jagrati/settings/development.py`).
     * `EMAIL_HOST_PASSWORD` is the password for that Gmail account.
@@ -100,12 +104,30 @@ And additional requirements are in [**requirements.txt**](https://github.com/gar
     * `SOCIAL_AUTH_GOOGLE_OAUTH2_KEY` and `SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET` are the API keys for login/signup using Google.
 
     **Note:** All the changes mentioned above in the `.env` template are *optional* and you do not need to change anything if you want all the email contents to be printed in the console itself and you do not wish to use login/signup through Google. The changes in the first 4 lines on `.env` file are required only if you wish to send out real emails to real people and changes in last 2 lines are required only if you wish to use login/signup through Google.
-  * Create a copy of `sample-db.sqlite3` in root directory (`JagratiWebApp`) and rename it as `db.sqlite3`.
+  * Copy `sample-db.sqlite3` from `samples` directory to the root directory (`JagratiWebApp`) and rename it to `db.sqlite3`.
   * Make migrations `$ python manage.py makemigrations`
   * Migrate the changes to the database `$ python manage.py migrate`
   * Create admin `$ python manage.py createsuperuser`
   * Run the server `$ python manage.py runserver`
- 
+  
+#### 💡️ **Pro Tip:** 
+  * Always keep your master branch in sync with the main repository (by running `$ git pull upstream master` on your local master branch). 
+  * Always create a new branch before making any changes (`$ git checkout -b <new-branch-name>`), never ever make any changes directly on the master branch.
+
+ ### Setting-up the project in docker
+
+  * Fork the Repository.
+  * Clone the repository to your local machine `$ git clone https://github.com/<your-github-username>/JagratiWebApp.git`
+  * Change directory to JagratiWebApp `$ cd JagratiWebApp`
+  * Copy the `.env.save` file from `samples` directory to the root directory (`JagratiWebApp`) and rename it to `.env` (only `.env` and not `.env.txt`).  
+    
+    (Read the [above](https://github.com/garg3133/JagratiWebApp#setting-up-the-project) section for details on all the variables used in `.env` file)
+   
+  * Copy `sample-db.sqlite3` from `samples` directory to the root directory (`JagratiWebApp`) and rename it to `db.sqlite3`.
+  * Build the docker file to an image `sudo docker build -t <IMAGE_NAME> .`
+  * Run the docker image `sudo docker run -p 8000:8000 <IMAGE_NAME>`
+  * The server will start at default port (8000), head over to your web browser to test.
+
 
 ### Contributing Guidelines 
   * Feel free to open an issue to report a bug or request a new feature.

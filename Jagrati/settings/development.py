@@ -1,6 +1,7 @@
 # CONTAINS SETTINGS FOR DEVELOPMENT
 
 from .base import *
+import ast
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -47,6 +48,6 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-STATICFILES_DIRS = [ BASE_DIR+"/static", ]
+STATICFILES_DIRS = [BASE_DIR+"/static", ]
 
 TEMP_ROOT = os.path.join(BASE_DIR, 'temp')

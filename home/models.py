@@ -15,9 +15,13 @@ class Calendar(models.Model):
 class Section(models.Model):
     section_id = models.CharField(max_length=5, unique=True)   # For grouping and sorting
     name = models.CharField(max_length=30, unique=True)
+    is_parent_section = models.BooleanField(default=False)
+    parent_section = models.ForeignKey(
+        'self', null=True, blank=True, on_delete=models.SET_NULL, limit_choices_to={'is_parent_section': True})
 
     def __str__(self):
         return self.name
+
 
 class Schedule(models.Model):
     # They won't ever change and will give us dropdown in Admin site

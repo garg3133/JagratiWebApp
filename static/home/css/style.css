@@ -23,7 +23,6 @@ header{
 	border-radius: 10px;
 	cursor: pointer;
 }
-
 .container{
 	max-width:80%;
 	margin:auto;
@@ -724,8 +723,11 @@ nav{
 .con-box2 a:nth-child(2):hover{
 	color: #fb3958;
 }
-.con-box2 a:last-child:hover{
+.con-box2 a:nth-child(3):hover{
 	color: red;
+}
+.con-box2 a:last-child:hover{
+	color: white;
 }
 #googleMap{
 	width: 100%;
@@ -756,6 +758,35 @@ nav{
 	margin-right: 8px;
 	font-size: 16px;
 }
+
+
+/*SCROLL TO TOP BUTTON*/
+
+#scrollToTopButton {
+	display: none;
+	position: fixed;
+	bottom: 15px;
+	right: 10px;
+	z-index: 99;
+	font-size: 25px;
+	border: none;
+	outline: none;
+	background-color: #ff8c00;
+	color: white;
+	cursor: pointer;
+	padding: 6px;
+	border-radius: 50%;
+	height: 50px;
+	width: 50px;
+}
+.fa-angle-double-up {
+	font-weight: bolder;
+}
+#scrollToTopButton:hover {
+	background-color: #D3D3D3;
+}
+
+
 /*FOOTER STARTS*/
 
 footer{

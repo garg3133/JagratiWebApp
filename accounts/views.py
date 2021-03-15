@@ -224,7 +224,7 @@ def account_activation(request, uidb64, token):
         user.is_active = True
         user.save()
 
-        login(request, user)
+        login(request, user, backend='django.contrib.auth.backends.ModelBackend')
         messages.success(request, "Account Activated Successfully!")
         return redirect('accounts:complete_profile')
     else:
