@@ -30,42 +30,38 @@
     <!-- Header Ends -->
 
     <!-- Navigation Bar starts -->
-    <nav>
+    <nav class="navbar">
         <div class="container">
-            <div class="nav-button" id="inav-button" style="display: block;">
-                <form style="margin: 0;">
-                    <button type="button" onclick="nav_button()" class="navbut"><img src='{% static "home/images/menu.png" %}' class="menu-icon"></button>
-                </form>
+            <div class="navbar-toggler">
+                <i class="fas fa-bars"></i>
             </div>
-            <div class="nav-button-close" id="inav-button-close" style="display: none;">
-                <form style="margin: 0;">
-                    <button type="button" onclick="nav_button_close()" class="navbut"><img src='{% static "home/images/close.png" %}' class="menu-icon"></button>
-                </form>
-            </div>
-            <div class="navbar1">
-                <ul>
-                    <li><a href="{% url 'accounts:login_signup' %}" class="button" > <span>Login</span> </a></li>
-                    <li><button class="button" onclick="donate_us()"> <span>Donate</span> </button></li>
-                    
+            <div class="left-nav">
+                <ul class="navbar-nav nav-collapsed">
+                    <li class="nav-item">
+                        <a class="nav-link" href="./">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about-us">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Team</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./">Alumni</a>
+                    </li>
                 </ul>
             </div>
-            <div class="navbar">
-                <ul>
-                    <li><a href="./">Home</a></li>
-                    <li><a href="#about-us">About</a></li>
-                    <li><a href="#">Events</a></li>
-                    <li><a href="#">Team</a></li>
-                    <li><a href="./">Alumni</a></li>
-                </ul>
-            </div>
-            <br>
-            <div class="navbar2" id="inavbar2">
-                <ul>
-                    <li><a href="./">Home</a></li>
-                    <li><a href="#about-us">About</a></li>
-                    <li><a href="#">Events</a></li>
-                    <li><a href="#">Team</a></li>
-                    <li><a href="./">Alumni</a></li>
+            <div class="right-nav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'accounts:login_signup' %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" onclick="donate_us()">Donate</a>
+                    </li>
                 </ul>
             </div>
         </div>
