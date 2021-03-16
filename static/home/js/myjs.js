@@ -1,5 +1,5 @@
 //Nav bar variables
-const nav_height= "131px";
+const nav_height= "154px";
 
 //Nav button controls
 
@@ -49,7 +49,7 @@ x.addListener(for_media_query);  /*Whenever value of x is changed, for_media_que
 window.onclick = function(e){
 	// Navbar closes if clicks anywhere else
 	if(!(e.target.matches('.navbut') || e.target.matches('.menu-icon'))){
-		if(document.getElementById("inavbar2").style.height==="131px"){
+		if(document.getElementById("inavbar2").style.height==="154px"){
 			nav_button_close();
 		}
 	}
