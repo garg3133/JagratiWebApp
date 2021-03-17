@@ -41,7 +41,7 @@
                     {% csrf_token %}
                     <div class="col-md-4 mb-4 align-self-center text-center">
                         <a tabindex="0" id="profile-image-popover" class="btn rounded-circle p-1" role="button" data-toggle="popover" style="cursor: pointer;">
-                            <img class="rounded-circle" style="height: 150px; width: 150px;" src="{{profile.get_profile_image_url}}" alt="profile_image">
+                            <img class="rounded-circle" style="height: 150px; width: 150px;" src="{{ profile.get_profile_image_url }}" alt="profile_image">
                         </a>
 
                         <div id="profile-image-popover-content" class="d-none">
@@ -51,8 +51,7 @@
                                         Change Profile Picture
                                     </label>
                                 </a>
-                                <!--input tag is in updatable_profile_image.html-->
-                                <a href="{{profile.get_profile_image_url}}" role="button" class="btn popover-button" target="_blank">
+                                <a href="{{ profile.get_profile_image_url }}" role="button" class="btn popover-button" target="_blank">
                                     <label>View Profile Image</label>
                                 </a>
                             </div>
