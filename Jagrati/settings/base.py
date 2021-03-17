@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'apps.volunteers',
     'apps.feedbacks',
     'apps.misc',
+    'apps.payment',
 
 ]
 
@@ -135,3 +136,6 @@ AUTH_USER_MODEL = 'accounts.User'
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
+
+PAYTM_ID = config("PAYTM_MID")
+PAYTM_SECRET = config("PAYTM_SECRET")
