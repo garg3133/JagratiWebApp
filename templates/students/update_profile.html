@@ -27,7 +27,7 @@
                 <div class="row justify-content-center">
                     {% csrf_token %}
                     <div class="col-md-4 mb-4 align-self-center text-center">
-                        {% include 'globals/updatable_profile_image.html' %}
+                        {% include 'globals/updatable_profile_image.html' with image_source=profile.get_profile_image_url only %}
                     </div>
                     <div class="col-md-8 my-3">
                         <div class="row justify-content-center">
@@ -101,8 +101,6 @@
                         </div>
                     </div>
                 </div>
-                <!--extra input tag added here beacause input tag in popover doesn't works as it is hidden but can trigger this to work-->
-                <input name="profile_image" type="file" id="profileImage" style="display:none" onchange="imageValidation()">
                 <hr class="mb-3">
                 <div class="row justify-content-center mb-3">
                     <div class="col-md-6">
@@ -157,12 +155,17 @@
 <!--Scripts for popover feature-->
 
 <script>
-    $(function () {
-        $('.dismissible-popover').popover({
-            sanitize : false,
+    $(function(){
+        // Enables popover
+        $("#profile-image-popover").popover({
+            html : true,
             trigger : 'focus',
-            placement : 'bottom'
-        })
-    })
+            sanitize : false,
+            placement : 'bottom',
+            content: function() {
+            return $("#profile-image-popover-content").html();
+            }
+        });
+    });
 </script>
 {% endblock %}

@@ -1,7 +1,25 @@
 {% load static %}
 
-<a tabindex="0" class="btn dismissible-popover rounded-circle p-1" role="button" data-toggle="popover"
-    data-content="{% include 'globals/updatable_profile_image_popover_content.html' %}" data-html="true">
-    <img class="rounded-circle" style="height: 150px; width: 150px;" src="{{profile.get_profile_image_url}}"
-        alt="profile_image">
+<style>
+    {% include 'globals/custom.css' %}
+</style>
+
+<a tabindex="0" class="btn rounded-circle p-1" id="profile-image-popover" role="button" data-toggle="popover">
+    <img class="rounded-circle" style="height: 150px; width: 150px;" src="{{image_source}}" alt="profile_image">
 </a>
+
+<div id="profile-image-popover-content" class="hidden">
+    <div>
+        <a class='btn popover-button' role='button'>
+            <label for='profileImage'>
+                Change Profile Picture
+            </label>
+        </a>
+        <!--input tag is in updatable_profile_image.html-->
+        <a href='{{ image_source }}' role='button' class='btn popover-button' target='_blank'>
+            <label style='cursor: pointer'>View Profile Image</label>
+        </a>
+    </div>
+</div>
+
+<input name='profile_image' type='file' id='profileImage' style='display:none' onchange='imageValidation()'>

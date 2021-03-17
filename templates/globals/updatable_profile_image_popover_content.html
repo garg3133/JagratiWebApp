@@ -1,9 +1,0 @@
-{% load static %}
-
-<label for='profileImage' class='my-1 p-0' style='cursor: pointer; width:100%; color: white;'>
-    <a class='btn btn-primary' role='button' style='width:100%'>Change Profile Picture</a>
-</label>
-<!--input tag removed as it is already in update_profile.html-->
-<a href='{{ profile.get_profile_image_url }}' role='button' class='btn btn-primary' style='width:100%' target='_blank'>
-    <span style='cursor: pointer'>View Profile Image</span>
-</a>

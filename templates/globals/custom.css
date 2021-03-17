@@ -1,0 +1,12 @@
+.hidden{
+    display: none;
+}
+
+.popover-button{
+    width: 100%;
+}
+
+.popover-button:hover{
+    cursor: pointer;
+    background-color: rgba(0,0,0,.075);
+}
