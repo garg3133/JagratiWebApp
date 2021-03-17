@@ -25,18 +25,10 @@
 	</div>
 
 	<div class="row justify-content-center mb-5">
-		<div class="col-lg-8 border rounded shadow px-5 py-4">
+		<div class="col-lg-9 col-xl-8 border rounded shadow px-5 py-4">
 			<div class="row justify-content-center">
 				<div class="col-md-4 mb-4 align-self-center text-center">
-					{% if profile.profile_image %}
-						<img class="rounded-circle" style="height: 150px; width: 150px;" src="{{ profile.profile_image.url }}" alt="profile_image">
-					{% elif profile.gender == 'M' %}
-						<img class="rounded-circle" style="height: 150px; width: 150px;" src="{% static 'home/images/man.png' %}" alt="profile_image">
-					{% elif profile.gender == 'F' %}
-						<img class="rounded-circle" style="height: 150px; width: 150px;" src="{% static 'home/images/woman.png' %}" alt="profile_image">
-					{% else %}
-						<img class="rounded-circle" style="height: 150px; width: 150px;" src="{% static 'home/images/man.png' %}" alt="profile_image">
-					{% endif %}
+					<img class="rounded-circle" style="height: 150px; width: 150px;" src="{{ profile.get_profile_image_url }}" alt="profile_image">
 				</div>
 				<div class="col-md-8 my-3">
 					<div class="row justify-content-center">
