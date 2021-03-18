@@ -23,6 +23,7 @@ def has_authenticated_profile(user):
        Necessary to access any page on site bar home page."""
     return user.auth is True and Profile.objects.filter(user=user).exists()
 
+
 def is_volunteer(user):
     """To be used in views accessible to volunteers only."""
     return user.desig == 'v'
@@ -66,12 +67,14 @@ def dashboard(request):
         # If the section is not taught on selected day
         # (URL parameters are altered manually)
         schedule = Schedule.objects.filter(day=query_day, section__section_id=query_section)
-        if not schedule.exists():
+        if schedule.exists():
+            schedule = schedule[0]
+        else:
             return redirect('home:dashboard')
 
         context = {
-            'selected_date' : query_date,
-            'selected_section' : query_section,
+            'selected_date': query_date,
+            'selected_section': query_section,
         }
         # If calendar instance for that day is not created
         if not calendar.exists():
@@ -88,6 +91,10 @@ def dashboard(request):
         # Classwork/Homework info
         cw_hw = ClassworkHomework.objects.filter(cal_date=calendar, section__section_id=query_section).first()
         context['cw_hw'] = cw_hw
+
+        # Subject Scheduled
+        subject_scheduled = schedule.get_subject_display()
+        context['subject_scheduled'] = subject_scheduled
 
         # Students Attendance
         student_attendance = StudentAttendance.objects.filter(cal_date=calendar, present=True).order_by('student__school_class')

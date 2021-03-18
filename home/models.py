@@ -25,7 +25,7 @@ class Section(models.Model):
 
 class Schedule(models.Model):
     # They won't ever change and will give us dropdown in Admin site
-    DAY = [(i+1, calendar.day_name[i]) for i in range(0,7)]
+    DAY = [(i+1, calendar.day_name[i]) for i in range(0, 7)]
 
     SUBJECT = (
         ('eng', "English"),
@@ -43,7 +43,8 @@ class Schedule(models.Model):
         unique_together = (('day', 'section'),)
 
     def __str__(self):
-        return f'{self.get_day_display()} - {self.section.name}'
+        return f'{self.get_day_display()} - {self.section.name} - {self.get_subject_display()}'
+
 
 class ClassworkHomework(models.Model):
     cal_date = models.ForeignKey(Calendar, on_delete=models.PROTECT)
