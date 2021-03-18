@@ -3,6 +3,7 @@ const navbar_toggler = document.querySelector('.navbar-toggler i');
 const left_nav = document.querySelector('.navbar .left-nav .navbar-nav');
 
 function toggleNav() {
+	document.querySelector('.left-nav').classList.toggle('open');
 	navbar_toggler.classList.toggle('fa-bars');
 	navbar_toggler.classList.toggle('fa-times');
 	left_nav.classList.toggle('nav-collapsed');
