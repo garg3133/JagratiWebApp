@@ -2,17 +2,16 @@
 from datetime import datetime, date
 
 # Django
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 
 # local Django
 from accounts.models import Profile
-from apps.students.models import Student, StudentAttendance, StudentSchedule
-from apps.volunteers.models import Volunteer, VolunteerAttendance, VolunteerSchedule
+from apps.students.models import StudentAttendance
+from apps.volunteers.models import Volunteer, VolunteerAttendance
 from .models import Calendar, ClassworkHomework, Schedule, Section
 
 
@@ -112,8 +111,8 @@ def dashboard(request):
                 stu_att_village[stu_att.student.village] += 1
 
             # Mehgawan Side
-            stu_att_village['MS'] = (stu_att_village['M'] + stu_att_village['C'] +
-                                     stu_att_village['A'] + stu_att_village['S'])
+            stu_att_village['MS'] = (stu_att_village['M'] + stu_att_village['C']
+                                     + stu_att_village['A'] + stu_att_village['S'])
 
             context['stu_att_village'] = stu_att_village
 
