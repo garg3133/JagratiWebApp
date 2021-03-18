@@ -18,8 +18,8 @@ Apart from teaching the children, we do many other activities like **organizing 
 - 1 student was selected in Jawahar Navodaya Vidyalaya in 2018.
 - 1 student was selected in Jawahar Navodaya Vidyalaya in 2019.
 - 2 students were selected in Jawahar Navodaya Vidyalaya in 2020.
-- 4 students have cleared the entrance examination for Eklavya Model Residential School (EMRS) in 2020.
-- 4 students have cleared the entrance examination for Gyanodaya Vidyalaya in 2020.
+- 4 students cleared the entrance examination for Eklavya Model Residential School (EMRS) in 2020.
+- 4 students cleared the entrance examination for Gyanodaya Vidyalaya in 2020.
 
 (Like Navodaya Vidyalaya, both EMRS and Gyanodaya Vidyalaya provide free quality education to students from class 6 to 12).
 
