@@ -1,6 +1,7 @@
 import calendar
 from django.db import models
 
+
 class Calendar(models.Model):
     date = models.DateField(primary_key=True)
     remark = models.TextField(max_length=255, blank=True)
@@ -12,8 +13,10 @@ class Calendar(models.Model):
     def __str__(self):
         return str(self.date)
 
+
 class Section(models.Model):
-    section_id = models.CharField(max_length=5, unique=True)   # For grouping and sorting
+    # For grouping and sorting
+    section_id = models.CharField(max_length=5, unique=True)
     name = models.CharField(max_length=30, unique=True)
     is_parent_section = models.BooleanField(default=False)
     parent_section = models.ForeignKey(
@@ -49,7 +52,8 @@ class Schedule(models.Model):
 class ClassworkHomework(models.Model):
     cal_date = models.ForeignKey(Calendar, on_delete=models.PROTECT)
     section = models.ForeignKey(Section, on_delete=models.CASCADE)
-    to_be_taught = models.TextField(max_length=1023, blank=True)  # Content to be taught
+    # Content to be taught
+    to_be_taught = models.TextField(max_length=1023, blank=True)
     subject_taught = models.CharField(max_length=3, choices=Schedule.SUBJECT)
     cw = models.TextField(max_length=1023, blank=True)
     hw = models.TextField(max_length=1023, blank=True)

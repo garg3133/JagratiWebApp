@@ -3,15 +3,13 @@
 {% load static %}
 
 {% block content-sidebar %}
-
 <!-- DASHBOARD -->
-
 <div class="dash-main col-md-8 col-lg-9 mt-3">
     <a href="{% url 'home:dashboard' %}"  class="d-inline-block mb-2 mb-md-0">&#x27f3; Refresh Dashboard</a>
+
     <h3 class="text-center mb-3">Dashboard</h3>
 
     <!-- Main Dashboard Form -->
-
     <form method="GET">
         <div class="row justify-content-center">
             <div class="col-md-4 mb-3">
@@ -42,16 +40,15 @@
         <p class="text-center mt-4">No class was scheduled on the chosen day.</p>
         <p class="text-center">{{calendar_remark}}</p>
         {% else %}
-
         <!-- Subject Scheduled -->
-        <div class="row justify-content-center mb-2 ">
-            {% if subject_scheduled %}    
+        <div class="row justify-content-center mt-4">
+            {% if subject_scheduled %}
                 <p>Subject scheduled: <b>{{ subject_scheduled }}</b></p>
             {% endif %}
         </div>
 
         <!-- ClassWork HomeWork -->
-        <div class="row justify-content-center mt-4 mx-0">
+        <div class="row justify-content-center mt-2 mx-0">
             <div class="col-md-9 col-lg-5 mr-lg-5 mb-3 border rounded">
                 <h4 class="text-center mt-2">ClassWork</h4>
                 <hr>
@@ -80,7 +77,6 @@
         </div>
 
         <!-- Update ClassWork HomeWork -->
-
         {% if user.desig == 'v' %}
         <div class="text-center mt-3">
             <button type="button" id="toggle_update_cwhw" class="btn btn-outline-primary" onclick="show_dash_cwhw()">
@@ -88,7 +84,7 @@
                 <i style="margin-left:10px !important;" class="fas fa-chevron-down"></i>
             </button>
         </div>
-        
+
         <div class="row justify-content-center mt-3 px-3" style="background-color: #f7f7f7;">
             <div class="dash-cwhw d-none col-12">
                 <form action="{% url 'home:update_cwhw' %}" method="POST" class="mt-4">
@@ -124,7 +120,6 @@
         {% now "Y-m-d" as today_date %}
 
         <!-- Student Attendance -->
-
         <div class="row justify-content-center my-4 mx-0">
             <div class="col-md-9 border rounded">
                 <h4 class="text-center mt-3">Students Present</h4>
@@ -194,7 +189,6 @@
         </div>
 
         <!-- Volunteer Attendance -->
-
         {% if volun.desig %}
         <div class="row justify-content-center my-4 mx-0">
             <div class="col-md-9 border rounded">
@@ -227,12 +221,11 @@
                 {% endif %}
             </div>
         </div>
-        {% endif %}
+        {% endif %} <!-- /volun.desig -->
 
-        {% endif %}
-    {% endif %}
+        {% endif %} <!-- /class_scheduled -->
+    {% endif %}  <!-- /selected_date -->
 </div>
-
 {% endblock %}
 
 {% block scripts-sidebar %}

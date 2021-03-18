@@ -66,7 +66,8 @@ def dashboard(request):
 
         # If the section is not taught on selected day
         # (URL parameters are altered manually)
-        schedule = Schedule.objects.filter(day=query_day, section__section_id=query_section)
+        schedule = Schedule.objects.filter(
+            day=query_day, section__section_id=query_section)
         if schedule.exists():
             schedule = schedule[0]
         else:
@@ -89,7 +90,8 @@ def dashboard(request):
             return render(request, 'home/dashboard.html', context)
 
         # Classwork/Homework info
-        cw_hw = ClassworkHomework.objects.filter(cal_date=calendar, section__section_id=query_section).first()
+        cw_hw = ClassworkHomework.objects.filter(
+            cal_date=calendar, section__section_id=query_section).first()
         context['cw_hw'] = cw_hw
 
         # Subject Scheduled
@@ -97,7 +99,8 @@ def dashboard(request):
         context['subject_scheduled'] = subject_scheduled
 
         # Students Attendance
-        student_attendance = StudentAttendance.objects.filter(cal_date=calendar, present=True).order_by('student__school_class')
+        student_attendance = StudentAttendance.objects.filter(
+            cal_date=calendar, present=True).order_by('student__school_class')
         context['student_attendance'] = student_attendance
 
         if student_attendance.exists():
@@ -107,13 +110,16 @@ def dashboard(request):
 
             for stu_att in student_attendance:
                 stu_att_village[stu_att.student.village] += 1
+
             # Mehgawan Side
-            stu_att_village['MS'] = stu_att_village['M'] + stu_att_village['C'] + stu_att_village['A'] + stu_att_village['S']
+            stu_att_village['MS'] = (stu_att_village['M'] + stu_att_village['C'] +
+                                     stu_att_village['A'] + stu_att_village['S'])
 
             context['stu_att_village'] = stu_att_village
 
         # Volunteers Attendance
-        volun_attendance = VolunteerAttendance.objects.filter(cal_date=calendar, present=True).order_by('volun__roll_no')
+        volun_attendance = VolunteerAttendance.objects.filter(
+            cal_date=calendar, present=True).order_by('volun__roll_no')
         context['volun_attendance'] = volun_attendance
 
         return render(request, 'home/dashboard.html', context)
@@ -160,11 +166,13 @@ def update_cwhw(request):
         hw = request.POST['hw']
         comment = request.POST['comment']
 
-        cw_hw = ClassworkHomework.objects.filter(cal_date=cal_date, section=section)
+        cw_hw = ClassworkHomework.objects.filter(
+            cal_date=cal_date, section=section)
         if cw_hw.exists():
             cw_hw = cw_hw[0]
         else:
-            cw_hw = ClassworkHomework(cal_date=cal_date, section=section, cw='', hw='', comment='')
+            cw_hw = ClassworkHomework(
+                cal_date=cal_date, section=section, cw='', hw='', comment='')
 
         if cw:
             cw_hw.cw += f'{cw}\n - {profile.get_full_name}, {volun.roll_no}\n\n'
