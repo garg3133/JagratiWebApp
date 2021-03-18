@@ -206,17 +206,20 @@ def class_schedule(request):
     days = Schedule.DAY
     subjects = Schedule.SUBJECT
     data = {}
-    sections = Schedule.objects.order_by('section__section_id')
+    #sections = Schedule.objects.order_by('section__section_id')
     schedule = Schedule.objects.order_by('day', 'section__section_id', 'subject' )
+    sections = Section.objects.exclude(schedule=None).order_by('section_id')
 
-    for section in sections:
-        data[section.section.section_id] = section.section.name 
+    #print(sections)
+    #for section in sections:
+        #data[section.section.section_id] = section.section.name 
     
     context={
-    'days': days,
-    'subjects': subjects,
-    'sections': data,
-    'schedule': schedule
+        'days': days,
+        'subjects': subjects,
+        #'sections': data,
+        'sections': sections,
+        'schedule': schedule
 }
    
     return render(request, 'home/class_schedule.html',context)    
