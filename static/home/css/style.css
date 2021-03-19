@@ -144,17 +144,9 @@ a:hover{
 @media screen and (max-width: 760px) {
 	.navbar .container{
 		flex-direction: column-reverse;
-	    position: absolute;
-		/* text-align: center; */
-		
-		background: rgba(255,140,0,0.9);
-		width: 100%;
-		/* padding-left: 1px; */
-		overflow: hidden;
-		max-width: 100%;
-		
+	    	position: relative;
+		overflow: visible;
 	}
-	
 
 	.navbar .navbar-toggler {
 		display: block;
@@ -162,45 +154,36 @@ a:hover{
 
 	.navbar .left-nav {
 		align-self: flex-start;
-		width: 100%;
-		padding-left: 50px;
+		position: absolute;
+		width: 125%;
+		left: -12.5%;
+		transform: translateY(100%);
+		background: rgba(255, 140, 0, 0.9);
 	}
-	
-	
+
 	.navbar .left-nav .navbar-nav {
 		flex-direction: column;
+		overflow: hidden;
+	}
 
+	.navbar .left-nav .nav-item {
+		width: 80%;
+		margin: auto;
+		transition: transform .5s ease;
+	}
+
+	.navbar .nav-collapsed {
+		height: 0;
+	}
+
+	.navbar .nav-collapsed .nav-item {
+		transform: translateY(200%);
 	}
 
 	.navbar .right-nav {
 		align-self: flex-end;
-		padding-right: 50px;
-	}
-	
-	.navbar .nav-collapsed {
-		height: 0;
-		
-	}
-
-	.navbar .navbar-toggler{
-		padding-left:50px;
-		
-	}
-	.navbar .nav-item:hover {
-		background-color: red;
-		font-weight: bold;
-		width: 80%;
-	}	
-	.left-nav{
-		transition: transform .5s ease;
-    	transform: translateY(100%);
-	}
-	.left-nav.open{
-		transform:translateY(0%);
 	}
 }
-
-
 
 
 /*SHOWCASE STARTS*/
