@@ -10,16 +10,16 @@
 
 Jagrati is an initiative by the students of **IIITDM Jabalpur** to provide free and quality education to the poor and under-privileged children of villages surrounding our institute. 
 
-Currently, we have adopted 5 villages in the vicinity of our institute, namely, Gadheri, Amanala, Chanditola, Mehgawan and Suarkol where we *donate education* to around 100 children of classes 1 through 10. Apart from providing basic education to the students in regular classes, **we also prepare the students of 4th and 5th grade for the prestigious Navodaya Vidyalaya** and other similar government-funded institutions which provides quality education to students, completely free of cost.
+Currently, we have adopted 5 villages in the vicinity of our institute, namely, Gadheri, Amanala, Chanditola, Mehgawan and Suarkol where we *provide education* to around 100 children of classes 1 through 10. Apart from providing basic education to the students in regular classes, **we also prepare the students of 4th and 5th grade for the prestigious Navodaya Vidyalaya** and other similar government-funded institutions which provides quality education to students, completely free of cost.
 
 Apart from teaching the children, we do many other activities like **organizing Blood Donation Camps, Tree Plantation Drives, Cloth Donation, Stationery Distribution, Campaigns to spread awareness in villages, etc.**
 
 **Our Achievements:**
-- 1 student selected in Jawahar Navodaya Vidyalaya in 2018.
-- 1 student selected in Jawahar Navodaya Vidyalaya in 2019.
-- 2 students selected in Jawahar Navodaya Vidyalaya in 2020.
-- 4 students cleared entrance examination for Eklavya Model Residential School (EMRS) in 2020.
-- 4 students cleared entrance examination for Gyanodaya Vidyalaya in 2020.
+- 1 student was selected for Jawahar Navodaya Vidyalaya in 2018.
+- 1 student was selected for Jawahar Navodaya Vidyalaya in 2019.
+- 2 students were selected for Jawahar Navodaya Vidyalaya in 2020.
+- 4 students cleared the entrance examination for Eklavya Model Residential School (EMRS) in 2020.
+- 4 students cleared the entrance examination for Gyanodaya Vidyalaya in 2020.
 
 (Like Navodaya Vidyalaya, both EMRS and Gyanodaya Vidyalaya provide free quality education to students from class 6 to 12).
 
@@ -101,7 +101,7 @@ So, all in all, it is meant to help the volunteers work more effectively and eff
     or, just copy the `.env.save` file from `samples` directory to the root directory (`JagratiWebApp`) and rename it to `.env` (only `.env` and not `.env.txt`)  
   
     where, 
-    * `EMAIL_HOST_USER` and `SENDER_EMAIL` is the email address of your Gmail account from which you want to send emails (By default, Django will output email contents in console. To actually send emails to real users, comment line 27 and uncomment line 28 in `Jagrati/settings/development.py`).
+    * `EMAIL_HOST_USER` and `SENDER_EMAIL` is the email address of your Gmail account from which you want to send emails (By default, Django will output email contents in console. To actually send emails to real users, comment line 30 and uncomment line 31 in `Jagrati/settings/development.py`).
     * `EMAIL_HOST_PASSWORD` is the password for that Gmail account.
     * `ADMINS_EMAIL` is a list of email addresses of Admins of the site (who will recieve important updates from the site like when a new user joins in).
     * `SOCIAL_AUTH_GOOGLE_OAUTH2_KEY` and `SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET` are the API keys for login/signup using Google.
