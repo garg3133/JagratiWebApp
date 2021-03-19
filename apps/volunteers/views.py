@@ -150,7 +150,7 @@ def ajax_volunteers_list(request):
     # and 'roll_no' to make every key unique.
     for vol_sch in vol_to_show:
         key = str(vol_sch.schedule.section.section_id) + str(vol_sch.volun.roll_no)
-        data[key] = [vol_sch.volun.roll_no, vol_sch.volun.profile.get_full_name, vol_sch.schedule.section.name]
+        data[key] = [vol_sch.volun.profile.user_id, vol_sch.volun.roll_no, vol_sch.volun.profile.get_full_name, vol_sch.schedule.section.name]
 
     return JsonResponse(data)
 
