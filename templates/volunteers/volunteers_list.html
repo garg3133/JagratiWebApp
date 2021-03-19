@@ -5,9 +5,7 @@
 {% block title %} Jagrati | Volunteers List {% endblock %}
 
 {% block content-sidebar %}
-
 <!-- List of Volunteers -->
-
 <div class="dash-vol-list col-md-8 col-lg-9 mt-3">
     <a href="" class="d-inline-block mb-2 mb-md-0">&#x27f3; Refresh Page</a>
     <h3 class="text-center">Volunteers Schedule</h3>
@@ -30,13 +28,10 @@
         </div>
     </div>
 </div>
-
 {% endblock %}
 
 {% block scripts-sidebar %}
-
 <!-- AJAX for Volunteer's List -->
-
 <script>
     $("#vol-list-day option:first").attr('selected', 'selected');
     $("#vol-list-day").change(function () {
@@ -61,19 +56,31 @@
                     $("#vol-list-table").html('No Volunteers to display!');
                 }
                 else {
-                    let vol_list_table = '<thead><tr><th>Roll No.</th><th>Name</th><th>Section</th></tr></thead><tbody>';
+                    let vol_list_table =
+                        `<thead>
+                            <tr>
+                                <th>Roll No.</th>
+                                <th>Name</th>
+                                <th>Section</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
 
                     Object.entries(data).forEach(([key, [user_id, roll_no, name, section]]) => {
                         const url_mask = "{% url 'volunteers:profile' 14325 %}".replace("14325", user_id);
-                        vol_list_table += '<tr><td>' + roll_no + '</td><td><a href="' + url_mask + '" target ="_blank">' + name + '</a></td><td>' + section + '</td></tr>';
+                        vol_list_table +=
+                            `<tr>
+                                <td>${roll_no}</td>
+                                <td><a href="${url_mask}" target ="_blank">${name}</a></td>
+                                <td>${section}</td>
+                            </tr>`;
                     });
 
-                    vol_list_table += '</tbody>';
+                    vol_list_table += `</tbody>`;
                     $("#vol-list-table").html(vol_list_table);
                 }
             }
         });
     });
 </script>
-
 {% endblock %}
