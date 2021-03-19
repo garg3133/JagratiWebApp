@@ -101,7 +101,7 @@ So, all in all, it is meant to help the volunteers work more effectively and eff
     or, just copy the `.env.save` file from `samples` directory to the root directory (`JagratiWebApp`) and rename it to `.env` (only `.env` and not `.env.txt`)  
   
     where, 
-    * `EMAIL_HOST_USER` and `SENDER_EMAIL` is the email address of your Gmail account from which you want to send emails (By default, Django will output email contents in console. To actually send emails to real users, comment line 27 and uncomment line 28 in `Jagrati/settings/development.py`).
+    * `EMAIL_HOST_USER` and `SENDER_EMAIL` is the email address of your Gmail account from which you want to send emails (By default, Django will output email contents in console. To actually send emails to real users, comment line 30 and uncomment line 31 in `Jagrati/settings/development.py`).
     * `EMAIL_HOST_PASSWORD` is the password for that Gmail account.
     * `ADMINS_EMAIL` is a list of email addresses of Admins of the site (who will recieve important updates from the site like when a new user joins in).
     * `SOCIAL_AUTH_GOOGLE_OAUTH2_KEY` and `SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET` are the API keys for login/signup using Google.
