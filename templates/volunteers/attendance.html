@@ -33,7 +33,7 @@
                         <tr>
                             <td>{{ vol_att.volun.roll_no }}</td>
                             <td>
-                                <a href="{% url 'volunteers:profile' vol_att.volun.profile.user_id %}" target="_blank">
+                                <a href="{% url 'volunteers:profile' vol_att.volun_id %}" target="_blank">
                                     {{ vol_att.volun.profile.get_full_name }}
                                 </a>
                             </td>

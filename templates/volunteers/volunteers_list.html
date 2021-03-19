@@ -66,8 +66,8 @@
                         </thead>
                         <tbody>`;
 
-                    Object.entries(data).forEach(([key, [user_id, roll_no, name, section]]) => {
-                        const url_mask = "{% url 'volunteers:profile' 14325 %}".replace("14325", user_id);
+                    Object.entries(data).forEach(([key, [volun_id, roll_no, name, section]]) => {
+                        const url_mask = "{% url 'volunteers:profile' 14325 %}".replace("14325", volun_id);
                         vol_list_table +=
                             `<tr>
                                 <td>${roll_no}</td>

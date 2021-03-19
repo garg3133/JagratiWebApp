@@ -40,12 +40,10 @@ def index(request):
     login_url=reverse_lazy('accounts:complete_profile')
 )
 def profile(request, pk):
-    profile = get_object_or_404(Profile, user_id=pk)
-    vol_profile = get_object_or_404(Volunteer, profile=profile)
+    volunteer = get_object_or_404(Volunteer, id=pk)
     context = {
-        'profile': profile,
-        'vol_profile': vol_profile,
-        'self_profile': profile.user == request.user,
+        'volunteer': volunteer,
+        'self_profile': volunteer.profile.user == request.user,
     }
     return render(request,'volunteers/profile.html', context)
 
@@ -150,7 +148,7 @@ def ajax_volunteers_list(request):
     # and 'roll_no' to make every key unique.
     for vol_sch in vol_to_show:
         key = str(vol_sch.schedule.section.section_id) + str(vol_sch.volun.roll_no)
-        data[key] = [vol_sch.volun.profile.user_id, vol_sch.volun.roll_no, vol_sch.volun.profile.get_full_name, vol_sch.schedule.section.name]
+        data[key] = [vol_sch.volun_id, vol_sch.volun.roll_no, vol_sch.volun.profile.get_full_name, vol_sch.schedule.section.name]
 
     return JsonResponse(data)
 
