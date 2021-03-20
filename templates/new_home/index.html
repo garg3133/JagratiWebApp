@@ -5,181 +5,191 @@
 {% block title %} Jagrati | Home {% endblock %}
 
 {% block style %}
-	
-	<!--Favicon-->
-    <link rel="icon" type="text/css" href="{% static 'new_home/images/logo.png' %}">
+<!--Favicon-->
+<link rel="icon" type="text/css" href="{% static 'new_home/images/logo.png' %}">
 
-    <link rel="stylesheet" href="{% static 'new_home/style.css' %}" type="text/css" />
-    <script src="{% static 'new_home/style.js' %}" type="text/javascript" defer></script>
+<link rel="stylesheet" href="{% static 'new_home/style.css' %}" type="text/css" />
+<script src="{% static 'new_home/style.js' %}" type="text/javascript" defer></script>
 
-    <!-- Bootstrap & Downloaded CSS/JS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    
+<!-- Bootstrap & Downloaded CSS/JS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 {% endblock %}
 
 {% block content %}
-    
-    <!--Logo-->
-    <center style="background-color: rgb(252,252,252)"><img src="{% static 'new_home/images/logo.png' %}" style="height: 60px;"></center>
+<!--Logo-->
+<center style="background-color: rgb(252,252,252)"><img src="{% static 'new_home/images/logo.png' %}"
+        style="height: 60px;"></center>
 
+<!--Navbar Starts-->
+<nav id="sticky">
+    <div>
+        <!--Left Navbar-->
+        <div class="navbar" id="nav">
+            <a href="javascript:void(0);" class="icon" onclick="nav_button()" id="tus">
+                <div class="bar" onclick="rotate_menu(this)">
+                    <div class="bar1"></div>
+                    <div class="bar2"></div>
+                    <div class="bar3"></div>
+                </div>
+            </a>
 
-    <!--Navbar Starts-->
-    <nav id="sticky">
-        <div>
-            <!--Left Navbar-->
-            <div class="navbar" id="nav">
-
-                <a href="javascript:void(0);" class="icon" onclick="nav_button()" id="tus">
-                    <div class="bar" onclick="rotate_menu(this)">
-                        <div class="bar1"></div>
-                        <div class="bar2"></div>
-                        <div class="bar3"></div>
-                    </div>
-                </a>
-
-                <a href="/" class="child-1">Home</a>
-                <a href="#about-us" class="child-2">About</a>
-                <a href="" class="child-3">Initiatives</a>
-                <a href="/" class="child-4">Team</a>
-                <a href="#contact" class="child-5">Contact</a>
-                
-                <hr/>
-            </div>
-
-            <!--Right Navbar-->
-            <div class="navbar1">
-                <ul>
-                    <a href="{% url 'accounts:login_signup' %}" >Login</a>
-                    <p href="#about" class="btn-get-started scrollto">Donate</p>   
-                </ul>
-            </div>
-
+            <a href="/" class="child-1">Home</a>
+            <a href="#about-us" class="child-2">About</a>
+            <a href="" class="child-3">Initiatives</a>
+            <a href="/" class="child-4">Team</a>
+            <a href="#contact" class="child-5">Contact</a>
+            <hr />
         </div>
-    </nav>
-    <!--Navbar Ends-->
 
-	<!--Header Start--> 
-	<section id="header" class=" align-items-center">
-
-	    <div class="container">
-	    	<div class="row">
-	       		<div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 mt-5 " data-aos="zoom-in" data-aos-offset="400"data-aos-easing="ease-in-sine">
-	          		<h1>Welcome to <a style="color:#f17e01;" class="magica" >Jagrati</a></h1>
-	          		<h2>We are a team of dedicated students, on a path to make this world a better place!</h2>
-	          		<a href="#about" class="btn-get-started scrollto">Donate</a>
-	        	</div>
-	        
-	        <div class="col-lg-6 order-1 order-lg-2 header-img" data-aos="zoom-in" data-aos-offset="400"data-aos-easing="ease-in-sine">
-	        	<img src='{% static "new_home/images/edu.svg" %}' class="img-fluid animated" alt="">
-	        </div>
-	      </div>
-	    </div>
-
-  	</section>
-  	<!--Header Ends-->
-  
-	</br></br></br></br>
-  
-	<!-- About section starts -->
-    <section id="about-us">
-        <div class="cntainer">
-            <div class="intro" data-aos='fade-up'>
-                <h1>About Us</h1>
-                <p>You must not lose faith in humanity. Humanity is an ocean; if a few drops of the ocean are dirty, the ocean does not become dirty.</p>
-            </div>
-            <div class="vision">
-                <div data-aos='fade-left' data-aos-delay="300" data-aos-easing='ease-in-cubic' data-aos-duration="500">
-                    <img src='{% static "new_home/images/ill.svg" %}'>
-                </div>
-                <div data-aos='fade-right'>
-                    <h2>VISION</h2>
-                    <p>Our vision is to promote education as a vehicle for rural development and provide it to students who cannot otherwise access or afford it. By empowering children with education, we want to make sure that they live out their potential even under adverse circumstances. And light the future of generations to come.</p>
-                </div>
-            </div>
-            <div class="clr"></div>
-            <div class="mission">
-                <div data-aos='fade-right' data-aos-delay="300" data-aos-easing='ease-in' data-aos-duration="500">
-                    <img src='{% static "new_home/images/study.svg" %}'>
-                </div>
-                <div data-aos='fade-left'>
-                    <h2>MISSION</h2>
-                    <p>Our mission is to eradicate illiteracy from India. We are moving towards our mission by implementing this in IIIT Jabalpur, giving quality and value education to students of nearby villages. Our ultimate goal is to extend our helping hand to each and every needy in India and make a new India in the coming days.</p>
-                </div>
-            </div>
+        <!--Right Navbar-->
+        <div class="navbar1">
+            <ul>
+                <a href="{% url 'accounts:login_signup' %}">Login</a>
+                <p href="#about" class="btn-get-started scrollto">Donate</p>
+            </ul>
         </div>
-    </section>
-    <!-- About section ends -->
-
-	<!--Initiatives Starts-->
-	<div ><center ><h1 style="padding-top: 20px;" data-aos='fade-up'> Inititatives</h1></center></div>
- 		
- 		<div class="card-container">
- 		{% for initiative in initiatives %}
-
-    	<div class="card" data-aos="fade-left" data-aos-duration="1500">
-        	<div class="card-img"><img src="{{initiative.thumbnail.url}}" alt="image" style="height: 300px;"></div>
-        	<br>
-        	
-        	<div class="card-text">
-            	<h5 class="card-title">{{initiative.title}}</h5>
-		        <p class="card-text">{{initiative.description}}</p>
-		       
-        	</div>
- 	
-    	</div>
-    	{% endfor %}
-
     </div>
-	<!--Initiatives Ends-->
-	<br><br>
-    
-    <!-- Donate Us section starts -->
-    <section id="donate-us">
-        <div class="cntainer">
-            <!-- Icon -->
-            <h1 data-aos="fade-up">Donate Us</h1>
-            <br>
-            <p data-aos="zoom-in" data-aos-delay="100" data-aos-duration="700" data-aos-anchor="#donate-us h1"><em>We make a living by what we get.<br> We make a life by what we give.</em> <br><br>At Jagrati, we promote education in villages and help these little kids to find their passion and shape their lives.</p>
-                
-            </p>
-            <div data-aos="fade" data-aos-delay="500" data-aos-easing='ease-in-linear' data-aos-duration="1000" data-aos-anchor="#donate-us h1">
+</nav>
+<!--Navbar Ends-->
+
+<!--Header Start-->
+<section id="header" class=" align-items-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 mt-5 " data-aos="zoom-in" data-aos-offset="400"
+                data-aos-easing="ease-in-sine">
+                <h1>Welcome to <a style="color:#f17e01;" class="magica">Jagrati</a></h1>
+                <h2>We are a team of dedicated students, on a path to make this world a better place!</h2>
                 <a href="#about" class="btn-get-started scrollto">Donate</a>
             </div>
+
+            <div class="col-lg-6 order-1 order-lg-2 header-img" data-aos="zoom-in" data-aos-offset="400"
+                data-aos-easing="ease-in-sine">
+                <img src='{% static "new_home/images/edu.svg" %}' class="img-fluid animated" alt="">
+            </div>
         </div>
-    </section>
-    <!-- Donate Us section ends -->
+    </div>
+</section>
+<!--Header Ends-->
 
-    <!-- Contact Us section starts -->
-    <!--<section id="contact-us">
-        <div class="cntainer">
-            <h1 data-aos="fade-up">Contact Us</h1>
-            <br>
+</br></br></br></br>
+
+<!-- About section starts -->
+<section id="about-us">
+    <div class="cntainer">
+        <div class="intro" data-aos='fade-up'>
+            <h1>About Us</h1>
+            <p>You must not lose faith in humanity. Humanity is an ocean; if a few drops of the ocean are dirty, the
+                ocean does not become dirty.</p>
         </div>
-    </section>-->
-    <!-- Contact Us section ends -->
-
-
-    <!-- Footer starts -->
-    <footer>
-        <div class="container">
-            Jagrati Copyright &copy; {% now 'Y'%}
+        <div class="vision">
+            <div data-aos='fade-left' data-aos-delay="300" data-aos-easing='ease-in-cubic' data-aos-duration="500">
+                <img src='{% static "new_home/images/ill.svg" %}'>
+            </div>
+            <div data-aos='fade-right'>
+                <h2>VISION</h2>
+                <p>Our vision is to promote education as a vehicle for rural development and provide it to students who
+                    cannot otherwise access or afford it. By empowering children with education, we want to make sure
+                    that they live out their potential even under adverse circumstances. And light the future of
+                    generations to come.</p>
+            </div>
         </div>
-    </footer>
-    <!-- Footer ends -->
+        <div class="clr"></div>
+        <div class="mission">
+            <div data-aos='fade-right' data-aos-delay="300" data-aos-easing='ease-in' data-aos-duration="500">
+                <img src='{% static "new_home/images/study.svg" %}'>
+            </div>
+            <div data-aos='fade-left'>
+                <h2>MISSION</h2>
+                <p>Our mission is to eradicate illiteracy from India. We are moving towards our mission by implementing
+                    this in IIIT Jabalpur, giving quality and value education to students of nearby villages. Our
+                    ultimate goal is to extend our helping hand to each and every needy in India and make a new India in
+                    the coming days.</p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- About section ends -->
+
+<!--Initiatives Starts-->
+<div>
+    <center>
+        <h1 style="padding-top: 20px;" data-aos='fade-up'> Inititatives</h1>
+    </center>
+</div>
+
+<div class="card-container">
+    {% for initiative in initiatives %}
+    <div class="card" data-aos="fade-left" data-aos-duration="1500">
+        <div class="card-img">
+            <img style="height: 300px;" alt="image"
+                src="{% if initiative.thumbnail %}{{ initiative.thumbnail.url }}{% else %}{{ initiative.thumb_url }}{% endif %}">
+        </div>
+        <br>
+        <div class="card-text">
+            <h5 class="card-title">{{initiative.title}}</h5>
+            <p class="card-text">{{initiative.description}}</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<!--Initiatives Ends-->
+
+<br><br>
+
+<!-- Donate Us section starts -->
+<section id="donate-us">
+    <div class="cntainer">
+        <!-- Icon -->
+        <h1 data-aos="fade-up">Donate Us</h1>
+        <br>
+        <p data-aos="zoom-in" data-aos-delay="100" data-aos-duration="700" data-aos-anchor="#donate-us h1"><em>We make a
+                living by what we get.<br> We make a life by what we give.</em> <br><br>At Jagrati, we promote education
+            in villages and help these little kids to find their passion and shape their lives.</p>
+        </p>
+        <div data-aos="fade" data-aos-delay="500" data-aos-easing='ease-in-linear' data-aos-duration="1000"
+            data-aos-anchor="#donate-us h1">
+            <a href="#about" class="btn-get-started scrollto">Donate</a>
+        </div>
+    </div>
+</section>
+<!-- Donate Us section ends -->
+
+<!-- Contact Us section starts -->
+<!--<section id="contact-us">
+    <div class="cntainer">
+        <h1 data-aos="fade-up">Contact Us</h1>
+        <br>
+    </div>
+</section>-->
+<!-- Contact Us section ends -->
+
+<!-- Footer starts -->
+<footer>
+    <div class="container">
+        Jagrati Copyright &copy; {% now 'Y'%}
+    </div>
+</footer>
+<!-- Footer ends -->
 
 
-	<!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script>
-
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script>
     AOS.init();
-    </script>
-
+</script>
 {% endblock %}
