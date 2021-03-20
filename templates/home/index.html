@@ -5,423 +5,491 @@
 {% block title %} Jagrati | Home {% endblock %}
 
 {% block style %}
-    <link rel="stylesheet" type="text/css" href='{% static "home/css/style.css" %}'>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.theme.min.css">
+<link rel="stylesheet" type="text/css" href='{% static "home/css/style.css" %}'>
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+    integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.theme.min.css">
 {% endblock %}
 
 {% block content %}
-    <!-- Header Starts -->
-    <header>
+<!-- Header Starts -->
+<header>
+    <div class="container">
+        <div id="branding">
+            <h1><span onclick="document.querySelector('.navbar a:first-child').click()"
+                    style="cursor: pointer;">Jagrati</span></h1>
+            <div class="branding1">
+                <p>an initiative of IIITians</p>
+            </div>
+        </div>
+        <a href='{% static "home/logo.jpg" %}' target="_blank" style="float: right;"><img
+                src='{% static "home/logo.png" %}' class="logo"></a>
+    </div>
+</header>
+<!-- Header Ends -->
+
+<!-- Navigation Bar starts -->
+<nav class="navbar">
+    <div class="container">
+        <div class="navbar-toggler">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="left-nav">
+            <ul class="navbar-nav nav-collapsed">
+                <li class="nav-item">
+                    <a class="nav-link" href="./">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#about-us">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Events</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Team</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./">Alumni</a>
+                </li>
+            </ul>
+        </div>
+        <div class="right-nav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:login_signup' %}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="donate_us()">Donate</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- Navbar ends -->
+
+<!-- Showcase starts -->
+<section id="showcase">
+    <div class="show-bg">
         <div class="container">
-            <div id="branding">
-                <h1><span onclick="document.querySelector('.navbar a:first-child').click()" style="cursor: pointer;">Jagrati</span></h1>
-                <div class="branding1">
-                    <p>an initiative of IIITians</p>
-                </div>
-            </div>
-            <a href='{% static "home/logo.jpg" %}' target="_blank" style="float: right;"><img src='{% static "home/logo.png" %}' class="logo"></a>
-            
+            <h1 data-aos="zoom-in" data-aos-duration="1500">Jagrati Promotes <span style="color: #ff8c00;">Education in
+                    Villages</span></h1>
+            <p id="show-p"></p>
         </div>
-    </header>
-    <!-- Header Ends -->
+    </div>
+</section>
+<!-- Showcase ends -->
 
-    <!-- Navigation Bar starts -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="navbar-toggler">
-                <i class="fas fa-bars"></i>
+<!-- About section starts -->
+<section id="about-us">
+    <div class="container">
+        <div class="intro" data-aos='fade-up'>
+            <h1>About Us</h1>
+            <p>You must not lose faith in humanity. Humanity is an ocean; if a few drops of the ocean are dirty, the
+                ocean does not become dirty.</p>
+        </div>
+        <div class="vision">
+            <div data-aos='fade-left' data-aos-delay="300" data-aos-easing='ease-in-cubic' data-aos-duration="500">
+                <img src='{% static "home/images/01.jpg" %}'>
             </div>
-            <div class="left-nav">
-                <ul class="navbar-nav nav-collapsed">
-                    <li class="nav-item">
-                        <a class="nav-link" href="./">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about-us">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Events</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Team</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./">Alumni</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="right-nav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'accounts:login_signup' %}">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link" onclick="donate_us()">Donate</a>
-                    </li>
-                </ul>
+            <div data-aos='fade-right'>
+                <h2>VISION</h2>
+                <p>Our vision is to promote education as a vehicle for rural development and provide it to students who
+                    cannot otherwise access or afford it. By empowering children with education, we want to make sure
+                    that they live out their potential even under adverse circumstances. And light the future of
+                    generations to come.</p>
             </div>
         </div>
-    </nav>
-    <!-- Navbar ends -->
-
-    <!-- Showcase starts -->
-    <section id="showcase">
-        <div class="show-bg">
-            <div class="container">
-                <h1 data-aos="zoom-in" data-aos-duration="1500">Jagrati Promotes <span style="color: #ff8c00;">Education in Villages</span></h1>
-                <p id="show-p"></p>
+        <div class="clr"></div>
+        <div class="mission">
+            <div data-aos='fade-right' data-aos-delay="300" data-aos-easing='ease-in' data-aos-duration="500">
+                <img src='{% static "home/images/05.jpg" %}'>
             </div>
-        </div>
-    </section>
-    <!-- Showcase ends -->
-
-    <!-- About section starts -->
-    <section id="about-us">
-        <div class="container">
-            <div class="intro" data-aos='fade-up'>
-                <h1>About Us</h1>
-                <p>You must not lose faith in humanity. Humanity is an ocean; if a few drops of the ocean are dirty, the ocean does not become dirty.</p>
-            </div>
-            <div class="vision">
-                <div data-aos='fade-left' data-aos-delay="300" data-aos-easing='ease-in-cubic' data-aos-duration="500">
-                    <img src='{% static "home/images/01.jpg" %}'>
-                </div>
-                <div data-aos='fade-right'>
-                    <h2>VISION</h2>
-                    <p>Our vision is to promote education as a vehicle for rural development and provide it to students who cannot otherwise access or afford it. By empowering children with education, we want to make sure that they live out their potential even under adverse circumstances. And light the future of generations to come.</p>
-                </div>
-            </div>
-            <div class="clr"></div>
-            <div class="mission">
-                <div data-aos='fade-right' data-aos-delay="300" data-aos-easing='ease-in' data-aos-duration="500">
-                    <img src='{% static "home/images/05.jpg" %}'>
-                </div>
-                <div data-aos='fade-left'>
-                    <h2>MISSION</h2>
-                    <p>Our mission is to eradicate illiteracy from India. We are moving towards our mission by implementing this in IIIT Jabalpur, giving quality and value education to students of nearby villages. Our ultimate goal is to extend our helping hand to each and every needy in India and make a new India in the coming days.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- About section ends -->
-
-    <!-- Testimony section starts -->
-    
-    <!-- Testimony section ends -->
-
-    <!-- Q1(quotation) section starts -->
-    <section class="q1">
-        <div class="container">
-            <p data-aos='zoom-in' data-aos-delay="100" data-aos-easing='ease-in-linear' data-aos-duration="500">The whole purpose of education is to turn mirrors into windows</p>
-            <div data-aos='flip-right' data-aos-delay="300" data-aos-easing='ease-in-cubic' data-aos-duration="500" data-aos-anchor=".q1 p">
-                <a href="http://www.iiitdmj.ac.in/jagriti_tour.html" target="_blank" class="q2-button">MORE ABOUT US</a>
-            </div>
-        </div>
-    </section>
-    <!-- Q1 section ends -->
-
-    <!-- Initiatives Section begins -->
-    <section id="initiatives">
-        <div class="container">
-            <h1>Our Initiatives</h1>
-            <div class="glide">
-                  <div class="glide__track" data-glide-el="track">
-                    <ul class="glide__slides">
-                          <li class="glide__slide">
-                              <div class="card">
-                                <div class="card-img">
-                                    <img src='{% static "home/images/02.jpg" %}'>
-                                </div>
-                                <h2 class="card_h2">Evening Classes</h2>
-                                <div class="card1">
-                                    <!-- <h4>Evening Classes</h4> -->
-                                    <p>After a strained and hectic morning class schedule, what better refreshment can there be than seeing the same classrooms now filled with curious cats and jolly spirits. Seeing innocent smiles on their face pushes all the tensions and confusions to the back of our minds leaving it light and joyous. The eagerness to learn and explore something new, never goes out. This, along with a bit of fun and frolic is sufficient for their day and enough for our satisfaction.</p>
-                                </div>
-                            </div>
-                        </li>
-                          <li class="glide__slide">
-                              <div class="card">
-                                <div class="card-img">
-                                    <img src='{% static "home/images/02.jpg" %}'>
-                                </div>
-                                <h2 class="card_h2">Books Distribution</h2>
-                                <div class="card1">
-                                    <!-- <h4>Books Distribution</h4> -->
-                                    <p>Jagrati which once started with providing primary education and facilities to the children is now much more than that. We now look upon the society as a whole rather than focussing on a particular objective. What better way to promote and ignite a light of awareness towards education among kids than to hand them the pivot of education. The books distributed among them kindle in them, the importance of reading and make them realize the wonders a book is capable of bringing into their lives. </p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="glide__slide">
-                              <div class="card">
-                                <div class="card-img">
-                                    <img src='{% static "home/images/02.jpg" %}'>
-                                </div>
-                                <h2 class="card_h2">Cloth Distribution</h2>
-                                <div class="card1">
-                                    <!-- <h4>Cloth Distribution</h4> -->
-                                    <p>No bigger virtue than to cover a needy!!! Jagrati understands the necessity of some of the basic needs of everyone and how the under privileged people struggle for it. The cloth donation camps looks after fulfilling the needs of those people. </p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="glide__slide">
-                              <div class="card">
-                                <div class="card-img">
-                                    <img src='{% static "home/images/02.jpg" %}'>
-                                </div>
-                                <h2 class="card_h2">Blood Donation</h2>
-                                <div class="card1">
-                                    <!-- <h4>Blood Donation</h4> -->
-                                    <p>Save a life!!! Saving a life can be one of the best self-satisfactions one could ever possess in his or her entire life. Our blood donation camps look forward on doing the same. It received an overwhelming support from the institute and is one of the biggest successes of Jagrati till date. The participation of the faculties added to its success. As they say, "karke dekho, achcha lagta hai", it indeed proved true. Medical camps for the underprivileged who cannot afford to get basic check-ups done were provided with basic fitness tests here in our institute. A step towards a healthy living society is never a failure. </p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="glide__slide">
-                              <div class="card">
-                                <div class="card-img">
-                                    <img src='{% static "home/images/02.jpg" %}'>
-                                </div>
-                                <h2 class="card_h2">Plantation Drive</h2>
-                                <div class="card1">
-                                    <!-- <h4>Plantation Drive</h4> -->
-                                    <p>To live life is to give one!! The tiny little roots planted during this plantation drive will continue to support life for millions of people for many years to come. Seeing them grow big and old will be the eternal bliss one could ever wish for.</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="glide__slide">
-                              <div class="card">
-                                <div class="card-img">
-                                    <img src='{% static "home/images/02.jpg" %}'>
-                                </div>
-                                <h2 class="card_h2">Cultural and Fun Activities</h2>
-                                <div class="card1">
-                                    <!-- <h4>Cultural and Fun Activities</h4> -->
-                                    <p>So here the fun part starts. Jagrati has now become an integral part of almost every cultural event organised by our institute. This is much more a fun to the children than to us. Little feet jumping in a synchronised and well-coordinated manner on the big stage in front of a big audience or a group of them singing their hearts out has always been a visual delight to the entire institute. The appreciation received has always proved motivating for them. </p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="glide__slide">
-                              <div class="card">
-                                <div class="card-img">
-                                    <img src='{% static "home/images/02.jpg" %}'>
-                                </div>
-                                <h2 class="card_h2">Awareness Rally</h2>
-                                <div class="card1">
-                                    <!-- <h4>Awareness Rally</h4> -->
-                                    <p>It doesn’t matter how hard we put our efforts into this unless and until we are joined and supported by the society as well. The awareness rallies conducted by Jagrati have looked forward to ignite the same spirit of working in togetherness towards a better future of the country. </p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="glide__slide">
-                              <div class="card">
-                                <div class="card-img">
-                                    <img src='{% static "home/images/02.jpg" %}'>
-                                </div>
-                                <h2 class="card_h2">Festivals</h2>
-                                <div class="card1">
-                                    <!-- <h4>Festivals</h4> -->
-                                    <p>Every festival has always been a delight with Jagrati. The colours of Holi seemed to be more colourful while celebrating it with the kids. Diyas of Diwali became more bright when lit by those little hands and the crackers were better enjoyed when bursted by them. Be it Raksha Bandhan, where the little girls tie rakhi or the Navratri where they worship Maa Durga, every festival carries millions of memories with it. </p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="glide__slide">
-                              <div class="card">
-                                <div class="card-img">
-                                    <img src='{% static "home/images/02.jpg" %}'>
-                                </div>
-                                <h2 class="card_h2">Old Age Home Visit</h2>
-                                <div class="card1">
-                                    <!-- <h4>Old Age Home Visit</h4> -->
-                                    <p>Jagrati has also extended its helping hands to the old souls who have been looked down upon by the society and have now hidden themselves into a room away from the light of the outside world. Holding their hands and giving them a support gave them a genuine pleasure which is beyond explanation. Talking to them and sharing words of hope granted us with their unfathomable experience and knowledge of life. The day was an experience of a lifetime. </p>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                  </div>
-                <div class="glide__arrows disable_arrows" data-glide-el="controls">
-                    <button class="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
-                    <button class="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
-                  </div>
-                  <div class="glide__bullets" data-glide-el="controls[nav]">
-                    <button class="glide__bullet" data-glide-dir="=0"></button>
-                    <button class="glide__bullet" data-glide-dir="=1"></button>
-                    <button class="glide__bullet" data-glide-dir="=2"></button>
-                    <button class="glide__bullet" data-glide-dir="=3"></button>
-                    <button class="glide__bullet" data-glide-dir="=4"></button>
-                    <button class="glide__bullet" data-glide-dir="=5"></button>
-                    <button class="glide__bullet" data-glide-dir="=6"></button>
-                    <button class="glide__bullet" data-glide-dir="=7"></button>
-                    <button class="glide__bullet" data-glide-dir="=8"></button>
-                  </div>
-            </div>
-        </div>
-    </section>
-    <!-- Initiatives SEction ends -->
-
-    <!-- Services section starts -->
-    <!-- <section id="services">
-        <div class="container">
-            <div class="intro">
-                <h1 data-aos="fade-up">More Services</h1>
-                <p data-aos="zoom-in" data-aos-delay="300" data-aos-duration="500" data-aos-anchor="#services .intro h1">Perhaps the greatest social service that can be rendered by anybody to the country and to mankind is to bring up a family.</p>
-            </div>
-            <div class="box-1">
-                <div>
-                    <i class="fas fa-chalkboard-teacher fa-5x" data-aos="fade-down-right"></i>
-                    <h2 data-aos="fade-down-right" data-aos-anchor="#services .box-1 i:first-child">TEACHING</h2>
-                    <p data-aos="zoom-in" data-aos-delay="100" data-aos-duration="700">Evening time is arranged for these children to teach the academics, morals, manners and discipline by the volunteers who are from the Colleges/Organisation/Company. Teaching activity is well planned in a way strengthening children varying from Nursery to 12th standard, academically good and enabling them to compete with students studying in their schools to equate their ability from slumdog to professionals Child.</p>
-                </div>
-                <div>
-                    <i class="fas fa-tshirt fa-5x" data-aos="fade-down-left"></i>
-                    <h2 data-aos="fade-down-left" data-aos-anchor="#services .box-1 div:last-child i">CLOTHES DONATION</h2>
-                    <p data-aos="zoom-in" data-aos-delay="100" data-aos-duration="700">Today, more than ever, you can help your neighbors and communities in need by donating clothes and other gently used household items to local charities. Your clothing donations make a big difference to individuals who are struggling to make ends meet. Clothing donations can provide an individual with the clothes � and the confidence � he needs to succeed in his next job interview. Donating clothing can enable a child to prosper at school among her peers.</p>
-                </div>
-            </div>
-            <div class="clr"></div>
-            <div class="box-2">	
-                <div>
-                    <i class="fas fa-seedling fa-5x" data-aos="fade-up-right"></i>
-                    <h2 data-aos="fade-up-right" data-aos-anchor="#services .box-2 i:first-child">PLANTATION</h2>
-                    <p data-aos="zoom-in" data-aos-delay="100" data-aos-duration="700">Trees are important, necessary and valuable to our very existence. It's not too hard to believe that without trees we humans would not exist on this beautiful planet. Unfortunately, our need for trees is more than ever. While science and technology has provided us with many comforts, the consequent urbanization and industrialization also has had some undesired side-effects; Global Warming being one of those. The club has identified this problem and has associated itself with this case. Thereby, the Jagrati conducts a plantation drive each year.</p>
-                </div>
-                <div>
-                    <i class="fas fa-user-md fa-5x" data-aos="fade-up-left"></i>
-                    <h2 data-aos="fade-up-left" data-aos-anchor="#services .box-2 div:last-child i">MEDICAL CAMP</h2>
-                    <p data-aos="zoom-in" data-aos-delay="100" data-aos-duration="700">Health is wealth If students are healthy they can concentrate on their studies better and give good results. For this we guide their parents to take their children to doctors and take proper medicine. Health camps are also organized By usand general medicines are distributed free of cost to everyone.</p>
-                </div>					
-            </div>
-        </div>
-    </section> -->
-    <!-- Services section ends -->
-
-    <!-- Q2 section starts -->
-    <section class="q2">
-        <div class="container">
-            <h1 style="margin: 0 0 10px; color: black;" data-aos="fade-up">Jagrati Orientation 2k19 <i class="fas fa-heart" style="color: red"></i></h1>
-            <div data-aos="fade" data-aos-delay="100" data-aos-duration="700" data-aos-easing="ease-in-back" data-aos-anchor=".q2 h1">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/EBOJ085UJ1I" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-        </div>
-    </section>
-    <!-- Q2 section ends -->
-
-    <!-- Donate Us section starts -->
-    <section id="donate-us">
-        <div class="container">
-            <!-- Icon -->
-            <h1 data-aos="fade-up">Donate Us</h1>
-            <p data-aos="zoom-in" data-aos-delay="100" data-aos-duration="700" data-aos-anchor="#donate-us h1"><em>We make a living by what we get.<br> We make a life by what we give.</em> <br><br>At Jagrati, we promote education in villages and help these little kids to find their passion and shape their lives.</p>
-                
-            </p>
-            <div data-aos="fade" data-aos-delay="500" data-aos-easing='ease-in-linear' data-aos-duration="1000" data-aos-anchor="#donate-us h1">
-                <button class="don-button" onclick="donate_us()">Donate</button>
-            </div>
-        </div>
-    </section>
-    <!-- Donate Us section ends -->
-
-    <!-- Donate Us Modal begins -->
-    <div id="don-modal">
-        <div class="don-modal-contents">
-            <span class="close" id="don-close">&times</span>
-            <div class="don-box1">
-                    <h2>Donate Us</h2>
-                </div>
-            <div class="container">
-                <div class="don-box2">
-                    <h3>Bank Details</h3>
-                    <h4>Account Name</h4>
-                    <p>JAGRATI</p>
-                    <h4>Account No.</h4>
-                    <p>xxxxxxxxxxx</p>
-                    <h4>IFSC Code</h4>
-                    <p>XXXXxxxxxxx</p>
-                </div>
-                <div class="don-box3">
-                    <h3>Contact Details</h3>
-                    <p><i class="fas fa-mobile fa-2x"></i>  +91-xxxxx-xxxxx</p>
-                    <p><i class="fas fa-envelope fa-2x"></i>  jagrati@iiitdmj.ac.in</p>
-                    <p><i class="fas fa-map-marker-alt fa-2x"></i>  PDPM IIITDM JABALPUR</p>
-                </div>
+            <div data-aos='fade-left'>
+                <h2>MISSION</h2>
+                <p>Our mission is to eradicate illiteracy from India. We are moving towards our mission by implementing
+                    this in IIIT Jabalpur, giving quality and value education to students of nearby villages. Our
+                    ultimate goal is to extend our helping hand to each and every needy in India and make a new India in
+                    the coming days.</p>
             </div>
         </div>
     </div>
-    <!-- Donate Us Modal ends -->
+</section>
+<!-- About section ends -->
 
-    <!-- Contact Us section starts -->
-    <section id="contact-us">
-        <div class="container">
-            <h1 data-aos="fade-up">Contact Us</h1>
-            <div data-aos="fade" data-aos-delay="100" data-aos-duration="700" data-aos-easing="ease-in-back" data-aos-anchor="#contact-us h1">
-                <iframe id="googleMap" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8475.584685004593!2d80.0213485541703!3d23.176553282566513!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3981a9413d9835fd%3A0xffe30099d058452e!2sIndian%20Institute%20of%20Information%20Technology%20Design%20%26%20Manufacturing%20Jabalpur!5e0!3m2!1sen!2sin!4v1575215351789!5m2!1sen!2sin" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+<!-- Testimony section starts -->
+
+<!-- Testimony section ends -->
+
+<!-- Q1(quotation) section starts -->
+<section class="q1">
+    <div class="container">
+        <p data-aos='zoom-in' data-aos-delay="100" data-aos-easing='ease-in-linear' data-aos-duration="500">The whole
+            purpose of education is to turn mirrors into windows</p>
+        <div data-aos='flip-right' data-aos-delay="300" data-aos-easing='ease-in-cubic' data-aos-duration="500"
+            data-aos-anchor=".q1 p">
+            <a href="http://www.iiitdmj.ac.in/jagriti_tour.html" target="_blank" class="q2-button">MORE ABOUT US</a>
+        </div>
+    </div>
+</section>
+<!-- Q1 section ends -->
+
+<!-- Initiatives Section begins -->
+<section id="initiatives">
+    <div class="container">
+        <h1>Our Initiatives</h1>
+        <div class="glide">
+            <div class="glide__track" data-glide-el="track">
+                <ul class="glide__slides">
+                    <li class="glide__slide">
+                        <div class="card">
+                            <div class="card-img">
+                                <img src='{% static "home/images/02.jpg" %}'>
+                            </div>
+                            <h2 class="card_h2">Evening Classes</h2>
+                            <div class="card1">
+                                <!-- <h4>Evening Classes</h4> -->
+                                <p>After a strained and hectic morning class schedule, what better refreshment can there
+                                    be than seeing the same classrooms now filled with curious cats and jolly spirits.
+                                    Seeing innocent smiles on their face pushes all the tensions and confusions to the
+                                    back of our minds leaving it light and joyous. The eagerness to learn and explore
+                                    something new, never goes out. This, along with a bit of fun and frolic is
+                                    sufficient for their day and enough for our satisfaction.</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="glide__slide">
+                        <div class="card">
+                            <div class="card-img">
+                                <img src='{% static "home/images/02.jpg" %}'>
+                            </div>
+                            <h2 class="card_h2">Books Distribution</h2>
+                            <div class="card1">
+                                <!-- <h4>Books Distribution</h4> -->
+                                <p>Jagrati which once started with providing primary education and facilities to the
+                                    children is now much more than that. We now look upon the society as a whole rather
+                                    than focussing on a particular objective. What better way to promote and ignite a
+                                    light of awareness towards education among kids than to hand them the pivot of
+                                    education. The books distributed among them kindle in them, the importance of
+                                    reading and make them realize the wonders a book is capable of bringing into their
+                                    lives. </p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="glide__slide">
+                        <div class="card">
+                            <div class="card-img">
+                                <img src='{% static "home/images/02.jpg" %}'>
+                            </div>
+                            <h2 class="card_h2">Cloth Distribution</h2>
+                            <div class="card1">
+                                <!-- <h4>Cloth Distribution</h4> -->
+                                <p>No bigger virtue than to cover a needy!!! Jagrati understands the necessity of some
+                                    of the basic needs of everyone and how the under privileged people struggle for it.
+                                    The cloth donation camps looks after fulfilling the needs of those people. </p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="glide__slide">
+                        <div class="card">
+                            <div class="card-img">
+                                <img src='{% static "home/images/02.jpg" %}'>
+                            </div>
+                            <h2 class="card_h2">Blood Donation</h2>
+                            <div class="card1">
+                                <!-- <h4>Blood Donation</h4> -->
+                                <p>Save a life!!! Saving a life can be one of the best self-satisfactions one could ever
+                                    possess in his or her entire life. Our blood donation camps look forward on doing
+                                    the same. It received an overwhelming support from the institute and is one of the
+                                    biggest successes of Jagrati till date. The participation of the faculties added to
+                                    its success. As they say, "karke dekho, achcha lagta hai", it indeed proved true.
+                                    Medical camps for the underprivileged who cannot afford to get basic check-ups done
+                                    were provided with basic fitness tests here in our institute. A step towards a
+                                    healthy living society is never a failure. </p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="glide__slide">
+                        <div class="card">
+                            <div class="card-img">
+                                <img src='{% static "home/images/02.jpg" %}'>
+                            </div>
+                            <h2 class="card_h2">Plantation Drive</h2>
+                            <div class="card1">
+                                <!-- <h4>Plantation Drive</h4> -->
+                                <p>To live life is to give one!! The tiny little roots planted during this plantation
+                                    drive will continue to support life for millions of people for many years to come.
+                                    Seeing them grow big and old will be the eternal bliss one could ever wish for.</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="glide__slide">
+                        <div class="card">
+                            <div class="card-img">
+                                <img src='{% static "home/images/02.jpg" %}'>
+                            </div>
+                            <h2 class="card_h2">Cultural and Fun Activities</h2>
+                            <div class="card1">
+                                <!-- <h4>Cultural and Fun Activities</h4> -->
+                                <p>So here the fun part starts. Jagrati has now become an integral part of almost every
+                                    cultural event organised by our institute. This is much more a fun to the children
+                                    than to us. Little feet jumping in a synchronised and well-coordinated manner on the
+                                    big stage in front of a big audience or a group of them singing their hearts out has
+                                    always been a visual delight to the entire institute. The appreciation received has
+                                    always proved motivating for them. </p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="glide__slide">
+                        <div class="card">
+                            <div class="card-img">
+                                <img src='{% static "home/images/02.jpg" %}'>
+                            </div>
+                            <h2 class="card_h2">Awareness Rally</h2>
+                            <div class="card1">
+                                <!-- <h4>Awareness Rally</h4> -->
+                                <p>It doesn’t matter how hard we put our efforts into this unless and until we are
+                                    joined and supported by the society as well. The awareness rallies conducted by
+                                    Jagrati have looked forward to ignite the same spirit of working in togetherness
+                                    towards a better future of the country. </p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="glide__slide">
+                        <div class="card">
+                            <div class="card-img">
+                                <img src='{% static "home/images/02.jpg" %}'>
+                            </div>
+                            <h2 class="card_h2">Festivals</h2>
+                            <div class="card1">
+                                <!-- <h4>Festivals</h4> -->
+                                <p>Every festival has always been a delight with Jagrati. The colours of Holi seemed to
+                                    be more colourful while celebrating it with the kids. Diyas of Diwali became more
+                                    bright when lit by those little hands and the crackers were better enjoyed when
+                                    bursted by them. Be it Raksha Bandhan, where the little girls tie rakhi or the
+                                    Navratri where they worship Maa Durga, every festival carries millions of memories
+                                    with it. </p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="glide__slide">
+                        <div class="card">
+                            <div class="card-img">
+                                <img src='{% static "home/images/02.jpg" %}'>
+                            </div>
+                            <h2 class="card_h2">Old Age Home Visit</h2>
+                            <div class="card1">
+                                <!-- <h4>Old Age Home Visit</h4> -->
+                                <p>Jagrati has also extended its helping hands to the old souls who have been looked
+                                    down upon by the society and have now hidden themselves into a room away from the
+                                    light of the outside world. Holding their hands and giving them a support gave them
+                                    a genuine pleasure which is beyond explanation. Talking to them and sharing words of
+                                    hope granted us with their unfathomable experience and knowledge of life. The day
+                                    was an experience of a lifetime. </p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
             </div>
-            <!-- <div id="googleMap" data-aos="fade" data-aos-delay="100" data-aos-duration="700" data-aos-easing="ease-in-back" data-aos-anchor="#contact-us h1"></div> -->
-            <p data-aos="zoom-in" data-aos-delay="100" data-aos-duration="700"><i class="fas fa-map-marker-alt fa-2x"></i>  Pandit Dwarka Prasad Mishra Indian Institute of Information Technology, Design and Manufacturing Jabalpur</p>
+            <div class="glide__arrows disable_arrows" data-glide-el="controls">
+                <button class="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
+                <button class="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
+            </div>
+            <div class="glide__bullets" data-glide-el="controls[nav]">
+                <button class="glide__bullet" data-glide-dir="=0"></button>
+                <button class="glide__bullet" data-glide-dir="=1"></button>
+                <button class="glide__bullet" data-glide-dir="=2"></button>
+                <button class="glide__bullet" data-glide-dir="=3"></button>
+                <button class="glide__bullet" data-glide-dir="=4"></button>
+                <button class="glide__bullet" data-glide-dir="=5"></button>
+                <button class="glide__bullet" data-glide-dir="=6"></button>
+                <button class="glide__bullet" data-glide-dir="=7"></button>
+                <button class="glide__bullet" data-glide-dir="=8"></button>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Initiatives SEction ends -->
+
+<!-- Services section starts -->
+<!-- <section id="services">
+    <div class="container">
+        <div class="intro">
+            <h1 data-aos="fade-up">More Services</h1>
+            <p data-aos="zoom-in" data-aos-delay="300" data-aos-duration="500" data-aos-anchor="#services .intro h1">Perhaps the greatest social service that can be rendered by anybody to the country and to mankind is to bring up a family.</p>
+        </div>
+        <div class="box-1">
             <div>
-                <div class="con-box1" data-aos="fade-down-right">
-                    <p><i class="fas fa-mobile fa-2x"></i>  +91-xxxxx-xxxxx</p>
-                </div>
-                <div class="con-box1" data-aos="fade-down-left">
-                    <p><i class="fas fa-envelope fa-2x"></i>  jagrati@iiitdmj.ac.in</p>
-                </div>
+                <i class="fas fa-chalkboard-teacher fa-5x" data-aos="fade-down-right"></i>
+                <h2 data-aos="fade-down-right" data-aos-anchor="#services .box-1 i:first-child">TEACHING</h2>
+                <p data-aos="zoom-in" data-aos-delay="100" data-aos-duration="700">Evening time is arranged for these children to teach the academics, morals, manners and discipline by the volunteers who are from the Colleges/Organisation/Company. Teaching activity is well planned in a way strengthening children varying from Nursery to 12th standard, academically good and enabling them to compete with students studying in their schools to equate their ability from slumdog to professionals Child.</p>
             </div>
-            <div class="clr"></div>
-            <div class="con-box2">
-                <p>
-                    <a href="https://www.facebook.com/JAGRATI.IIITDMJ/" target="_blank">
-                        <i class="fab fa-facebook fa-2x" data-aos="fade-left" data-aos-delay="200" data-aos-anchor=".con-box1"></i>
-                    </a>
-                    <a href="https://www.instagram.com/jagrati.iiitdmj/" target="_blank">
-                        <i class="fab fa-instagram fa-2x" data-aos="fade-left" data-aos-delay="550" data-aos-anchor=".con-box1"></i>
-                    </a>
-                    <a href="https://www.youtube.com/channel/UC0VyWk6o3XXGi1oq-XIbbJQ/" target="_blank">
-                        <i class="fab fa-youtube fa-2x" data-aos="fade-left" data-aos-delay="900" data-aos-anchor=".con-box1"></i>
-                    </a>
-                    <a href="https://github.com/garg3133/JagratiWebApp.git" target="_blank">
-                    <i class="fab fa-github fa-2x" data-aos="fade-left" data-aos-delay="1250" data-aos-anchor=".con-box1"></i>
-                    </a>
-                </p>
+            <div>
+                <i class="fas fa-tshirt fa-5x" data-aos="fade-down-left"></i>
+                <h2 data-aos="fade-down-left" data-aos-anchor="#services .box-1 div:last-child i">CLOTHES DONATION</h2>
+                <p data-aos="zoom-in" data-aos-delay="100" data-aos-duration="700">Today, more than ever, you can help your neighbors and communities in need by donating clothes and other gently used household items to local charities. Your clothing donations make a big difference to individuals who are struggling to make ends meet. Clothing donations can provide an individual with the clothes � and the confidence � he needs to succeed in his next job interview. Donating clothing can enable a child to prosper at school among her peers.</p>
             </div>
         </div>
-    </section>
-    <div class="con-sidenav">
-        <a href="#contact-us"><i class="fas fa-phone fa-rotate-90"></i>Contact Us</a>
+        <div class="clr"></div>
+        <div class="box-2">	
+            <div>
+                <i class="fas fa-seedling fa-5x" data-aos="fade-up-right"></i>
+                <h2 data-aos="fade-up-right" data-aos-anchor="#services .box-2 i:first-child">PLANTATION</h2>
+                <p data-aos="zoom-in" data-aos-delay="100" data-aos-duration="700">Trees are important, necessary and valuable to our very existence. It's not too hard to believe that without trees we humans would not exist on this beautiful planet. Unfortunately, our need for trees is more than ever. While science and technology has provided us with many comforts, the consequent urbanization and industrialization also has had some undesired side-effects; Global Warming being one of those. The club has identified this problem and has associated itself with this case. Thereby, the Jagrati conducts a plantation drive each year.</p>
+            </div>
+            <div>
+                <i class="fas fa-user-md fa-5x" data-aos="fade-up-left"></i>
+                <h2 data-aos="fade-up-left" data-aos-anchor="#services .box-2 div:last-child i">MEDICAL CAMP</h2>
+                <p data-aos="zoom-in" data-aos-delay="100" data-aos-duration="700">Health is wealth If students are healthy they can concentrate on their studies better and give good results. For this we guide their parents to take their children to doctors and take proper medicine. Health camps are also organized By usand general medicines are distributed free of cost to everyone.</p>
+            </div>					
+        </div>
     </div>
-    <!-- Contact Us section ends -->
+</section> -->
+<!-- Services section ends -->
 
-    <!-- Scroll to top button --->
-    <button onclick="topFunction()" id="scrollToTopButton" title="Go to top" class="ml-5"><i class="fa fa-angle-double-up" aria-hidden="true" style="color: black;font-weight: bolder;"></i></button>
-
-    <!-- Footer starts -->
-    <footer>
-        <div class="container">
-            Jagrati Copyright &copy; {% now 'Y'%}
+<!-- Q2 section starts -->
+<section class="q2">
+    <div class="container">
+        <h1 style="margin: 0 0 10px; color: black;" data-aos="fade-up">Jagrati Orientation 2k19 <i class="fas fa-heart"
+                style="color: red"></i></h1>
+        <div data-aos="fade" data-aos-delay="100" data-aos-duration="700" data-aos-easing="ease-in-back"
+            data-aos-anchor=".q2 h1">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/EBOJ085UJ1I" frameborder="0"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
         </div>
-    </footer>
-    <!-- Footer ends -->
+    </div>
+</section>
+<!-- Q2 section ends -->
 
-    <script type="text/javascript" src='{% static "home/js/myjs.js" %}'></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/glide.js"></script>
-    <script type="text/javascript" src='{% static "home/js/glide.js" %}'></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        var scrollTopButton = document.getElementById("scrollToTopButton");
-        window.onscroll = function() {scrollFunction()};
-        function scrollFunction() {
-            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                scrollTopButton.style.display = "block";
-            } else {
-                scrollTopButton.style.display = "none";
-            }
-        }
+<!-- Donate Us section starts -->
+<section id="donate-us">
+    <div class="container">
+        <!-- Icon -->
+        <h1 data-aos="fade-up">Donate Us</h1>
+        <p data-aos="zoom-in" data-aos-delay="100" data-aos-duration="700" data-aos-anchor="#donate-us h1"><em>We make a
+                living by what we get.<br> We make a life by what we give.</em> <br><br>At Jagrati, we promote education
+            in villages and help these little kids to find their passion and shape their lives.</p>
+        </p>
+        <div data-aos="fade" data-aos-delay="500" data-aos-easing='ease-in-linear' data-aos-duration="1000"
+            data-aos-anchor="#donate-us h1">
+            <button class="don-button" onclick="donate_us()">Donate</button>
+        </div>
+    </div>
+</section>
+<!-- Donate Us section ends -->
 
-        function topFunction() {
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
+<!-- Donate Us Modal begins -->
+<div id="don-modal">
+    <div class="don-modal-contents">
+        <span class="close" id="don-close">&times</span>
+        <div class="don-box1">
+            <h2>Donate Us</h2>
+        </div>
+        <div class="container">
+            <div class="don-box2">
+                <h3>Bank Details</h3>
+                <h4>Account Name</h4>
+                <p>JAGRATI</p>
+                <h4>Account No.</h4>
+                <p>xxxxxxxxxxx</p>
+                <h4>IFSC Code</h4>
+                <p>XXXXxxxxxxx</p>
+            </div>
+            <div class="don-box3">
+                <h3>Contact Details</h3>
+                <p><i class="fas fa-mobile fa-2x"></i> +91-xxxxx-xxxxx</p>
+                <p><i class="fas fa-envelope fa-2x"></i> jagrati@iiitdmj.ac.in</p>
+                <p><i class="fas fa-map-marker-alt fa-2x"></i> PDPM IIITDM JABALPUR</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Donate Us Modal ends -->
+
+<!-- Contact Us section starts -->
+<section id="contact-us">
+    <div class="container">
+        <h1 data-aos="fade-up">Contact Us</h1>
+        <div data-aos="fade" data-aos-delay="100" data-aos-duration="700" data-aos-easing="ease-in-back"
+            data-aos-anchor="#contact-us h1">
+            <iframe id="googleMap"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8475.584685004593!2d80.0213485541703!3d23.176553282566513!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3981a9413d9835fd%3A0xffe30099d058452e!2sIndian%20Institute%20of%20Information%20Technology%20Design%20%26%20Manufacturing%20Jabalpur!5e0!3m2!1sen!2sin!4v1575215351789!5m2!1sen!2sin"
+                width="600" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+        </div>
+        <!-- <div id="googleMap" data-aos="fade" data-aos-delay="100" data-aos-duration="700" data-aos-easing="ease-in-back" data-aos-anchor="#contact-us h1"></div> -->
+        <p data-aos="zoom-in" data-aos-delay="100" data-aos-duration="700"><i class="fas fa-map-marker-alt fa-2x"></i>
+            Pandit Dwarka Prasad Mishra Indian Institute of Information Technology, Design and Manufacturing Jabalpur
+        </p>
+        <div>
+            <div class="con-box1" data-aos="fade-down-right">
+                <p><i class="fas fa-mobile fa-2x"></i> +91-xxxxx-xxxxx</p>
+            </div>
+            <div class="con-box1" data-aos="fade-down-left">
+                <p><i class="fas fa-envelope fa-2x"></i> jagrati@iiitdmj.ac.in</p>
+            </div>
+        </div>
+        <div class="clr"></div>
+        <div class="con-box2">
+            <p>
+                <a href="https://www.facebook.com/JAGRATI.IIITDMJ/" target="_blank">
+                    <i class="fab fa-facebook fa-2x" data-aos="fade-left" data-aos-delay="200"
+                        data-aos-anchor=".con-box1"></i>
+                </a>
+                <a href="https://www.instagram.com/jagrati.iiitdmj/" target="_blank">
+                    <i class="fab fa-instagram fa-2x" data-aos="fade-left" data-aos-delay="550"
+                        data-aos-anchor=".con-box1"></i>
+                </a>
+                <a href="https://www.youtube.com/channel/UC0VyWk6o3XXGi1oq-XIbbJQ/" target="_blank">
+                    <i class="fab fa-youtube fa-2x" data-aos="fade-left" data-aos-delay="900"
+                        data-aos-anchor=".con-box1"></i>
+                </a>
+                <a href="https://github.com/garg3133/JagratiWebApp.git" target="_blank">
+                    <i class="fab fa-github fa-2x" data-aos="fade-left" data-aos-delay="1250"
+                        data-aos-anchor=".con-box1"></i>
+                </a>
+            </p>
+        </div>
+    </div>
+</section>
+<div class="con-sidenav">
+    <a href="#contact-us"><i class="fas fa-phone fa-rotate-90"></i>Contact Us</a>
+</div>
+<!-- Contact Us section ends -->
+
+<!-- Scroll to top button --->
+<button onclick="topFunction()" id="scrollToTopButton" title="Go to top" class="ml-5"><i class="fa fa-angle-double-up"
+        aria-hidden="true" style="color: black;font-weight: bolder;"></i></button>
+
+<!-- Footer starts -->
+<footer>
+    <div class="container">
+        Jagrati Copyright &copy; {% now 'Y'%}
+    </div>
+</footer>
+<!-- Footer ends -->
+
+<script type="text/javascript" src='{% static "home/js/myjs.js" %}'></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/glide.js"></script>
+<script type="text/javascript" src='{% static "home/js/glide.js" %}'></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    var scrollTopButton = document.getElementById("scrollToTopButton");
+    window.onscroll = function () { scrollFunction() };
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            scrollTopButton.style.display = "block";
+        } else {
+            scrollTopButton.style.display = "none";
         }
-    </script>
-    <script>AOS.init({once: true});</script>
+    }
+
+    function topFunction() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    }
+</script>
+<script>AOS.init({ once: true });</script>
 {% endblock %}
