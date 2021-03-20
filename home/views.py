@@ -11,8 +11,8 @@ from django.urls import reverse, reverse_lazy
 # local Django
 from accounts.models import Profile
 from apps.misc.models import Initiative
-from apps.students.models import Student, StudentAttendance, StudentSchedule
-from apps.volunteers.models import Volunteer, VolunteerAttendance, VolunteerSchedule
+from apps.students.models import StudentAttendance
+from apps.volunteers.models import Volunteer, VolunteerAttendance
 from .models import Calendar, ClassworkHomework, Schedule, Section
 
 
@@ -36,11 +36,13 @@ def index(request):
         return redirect('home:dashboard')
     return render(request, 'home/index.html')
 
+
 def new_index(request):
     if request.user.is_authenticated:
         return redirect('home:dashboard')
-    initiatives = Initiative.objects.all()    
+    initiatives = Initiative.objects.all()
     return render(request, 'new_home/index.html', {'initiatives': initiatives})
+
 
 @login_required
 @user_passes_test(
