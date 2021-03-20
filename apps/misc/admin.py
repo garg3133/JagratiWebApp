@@ -1,3 +1,10 @@
 from django.contrib import admin
 
-# Register your models here.
+from .forms import InitiativeAdminForm
+from .models import Initiative
+
+@admin.register(Initiative)
+class InitiativeAdmin(admin.ModelAdmin):
+    form = InitiativeAdminForm
+
+    list_display = ('title',)
