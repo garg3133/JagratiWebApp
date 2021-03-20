@@ -1,6 +1,7 @@
 from django import forms
 from .models import Initiative
 
+
 class InitiativeAdminForm(forms.ModelForm):
     class Meta:
         model = Initiative
