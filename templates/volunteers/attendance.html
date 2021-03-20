@@ -5,9 +5,7 @@
 {% block title %} Jagrati | Volunteer Attendance {% endblock %}
 
 {% block content-sidebar %}
-
 <!-- Volunteer Attendance -->
-
 <div class="dash-vol-att col-md-8 col-lg-9 mt-3">
     <a href="" class="d-inline-block mb-2 mb-md-0">&#x27f3; Refresh Page</a>
     <h3 class="text-center">Volunteers Attendance</h3>
@@ -20,7 +18,8 @@
         {% csrf_token %}
         <div class="row justify-content-center mt-5">
             <div class="col-sm-6 mb-2 text-center">
-                <input type="text" id="filter-volunteers" class="form-control mb-3 mx-auto" onkeyup="filterVolunteers()" placeholder="Search roll no..">
+                <input type="text" id="filter-volunteers" class="form-control mb-3 mx-auto" onkeyup="filterVolunteers()"
+                    placeholder="Search roll no..">
                 <table class="table" id="vol-att-table">
                     <thead>
                         <tr>
@@ -33,12 +32,17 @@
                         {% for vol_att in today_vol_att %}
                         <tr>
                             <td>{{ vol_att.volun.roll_no }}</td>
-                            <td>{{ vol_att.volun.profile.get_full_name }}</td>
+                            <td>
+                                <a href="{% url 'volunteers:profile' vol_att.volun_id %}" target="_blank">
+                                    {{ vol_att.volun.profile.get_full_name }}
+                                </a>
+                            </td>
 
                             <td>
                                 <div class="custom-control custom-switch">
-                                    <input type="checkbox" name="volunteered" value="{{ vol_att.volun.id }}" class="custom-control-input"
-                                        id="v{{ vol_att.id }}" {% if vol_att.present %}checked{% endif %}>
+                                    <input type="checkbox" name="volunteered" value="{{ vol_att.volun.id }}"
+                                        id="v{{ vol_att.id }}" class="custom-control-input"
+                                        {% if vol_att.present %}checked{% endif %}>
                                     <label class="custom-control-label" for="v{{ vol_att.id }}"></label>
                                 </div>
                             </td>
@@ -58,47 +62,44 @@
         </div>
         <div class="row justify-content-center mb-4">
             <div class="col-md-4">
-                <button name="submit" value="vol-att" class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
+                <button name="submit" value="vol-att" class="btn btn-primary btn-lg btn-block"
+                    type="submit">Submit</button>
             </div>
         </div>
     </form>
     {% endif %}
 </div>
-
 {% endblock %}
 
 {% block scripts-sidebar %}
-
 <!-- Search Filter for Volunteers Attendance  -->
-
 <script>
     function filterVolunteers() {
-      // Declare variables
-      let input, filter, table, tr, td, i, txtValue;
-      input = document.getElementById("filter-volunteers");
-      filter = input.value.toUpperCase();
-      table = document.getElementById("vol-att-table");
-      tr = table.getElementsByTagName("tr");
-    
-      // Loop through all table rows, and hide those who don't match the search query
-      for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[0];
-        if (td) {
-          txtValue = td.textContent || td.innerText;
-          if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            tr[i].style.display = "";
-          } else {
-            tr[i].style.display = "none";
-          }
+        // Declare variables
+        let input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("filter-volunteers");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("vol-att-table");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
         }
-      }
     }
 </script>
 
 <!-- Add Extra Volunteers in Volunteer Attendance -->
-
 <script>
-    function add_vol(){
+    function add_vol() {
         let add_vol_div = document.getElementById('add-vol');
         let div = document.createElement("div");
         div.className = "col-7 col-sm-4 col-lg-3 mb-3";
@@ -112,5 +113,4 @@
         // add_vol_div.innerHTML += '<div class="col-7 col-sm-4 col-lg-3 mb-3"><input name="extra-vol" type="number" class="form-control" placeholder="Roll No."></div>';
     }
 </script>
-
 {% endblock %}

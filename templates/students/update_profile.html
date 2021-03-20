@@ -11,6 +11,19 @@
             width: 85vw;
         }
     }
+
+    .popover-button {
+        width: 100%;
+    }
+
+    .popover-button label {
+        cursor: pointer;
+    }
+
+    .popover-button:hover {
+        cursor: pointer;
+        background-color: rgba(0, 0, 0, .075);
+    }
 </style>
 {% endblock %}
 
@@ -21,27 +34,36 @@
             Update Student Profile
         </h2>
     </div>
-    <form method="POST" class="needs-validation" enctype="multipart/form-data" novalidate>
+    <form method="POST" class="needs-validation" id="student-profile-update-form" enctype="multipart/form-data"
+        novalidate>
         <div class="row justify-content-center mb-5">
             <div class="col-lg-9 col-xl-8 border rounded shadow px-5 py-4">
                 <div class="row justify-content-center">
                     {% csrf_token %}
                     <div class="col-md-4 mb-4 align-self-center text-center">
-                        {% if profile.profile_image %}
-                        <img class="rounded-circle" style="height: 150px; width: 150px;"
-                            src="{{ profile.profile_image.url }}" alt="profile_image">
-                        {% elif profile.gender == 'M' %}
-                        <img class="rounded-circle" style="height: 150px; width: 150px;"
-                            src="{% static 'home/images/man.png' %}" alt="profile_image">
-                        {% elif profile.gender == 'F' %}
-                        <img class="rounded-circle" style="height: 150px; width: 150px;"
-                            src="{% static 'home/images/woman.png' %}" alt="profile_image">
-                        {% else %}
-                        <img class="rounded-circle" style="height: 150px; width: 150px;"
-                            src="{% static 'home/images/man.png' %}" alt="profile_image">
-                        {% endif %}
-                    </div>
+                        <a tabindex="0" id="profile-image-popover" class="btn rounded-circle p-1" role="button"
+                            data-toggle="popover" style="cursor: pointer;">
+                            <img class="rounded-circle" style="height: 150px; width: 150px;"
+                                src="{{ profile.get_profile_image_url }}" alt="profile_image">
+                        </a>
 
+                        <div id="profile-image-popover-content" class="d-none">
+                            <div>
+                                <a class="btn popover-button" role="button">
+                                    <label for="profileImage">
+                                        Change Profile Picture
+                                    </label>
+                                </a>
+                                <a href="{{ profile.get_profile_image_url }}" role="button" class="btn popover-button"
+                                    target="_blank">
+                                    <label>View Profile Image</label>
+                                </a>
+                            </div>
+                        </div>
+
+                        <input name="profile_image" type="file" id="profileImage" style="display: none;"
+                            onchange="imageValidation()">
+                    </div>
                     <div class="col-md-8 my-3">
                         <div class="row justify-content-center">
                             <div class="col-6 mb-3 align-self-center">
@@ -87,7 +109,8 @@
                                 <select name="village" class="custom-select d-block w-100" id="village" required>
                                     {% for village_id, village_name in villages %}
                                     <option value="{{ village_id }}" {% if profile.village == village_id %} selected {% endif %}>
-                                        {{ village_name }} </option>
+                                        {{ village_name }}
+                                    </option>
                                     {% endfor %}
                                 </select>
                                 <div class="invalid-feedback">
@@ -114,12 +137,10 @@
                         </div>
                     </div>
                 </div>
-
                 <hr class="mb-3">
                 <div class="row justify-content-center mb-3">
                     <div class="col-md-6">
-                        <button name="submit" value="update-profile" class="btn btn-primary btn-lg btn-block"
-                            type="submit">Update</button>
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">Update</button>
                     </div>
                 </div>
             </div>
@@ -148,5 +169,37 @@
             })
         }, false)
     }())
+</script>
+
+<!-- Script for Image Validation and auto-submitting the form-->
+<script type="text/javascript">
+    function imageValidation() {
+        var fileInput = document.getElementById('profileImage');
+        var filePath = fileInput.value;
+        var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+        if (!allowedExtensions.exec(filePath)) {
+            alert('Please upload file having extensions .jpeg, .jpg, .png or .gif only.');
+            fileInput.value = '';
+        }
+        else {
+            $("#student-profile-update-form").submit();
+        }
+    }
+</script>
+
+<!--Scripts for popover feature-->
+<script>
+    $(function () {
+        // Enables popover
+        $("#profile-image-popover").popover({
+            html: true,
+            trigger: 'focus',
+            sanitize: false,
+            placement: 'bottom',
+            content: function () {
+                return $("#profile-image-popover-content").html();
+            }
+        });
+    });
 </script>
 {% endblock %}

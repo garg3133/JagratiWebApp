@@ -10,16 +10,16 @@
 
 Jagrati is an initiative by the students of **IIITDM Jabalpur** to provide free and quality education to the poor and under-privileged children of villages surrounding our institute. 
 
-Currently, we have adopted 5 villages in the vicinity of our institute, namely, Gadheri, Amanala, Chanditola, Mehgawan and Suarkol where we *donate education* to around 100 children of classes 1 through 10. Apart from providing basic education to the students in regular classes, **we also prepare the students of 4th and 5th grade for the prestigious Navodaya Vidyalaya** and other similar government-funded institutions which provides quality education to students, completely free of cost.
+Currently, we have adopted 5 villages in the vicinity of our institute, namely, Gadheri, Amanala, Chanditola, Mehgawan and Suarkol where we *provide education* to around 100 children of classes 1 through 10. Apart from providing basic education to the students in regular classes, **we also prepare the students of 4th and 5th grade for the prestigious Navodaya Vidyalaya** and other similar government-funded institutions which provides quality education to students, completely free of cost.
 
 Apart from teaching the children, we do many other activities like **organizing Blood Donation Camps, Tree Plantation Drives, Cloth Donation, Stationery Distribution, Campaigns to spread awareness in villages, etc.**
 
 **Our Achievements:**
-- 1 student selected in Jawahar Navodaya Vidyalaya in 2018.
-- 1 student selected in Jawahar Navodaya Vidyalaya in 2019.
-- 2 students selected in Jawahar Navodaya Vidyalaya in 2020.
-- 4 students cleared entrance examination for Eklavya Model Residential School (EMRS) in 2020.
-- 4 students cleared entrance examination for Gyanodaya Vidyalaya in 2020.
+- 1 student was selected for Jawahar Navodaya Vidyalaya in 2018.
+- 1 student was selected for Jawahar Navodaya Vidyalaya in 2019.
+- 2 students were selected for Jawahar Navodaya Vidyalaya in 2020.
+- 4 students cleared the entrance examination for Eklavya Model Residential School (EMRS) in 2020.
+- 4 students cleared the entrance examination for Gyanodaya Vidyalaya in 2020.
 
 (Like Navodaya Vidyalaya, both EMRS and Gyanodaya Vidyalaya provide free quality education to students from class 6 to 12).
 
@@ -34,11 +34,14 @@ So, all in all, it is meant to help the volunteers work more effectively and eff
 
 ## Technology Stack
 
-**Frontend:** HTML, CSS(+ Bootstrap 4), JavaScript  
-**Backend:** Python/Django  
-**Database:** SQL (SQLite3/MySQL/PostgreSQL)  
+### Frontend:
+<img alt="HTML5" src="https://img.shields.io/badge/html5%20-%23E34F26.svg?&style=for-the-badge&logo=html5&logoColor=white"/> <img alt="CSS3" src="https://img.shields.io/badge/css3%20-%231572B6.svg?&style=for-the-badge&logo=css3&logoColor=white"/> <img alt="Bootstrap" src="https://img.shields.io/badge/bootstrap%20-%23563D7C.svg?&style=for-the-badge&logo=bootstrap&logoColor=white"/> <img alt="JavaScript" src="https://img.shields.io/badge/javascript%20-%23323330.svg?&style=for-the-badge&logo=javascript&logoColor=%23F7DF1E"/>
 
-And additional requirements are in [**requirements.txt**](https://github.com/garg3133/JagratiWebApp/blob/master/requirements.txt)
+### Backend:
+<img alt="Python" src="https://img.shields.io/badge/python%20-%2314354C.svg?&style=for-the-badge&logo=python&logoColor=white"/> <img alt="Django" src="https://img.shields.io/badge/django%20-%23092E20.svg?&style=for-the-badge&logo=django&logoColor=white"/>
+
+### Database:
+<img alt="SQLite" src ="https://img.shields.io/badge/sqlite-%2307405e.svg?&style=for-the-badge&logo=sqlite&logoColor=white"/> <img alt="MySQL" src="https://img.shields.io/badge/mysql-%2300f.svg?&style=for-the-badge&logo=mysql&logoColor=white"/> <img alt="Postgres" src ="https://img.shields.io/badge/postgres-%23316192.svg?&style=for-the-badge&logo=postgresql&logoColor=white"/>
 
 ## To-Do
 
@@ -98,7 +101,7 @@ And additional requirements are in [**requirements.txt**](https://github.com/gar
     or, just copy the `.env.save` file from `samples` directory to the root directory (`JagratiWebApp`) and rename it to `.env` (only `.env` and not `.env.txt`)  
   
     where, 
-    * `EMAIL_HOST_USER` and `SENDER_EMAIL` is the email address of your Gmail account from which you want to send emails (By default, Django will output email contents in console. To actually send emails to real users, comment line 27 and uncomment line 28 in `Jagrati/settings/development.py`).
+    * `EMAIL_HOST_USER` and `SENDER_EMAIL` is the email address of your Gmail account from which you want to send emails (By default, Django will output email contents in console. To actually send emails to real users, comment line 30 and uncomment line 31 in `Jagrati/settings/development.py`).
     * `EMAIL_HOST_PASSWORD` is the password for that Gmail account.
     * `ADMINS_EMAIL` is a list of email addresses of Admins of the site (who will recieve important updates from the site like when a new user joins in).
     * `SOCIAL_AUTH_GOOGLE_OAUTH2_KEY` and `SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET` are the API keys for login/signup using Google.
