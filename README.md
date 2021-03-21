@@ -114,5 +114,34 @@ And additional requirements are in [**requirements.txt**](https://github.com/gar
   * Send a pull request anytime :)  
   * Join our Discord Community: https://discord.gg/Ek9q45ZjAv
 
+
+## Open source programs we have been a part of: 💪✨
+Open source is a term that originally referred to open source software (OSS). Open source software is code that is designed to be publicly accessible—anyone can see, modify, and distribute the code as they see fit. There are a lot of open source programs held throughout the year to encourage everyone's contribution and build awesome projects. JagratiWebApp is such an open source organization and has participated in quite a few events like the following.
+
+### ✨ Kharagpur Winter of Code 2020 ✨
+  
+  <a href="https://kwoc.kossiitkgp.org/"><img src="https://i.imgur.com/SysrdgD.png" style="width:200px; height:200px;"></img></a>
+
+**Kharagpur Winter of Code 2020** is a 5-week long online Open-Source program for students who are new to open source software development. The program not only helps students to get involved in open source, but also prepares them for many open source summer programs; Google Summer of Code being one of them.
+
+### ✨ Script Winter of Code 2020 ✨
+  
+  <a href="https://swoc.tech/"><img src="https://i.imgur.com/eilSlcr.png" style="width:200px; height:200px;"></img></a>
+
+**Script Winter of Code 2020** is an open-source program envisioned by the Script Foundation. It aims to bring students into the world of open source development and see the power of unified problem-solving in real time.
+
+### ✨ Mexili Winter of Code 2021 ✨
+  
+  <a href="https://mexili.github.io/winter_of_code/#/"><img src="https://i.imgur.com/BHSz238.png" style="width:200px; height:200px;"></img></a>
+
+**Mexili Winter of Code 2021** is a month long Open Source program hosted by Mexili. The main aim of this program is to get students started with opensource and help them to develop skills needed for real-world software development.
+
+### ✨ Girlscript Summer of Code 2021✨
+
+  <a href="https://gssoc.girlscript.tech/"><img src="https://i.imgur.com/rtDGMEA.png" style="width:200px; height:200px;"></img></a>
+
+**GirlScript Summer of Code** is the 3 month long Open Source program during summers conducted by **GirlScript Foundation**, started in 2018, with an aim to help beginners get started with Open Source Development while encouraging diversity. Throughout the program, participants contribute to different projects under guidance of experienced mentors and upskill themselves.
+
+
 ## 💥 How to Contribute ?
 - If you wish to contribute kindly check the [CONTRIBUTING.md](https://github.com/garg3133/JagratiWebApp/blob/master/CONTRIBUTING.md)🤝
