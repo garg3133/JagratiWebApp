@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'apps.students',
     'apps.volunteers',
     'apps.feedbacks',
+    'apps.events',
     'apps.misc',
 
 ]
