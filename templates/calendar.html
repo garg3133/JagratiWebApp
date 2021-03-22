@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    {% load static %}
+    <title>{% block title %} Jagrati | Event Calendar {% endblock %} </title>
+    
+    {% block style %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="text/css" href="{% static 'new_home/images/logo.png' %}">
+    
+    <link rel="stylesheet" href='{% static "new_home/style.css" %}'>
+    <link rel="stylesheet" href='{% static "calendar.css" %}'>    
+    {% endblock %}
+
+</head>
+<body>
+
+    {% block content %}
+    <!--Logo-->
+<center style="background-color: rgb(252,252,252)"><img src="{% static 'new_home/images/logo.png' %}"
+  style="height: 60px;"></center>
+
+<!--Navbar Starts-->
+<nav id="sticky">
+<div>
+  <!--Left Navbar-->
+  <div class="navbar" id="nav">
+      <a href="javascript:void(0);" class="icon" onclick="nav_button()" id="tus">
+          <div class="bar" onclick="rotate_menu(this)">
+              <div class="bar1"></div>
+              <div class="bar2"></div>
+              <div class="bar3"></div>
+          </div>
+      </a>
+
+      <a href="/" class="child-1">Home</a>
+      <a href="#about-us" class="child-2">About</a>
+      <a href="" class="child-3">Initiatives</a>
+      <a href="/" class="child-4">Team</a>
+      <a href="#contact" class="child-5">Contact</a>
+      <hr />
+  </div>
+
+  <!--Right Navbar-->
+  <div class="navbar1">
+      <ul>
+          <a href="{% url 'accounts:login_signup' %}">Login</a>
+          <p href="#about" class="btn-get-started scrollto">Donate</p>
+      </ul>
+  </div>
+</div>
+</nav>
+<!--Navbar Ends-->
+
+<!--Header Start-->
+<section id="header" class=" align-items-center">
+  <div class="container">
+    <div class="row">
+      
+      <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 mt-5 " data-aos="zoom-in" data-aos-offset="400"
+          data-aos-easing="ease-in-sine">
+          <h1>Welcome to <a style="color:#f17e01;" class="magica">Jagrati</a></h1>
+          <h2>We are a team of dedicated students, on a path to make this world a better place!</h2>
+          <a href="#about" class="btn-get-started scrollto">Donate</a>
+      </div>
+
+      <div class="calendar-area">
+        <div class="col-lg-6 order-1 order-lg-2 header-img" data-aos="zoom-in" data-aos-offset="400"
+          data-aos-easing="ease-in-sine">
+          <img src='{% static "new_home/images/edu.svg" %}' class="img-fluid animated" alt="">
+        </div>
+
+        <!--Calendar Starts-->
+        <div class="calendar">
+          <!--Dropdown Menus Start-->
+          <div class="options">
+            <select name="month" id="month">
+              <option>January</option>
+              <option>February</option>
+              <option selected>March</option>
+              <option>April</option>
+              <option>May</option>
+              <option>June</option>
+              <option>July</option>
+              <option>August</option>
+              <option>September</option>
+              <option>October</option>
+              <option>November</option>
+              <option>December</option>
+            </select>
+        
+            <select name="year" id="year">
+              <option>2018</option>
+              <option>2019</option>
+              <option>2020</option>
+              <option selected>2021</option>
+            </select>
+          </div>
+          <!--Dropdown Menus End-->
+
+          <!--Main Calendar Body Starts-->
+          <div class="calendar-body">
+            <div class="days">
+              <div>Sun</div>
+              <div>Mon</div>
+              <div>Tue</div>
+              <div>Wed</div>
+              <div>Thu</div>
+              <div>Fri</div>
+              <div>Sat</div>
+            </div>
+        
+            <div class="dates">
+              <div class="date date-blocked"><span>28</span></div> <!--Class date-blocked makes days from other visible months inaccessible-->
+              <div class="date"><span>1</span></div>
+              <div class="date"><span>2</span></div>
+              <div class="date"><span>3</span></div>
+              <div class="date"><span>4</span></div>
+              <div class="date"><span>5</span></div>
+              <div class="date" id="weekend"><span>6</span></div>
+              <div class="date"  id="weekend"><span>7</span></div>
+              <div class="date" id="holiday"><span>8</span></div>
+              <div class="date"><span>9</span></div>
+              <div class="date" id="holiday"><span>10</span></div>
+              <div class="date"><span>11</span></div>
+              <div class="date"><span>12</span></div>
+              <div class="date" id="weekend"><span>13</span></div>
+              <div class="date"  id="weekend"><span>14</span></div>
+              <div class="date"><span>15</span></div>
+              <div class="date"><span>16</span></div>
+              <div class="date"><span>17</span></div>
+              <div class="date"><span>18</span></div>
+              <div class="date"><span>19</span></div>
+              <div class="date" id="weekend"><span>20</span></div>
+              <div class="date" id="weekend"><span>21</span></div>
+              <div class="date current-date"><span>22</span></div>
+              <div class="date"><span>23</span></div>
+              <div class="date"><span>24</span></div>
+              <div class="date"><span>25</span></div>
+              <div class="date"><span>26</span></div>
+              <div class="date" id="weekend"><span>27</span></div>
+              <div class="date"  id="weekend"><span>28</span></div>
+              <div class="date" id="holiday"><span>29</span></div>
+              <div class="date"><span>30</span></div>
+              <div class="date"><span>31</span></div>
+              <div class="date date-blocked"><span>1</span></div>
+              <div class="date date-blocked"><span>2</span></div>
+              <div class="date date-blocked"><span>3</span></div>
+            </div>
+          </div>
+          <!--Main Calendar Body Ends-->
+        
+          <div class="buttons">
+            <!--To be used for removing events from any date-->
+            <button class="calendar-button remove-class">Remove</button>
+            <!--To be used for adding events to any date-->
+            <button class="calendar-button add-class">Add New</button>
+          </div>
+        </div>
+
+<!--Calendar Ends-->
+      </div>
+      
+    </div>
+  </div>
+</section>
+<!--Header Ends-->
+
+</br></br></br></br>
+      <!--Javascript to assign background colour according to event schedule-->
+      <script>
+          var i, containsNo, containsYes, weekend, holiday;
+          //will assign red background to days with no scheduled events
+          containsNo = document.querySelectorAll("#eventNo");
+          for (i = 0; i < containsNo.length; i++) {
+            containsNo[i].classList.add("redClass");
+          }
+          //will assign green background to days with scheduled events
+          containsYes = document.querySelectorAll("#eventYes");
+          for (i = 0; i < containsYes.length; i++) {
+            containsYes[i].classList.add("greenClass");
+          }
+          //assigns red background to weekends
+          weekend = document.querySelectorAll("#weekend");
+          for (i = 0; i < weekend.length; i++) {
+            weekend[i].classList.add("redClass");
+          }
+          //assigns red background to registered holidays
+          holiday = document.querySelectorAll("#holiday");
+          for (i = 0; i < holiday.length; i++) {
+            holiday[i].classList.add("redClass");
+          }
+        </script>
+    {% endblock %}
+
+</body>
+</html>
