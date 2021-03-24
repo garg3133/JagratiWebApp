@@ -25,6 +25,7 @@ def index(request):
     }
     return render(request, 'feedbacks/index.html', context)
 
+
 def feedback_submitted(request):
     return render(request, 'feedbacks/feedback_submitted.html')
 
@@ -37,10 +38,8 @@ def contact(request):
             phone = request.POST['phone']
             email = request.POST['email_id']
             msg = request.POST['msg']
-            # save the data in database
             contact_data = Contact(name=name, phone=phone, email=email, message=msg)
             contact_data.save()
-            # print(name, phone, email, msg)
             messages.success(request, 'Your Contact information is saved successfully.')
             return redirect('home:new_index')
         except Exception:

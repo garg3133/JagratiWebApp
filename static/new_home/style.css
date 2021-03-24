@@ -613,9 +613,8 @@ header
   border-radius: none;
 }
 
-.card{
-  border-radius: 5%;
-  height: 700px;
+.card-rounder{
+  border-radius: 1.2rem !important;
 }
 
 .infoshow{
