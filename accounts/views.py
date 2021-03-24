@@ -274,3 +274,5 @@ def profile_completed(request):
 def account_authenticated(request):
     return render(request,'accounts/account_authenticated.html')
 
+def error_404_view(request,exception):
+    return render(request,'error/404.html')   

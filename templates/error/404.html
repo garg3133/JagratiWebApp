@@ -1,12 +1,13 @@
-{% extends 'base.html' %}
+{% extends 'layout.html' %}
 
-{% block title %} 404 Error Page {% endblock %}
+{% load static %}
 
-{% block content %}
+{% block title %} Jagrati | 404 Page Not Found {% endblock %}
+
+{% block style %}
 
 <style>
     body {
-        background-color:orange; 
         margin: 0;
         padding: 0;
         display:flex;
@@ -14,10 +15,6 @@
         align-items:center;
         font-size: 2.2rem;
         text-align:center;
-    }
-
-    .container {
-        background-color:rgb(224, 218, 218);
     }
 
     img {
@@ -37,18 +34,21 @@
     }
 </style>
 
+{% endblock %}
+
+{% block content %}
+
 <div class="container">
     <div style="display:flex;flex-direction:row;">
         <div style="width:45%;display:flex;justify-content:center;align-items:center;flex-direction:column;padding-top:20px;">
-            <img src="404.png">
+            <img src = '{% static "error/404.png" %}' alt="404">
         </div>
-        <div style="width:45%">
+        <div>
             <h1>OOPS !!!</h1>
-            <p>The page you're looking for is now beyond our reach.</p>
+            <p>Seems like our kids misplaced the page</p>
         </div>
     </div>
-    <button><a href={% url 'home:dashboard'}>Go back to Home</a></button>
+    <button><a href={% url 'home:index' %}>Home</a></button>
 </div>
 
 {% endblock %} 
-
