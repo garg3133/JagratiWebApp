@@ -6,7 +6,7 @@ from .models import Feedback, Contact
 
 def index(request):
     if request.method == 'POST':
-        anonymous_array	= request.POST.getlist('anonymousCheck')
+        anonymous_array = request.POST.getlist('anonymousCheck')
         name = request.POST['name']
         roll_no = request.POST['rollNo']
         email = request.POST['email']
@@ -43,7 +43,7 @@ def contact(request):
             # print(name, phone, email, msg)
             messages.success(request, 'Your Contact information is saved successfully.')
             return redirect('home:new_index')
-        except:
+        except Exception:
             messages.error(request, 'Error, On Submitting the contact form.')
             return redirect('home:new_index')
     return redirect('home:new_index')
