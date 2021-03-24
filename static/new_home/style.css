@@ -584,6 +584,56 @@ header
 
 /*----- Donate Us Ends -----*/
 
+/* Contact Us Starts */
+
+.containerly{
+  width: 70%;
+}
+
+#error-display{
+  color: red;
+  font-size: 20px;
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+.btn-cstm{
+  background-color: #eb5d1e;
+  color: white;
+  border-radius: 25px;
+}
+
+.form-control:focus {
+  border-color: #f04400;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.075) inset, 0px 0px 8px rgba(255, 100, 255, 0.5);
+}
+
+.cstm-input{
+  border-color: #ffa480;
+  border-radius: none;
+}
+
+.card{
+  border-radius: 5%;
+  height: 700px;
+}
+
+.infoshow{
+  font-size: large;
+  font-weight: bold;
+  margin-left: 2px;
+}
+
+.icon-color{
+  color: #eb5d1e;
+}
+
+.text-cstm{
+  color: #eb5d1e;
+}
+
+/* Contact Us Ends */
+
 footer{
   background-color: #fef8f5;
   color: #4e4039;
