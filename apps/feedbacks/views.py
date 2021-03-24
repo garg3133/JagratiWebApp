@@ -3,10 +3,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 from .models import Feedback, Contact
 
-# Create your views here.
 
 def index(request):
-    submitted = ''
     if request.method == 'POST':
         anonymous_array	= request.POST.getlist('anonymousCheck')
         name = request.POST['name']
@@ -45,7 +43,7 @@ def contact(request):
             # print(name, phone, email, msg)
             messages.success(request, 'Your Contact information is saved successfully.')
             return redirect('home:new_index')
-        except Exception as e:
+        except:
             messages.error(request, 'Error, On Submitting the contact form.')
             return redirect('home:new_index')
     return redirect('home:new_index')
