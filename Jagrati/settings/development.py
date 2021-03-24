@@ -10,7 +10,7 @@ import ast
 # ALWAYS USE A DIFFERENT KEY FOR PRODUCTION.
 SECRET_KEY = '(8ty!=07t%td)i5%r8x4dh^tvb3sv+4e3zk1cq=(g)tcnn@nq8'
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 

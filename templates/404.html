@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+
+{% block title %} Jagrati | 404 Page Not Found {% endblock %}
+
+{% block style %}
+
+<style type="text/css">
+
+    .container {
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        font-size: 2.2rem;
+        text-align:center;
+    }
+
+    img {
+        width:300px;
+        height:300px;
+        border-radius: 50%;
+    }
+
+    button {
+        margin:50px;
+        font-size: 1.8rem;
+    }
+
+    a {
+        text-decoration:none;
+        color:black;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div style="display:flex;flex-direction:row;">
+        <div style="width:45%;display:flex;justify-content:center;align-items:center;flex-direction:column;padding-top:20px;">
+            <img src = '{% static "global/icon/404.jpg" %}' alt="404">
+        </div>
+        <div style="width:45%;">
+            <h1>OOPS !!!</h1>
+            <p>Seems like our kids misplaced the page</p>
+        </div>
+    </div>
+    <button><a href={% url 'home:index' %}>Home</a></button>
+</div>
+
+{% endblock %} 
