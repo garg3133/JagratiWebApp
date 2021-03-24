@@ -25,14 +25,14 @@ Apart from teaching the children, we do many other activities like **organizing 
 
 Currently, we are operating in online mode to prepare students of class 5 for Navodaya Examination, 2021.
 
-## ✨ About JagratiWebApp ✨
+## About JagratiWebApp 
 JagratiWebApp is the **official web application** for managing day-to-day operations at Jagrati, like keeping track of the content being taught in a class and homework being given to the students, taking and keeping record of student and volunteer attendance, keeping record of all the students being taught under the initiative and the volunteers contributing towards the initiative among many things.
 
 The main aim of the application is to simplify the work of volunteers by making all the information readily accessible to them like what was taught in the last class or in the last week and how many student attended those classes so that they can easily decide what should be taught on the present day and update the same in the application. Plus, it also helps in taking the attendance of students with more ease over the conventional method of manually taking note of the names of all the students present.
 
 So, all in all, it is meant to help the volunteers work more effectively and efficiently and make it easy to keep track of daily activities.
 
-## ✨ Technology Stack ✨
+## Technology Stack 
 
 **Frontend:** HTML, CSS(+ Bootstrap 4), JavaScript  
 **Backend:** Python/Django  
@@ -40,7 +40,7 @@ So, all in all, it is meant to help the volunteers work more effectively and eff
 
 And additional requirements are in [**requirements.txt**](https://github.com/garg3133/JagratiWebApp/blob/master/requirements.txt)
 
-## ✨ To-Do ✨
+## To-Do
 
 ### New pages
 
@@ -69,7 +69,7 @@ And additional requirements are in [**requirements.txt**](https://github.com/gar
 - [ ] Leaderboard (no. of hours contributed to Jagrati)
 
 
-## ✨ Contributing ✨
+## Contributing 
 
 ### Setting-up the project
 
@@ -115,36 +115,41 @@ And additional requirements are in [**requirements.txt**](https://github.com/gar
   * Join our Discord Community: https://discord.gg/Ek9q45ZjAv
 
 
-## ✨ How to Contribute ? ✨
+## How to Contribute ? 
 - If you wish to contribute kindly check the [CONTRIBUTING.md](https://github.com/garg3133/JagratiWebApp/blob/master/CONTRIBUTING.md)🤝
 
 
-## ✨ Open source programs we have been a part of: ✨
+## Open source programs we have been a part of: 
 Open source is a term that originally referred to open source software (OSS). Open source software is code that is designed to be publicly accessible—anyone can see, modify, and distribute the code as they see fit. There are a lot of open source programs held throughout the year to encourage everyone's contribution and build awesome projects. JagratiWebApp is such an open source organization and has participated in quite a few events like the following.
 
 <table>
   <tbody>
   <tr>
     <td align="center"><a href="https://kwoc.kossiitkgp.org/">
-    <img alt="" src="https://i.imgur.com/SysrdgD.png" width="100" height="100"><br><sub><b>Kharagpur Winter of Code 2020</b></sub></a><br>
+    <img alt="" src="https://i.imgur.com/BRvF8x8.png" width="100" height="100"><br><sub><b>Kharagpur Winter of Code</b></sub><br>2020</a>
     </td>
     <td align="center"><a href="https://swoc.tech/">
-    <img alt="" src="https://i.imgur.com/eilSlcr.png" width="100" height="100"><br><sub><b> Script Winter of Code 2020</b></sub></a><br>
+    <img alt="" src="https://i.imgur.com/gRnFEGM.png" width="100" height="100"><br><sub><b> Script Winter of Code</b></sub><br>2020</a>
     </td>
     <td align="center"><a href="https://mexili.github.io/winter_of_code/#/">
-    <img alt="" src="https://i.imgur.com/BHSz238.png" width="100" height="100"><br><sub><b> Mexili Winter of Code 2021</b></sub></a><br>
+    <img alt="" src="https://i.imgur.com/BHSz238.png" width="100" height="100"><br><sub><b> Mexili Winter of Code</b></sub><br>2021</a>
     </td>
     <td align="center"><a href="https://gssoc.girlscript.tech/">
-    <img alt="" src="https://i.imgur.com/rtDGMEA.png" width="100" height="100"><br><sub><b> Girlscript Summer of Code 2021</b></sub></a><br>
+    <img alt="" src="https://i.imgur.com/rtDGMEA.png" width="100" height="100"><br><sub><b> Girlscript Summer of Code</b></sub><br>2021</a>
     </td>
   </tr>
 </tbody></table>
 
 
-## ✨ Project Maintainer ✨
+## Project Maintainer 
 <table>
   <tbody><tr>
-    <td align="center"><a href="https://github.com/garg3133"><img alt="" src="https://avatars.githubusercontent.com/u/39924567?s=400&v=4" width="130px;"><br><sub><b> Priyansh Garg </b></sub></a><br><a href="https://github.com/garg3133/JagratiWebApp/commits?author=garg3133" title="Code">💻 </a></td> </a></td>
+    <td align="center">
+    <a href="https://github.com/garg3133">
+    <img alt="" src="https://avatars.githubusercontent.com/u/39924567?s=400&v=4" width="130px;"><br><sub><b> Priyansh Garg </b></sub></a>
+    <br>
+    <a href="https://github.com/garg3133/JagratiWebApp/commits?author=garg3133" title="Code">💻 </a>
+    </td>
  
   </tr>
 </tbody></table>
