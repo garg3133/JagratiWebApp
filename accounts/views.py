@@ -19,6 +19,7 @@ from .tokens import account_activation_token
 
 # Create your views here.
 
+
 def login_signup(request):
     if request.user.is_authenticated:
         return redirect('home:dashboard')
@@ -81,13 +82,13 @@ def login_signup(request):
             user = User.objects.filter(email=email)
             if user.exists():
                 error = "Account with entered email already exists"
-                return render(request, "accounts/login_signup.html", {'signup_error' : error})
+                return render(request, "accounts/login_signup.html", {'signup_error': error})
             if password1 and password2 and password1 != password2:
                 error = "Passwords don't match"
-                return render(request, "accounts/login_signup.html", {'signup_error' : error})
+                return render(request, "accounts/login_signup.html", {'signup_error': error})
 
             user = User(email=email, is_active=False)
-            user.set_password(password1) # To save password as hash
+            user.set_password(password1)  # To save password as hash
             user.save()
 
             # Send Account Activation Email
@@ -110,7 +111,6 @@ def login_signup(request):
 
             return redirect('accounts:signup_success')
 
-
             # form = SignUpForm(request.POST)
             # if form.is_valid():
             #     form.save()
@@ -122,17 +122,18 @@ def login_signup(request):
 
     return render(request, 'accounts/login_signup.html')
 
+
 def resend_verification_mail(request):
     if request.method == 'POST':
         email = request.POST['email']
         user = User.objects.filter(email=email)
         if user.exists() and user[0].is_active:
             error = "Your account is already activated"
-            return render(request, "accounts/resend_verification_email.html", {'signup_error' : error})
+            return render(request, "accounts/resend_verification_email.html", {'signup_error': error})
         if not user.exists():
             error = "Account with the entered email does not exist"
-            return render(request, "accounts/resend_verification_email.html", {'signup_error' : error})
-        user=user[0]
+            return render(request, "accounts/resend_verification_email.html", {'signup_error': error})
+        user = user[0]
         current_site = get_current_site(request)
         from_email = settings.DEFAULT_FROM_EMAIL
         to = [email]
@@ -152,8 +153,6 @@ def resend_verification_mail(request):
         return redirect('accounts:signup_success')
     else:
         return render(request, 'accounts/resend_verification_email.html')
-    
-            
 
 
 @login_required
@@ -217,8 +216,8 @@ def complete_profile(request):
             'profile': profile,
             'volun': volun,
             'domain': current_site.domain,
-            'uid':urlsafe_base64_encode(force_bytes(user.pk)),
-            'token':account_activation_token.make_token(user),
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'token': account_activation_token.make_token(user),
         })
         plain_message = strip_tags(html_message)
         send_mail(
@@ -235,6 +234,7 @@ def complete_profile(request):
 
     return render(request, 'accounts/volunteer_profile.html')
 
+
 @login_required
 def ajax_volunteer_rollcheck(request):
     roll_no = request.GET.get('roll')
@@ -243,10 +243,12 @@ def ajax_volunteer_rollcheck(request):
     data['isExist'] = True if duplicate_rollcheck.exists() else False
     return JsonResponse(data)
 
+
 def logout_view(request):
     next_site = request.GET.get('next', 'home:index')
     logout(request)
     return redirect(next_site)
+
 
 def account_activation(request, uidb64, token):
     try:
@@ -265,6 +267,7 @@ def account_activation(request, uidb64, token):
     else:
         msg = "You have either entered a wrong link or your account has already been activated."
         return render(request, 'accounts/token_expired.html', {'msg': msg, 'act_token': True})
+
 
 def account_authentication(request, uidb64, token):
     try:
@@ -286,8 +289,8 @@ def account_authentication(request, uidb64, token):
         html_message = render_to_string('accounts/email/account_authenticated_email.html', {
             'profile': user.profile,
             'domain': current_site.domain,
-            'uid':urlsafe_base64_encode(force_bytes(user.pk)),
-            'token':account_activation_token.make_token(user),
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'token': account_activation_token.make_token(user),
         })
         plain_message = strip_tags(html_message)
         send_mail(
@@ -300,12 +303,14 @@ def account_authentication(request, uidb64, token):
         msg = "You have either entered a wrong link or some admin has already authenticated this account."
         return render(request, 'accounts/token_expired.html', {'msg': msg})
 
+
 def signup_success(request):
-    return render(request,'accounts/signup_success.html')
+    return render(request, 'accounts/signup_success.html')
+
 
 def profile_completed(request):
-    return render(request,'accounts/profile_completed.html')
+    return render(request, 'accounts/profile_completed.html')
+
 
 def account_authenticated(request):
-    return render(request,'accounts/account_authenticated.html')
-
+    return render(request, 'accounts/account_authenticated.html')
