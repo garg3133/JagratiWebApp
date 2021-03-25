@@ -229,7 +229,7 @@ def account_activation(request, uidb64, token):
         return redirect('accounts:complete_profile')
     else:
         msg = "You have either entered a wrong link or your account has already been activated."
-        return render(request, 'accounts/token_expired.html', {'msg': msg, 'act_token': True})
+        return render(request, '404.html', {'msg': msg, 'act_token': True})
 
 def account_authentication(request, uidb64, token):
     try:
@@ -274,3 +274,5 @@ def profile_completed(request):
 def account_authenticated(request):
     return render(request,'accounts/account_authenticated.html')
 
+def error_404_view(request,exception):
+    return render(request,'error/404.html')   

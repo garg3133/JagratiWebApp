@@ -1,0 +1,55 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+
+{% block title %} Jagrati | 404 Page Not Found {% endblock %}
+
+{% block style %}
+
+<style type="text/css">
+    .container {
+        font-size: 1.4rem;
+        display:flex;
+        justify-content:center;
+        text-align:center;
+        margin-top: 50px;
+    }
+
+    img {
+        width:250px;
+        height:250px;
+        border-radius: 50%;
+        margin:50px;
+    }
+
+    .btn-primary{
+        background-color: #ff8c00  !important;
+        color: #000000 !important;
+        border:none;
+        margin-top: 20px;
+        border-radius:20px;
+        text-decoration:none;
+    }
+
+    .btn-primary:hover{
+    background-color: black !important;
+    font-weight:bold;
+    color:#fff !important;
+    }
+
+</style>
+
+{% endblock %} 
+
+
+{% block content %}
+
+<div class="d-flex justify-content-center flex-column m-4 p-4">
+            <img src="{% static 'global/icon/404.jpg' %}" alt="404">
+            <h1 style="font-weight:bold">OOPS !!!</h1>
+            <p>Seems like our kids misplaced the page</p>
+            <div style="padding:10px;"><a class ="btn btn-primary px-4" href="{% url 'home:index' %}">Return to Home Page</a></div>
+        </div>
+</div>
+
+{% endblock %} 
