@@ -58,6 +58,7 @@ def login_signup(request):
                 if user.exists() and user[0].check_password(password) and not user[0].is_active:
                     # Authentication failed because user is not active
                     context['login_error'] = 'Account not Activated.<br><a href="#">Resend Activation Email?</a>'
+                    return redirect('accounts:resend_verification_mail')
                 else:
                     context['login_error'] = 'Invalid credentials'
                 return render(request, 'accounts/login_signup.html', context)
@@ -120,6 +121,40 @@ def login_signup(request):
             #     return redirect('home')
 
     return render(request, 'accounts/login_signup.html')
+
+def resend_verification_mail(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        user = User.objects.filter(email=email)
+        if user.exists() and user[0].is_active:
+            error = "Your account is already activated"
+            return render(request, "accounts/resend_verification_email.html", {'signup_error' : error})
+        if not user.exists():
+            error = "Account with the entered email does not exist"
+            return render(request, "accounts/resend_verification_email.html", {'signup_error' : error})
+        user=user[0]
+        current_site = get_current_site(request)
+        from_email = settings.DEFAULT_FROM_EMAIL
+        to = [email]
+        subject = '[noreply] Jagrati Acount Activation'
+        html_message = render_to_string('accounts/email/account_activation_email.html', {
+            'user': user,
+            'domain': current_site.domain,
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'token': account_activation_token.make_token(user),
+        })
+        plain_message = strip_tags(html_message)
+        send_mail(
+            subject, plain_message, from_email, to,
+            fail_silently=False, html_message=html_message,
+        )
+
+        return redirect('accounts:signup_success')
+    else:
+        return render(request, 'accounts/resend_verification_email.html')
+    
+            
+
 
 @login_required
 def complete_profile(request):

@@ -33,4 +33,6 @@ urlpatterns = [
     #AJAX call URLs
     path('ajax_volunteer_rollcheck/', views.ajax_volunteer_rollcheck, name='ajax_volunteer_rollcheck'),
 
+    path('resend_verification_mail/', views.resend_verification_mail, name='resend_verification_mail'),
+
 ]
