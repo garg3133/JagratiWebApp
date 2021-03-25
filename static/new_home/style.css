@@ -614,7 +614,7 @@ header
 }
 
 .card-rounder{
-  border-radius: 1.2rem !important;
+  border-radius: 10px !important;
 }
 
 .infoshow{
