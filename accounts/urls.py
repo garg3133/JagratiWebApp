@@ -8,6 +8,8 @@ urlpatterns = [
     path('login/', views.login_signup, name='login_signup'),
     path('complete_profile/', views.complete_profile, name='complete_profile'),
     path('logout/', views.logout_view, name='logout'),
+    path('resend_activation_mail/', views.resend_activation_mail,
+         name='resend_activation_mail'),
     path('activate/<slug:uidb64>/<slug:token>/',
          views.account_activation, name='account_activation'),
     path('authenticate/<slug:uidb64>/<slug:token>/',
@@ -42,8 +44,4 @@ urlpatterns = [
     # AJAX call URLs
     path('ajax_volunteer_rollcheck/', views.ajax_volunteer_rollcheck,
          name='ajax_volunteer_rollcheck'),
-
-    path('resend_verification_mail/', views.resend_verification_mail,
-         name='resend_verification_mail'),
-
 ]
