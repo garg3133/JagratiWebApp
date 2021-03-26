@@ -1,4 +1,5 @@
 from datetime import date
+from datetime import timedelta
 
 import os
 from django.conf import settings
@@ -210,6 +211,18 @@ def ajax_mark_attendance(request):
     stu_att.save()
     data = {'success': True}
     return JsonResponse(data)
+
+
+def ajax_mark_homework(request):
+    if request.method == 'POST' and request.is_ajax():
+        stu_id = request.POST.get('stu_id')
+        is_homework_done = request.POST.get('is_homework_done')
+        student = StudentAttendance.objects.get(
+            student__id=stu_id, cal_date=(today_date - timedelta(days = 1)))
+        student.hw_done = True if is_homework_done == 'true' else False
+        student.save()
+        data = {'success': True}
+        return JsonResponse(data)
 
 
 @login_required
