@@ -6,16 +6,11 @@
 
 {% block style %}
 <style type="text/css">
-    .submit-btn {
+    .home-btn {
         background-color: #ff8c00;
         color: #000000;
         border: none;
         border-radius: 20px;
-    }
-
-    .submit-btn:hover {
-        background-color: red;
-        color: #fff;
     }
 
     .errorImage {
@@ -32,7 +27,6 @@
         }
     }
 </style>
-
 {% endblock %}
 
 {% block content %}
@@ -41,7 +35,7 @@
         <img class="mx-auto errorImage" src="{% static 'global/icon/404.jpg' %}" alt="404">
         <h1 class="mt-2 font-weight-bolder">OOPS !!!</h1>
         <p>Seems like our kids misplaced the page</p>
-        <a class="submit-btn btn px-4 mt-2 mb-5" href="{% url 'home:index' %}">Return to Home Page</a>
+        <a class="home-btn btn px-4 mt-2 mb-5" href="{% url 'home:index' %}">Return to Home Page</a>
     </div>
 </div>
 {% endblock %}
