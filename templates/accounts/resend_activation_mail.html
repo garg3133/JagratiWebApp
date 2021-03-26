@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+
+{% block title %} Jagrati | Resend activation mail {% endblock %}
+
+
+{% block content %}
+
+<div class="container pt-3" style="margin-top: 100px;">
+    <div class="text-center mt-4 p-0 p-sm-3" style="margin: auto; max-width: 500px;">
+        <img src="{% static 'accounts/icon/mail-sent.gif' %}" alt="Email Sent" style="max-width: 200px;">
+        <h1 class="mt-2 font-weight-bolder">Resend Activation mail</h1>
+        <div class="form-outline">
+            <form method="post">
+                {% csrf_token %}
+                <input type="email" class="form-control" name="email" placeholder="Email"
+                    pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+                    required />
+                <span class="form-error" style="color:red; padding-top:7px; padding-bottom:7px; display:inline-block;">
+                    {{signup_error}} </span>
+                <br>
+                <button type='submit' name='submit' class="btn btn-primary">Resend Activation Mail</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+
+{% endblock %}

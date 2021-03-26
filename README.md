@@ -138,6 +138,43 @@ So, all in all, it is meant to help the volunteers work more effectively and eff
   * Create a new branch with a related name of the motive i.e. bug/refactor/feature and commit your changes in that branch only.  
   * Send a pull request anytime :)  
   * Join our Discord Community: https://discord.gg/Ek9q45ZjAv
+  * For more extensive guidelines, kindly check the [CONTRIBUTING.md](https://github.com/garg3133/JagratiWebApp/blob/master/CONTRIBUTING.md)🤝
 
-## 💥 How to Contribute ?
-- If you wish to contribute kindly check the [CONTRIBUTING.md](https://github.com/garg3133/JagratiWebApp/blob/master/CONTRIBUTING.md)🤝
+## Open source programs we have been a part of 🚀:
+Open source is a term that originally referred to open source software (OSS). Open source software is code that is designed to be publicly accessible—anyone can see, modify, and distribute the code as they see fit. There are a lot of open source programs held throughout the year to encourage everyone's contribution and build awesome projects. JagratiWebApp is such an open source organization and has participated in quite a few events like the following.
+
+<table>
+  <tbody>
+    <tr>
+      <td align="center"><a href="https://kwoc.kossiitkgp.org/">
+        <img alt="" src="https://i.imgur.com/BRvF8x8.png" width="100" height="100"><br><sub><b>Kharagpur Winter of Code</b></sub><br>2020</a>
+      </td>
+      <td align="center"><a href="https://swoc.tech/">
+        <img alt="" src="https://i.imgur.com/gRnFEGM.png" width="100" height="100"><br><sub><b> Script Winter of Code</b></sub><br>2020</a>
+      </td>
+      <td align="center"><a href="https://mexili.github.io/winter_of_code/#/">
+        <img alt="" src="https://i.imgur.com/BHSz238.png" width="100" height="100"><br><sub><b> Mexili Winter of Code</b></sub><br>2021</a>
+      </td>
+        <td align="center"><a href="https://gssoc.girlscript.tech/">
+      <img alt="" src="https://i.imgur.com/rtDGMEA.png" width="100" height="100"><br><sub><b> Girlscript Summer of Code</b></sub><br>2021</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Project Maintainer 😃
+<table>
+  <tbody><tr>
+    <td align="center">
+    <a href="https://github.com/garg3133">
+    <img alt="" src="https://avatars.githubusercontent.com/u/39924567?s=400&v=4" width="130px;"><br><sub><b> Priyansh Garg </b></sub></a>
+    <br>
+    <a href="https://github.com/garg3133/JagratiWebApp/commits?author=garg3133" title="Code">💻 </a>
+    </td>
+  </tr>
+</tbody></table>
+
+## Our valuable Contributors👩‍💻👨‍💻:
+<a href="https://github.com/garg3133/JagratiWebApp/graphs/contributors">
+  <img src="https://contributors-img.web.app/image?repo=garg3133/JagratiWebApp" />
+</a>
