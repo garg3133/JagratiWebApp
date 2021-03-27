@@ -1,10 +1,30 @@
 from django.http import HttpResponse
-from django.shortcuts import render
-
+from django.shortcuts import render,redirect
+from django.contrib.auth.decorators import permission_required
+from .models import Event
+from django.contrib import messages
 
 def index(request):
     return HttpResponse('Hello World!')
 
-
+@permission_required('events.add_event', raise_exception=True)
 def add_event(request):
-    return HttpResponse('Add events page..')
+	# Add new event
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        schedule = request.POST.get('schedule')
+        venue = request.POST['venue']
+        contact = request.POST.get('contact')  # Non-required field
+        description = request.POST['description']
+        thumbnail = request.FILES.get('thumbnail')
+
+        event = Event(
+            title=title,schedule=schedule, venue=venue,
+            contact=contact, description=description, thumbnail=thumbnail,
+        )
+        event.save()
+
+        messages.success(request, "Event added successfully!")
+        return redirect('events:add_event')
+
+    return render(request, 'events/add_event.html')

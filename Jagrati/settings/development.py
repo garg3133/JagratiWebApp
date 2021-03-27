@@ -2,6 +2,7 @@
 
 from .base import *
 import ast
+from decouple import config
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
