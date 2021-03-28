@@ -28,7 +28,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-4 mb-4 align-self-center text-center">
                     <img class="rounded-circle" style="height: 150px; width: 150px;"
-                        src="{{ profile.get_profile_image_url }}" alt="profile_image">
+                        src="{{ volunteer.profile.get_profile_image_url }}" alt="profile_image">
                 </div>
                 <div class="col-md-8 my-3">
                     <div class="row justify-content-center">
@@ -36,7 +36,7 @@
                             <strong>Name: </strong>
                         </div>
                         <div class="col-6 col-lg-8 mb-3">
-                            {{ profile.get_full_name }}
+                            {{ volunteer.profile.get_full_name }}
                         </div>
                     </div>
                     <div class="row justify-content-center">
@@ -44,7 +44,7 @@
                             <strong>Roll No.: </strong>
                         </div>
                         <div class="col-6 col-lg-8 mb-3">
-                            {{ vol_profile.roll_no }}
+                            {{ volunteer.roll_no }}
                         </div>
                     </div>
                     <div class="row justify-content-center">
@@ -52,7 +52,7 @@
                             <strong>Email: </strong>
                         </div>
                         <div class="col-6 col-lg-8 mb-3">
-                            {{ profile.user.email }}
+                            {{ volunteer.profile.user.email }}
                         </div>
                     </div>
                     <div class="row justify-content-center">
@@ -60,7 +60,7 @@
                             <strong>Batch: </strong>
                         </div>
                         <div class="col-6 col-lg-8 mb-3">
-                            {{ vol_profile.batch }}
+                            {{ volunteer.batch }}
                         </div>
                     </div>
                     <div class="row justify-content-center">
@@ -68,7 +68,7 @@
                             <strong>Programme: </strong>
                         </div>
                         <div class="col-6 col-lg-8 mb-3">
-                            {{ vol_profile.get_programme_display }}
+                            {{ volunteer.get_programme_display }}
                         </div>
                     </div>
                     <div class="row justify-content-center">
@@ -76,10 +76,10 @@
                             <strong>Designation: </strong>
                         </div>
                         <div class="col-6 col-lg-8 mb-3">
-                            {% if vol_profile.desig is None %}
+                            {% if volunteer.desig is None %}
                             Volunteer
                             {% else %}
-                            {{ vol_profile.desig.name }}
+                            {{ volunteer.desig.name }}
                             {% endif %}
                         </div>
                     </div>
@@ -89,7 +89,7 @@
                             <strong>Contact No.: </strong>
                         </div>
                         <div class="col-6 col-lg-8 mb-3">
-                            {{ profile.contact_no }}
+                            {{ volunteer.profile.contact_no }}
                         </div>
                     </div>
                     <div class="row justify-content-center">
@@ -97,7 +97,7 @@
                             <strong>Address: </strong>
                         </div>
                         <div class="col-6 col-lg-8">
-                            {{ profile.get_complete_address}}
+                            {{ volunteer.profile.get_complete_address}}
                         </div>
                     </div>
                     {% endif %}
@@ -118,7 +118,7 @@
                         <strong>Name: </strong>
                     </div>
                     <div class="col-md-8 mb-3">
-                        {{ profile.first_name }} {{ profile.last_name }}
+                        {{ volunteer.profile.first_name }} {{ volunteer.profile.last_name }}
                     </div>
                 </div>
                 <div class="row justify-content-center">
@@ -126,7 +126,7 @@
                         <strong>Gender: </strong>
                     </div>
                     <div class="col-md-8 mb-3">
-                        {{ profile.gender }}
+                        {{ volunteer.profile.gender }}
                     </div>
                 </div>
                 <div class="row justify-content-center">
@@ -134,7 +134,7 @@
                         <strong>Date of Birth: </strong>
                     </div>
                     <div class="col-md-8 mb-3">
-                        {{ profile.dob }}
+                        {{ volunteer.profile.dob }}
                     </div>
                 </div>
                 <div class="row justify-content-center">
@@ -142,7 +142,7 @@
                         <strong>Profession: </strong>
                     </div>
                     <div class="col-md-8 mb-3">
-                        {{ profile.profession }}
+                        {{ volunteer.profile.profession }}
                     </div>
                 </div>
 
@@ -152,17 +152,17 @@
                         <strong>Name: </strong>
                     </div>
                     <div class="col-md-8 mb-3">
-                        {{ profile.first_name }} {{ profile.last_name }}
+                        {{ volunteer.profile.first_name }} {{ volunteer.profile.last_name }}
                     </div>
                     <div class="col-md-4 mb-3">
                         <!-- <label for="firstName">First name</label> -->
                         <input name="first_name" type="text" class="form-control" id="firstName" placeholder=""
-                            value="{{ profile.first_name }}" required>
+                            value="{{ volunteer.profile.first_name }}" required>
                     </div>
                     <div class="col-md-4 mb-3">
                         <!-- <label for="lastName">Last name</label> -->
                         <input name="last_name" type="text" class="form-control" id="lastName" placeholder=""
-                            value="{{ profile.last_name }}" required>
+                            value="{{ volunteer.profile.last_name }}" required>
                     </div>
                 </div>
 
@@ -180,48 +180,48 @@
                         <!-- <input type="text" class="form-control" id="firstName" placeholder="" value="" required> -->
                         <!-- <input name="dob" type="date" class="form-control" id="dob" required> -->
                         <input name="dob" data-date-format="yyyy-mm-dd" id="dob" class="form-control"
-                            value="{{ profile.dob }}" required>
+                            value="{{ volunteer.profile.dob }}" required>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="profession">Profession</label>
                         <input name="profession" type="text" class="form-control" id="profession" placeholder=""
-                            value="{{ profile.profession }}" required>
+                            value="{{ volunteer.profile.profession }}" required>
                     </div>
                 </div>
 
                 <div class="mb3">
                     <label for="contactNo">Contact No.</label>
                     <input name="contact_no" type="number" class="form-control" id="contactNo" placeholder=""
-                        value="{{ profile.contact_no }}" required>
+                        value="{{ volunteer.profile.contact_no }}" required>
                 </div>
 
                 <div class="mb-3">
                     <label for="address">Address</label>
                     <input name="street_address1" type="text" class="form-control" id="address"
-                        value="{{ profile.street_address1 }}" required>
+                        value="{{ volunteer.profile.street_address1 }}" required>
                 </div>
 
                 <div class="mb-3">
                     <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
                     <input name="street_address2" type="text" class="form-control" id="address2"
-                        value="{{ profile.street_address2 }}">
+                        value="{{ volunteer.profile.street_address2 }}">
                 </div>
 
                 <div class="row">
                     <div class="col-md-5 mb-3">
                         <label for="city">City</label>
                         <input name="city" type="text" class="form-control" id="city" placeholder=""
-                            value="{{ profile.city }}" required>
+                            value="{{ volunteer.profile.city }}" required>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="state">State</label>
                         <input name="state" type="text" class="form-control" id="state" placeholder=""
-                            value="{{ profile.state }}" required>
+                            value="{{ volunteer.profile.state }}" required>
                     </div>
                     <div class="col-md-3 mb-3">
                         <label for="pinCode">PIN Code</label>
                         <input name="pincode" type="number" class="form-control" id="pinCode"
-                            placeholder="{{ profile.pincode }}" required>
+                            placeholder="{{ volunteer.profile.pincode }}" required>
                     </div>
                 </div>
 

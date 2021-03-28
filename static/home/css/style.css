@@ -142,8 +142,10 @@ a:hover{
 }
 
 @media screen and (max-width: 760px) {
-	.navbar .container {
+	.navbar .container{
 		flex-direction: column-reverse;
+	    	position: relative;
+		overflow: visible;
 	}
 
 	.navbar .navbar-toggler {
@@ -152,19 +154,34 @@ a:hover{
 
 	.navbar .left-nav {
 		align-self: flex-start;
-		width: 100%;
+		position: absolute;
+		width: 125%;
+		left: -12.5%;
+		transform: translateY(100%);
+		background: rgba(255, 140, 0, 0.9);
 	}
-	
+
 	.navbar .left-nav .navbar-nav {
 		flex-direction: column;
+		overflow: hidden;
+	}
+
+	.navbar .left-nav .nav-item {
+		width: 80%;
+		margin: auto;
+		transition: transform .5s ease;
+	}
+
+	.navbar .nav-collapsed {
+		height: 0;
+	}
+
+	.navbar .nav-collapsed .nav-item {
+		transform: translateY(200%);
 	}
 
 	.navbar .right-nav {
 		align-self: flex-end;
-	}
-	
-	.navbar .nav-collapsed {
-		height: 0;
 	}
 }
 
@@ -553,7 +570,7 @@ a:hover{
 	position: fixed;
 	top: 0;
 	left: 0;
-	z-index: 2;
+	z-index: 3;
 	width: 100%;
 	height: 100%;
 	background-color: rgba(0,0,0,0.4);

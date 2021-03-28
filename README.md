@@ -10,16 +10,16 @@
 
 Jagrati is an initiative by the students of **IIITDM Jabalpur** to provide free and quality education to the poor and under-privileged children of villages surrounding our institute. 
 
-Currently, we have adopted 5 villages in the vicinity of our institute, namely, Gadheri, Amanala, Chanditola, Mehgawan and Suarkol where we *donate education* to around 100 children of classes 1 through 10. Apart from providing basic education to the students in regular classes, **we also prepare the students of 4th and 5th grade for the prestigious Navodaya Vidyalaya** and other similar government-funded institutions which provides quality education to students, completely free of cost.
+Currently, we have adopted 5 villages in the vicinity of our institute, namely, Gadheri, Amanala, Chanditola, Mehgawan and Suarkol where we *provide education* to around 100 children of classes 1 through 10. Apart from providing basic education to the students in regular classes, **we also prepare the students of 4th and 5th grade for the prestigious Navodaya Vidyalaya** and other similar government-funded institutions which provides quality education to students, completely free of cost.
 
 Apart from teaching the children, we do many other activities like **organizing Blood Donation Camps, Tree Plantation Drives, Cloth Donation, Stationery Distribution, Campaigns to spread awareness in villages, etc.**
 
 **Our Achievements:**
-- 1 student selected in Jawahar Navodaya Vidyalaya in 2018.
-- 1 student selected in Jawahar Navodaya Vidyalaya in 2019.
-- 2 students selected in Jawahar Navodaya Vidyalaya in 2020.
-- 4 students cleared entrance examination for Eklavya Model Residential School (EMRS) in 2020.
-- 4 students cleared entrance examination for Gyanodaya Vidyalaya in 2020.
+- 1 student was selected for Jawahar Navodaya Vidyalaya in 2018.
+- 1 student was selected for Jawahar Navodaya Vidyalaya in 2019.
+- 2 students were selected for Jawahar Navodaya Vidyalaya in 2020.
+- 4 students cleared the entrance examination for Eklavya Model Residential School (EMRS) in 2020.
+- 4 students cleared the entrance examination for Gyanodaya Vidyalaya in 2020.
 
 (Like Navodaya Vidyalaya, both EMRS and Gyanodaya Vidyalaya provide free quality education to students from class 6 to 12).
 
@@ -101,7 +101,7 @@ So, all in all, it is meant to help the volunteers work more effectively and eff
     or, just copy the `.env.save` file from `samples` directory to the root directory (`JagratiWebApp`) and rename it to `.env` (only `.env` and not `.env.txt`)  
   
     where, 
-    * `EMAIL_HOST_USER` and `SENDER_EMAIL` is the email address of your Gmail account from which you want to send emails (By default, Django will output email contents in console. To actually send emails to real users, comment line 27 and uncomment line 28 in `Jagrati/settings/development.py`).
+    * `EMAIL_HOST_USER` and `SENDER_EMAIL` is the email address of your Gmail account from which you want to send emails (By default, Django will output email contents in console. To actually send emails to real users, comment line 30 and uncomment line 31 in `Jagrati/settings/development.py`).
     * `EMAIL_HOST_PASSWORD` is the password for that Gmail account.
     * `ADMINS_EMAIL` is a list of email addresses of Admins of the site (who will recieve important updates from the site like when a new user joins in).
     * `SOCIAL_AUTH_GOOGLE_OAUTH2_KEY` and `SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET` are the API keys for login/signup using Google.
@@ -138,6 +138,43 @@ So, all in all, it is meant to help the volunteers work more effectively and eff
   * Create a new branch with a related name of the motive i.e. bug/refactor/feature and commit your changes in that branch only.  
   * Send a pull request anytime :)  
   * Join our Discord Community: https://discord.gg/Ek9q45ZjAv
+  * For more extensive guidelines, kindly check the [CONTRIBUTING.md](https://github.com/garg3133/JagratiWebApp/blob/master/CONTRIBUTING.md)🤝
 
-## 💥 How to Contribute ?
-- If you wish to contribute kindly check the [CONTRIBUTING.md](https://github.com/garg3133/JagratiWebApp/blob/master/CONTRIBUTING.md)🤝
+## Open source programs we have been a part of 🚀:
+Open source is a term that originally referred to open source software (OSS). Open source software is code that is designed to be publicly accessible—anyone can see, modify, and distribute the code as they see fit. There are a lot of open source programs held throughout the year to encourage everyone's contribution and build awesome projects. JagratiWebApp is such an open source organization and has participated in quite a few events like the following.
+
+<table>
+  <tbody>
+    <tr>
+      <td align="center"><a href="https://kwoc.kossiitkgp.org/">
+        <img alt="" src="https://i.imgur.com/BRvF8x8.png" width="100" height="100"><br><sub><b>Kharagpur Winter of Code</b></sub><br>2020</a>
+      </td>
+      <td align="center"><a href="https://swoc.tech/">
+        <img alt="" src="https://i.imgur.com/gRnFEGM.png" width="100" height="100"><br><sub><b> Script Winter of Code</b></sub><br>2020</a>
+      </td>
+      <td align="center"><a href="https://mexili.github.io/winter_of_code/#/">
+        <img alt="" src="https://i.imgur.com/BHSz238.png" width="100" height="100"><br><sub><b> Mexili Winter of Code</b></sub><br>2021</a>
+      </td>
+        <td align="center"><a href="https://gssoc.girlscript.tech/">
+      <img alt="" src="https://i.imgur.com/rtDGMEA.png" width="100" height="100"><br><sub><b> Girlscript Summer of Code</b></sub><br>2021</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Project Maintainer 😃
+<table>
+  <tbody><tr>
+    <td align="center">
+    <a href="https://github.com/garg3133">
+    <img alt="" src="https://avatars.githubusercontent.com/u/39924567?s=400&v=4" width="130px;"><br><sub><b> Priyansh Garg </b></sub></a>
+    <br>
+    <a href="https://github.com/garg3133/JagratiWebApp/commits?author=garg3133" title="Code">💻 </a>
+    </td>
+  </tr>
+</tbody></table>
+
+## Our valuable Contributors👩‍💻👨‍💻:
+<a href="https://github.com/garg3133/JagratiWebApp/graphs/contributors">
+  <img src="https://contributors-img.web.app/image?repo=garg3133/JagratiWebApp" />
+</a>
