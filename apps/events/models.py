@@ -20,6 +20,13 @@ class Event(models.Model):
     def __str__(self):
         return self.title
 
+    @property
+    def get_thumbnail_url(self):
+        if self.thumbnail and hasattr(self.thumbnail, 'url'):
+            return self.thumbnail.url
+        else:
+            return settings.STATIC_URL + 'home/images/02.jpg'
+
 
 class Team(models.Model):
     team_id = models.CharField(max_length=50, unique=True)
