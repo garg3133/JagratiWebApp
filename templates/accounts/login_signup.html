@@ -5,36 +5,36 @@
 {% block title %} Jagrati | Login {% endblock %}
 
 {% block style %}
-	<link rel="stylesheet" href="{% static 'accounts/style.css' %}" type="text/css" />
-	<script src="{% static 'accounts/style.js' %}" type="text/javascript" defer></script>
-	<style>
-		.btn-google {
-			font-size: 18px;
-			line-height: 1.2;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			padding: 15px;
-			margin: 13px 0 10px;
-			width: 98%;
-			height: 50px;
-			border-radius: 5px;
-			border: 1px #21252929 solid;
-			box-shadow: 1px 1px 0px 0px #21252929;
-			transition: all 0.4s;
-			position: relative;
-			z-index: 1;
-		}
-	</style>
+<link rel="stylesheet" href="{% static 'accounts/style.css' %}" type="text/css" />
+<script src="{% static 'accounts/style.js' %}" type="text/javascript" defer></script>
+<style>
+	.btn-google {
+		font-size: 18px;
+		line-height: 1.2;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 15px;
+		margin: 13px 0 10px;
+		width: 98%;
+		height: 50px;
+		border-radius: 5px;
+		border: 1px #21252929 solid;
+		box-shadow: 1px 1px 0px 0px #21252929;
+		transition: all 0.4s;
+		position: relative;
+		z-index: 1;
+	}
+</style>
 {% endblock %}
 
 {% block content %}
 
-	{% if signup_error %}
-	<div class="container right-panel-active" id="container">
+{% if signup_error %}
+<div class="container right-panel-active" id="container">
 	{% else %}
 	<div class="container" id="container">
-	{% endif %}
+		{% endif %}
 		<div class="form-container sign-up-container">
 			<form method="post">
 				{% csrf_token %}
@@ -46,11 +46,13 @@
 					<input type="radio" name="desig" id="radio-input2" value="F" />
 					<label for="radio-input2">Faculty</label>
 				</div>
-				<input type="email" name="email" placeholder="Email" pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" required />
+				<input type="email" name="email" placeholder="Email"
+					pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+					required />
 				<input type="password" name="password1" placeholder="Password" required />
 				<input type="password" name="password2" placeholder="Confirm Password" required />
 				<span class="form-error"> {{signup_error}} </span>
-				<br/>
+				<br />
 				<button type='submit' name='submit' value='sign_up'>Sign Up</button>
 			</form>
 		</div>
@@ -58,18 +60,19 @@
 			<form method="post">
 				{% csrf_token %}
 				<h1>Sign in</h1>
-				<a class="btn-google"
-				   href="{% url 'social:begin' 'google-oauth2' %}
+				<a class="btn-google" href="{% url 'social:begin' 'google-oauth2' %}
 					{% if 'next' in request.GET %}
 						?next={{ request.GET.next }}
-					{% endif %}"
-				   role="button" style="text-transform:none">
-						<img width="23px" style="margin-bottom: 3px; margin-right: 8px" alt="Google" src="{% static 'accounts/icon/google.png' %}" />
-						Login with Google
+					{% endif %}" role="button" style="text-transform:none">
+					<img width="23px" style="margin-bottom: 3px; margin-right: 8px" alt="Google"
+						src="{% static 'accounts/icon/google.png' %}" />
+					Login with Google
 				</a>
 				<p style="margin: 5px 0;">---OR---</p>
 				<span class="form-error"> {{login_error|safe}} </span>
-				<input type="email" pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" name="email" placeholder="Email" required />
+				<input type="email"
+					pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+					name="email" placeholder="Email" required value="{{email_value}}" />
 				<input type="password" name="password" placeholder="Password" required />
 				<a href="{% url 'accounts:password_reset' %}">Forgot your password?</a>
 				<button type='submit' name='submit' value='login'>Sign In</button>
@@ -95,4 +98,4 @@
 		<script>document.getElementById('signUp').click();</script>
 	{% endif %} -->
 
-{% endblock %}
+	{% endblock %}

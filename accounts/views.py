@@ -8,10 +8,11 @@ from django.core.mail import send_mail
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils.encoding import force_bytes, force_text
 from django.utils.html import strip_tags
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.urls import reverse
+
 
 # local Django
 from apps.volunteers.models import Volunteer
@@ -59,9 +60,11 @@ def login_signup(request):
                 user = User.objects.filter(email=email)
                 if user.exists() and user[0].check_password(password) and not user[0].is_active:
                     # Authentication failed because user is not active
-                    resend_mail_link=reverse('accounts:resend_activation_mail')
-                    context['login_error'] = f'Account not Activated.<br><a href="{resend_mail_link}">Resend Activation Email?</a>'
-                    #return redirect('accounts:resend_activation_mail')
+                    resend_mail_link = reverse(
+                        'accounts:resend_activation_mail')
+                    context[
+                        'login_error'] = f'Account not Activated.<br><a style="color:#0000FF;" href="{resend_mail_link}">Resend Activation Email?</a>'
+                    context['email_value'] = email
                 else:
                     context['login_error'] = 'Invalid credentials'
                 return render(request, 'accounts/login_signup.html', context)
@@ -123,6 +126,7 @@ def login_signup(request):
             #     return redirect('home')
 
     return render(request, 'accounts/login_signup.html')
+
 
 @login_required
 def complete_profile(request):
@@ -218,17 +222,19 @@ def logout_view(request):
     logout(request)
     return redirect(next_site)
 
-#View to resend the activation mail
+
 def resend_activation_mail(request):
+    """ For resending activation mail in case previous activation link gets expired."""
     if request.method == 'POST':
         email = request.POST['email']
         user = User.objects.filter(email=email)
         if not user.exists():
             error = "Account with the entered email does not exist"
-            return render(request, "accounts/resend_activation_mail.html", {'error_message': error})
+            return render(request, "accounts/resend_activation_mail.html", {'error_message': error, 'email_value': email})
         elif user[0].is_active:
             error = "Your account is already activated"
-            return render(request, "accounts/resend_activation_mail.html", {'error_message': error})
+            return render(request, "accounts/resend_activation_mail.html", {'error_message': error, 'email_value': email})
+        # Sends the activation mail
         user = user[0]
         current_site = get_current_site(request)
         from_email = settings.DEFAULT_FROM_EMAIL
