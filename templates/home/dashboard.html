@@ -431,22 +431,19 @@
 
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
 <script>
-    function hw_done(id, checkbox_id) {
-        var checked = false;
+    function hw_done(student_id, checkbox_id) {
         $('#' + checkbox_id).change(function(){
-            if($(this).prop("checked") == true){
-               checked = true;
-            } else {
-                checked = false;
-            }
-            console.log(checkbox_id, id, checked)
+            var date = new Date($('#class-date').val()).toUTCString();
+            var checked = $(this).prop("checked");
+            console.log(checkbox_id, student_id, checked, date);
 
             $.ajax({
                 url: '{% url "students:ajax_mark_homework" %}',
                 type: "POST",
                 data: {
-                    'stu_id': id,
+                    'stu_id': student_id,
                     'is_homework_done': checked,
+                    'date': date,
                     'csrfmiddlewaretoken': Cookies.get('csrftoken')
                 },
                 dataType: 'json',
@@ -464,6 +461,21 @@
 
                     $("#alert_toast").toast("show");
                     $("#alert_toast").addClass("bg-success");
+                },
+                error: function() {
+                    $('#alert-toast-div > div').html(
+                        `<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="500">
+                            <div class="toast-body p-2 px-3">
+                                <strong class="mr-auto">Some Error Occured</strong>
+                                <button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>`
+                    )
+
+                    $("#alert_toast").toast("show");
+                    $("#alert_toast").addClass("bg-danger");
                 }
             })
         });
