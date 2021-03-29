@@ -12,10 +12,9 @@ def event_thumbmail_path(instance, filename):
 class Event(models.Model):
     title = models.CharField(max_length=100)
     schedule = models.DateTimeField()
-    venue = models.CharField(max_length=50)    
-    contact = models.CharField(max_length=13, blank=True)
+    venue = models.CharField(max_length=50)
     description = models.TextField(max_length=2500)
-    thumbnail = models.FileField(
+    thumbnail = models.ImageField(
         upload_to=event_thumbmail_path, null=True, blank=True)
 
     def __str__(self):

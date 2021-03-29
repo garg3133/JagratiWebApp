@@ -16,7 +16,7 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="schedule">Schedule</label>
-                        <input name="schedule" class="form-control" type="datetime-local" value="2011-08-19T13:45:00" id="schedule">
+                        <input name="schedule" class="form-control" type="datetime-local" value="2011-08-19T13:45:00" id="schedule" required/>
                     </div>
                 </div>
                 <div class="row">
@@ -25,20 +25,15 @@
                         <input name="venue" class="form-control" type="text" id="venue" required />
                         <div class="invalid-feedback">Please enter a venue of your event.</div>
                     </div>
-                    <div class="col-lg-6 mb-3">
-                        <label for="contact">Contact No. </label>
-                        <input name="contact" type="tel" pattern="[0-9]{10}" class="form-control" id="contact" required />
-                        <div class="invalid-feedback">Valid Contact No. (10 Digits) is required.</div>
-                    </div>
                 </div>
                 <div class="mb-3">
-                    <label for="description">Event Description</label>
-                    <textarea name="description" class="form-control" id="description" rows="3"></textarea>
+                    <label for="description">Event Descripton</label>
+                    <textarea name="description" class="form-control" id="description" rows="5" required/></textarea>
                 </div>
                 <div class="mb-3">
-                    <label for="thumbnail">Event Details</label>
-                    <input type="file"name="thumbnail" class="form-control-file" id="thumbnail" aria-describedby="fileHelp" required />
-                    <small id="fileHelp" class="form-text text-muted">Add your event description file.</small>
+                    <label for="thumbnail">Add Image</label>
+                    <input type="file" name="thumbnail" class="form-control-file" id="thumbnail" aria-describedby="fileHelp">
+                    <small id="fileHelp" class="form-text text-muted">Images</small>
                 </div>
                 <hr class="mb-4" />
                 <div class="row justify-content-center">

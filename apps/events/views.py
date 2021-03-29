@@ -14,13 +14,11 @@ def add_event(request):
         title = request.POST.get('title')
         schedule = request.POST.get('schedule')
         venue = request.POST['venue']
-        contact = request.POST.get('contact')  # Non-required field
         description = request.POST['description']
         thumbnail = request.FILES.get('thumbnail')
 
         event = Event(
-            title=title,schedule=schedule, venue=venue,
-            contact=contact, description=description, thumbnail=thumbnail,
+            title=title,schedule=schedule, venue=venue, description=description, thumbnail=thumbnail,
         )
         event.save()
 
