@@ -13,13 +13,10 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.html import strip_tags
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
-
 # local Django
 from apps.volunteers.models import Volunteer
 from .models import User, UserManager, Profile
 from .tokens import account_activation_token
-
-# Create your views here.
 
 
 def login_signup(request):
@@ -33,13 +30,18 @@ def login_signup(request):
             email = request.POST['email']
             password = request.POST['password']
 
-            context = {}
+            context = {
+                'entered_email': email,
+            }
             user = authenticate(username=email, password=password)
 
             if user is not None:
                 # For cpanel...
                 if not user.is_active:
-                    context['login_error'] = 'Account not Activated.<br><a href="#">Resend Activation Email?</a>'
+                    resend_activation_mail_link = reverse(
+                        'accounts:resend_activation_mail')
+                    context['login_error'] = f'Account not Activated.<br>\
+                        <a style="color:#0000FF;" href="{resend_activation_mail_link}">Resend Activation Email?</a>'
                     return render(request, 'accounts/login_signup.html', context)
                 # ...till here.
 
@@ -60,11 +62,10 @@ def login_signup(request):
                 user = User.objects.filter(email=email)
                 if user.exists() and user[0].check_password(password) and not user[0].is_active:
                     # Authentication failed because user is not active
-                    resend_mail_link = reverse(
+                    resend_activation_mail_link = reverse(
                         'accounts:resend_activation_mail')
-                    context[
-                        'login_error'] = f'Account not Activated.<br><a style="color:#0000FF;" href="{resend_mail_link}">Resend Activation Email?</a>'
-                    context['email_value'] = email
+                    context['login_error'] = f'Account not Activated.<br>\
+                        <a style="color:#0000FF;" href="{resend_activation_mail_link}">Resend Activation Email?</a>'
                 else:
                     context['login_error'] = 'Invalid credentials'
                 return render(request, 'accounts/login_signup.html', context)
@@ -83,14 +84,16 @@ def login_signup(request):
             password1 = request.POST['password1']
             password2 = request.POST['password2']
 
-            error = ''
+            context = {
+                'entered_email': email,
+            }
             user = User.objects.filter(email=email)
             if user.exists():
-                error = "Account with entered email already exists"
-                return render(request, "accounts/login_signup.html", {'signup_error': error})
+                context['signup_error'] = "Account with entered email already exists"
+                return render(request, "accounts/login_signup.html", context)
             if password1 and password2 and password1 != password2:
-                error = "Passwords don't match"
-                return render(request, "accounts/login_signup.html", {'signup_error': error})
+                context['signup_error'] = "Passwords don't match"
+                return render(request, "accounts/login_signup.html", context)
 
             user = User(email=email, is_active=False)
             user.set_password(password1)  # To save password as hash
@@ -224,17 +227,22 @@ def logout_view(request):
 
 
 def resend_activation_mail(request):
-    """ For resending activation mail in case previous activation link gets expired."""
+    """Resend activation mail in case previous activation link gets expired."""
     if request.method == 'POST':
         email = request.POST['email']
         user = User.objects.filter(email=email)
+
+        context = {
+            'entered_email': email,
+        }
         if not user.exists():
-            error = "Account with the entered email does not exist"
-            return render(request, "accounts/resend_activation_mail.html", {'error_message': error, 'email_value': email})
+            context['error_message'] = "Account with the entered email does not exist"
+            return render(request, "accounts/resend_activation_mail.html", context)
         elif user[0].is_active:
-            error = "Your account is already activated"
-            return render(request, "accounts/resend_activation_mail.html", {'error_message': error, 'email_value': email})
-        # Sends the activation mail
+            context['error_message'] = "Your account is already activated"
+            return render(request, "accounts/resend_activation_mail.html", context)
+
+        # Send Account Activation Email
         user = user[0]
         current_site = get_current_site(request)
         from_email = settings.DEFAULT_FROM_EMAIL
@@ -253,8 +261,8 @@ def resend_activation_mail(request):
         )
 
         return redirect('accounts:signup_success')
-    else:
-        return render(request, 'accounts/resend_activation_mail.html')
+
+    return render(request, 'accounts/resend_activation_mail.html')
 
 
 def account_activation(request, uidb64, token):

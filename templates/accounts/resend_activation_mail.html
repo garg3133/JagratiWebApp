@@ -4,23 +4,19 @@
 
 {% block title %} Jagrati | Resend activation mail {% endblock %}
 
-
 {% block content %}
-
 <div class="container pt-3" style="margin-top: 100px;">
     <div class="text-center mt-4 p-0 p-sm-3" style="margin: auto; max-width: 500px;">
         <h1 class="mb-4 font-weight-bolder">Resend activation mail</h1>
-        <form method="POST">
+        <form method="POST" style="margin: auto; max-width: 400px;">
             {% csrf_token %}
-            <input type="email" class="my-2 form-control" name="email" placeholder="Email"
+            <input type="email" class="form-control my-2" name="email" placeholder="Email" value="{{ entered_email }}"
                 pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
-                required style="margin: auto; max-width: 400px;" value="{{email_value}}" />
+                required />
             <span class="d-block" style="color:red;">
-                {{error_message}} </span>
-            <button type='submit' name='submit' class="mt-3 mb-5 btn btn-primary">Resend Activation Mail</button>
+                {{error_message}}</span>
+            <button type='submit' name='submit' class="btn btn-primary mt-3 mb-5">Resend Activation Mail</button>
         </form>
     </div>
 </div>
-</div>
-
 {% endblock %}
