@@ -8,16 +8,10 @@
         <div class="col-md-8 shadow-lg p-5 mb-5 bg-white rounded">
             <form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
                 {% csrf_token %}
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="title">Event name</label>
-                        <input name="title" type="text" class="form-control" id="title" required />
-                        <div class="invalid-feedback">Event name is required.</div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="schedule">Schedule</label>
-                        <input name="schedule" class="form-control" type="datetime-local" value="2011-08-19T13:45:00" id="schedule" required/>
-                    </div>
+                <div class="mb-3">
+                    <label for="title">Event name</label>
+                    <input name="title" type="text" class="form-control" id="title" required />
+                    <div class="invalid-feedback">Event name is required.</div>
                 </div>
                 <div class="row">
                     <div class="col-md-6 mb-3">
@@ -25,15 +19,19 @@
                         <input name="venue" class="form-control" type="text" id="venue" required />
                         <div class="invalid-feedback">Please enter a venue of your event.</div>
                     </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="schedule">Schedule</label>
+                        <input name="schedule" class="form-control" type="datetime-local" value="2011-08-19T13:45:00" id="schedule" required />
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="description">Event Description</label>
-                    <textarea name="description" class="form-control" id="description" rows="5" required/></textarea>
+                    <textarea name="description" class="form-control" id="description" rows="5" required /></textarea>
                 </div>
                 <div class="mb-3">
-                    <label for="thumbnail">Add Image</label>
-                    <input type="file" name="thumbnail" class="form-control-file" id="thumbnail" aria-describedby="fileHelp">
-                    <small id="fileHelp" class="form-text text-muted">Images</small>
+                    <label for="thumbnail">Event Thumbnail</label>
+                    <input name="thumbnail" type="file" id="thumbnail" class="form-control-file" onchange="imageValidation()">
+                    <small id="fileHelp" class="form-text text-muted">Thumbnail</small>
                 </div>
                 <hr class="mb-4" />
                 <div class="row justify-content-center">
@@ -45,4 +43,38 @@
         </div>
     </div>
 </div>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+(function() {
+    'use strict'
+    window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+            }, false)
+        })
+    }, false)
+}())
+</script>
+<!-- Script for Image Validation -->
+<script type="text/javascript">
+    function imageValidation() {
+        var fileInput = document.getElementById('profileImage');
+        var filePath = fileInput.value;
+        var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+        if (!allowedExtensions.exec(filePath)) {
+            alert('Please upload file having extensions .jpeg, .jpg, .png or .gif only.');
+            fileInput.value = '';
+        }
+    }
+</script>
 {% endblock %}
