@@ -40,7 +40,7 @@ def contact(request):
             msg = request.POST['msg']
             contact_data = Contact(name=name, phone=phone, email=email, message=msg)
             contact_data.save()
-            messages.success(request, 'Your Contact information is saved successfully.')
+            messages.success(request, 'We got your message, Someone from our team will shortly contact you.')
             return redirect('home:new_index')
         except Exception:
             messages.error(request, 'Error, On Submitting the contact form.')

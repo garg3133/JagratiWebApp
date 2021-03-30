@@ -114,25 +114,25 @@
     let error_message = document.getElementById("error-display");
 
     if(name.value=='' || name.value==null || name.value.length<3){
-      error_message.innerText = 'Please enter a valid Name...';
+      error_message.innerText = 'Please enter a valid Name.';
       name.focus();
       return false;
     }
 
     else if(!(isPhone(phone.value))){
-      error_message.innerText = 'Please enter a valid Phone Number...';
+      error_message.innerText = 'Please enter a valid Phone Number.';
       phone.focus();
       return false;
     }
     
     else if(!(isEmail(email_id.value))){
-      error_message.innerText = 'Please enter a valid Email id...';
+      error_message.innerText = 'Please enter a valid Email id.';
       email_id.focus();
       return false;
     }
 
-    else if(msg.value=='' || msg.value==null || msg.value.length<6){
-      error_message.innerText = 'Please enter a valid Message...';
+    else if(msg.value=='' || msg.value==null || msg.value.length<10){
+      error_message.innerText = 'Please enter a valid message (It should be more than 10 characters).';
       msg.focus();
       return false;
     }
