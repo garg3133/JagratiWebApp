@@ -18,8 +18,7 @@ def add_event(request):
         venue = request.POST['venue']    
         thumbnail = request.FILES.get('thumbnail')
         event = Event(
-            title=title, schedule=schedule, venue=venue, description=description, thumbnail=thumbnail,
-        )
+            title=title, schedule=schedule, venue=venue, description=description, thumbnail=thumbnail)
         event.save()
 
         messages.success(request, "Event added successfully!")
