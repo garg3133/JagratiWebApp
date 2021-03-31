@@ -1,0 +1,164 @@
+<div class="containerly mx-auto">
+  <div class="text-center">
+    <h1 data-aos="fade-up">Contact Us</h1>
+  </div>
+  
+  </br></br>
+  
+  <div class="row">
+  
+    <div class="col-md-6 px-0">
+      <div class="shadow-lg p-3 mb-5 bg-white card-rounder">
+        <div class="card-body">
+          <h2 class="text-cstm text-center mt-3 mb-4 pb-4">Jagrati</h2>
+    
+          <div class="form-group row mx-2 px-4" data-aos="fade-down-right">
+            <label class="col-sm-2 col-form-label"><i class="fa fa-map-marker fa-2x icon-color" aria-hidden="true"></i> </label>
+            <div class="col-sm-10">
+            <p class="infoshow">
+              Pandit Dwarka Prasad Mishra Indian Institute of Information Technology, Design and Manufacturing Jabalpur
+            </p>
+            </div>
+          </div>
+    
+          <div class="form-group row mx-2 px-4" data-aos="fade-down-right">
+            <label class="col-sm-2 col-form-label"><i class="fas fa-phone fa-2x icon-color fa-rotate-90"></i> </label>
+            <div class="col-sm-10 mt-2">
+            <p class="infoshow">
+              +XX-XXXXX-XXXXX
+            </p>
+            </div>
+          </div>
+    
+          <div class="form-group row mx-2 px-4" data-aos="fade-down-left">
+            <label class="col-sm-2 col-form-label"><i class="fas fa-envelope fa-2x icon-color"></i> </label>
+            <div class="col-sm-10 mt-2">
+            <p class="infoshow">
+              jagrati@iiitdmj.ac.in
+            </p>
+            </div>
+          </div>
+    
+        <div class="mt-3 pt-3 mx-4 px-4">
+          <h2 class="text-center mt-5 pt-5 mb-4 pb-4">Connect With Us</h2>
+          <p class="text-center">
+              <a class="mx-2 px-2" href="https://www.facebook.com/JAGRATI.IIITDMJ/" target="_blank">
+                  <i class="fab fa-facebook fa-2x icon-color" data-aos="fade-left" data-aos-delay="200"
+                      data-aos-anchor=".con-box1"></i>
+              </a>
+              <a class="mx-2 px-2" href="https://www.instagram.com/jagrati.iiitdmj/" target="_blank">
+                  <i class="fab fa-instagram fa-2x icon-color" data-aos="fade-left" data-aos-delay="550"
+                      data-aos-anchor=".con-box1"></i>
+              </a>
+              <a class="mx-2 px-2" href="https://www.youtube.com/channel/UC0VyWk6o3XXGi1oq-XIbbJQ/" target="_blank">
+                  <i class="fab fa-youtube fa-2x icon-color" data-aos="fade-left" data-aos-delay="900"
+                      data-aos-anchor=".con-box1"></i>
+              </a>
+              <a class="mx-2 px-2" href="https://github.com/garg3133/JagratiWebApp.git" target="_blank">
+                  <i class="fab fa-github fa-2x icon-color" data-aos="fade-left" data-aos-delay="1250"
+                      data-aos-anchor=".con-box1"></i>
+              </a>
+          </p>
+        </div>
+        </div>
+      </div>
+  
+    </div>
+  
+    <div class="col-md-6 px-0">
+      <div class="shadow-lg p-3 mb-5 bg-white card-rounder">
+        <div class="card-body mt-3">
+          <form action={% url 'feedbacks:contact' %} method="POST" id="contact-form" onsubmit="return validateForm()">
+  
+            <div id="error-display">  </div>
+            
+            <div class="form-group font-weight-bold">
+              <label class="ml-1" style="font-size: large;" for="full_name">Name</label>
+              <input type="text" class="form-control form-control-lg cstm-input" id="full_name" name="full_name" placeholder="Your Name...">
+            </div>
+            
+            <div class="form-group font-weight-bold">
+              <label class="ml-1" style="font-size: large;" for="phone">Phone</label>
+              <input type="text" class="form-control form-control-lg cstm-input" id="phone" name="phone" placeholder="Your Phone No...">
+            </div>
+            
+            <div class="form-group font-weight-bold">
+              <label class="ml-1" style="font-size: large;" for="email_id">Email</label>
+              <input type="email" class="form-control form-control-lg cstm-input" id="email_id" name="email_id" placeholder="Your Email...">
+            </div>
+        
+            <div class="form-group font-weight-bold">
+              <label class="ml-1" style="font-size: large;" for="msg">Message</label>
+              <textarea class="form-control form-control-lg cstm-input" name="msg" id="msg" placeholder="Write Something..." rows="5"></textarea>
+            </div>
+    
+            <div class="text-center">
+              <button type="submit" class="btn btn-cstm btn-get-started scrollto btn-lg px-4">Submit</button>
+            </div>
+    
+          </form>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+</div>
+
+<script>
+    // Here is a js function to validate contact form here
+    function validateForm(){
+    let name = document.getElementById("full_name");
+    let phone = document.getElementById("phone");
+    let email_id = document.getElementById("email_id");
+    let msg = document.getElementById("msg");
+    let error_message = document.getElementById("error-display");
+
+    if(name.value=='' || name.value==null || name.value.length<3){
+      error_message.innerText = 'Please enter a valid Name.';
+      name.focus();
+      return false;
+    }
+
+    else if(!(isPhone(phone.value))){
+      error_message.innerText = 'Please enter a valid Phone Number.';
+      phone.focus();
+      return false;
+    }
+    
+    else if(!(isEmail(email_id.value))){
+      error_message.innerText = 'Please enter a valid Email id.';
+      email_id.focus();
+      return false;
+    }
+
+    else if(msg.value=='' || msg.value==null || msg.value.length<10){
+      error_message.innerText = 'Please enter a valid message (It should be more than 10 characters).';
+      msg.focus();
+      return false;
+    }
+
+    else if(msg.value.length>400){
+      error_message.innerText = 'Message length should be less than 400 character';
+      msg.focus();
+      return false;
+    }
+
+    error_message.innerText = '';
+    return true;
+
+  }
+
+  // return true if phone number
+  function isPhone(num){
+    const phone_pattern = /^\d{10}$/;
+    return phone_pattern.test(num);
+  }
+
+  // return true if email id
+  function isEmail(email){
+    const email_pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    return email_pattern.test(email);
+  }
+      
+</script>
+
