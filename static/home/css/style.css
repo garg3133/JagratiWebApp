@@ -574,20 +574,18 @@ a:hover{
 	border-radius: 9px;
 	overflow: auto;
 	max-height: 65%;
-	background-color: #ffe5c3;
-	box-shadow: 5px 10px 18px #ffbd5952;
+	background-color: #fafafa;
+	box-shadow: 5px 10px 18px rgba(0, 0, 0, 0.185);
 	position: relative;
 }
 .don-modal-contents .container{
 	max-width: 90%;
 }
-.don-modal-contents .container h4{
-	margin: 10px 0 5px;
-}
+
 
 .don-modal-contents .close{
 	position: absolute;
-	top: 10px;
+	top: 2px;
 	right: 15px;
 	color: #000000;
 	opacity: 0.3;
@@ -597,8 +595,7 @@ a:hover{
 	z-index: 2;
 	height: 36px;
 	width: 36px;
-	border-radius: 50%;
-	margin: 15px 30px;
+	margin: 12px 30px;
 	text-align: center;
 	background-color:  rgba(255,255,255);
 }
@@ -607,40 +604,58 @@ a:hover{
 .don-modal-contents .close:hover{
 	color: #ff8c00;
 	opacity: 1;
-	background-color: rgba(255,255,255,0.1);
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 400px) {
 	.don-modal-contents .close {
 		font-size: 18px;
 		height: 24px;
 	    width: 24px;
-		margin: 2px 4px;
+		margin: 15px 1px 15px 2px;
 	    border-radius: 50%;
 	}
   }
+
+
 .don-box1{
-	background-color: rgb(39, 40, 46);
-	padding: 6px;
-	border-bottom: 3px solid #ff7b00b9;
+	display: flex !important;
+	align-items:center;
+	justify-content:flex-start;
+	background: #ffffff;
+	padding: 3px 6px;
+	border-bottom: 1.5px solid #dbdbdb;
+
 }
 .don-box1 h1{
 	margin: 0;
-	padding: 17px 0 5px;
-	text-align: center;
 	font-weight: 600;
-	color:rgb(255, 140, 0);
+	color:rgb(26, 24, 22);
 	text-transform: uppercase;
-   
 }
 
-.don-box2, .don-box3{
-	float: left;
-	width: 50%;
-	box-sizing: border-box;
+.flex-item {
+	display: flex;
+	align-items: center;
+	height: 36px;
 }
+
+.don-box1 i {
+	font-size: 30px;
+	padding: 12px 25px;
+	align-self: flex-start;
+	color: #ff8c00;
+}
+
+.don-box2 h4 {
+	font-size: 14px;
+	margin: 0 12px 0 0 !important;
+	text-transform: uppercase;
+	color: #ff8c00;
+
+}
+
 .don-box2 p{
-	margin: 0 0 20px;
+	
 	color: #4e4e4e;
 	font-weight: 400;
 }
@@ -652,18 +667,16 @@ a:hover{
 	letter-spacing: 0.5;
 }
 
-.don-box3 i {
-	font-size: 24px;
-	color: #ff9900;
-	margin-right: 12px;
-}
 
 .don-box3 p {
-	display: flex;
-	align-items: center;
 	text-align: left;
 	color: #4e4e4e;
 	font-weight: 400;
+}
+
+.don-box3 em {
+	font-style: normal;
+	font-weight: bold;
 }
 
 /*CONTACT US STARTS*/
