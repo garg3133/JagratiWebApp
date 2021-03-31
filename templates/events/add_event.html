@@ -67,14 +67,14 @@
 </script>
 <!-- Script for Image Validation -->
 <script type="text/javascript">
-    function imageValidation() {
-        var fileInput = document.getElementById('profileImage');
-        var filePath = fileInput.value;
-        var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
-        if (!allowedExtensions.exec(filePath)) {
-            alert('Please upload file having extensions .jpeg, .jpg, .png or .gif only.');
-            fileInput.value = '';
-        }
+function imageValidation() {
+    var fileInput = document.getElementById('profileImage');
+    var filePath = fileInput.value;
+    var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+    if (!allowedExtensions.exec(filePath)) {
+        alert('Please upload file having extensions .jpeg, .jpg, .png or .gif only.');
+        fileInput.value = '';
     }
+}
 </script>
 {% endblock %}
