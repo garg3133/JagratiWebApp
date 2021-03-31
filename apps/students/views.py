@@ -54,7 +54,7 @@ def profile(request, pk):
     login_url=reverse_lazy('accounts:complete_profile')
 )
 @permission_required('students.add_student', raise_exception=True)
-def new_student(request):
+def add_student(request):
     """Add new student."""
     if request.method == 'POST':
         first_name = request.POST['first_name']
@@ -75,9 +75,9 @@ def new_student(request):
         student.save()
 
         messages.success(request, "Student added successfully!")
-        return redirect('students:new_student')
+        return redirect('students:add_student')
 
-    return render(request, 'students/new_student.html', {'villages': Student.VILLAGE})
+    return render(request, 'students/add_student.html', {'villages': Student.VILLAGE})
 
 
 @login_required
