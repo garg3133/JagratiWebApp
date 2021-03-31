@@ -1,5 +1,4 @@
-from datetime import date
-from datetime import datetime
+from datetime import date, datetime
 
 import os
 from django.conf import settings
@@ -213,16 +212,25 @@ def ajax_mark_attendance(request):
     return JsonResponse(data)
 
 
+@login_required
+@user_passes_test(
+    has_authenticated_profile, redirect_field_name=None,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
+# @permissions_required
 def ajax_mark_homework(request):
+    """Mark/unmark homework done."""
     if request.method == 'POST' and request.is_ajax():
         stu_id = request.POST.get('stu_id')
-        is_homework_done = request.POST.get('is_homework_done')
-        todayDate = request.POST.get('date')
-        todayDate = datetime.strptime(todayDate, "%Y-%m-%d").date()
-        todayDate = Calendar.objects.get(date=todayDate)
+        homework_done = request.POST.get('homework_done')
+
+        date_str = request.POST.get('date')
+        date = datetime.strptime(date_str, "%Y-%m-%d").date()
+        cal_date = Calendar.objects.get(date=date)
+
         student = StudentAttendance.objects.get(
-            student__id=stu_id, cal_date=todayDate)
-        student.hw_done = True if is_homework_done == 'true' else False
+            student__id=stu_id, cal_date=cal_date)
+        student.hw_done = True if homework_done == 'true' else False
         student.save()
         data = {'success': True}
         return JsonResponse(data)
