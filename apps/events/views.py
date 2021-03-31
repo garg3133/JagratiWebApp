@@ -1,8 +1,8 @@
+from django.contrib import messages
+from django.contrib.auth.decorators import permission_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import permission_required
 from .models import Event
-from django.contrib import messages
 
 
 def index(request):
@@ -13,9 +13,9 @@ def index(request):
 def add_event(request):
     if request.method == 'POST':
         title = request.POST['title']
-        schedule = request.POST.get('schedule')
-        venue = request.POST['venue']
         description = request.POST['description']
+        schedule = request.POST['schedule']
+        venue = request.POST['venue']    
         thumbnail = request.FILES.get('thumbnail')
 
         event = Event(

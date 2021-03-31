@@ -1,4 +1,5 @@
 {% extends 'layout.html' %}
+{% block title %} Jagrati | Add Event {% endblock %}
 {% block content %}
 <div class="container">
     <div class="py-3 mt-3 text-center">
@@ -10,28 +11,27 @@
                 {% csrf_token %}
                 <div class="mb-3">
                     <label for="title">Event name</label>
-                    <input name="title" type="text" class="form-control" id="title" required />
+                    <input name="title" type="text" class="form-control" id="title" required>
                     <div class="invalid-feedback">Event name is required.</div>
                 </div>
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="venue">Venue</label>
-                        <input name="venue" class="form-control" type="text" id="venue" required />
-                        <div class="invalid-feedback">Please enter a venue of your event.</div>
+                        <label for="schedule">Schedule</label>
+                        <input name="schedule" class="form-control" type="datetime-local" value="2011-08-19T13:45:00" id="schedule" required>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="schedule">Schedule</label>
-                        <input name="schedule" class="form-control" type="datetime-local" value="2011-08-19T13:45:00" id="schedule" required />
+                        <label for="venue">Venue</label>
+                        <input name="venue" class="form-control" type="text" id="venue" required>
+                        <div class="invalid-feedback">Please enter a venue of your event.</div>
                     </div>
                 </div>
                 <div class="mb-3">
                     <label for="description">Event Description</label>
-                    <textarea name="description" class="form-control" id="description" rows="5" required /></textarea>
+                    <textarea name="description" class="form-control" id="description" rows="5" required></textarea>
                 </div>
                 <div class="mb-3">
-                    <label for="thumbnail">Event Thumbnail</label>
+                    <label for="thumbnail">Event Thumbnail <span class="text-muted">(Optional)</span></label>
                     <input name="thumbnail" type="file" id="thumbnail" class="form-control-file" onchange="imageValidation()">
-                    <small id="fileHelp" class="form-text text-muted">Thumbnail</small>
                 </div>
                 <hr class="mb-4" />
                 <div class="row justify-content-center">
@@ -68,7 +68,7 @@
 <!-- Script for Image Validation -->
 <script type="text/javascript">
 function imageValidation() {
-    var fileInput = document.getElementById('profileImage');
+    var fileInput = document.getElementById('thumbnail');
     var filePath = fileInput.value;
     var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
     if (!allowedExtensions.exec(filePath)) {
