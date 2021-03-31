@@ -17,7 +17,6 @@ def add_event(request):
         schedule = request.POST['schedule']
         venue = request.POST['venue']    
         thumbnail = request.FILES.get('thumbnail')
-
         event = Event(
             title=title, schedule=schedule, venue=venue, description=description, thumbnail=thumbnail,
         )
