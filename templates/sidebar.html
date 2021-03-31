@@ -6,10 +6,6 @@
 
 {% block style %}
 <style>
-    .main{
-        min-height: calc(100vh - 54px);   /* So that footer is at the bottom (without scroll) if screen is short*/
-    }
-
     /* For Arrow in sidebar->dropdown mobile view */
     .arrow{
         border: solid black;
@@ -82,15 +78,25 @@
         margin: 5px 0;
     }
 
-    @media(max-width: 767px){
-        .sidebar{
-            position:static;
-        }
+    @media screen and (min-width: 768px) {
         .main{
-            min-height: 100vh;
+            min-height: calc(100vh - 54px);
         }
+
         #alert-toast-div > div {
-            bottom: 10px !important;
+            bottom: 64px !important;
+        }
+
+        footer{
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    }
+
+    @media screen and (max-width: 767px) {
+        .sidebar{
+            position: static;
         }
     }
 </style>
@@ -204,19 +210,6 @@
 
 
 {% block scripts %}
-<style>
-	footer{
-		position: fixed;
-		bottom: 0;
-		width: 100%;
-	}
-	@media(max-width: 767px){
-		footer{
-			position: static;
-		}
-	}
-</style>
-
 <!-- Script for sidebar-dropdown arrow -->
 <script>
     let dash_sidebar = document.querySelector("#dash-sidebar");
