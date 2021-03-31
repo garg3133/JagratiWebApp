@@ -433,9 +433,8 @@
 <script>
     function hw_done(student_id, checkbox_id) {
         $('#' + checkbox_id).change(function(){
-            var date = new Date($('#class-date').val()).toUTCString();
+            var date = new Date($('#class-date').val());
             var checked = $(this).prop("checked");
-            console.log(checkbox_id, student_id, checked, date);
 
             $.ajax({
                 url: '{% url "students:ajax_mark_homework" %}',
@@ -443,7 +442,7 @@
                 data: {
                     'stu_id': student_id,
                     'is_homework_done': checked,
-                    'date': date,
+                    'date': "{{ selected_date|date:'Y-m-d' }}",
                     'csrfmiddlewaretoken': Cookies.get('csrftoken')
                 },
                 dataType: 'json',
