@@ -16,5 +16,6 @@ urlpatterns = [
     # AJAX calls
     path('ajax/fetch_students/', views.ajax_fetch_students, name='ajax_fetch_students'),
     path('ajax/mark_attendance/', views.ajax_mark_attendance, name='ajax_mark_attendance'),
+    path('ajax/mark_homework/', views.ajax_mark_homework, name='ajax_mark_homework'),
 
 ]
