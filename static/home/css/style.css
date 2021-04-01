@@ -571,7 +571,7 @@ a:hover{
 .don-modal-contents{
 	width: 80%;
 	margin: auto;
-	border-radius: 9px;
+	border-radius: 12px;
 	overflow: auto;
 	max-height: 65%;
 	background-color: #fafafa;
@@ -596,7 +596,6 @@ a:hover{
 	height: 36px;
 	width: 36px;
 	margin: 12px 30px;
-	text-align: center;
 	background-color:  rgba(255,255,255);
 }
 
@@ -620,7 +619,6 @@ a:hover{
 .don-box1{
 	display: flex !important;
 	align-items:center;
-	justify-content:flex-start;
 	background: #ffffff;
 	padding: 3px 6px;
 	border-bottom: 1.5px solid #dbdbdb;
@@ -633,10 +631,12 @@ a:hover{
 	text-transform: uppercase;
 }
 
+
 .flex-item {
 	display: flex;
 	align-items: center;
 	height: 36px;
+	margin: auto;
 }
 
 .don-box1 i {
@@ -660,7 +660,7 @@ a:hover{
 	font-weight: 400;
 }
 
-.don-box2 > h2, .don-box3 > h2 {
+.don-box2 > h2 {
 
 	font-weight: 700;
 	color: #000000;
@@ -669,7 +669,7 @@ a:hover{
 
 
 .don-box3 p {
-	text-align: left;
+	text-align: center;
 	color: #4e4e4e;
 	font-weight: 400;
 }
