@@ -6,6 +6,7 @@
 
 {% block style %}
 <link rel="stylesheet" href="{% static 'accounts/style.css' %}" type="text/css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 <script src="{% static 'accounts/style.js' %}" type="text/javascript" defer></script>
 <style>
     .btn-google {
@@ -69,7 +70,17 @@
             <input type="email" name="email" placeholder="Email" value="{{ enered_email }}"
                 pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
                 required />
-            <input type="password" name="password" placeholder="Password" required />
+
+            <!-- Div to hold the elements in single line -->
+            <div style="display: table;width: 100%;margin-left: -12px;">
+
+                <input type="password" name="password" id='password' style="display: inline-block" placeholder="Password" required>
+
+                <!-- Eye icon to toggle -->
+                <i class="far fa-eye" id="togglePassword" style="margin-left: -30px; cursor: pointer;"></i>
+
+            </div>
+
             <a href="{% url 'accounts:password_reset' %}">Forgot your password?</a>
             <button type='submit' name='submit' value='login'>Sign In</button>
         </form>
@@ -89,6 +100,29 @@
         </div>
     </div>
 </div>
+
+<script>
+
+
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#password');
+
+    togglePassword.addEventListener('click', function (e) {
+
+        // toggle the type attribute
+        const type = password.getAttribute('type');
+        
+        if(type == "password"){
+            password.setAttribute('type', "text");
+        }
+        else{
+            password.setAttribute('type', "password");
+        }
+
+        // toggle the eye slash icon
+        this.classList.toggle('fa-eye-slash');
+    });
+</script>
 
 <!-- {% if signup_error %}
 	<script>document.getElementById('signUp').click();</script>
