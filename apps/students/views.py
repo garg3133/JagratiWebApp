@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 
 import os
 from django.conf import settings
@@ -54,7 +54,7 @@ def profile(request, pk):
     login_url=reverse_lazy('accounts:complete_profile')
 )
 @permission_required('students.add_student', raise_exception=True)
-def new_student(request):
+def add_student(request):
     """Add new student."""
     if request.method == 'POST':
         first_name = request.POST['first_name']
@@ -75,9 +75,9 @@ def new_student(request):
         student.save()
 
         messages.success(request, "Student added successfully!")
-        return redirect('students:new_student')
+        return redirect('students:add_student')
 
-    return render(request, 'students/new_student.html', {'villages': Student.VILLAGE})
+    return render(request, 'students/add_student.html', {'villages': Student.VILLAGE})
 
 
 @login_required
@@ -210,6 +210,30 @@ def ajax_mark_attendance(request):
     stu_att.save()
     data = {'success': True}
     return JsonResponse(data)
+
+
+@login_required
+@user_passes_test(
+    has_authenticated_profile, redirect_field_name=None,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
+# @permissions_required
+def ajax_mark_homework(request):
+    """Mark/unmark homework done."""
+    if request.method == 'POST' and request.is_ajax():
+        stu_id = request.POST.get('stu_id')
+        homework_done = request.POST.get('homework_done')
+
+        date_str = request.POST.get('date')
+        date = datetime.strptime(date_str, "%Y-%m-%d").date()
+        cal_date = Calendar.objects.get(date=date)
+
+        student = StudentAttendance.objects.get(
+            student__id=stu_id, cal_date=cal_date)
+        student.hw_done = True if homework_done == 'true' else False
+        student.save()
+        data = {'success': True}
+        return JsonResponse(data)
 
 
 @login_required

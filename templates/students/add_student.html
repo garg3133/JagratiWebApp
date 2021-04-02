@@ -1,14 +1,16 @@
 {% extends 'layout.html' %}
 
+{% block title %} Jagrati | Add student {% endblock %}
+
 {% block style %}
 <style>
     /* .container {
             max-width: 960px;
         } */
 
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 576px) {
         .container {
-            width: 85vw;
+            width: 90vw;
         }
     }
 </style>
@@ -21,7 +23,7 @@
     </div>
 
     <div class="row justify-content-center">
-        <div class="col-md-8 shadow-lg p-5 mb-5 bg-white rounded">
+        <div class="col-md-8 shadow-lg p-4 p-sm-5 mb-5 bg-white rounded">
             <form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
                 {% csrf_token %}
 

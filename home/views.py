@@ -213,3 +213,33 @@ def ajax_dashboard(request):
         data[sch.section.section_id] = sch.section.name
 
     return JsonResponse(data)
+
+
+@login_required
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
+@user_passes_test(
+    is_volunteer, redirect_field_name=None,
+    login_url=reverse_lazy('home:dashboard')
+)
+def class_schedule(request):
+    days = Schedule.DAY
+    subjects = Schedule.SUBJECT
+
+    all_sections = Section.objects.order_by('section_id')
+    active_sections = all_sections.exclude(schedule=None)
+
+    schedule = Schedule.objects.order_by(
+        'day', 'section__section_id', 'subject')
+
+    context = {
+        'days': days,
+        'subjects': subjects,
+        'all_sections': all_sections,
+        'active_sections': active_sections,
+        'schedule': schedule,
+    }
+
+    return render(request, 'home/class_schedule.html', context)
