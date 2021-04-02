@@ -316,3 +316,19 @@ input {
 		margin-right: 20px;
 	}
 }
+
+#password_div{
+	display: table;
+	width: 100%;
+	margin-left: -12px;
+}
+
+#password{
+	display: inline-block;
+}
+
+#togglePassword{
+	margin-left: -30px; 
+	cursor: pointer;
+	margin-bottom: -4px;
+}
