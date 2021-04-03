@@ -320,11 +320,7 @@ input {
 #password_div{
 	display: table;
 	width: 100%;
-	margin-left: -12px;
-}
-
-#password{
-	display: inline-block;
+	text-align: left;
 }
 
 #togglePassword{
