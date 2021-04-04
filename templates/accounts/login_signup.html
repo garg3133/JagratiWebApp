@@ -69,7 +69,17 @@
             <input type="email" name="email" placeholder="Email" value="{{ enered_email }}"
                 pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
                 required />
-            <input type="password" name="password" placeholder="Password" required />
+
+            <!-- Div to hold the elements in single line -->
+            <div id="password_div">
+
+                <input type="password" name="password" id='password' placeholder="Password" required>
+
+                <!-- Eye icon to toggle -->
+                <img data-toggle="tooltip" title="Show Password" id="togglePassword" src="{% static 'accounts/icon/eye.svg' %}" alt="">
+
+            </div>
+
             <a href="{% url 'accounts:password_reset' %}">Forgot your password?</a>
             <button type='submit' name='submit' value='login'>Sign In</button>
         </form>
@@ -89,6 +99,7 @@
         </div>
     </div>
 </div>
+
 
 <!-- {% if signup_error %}
 	<script>document.getElementById('signUp').click();</script>
