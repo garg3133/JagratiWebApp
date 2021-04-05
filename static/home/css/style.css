@@ -60,7 +60,6 @@ h2 {
 }
 
 
-
 /*HEADER STARTS*/
 
 #branding{
@@ -251,11 +250,10 @@ h2 {
 	max-height: 500px;
 	align-items: center;
 	justify-content: center;
-	letter-spacing: .05em;
 	word-spacing: .1em;
 }
 #about-us p {
-	font-size: 1.1rem;
+	font-size: 1rem;
 	width: 90%;
 	margin: 0 auto;
 }
@@ -540,6 +538,7 @@ h2 {
 	color: #818390;
 	background-color: #26272c;
 	background-color: #1a1b1e;
+	font-size: 1rem;
 	text-align: center;
 	padding: 10px 0;
 }
