@@ -3,15 +3,13 @@
 {% load static %}
 
 {% block content-sidebar %}
-
 <!-- DASHBOARD -->
-
 <div class="dash-main col-md-8 col-lg-9 mt-3">
-    <a href="{% url 'home:dashboard' %}"  class="d-inline-block mb-2 mb-md-0">&#x27f3; Refresh Dashboard</a>
+    <a href="{% url 'home:dashboard' %}" class="d-inline-block mb-2 mb-md-0">&#x27f3; Refresh Dashboard</a>
+
     <h3 class="text-center mb-3">Dashboard</h3>
 
     <!-- Main Dashboard Form -->
-
     <form method="GET">
         <div class="row justify-content-center">
             <div class="col-md-4 mb-3">
@@ -42,10 +40,15 @@
         <p class="text-center mt-4">No class was scheduled on the chosen day.</p>
         <p class="text-center">{{calendar_remark}}</p>
         {% else %}
+        <!-- Subject Scheduled -->
+        <div class="row justify-content-center mt-4">
+            {% if subject_scheduled %}
+            <p>Subject scheduled: <b>{{ subject_scheduled }}</b></p>
+            {% endif %}
+        </div>
 
         <!-- ClassWork HomeWork -->
-
-        <div class="row justify-content-center mt-4 mx-0">
+        <div class="row justify-content-center mt-2 mx-0">
             <div class="col-md-9 col-lg-5 mr-lg-5 mb-3 border rounded">
                 <h4 class="text-center mt-2">ClassWork</h4>
                 <hr>
@@ -74,7 +77,6 @@
         </div>
 
         <!-- Update ClassWork HomeWork -->
-
         {% if user.desig == 'v' %}
         <div class="text-center mt-3">
             <button type="button" id="toggle_update_cwhw" class="btn btn-outline-primary" onclick="show_dash_cwhw()">
@@ -82,7 +84,7 @@
                 <i style="margin-left:10px !important;" class="fas fa-chevron-down"></i>
             </button>
         </div>
-        
+
         <div class="row justify-content-center mt-3 px-3" style="background-color: #f7f7f7;">
             <div class="dash-cwhw d-none col-12">
                 <form action="{% url 'home:update_cwhw' %}" method="POST" class="mt-4">
@@ -91,12 +93,12 @@
                     <input type="hidden" name="section" value="{{ selected_section }}">
                     <div class="row justify-content-center mb-2">
                         <div class="col-md-9 col-lg-5 px-0 mr-lg-5 mb-3">
-                            <textarea name="cw" id="update_cw" class="form-control" data-tooltip="update_cwhw"
-                                rows="6" placeholder="Class Work goes here..."></textarea>
+                            <textarea name="cw" id="update_cw" class="form-control" data-tooltip="update_cwhw" rows="6"
+                                placeholder="Class Work goes here..."></textarea>
                         </div>
                         <div class="col-md-9 col-lg-5 px-0 mb-3">
-                            <textarea name="hw" id="update_hw" class="form-control" data-tooltip="update_cwhw"
-                                rows="6" placeholder="Home Work goes here..."></textarea>
+                            <textarea name="hw" id="update_hw" class="form-control" data-tooltip="update_cwhw" rows="6"
+                                placeholder="Home Work goes here..."></textarea>
                         </div>
                         <div class="col-md-9 col-lg-5 px-0 mb-3">
                             <textarea name="comment" id="update_comment" class="form-control" data-tooltip="update_cwhw"
@@ -118,7 +120,6 @@
         {% now "Y-m-d" as today_date %}
 
         <!-- Student Attendance -->
-
         <div class="row justify-content-center my-4 mx-0">
             <div class="col-md-9 border rounded">
                 <h4 class="text-center mt-3">Students Present</h4>
@@ -151,12 +152,14 @@
                             {% endif %}
                         {% endcomment %}
                     </p>
-                    <input type="text" id="filter-students-dash" class="form-control mb-3 mx-auto" onkeyup="filterStudentsOnDash()" placeholder="Search for names..">
+                    <input type="text" id="filter-students-dash" class="form-control mb-3 mx-auto"
+                        onkeyup="filterStudentsOnDash()" placeholder="Search for names..">
                     <table class="table table-hover" id="stu-att-table-dash">
                         <thead>
                             <tr class="text-center">
                                 <th>Name</th>
                                 <th>Class</th>
+                                <th>HomeWork</th>
                             </tr class="text-center">
                         </thead>
                         <tbody>
@@ -165,37 +168,46 @@
                                 <td class="text-monospace font-weight-lighter">{{stu_att.student.get_full_name}}</td>
 
                                 {% if stu_att.student.school_class == 13 %}
-                                    <td class="text-monospace font-weight-lighter">JNV_4</td>
+                                <td class="text-monospace font-weight-lighter">JNV_4</td>
                                 {% elif stu_att.student.school_class == 14 %}
-                                    <td class="text-monospace font-weight-lighter">JNV_5</td>
+                                <td class="text-monospace font-weight-lighter">JNV_5</td>
                                 {% else %}
-                                    <td class="text-monospace font-weight-lighter">{{ stu_att.student.school_class }}</td>
+                                <td class="text-monospace font-weight-lighter">{{ stu_att.student.school_class }}</td>
                                 {% endif %}
-                                
+
+                                <td>
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" name="hw_done" value="{{ stu_att.student.id }}"
+                                            class="custom-control-input" id="s{{ stu_att.id }}"
+                                            onclick="hw_done('{{ stu_att.student.id }}', 's{{ stu_att.id }}')"
+                                            {% if stu_att.hw_done %}checked{% endif %}>
+                                        <label class="custom-control-label" for="s{{ stu_att.id }}"></label>
+                                    </div>
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>
                     </table>
                     {% elif selected_date|date:'Y-m-d' > today_date %}
-                        <pre>Class not yet scheduled!</pre>
+                    <pre>Class not yet scheduled!</pre>
                     {% elif selected_date|date:'Y-m-d' == today_date %}
-                        <pre>Not yet updated!</pre>
+                    <pre>Not yet updated!</pre>
                     {% else %}
-                        <pre>No student present.</pre>
+                    <pre>No student present.</pre>
                     {% endif %}
                 </p>
             </div>
         </div>
 
         <!-- Volunteer Attendance -->
-
         {% if volun.desig %}
         <div class="row justify-content-center my-4 mx-0">
             <div class="col-md-9 border rounded">
                 <h4 class="text-center mt-3">Volunteers Present</h4>
                 <hr>
                 {% if volun_attendance.count %}
-                <input type="text" id="filter-volunteers-dash" class="form-control mb-3 mx-auto" onkeyup="filterVolunteersOnDash()" placeholder="Search for roll no..">
+                <input type="text" id="filter-volunteers-dash" class="form-control mb-3 mx-auto"
+                    onkeyup="filterVolunteersOnDash()" placeholder="Search for roll no..">
                 <table class="table table-hover" id="vol-att-table-dash">
                     <thead>
                         <tr class="text-center">
@@ -207,26 +219,31 @@
                         {% for vol_att in volun_attendance %}
                         <tr class="text-center">
                             <td class="text-monospace font-weight-lighter">{{ vol_att.volun.roll_no }}</td>
-                            <td class="text-monospace font-weight-lighter">{{ vol_att.volun.profile.get_full_name }} {% if vol_att.extra %}(E){% endif %}</td>
+                            <td class="text-monospace font-weight-lighter">
+                                <a href="{% url 'volunteers:profile' vol_att.volun_id %}" target="_blank">
+                                    {{ vol_att.volun.profile.get_full_name }} {% if vol_att.extra %}(E){% endif %}
+                                </a>
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
                 {% elif selected_date|date:'Y-m-d' > today_date %}
-                    <pre>Class not yet scheduled!</pre>
+                <pre>Class not yet scheduled!</pre>
                 {% elif selected_date|date:'Y-m-d' == today_date %}
-                    <pre>Not yet updated!</pre>
+                <pre>Not yet updated!</pre>
                 {% else %}
-                    <pre>No volunteers were present.</pre>
+                <pre>No volunteers were present.</pre>
                 {% endif %}
             </div>
         </div>
         {% endif %}
-
+        <!-- /volun.desig -->
         {% endif %}
+        <!-- /class_scheduled -->
     {% endif %}
+    <!-- /selected_date -->
 </div>
-
 {% endblock %}
 
 {% block scripts-sidebar %}
@@ -274,7 +291,7 @@
     $("#class-date").change(function () {
         var class_date = $(this).val();
         // DISABLE SUBMIT BUTTON HERE
-        $("#continue_button").prop('disabled', true); 
+        $("#continue_button").prop('disabled', true);
         $.ajax({
             url: "{% url 'home:ajax_dashboard' %}",
             data: {
@@ -286,12 +303,12 @@
                 var selected = '';
 
                 Object.entries(data).forEach(([key, value]) => {
-                    if(key == "{{selected_section}}") selected = 'selected';
+                    if (key == "{{selected_section}}") selected = 'selected';
                     else selected = '';
                     options += '<option value="' + key + '"' + selected + '>' + value + '</option>';
                 });
                 $("#class-section").html(options);
-                
+
                 // RE-ENABLE THE SUBMIT BUTTON HERE
                 $("#continue_button").prop('disabled', false);
                 // Re-enable CW_HW buttons/inputs
@@ -321,7 +338,7 @@
         autoclose: true,
         todayHighlight: true,
     });
-    if(document.getElementById("extra-info-1").value.length>0)
+    if (document.getElementById("extra-info-1").value.length > 0)
         $('#class-date').datepicker("setDate", "{{ selected_date|date:'Y-m-d' }}");
     else
         $('#class-date').datepicker("setDate", "{% now 'Y-m-d' %}");
@@ -382,32 +399,109 @@
     let dash_main = document.querySelector(".dash-main");
     let dash_cwhw = document.querySelector(".dash-cwhw");
 
-    if("{{cwhw_selected_date}}"){
+    if ("{{cwhw_selected_date}}") {
         show_dash_cwhw();
     }
 
-    function show_dash_main(){
-        if(dash_main.classList.contains('d-none')) dash_main.classList.remove('d-none');
-        if(dash_sidebar.classList.contains('show')){
+    function show_dash_main() {
+        if (dash_main.classList.contains('d-none')) dash_main.classList.remove('d-none');
+        if (dash_sidebar.classList.contains('show')) {
             dash_sidebar.classList.remove('show');
             dash_accordion.classList.remove('up');
             dash_accordion.classList.add('down');
         }
     }
 
-    function show_dash_cwhw(){
-        if(dash_cwhw.classList.contains('d-none')){
+    function show_dash_cwhw() {
+        if (dash_cwhw.classList.contains('d-none')) {
             dash_cwhw.classList.remove('d-none');
             $('#toggle_update_cwhw').addClass('btn-outline-danger').removeClass('btn-outline-primary');
             $('#toggle_update_cwhw span').html('Cancel Update CW-HW');
             $('#toggle_update_cwhw i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
         }
-        else if(!dash_cwhw.classList.contains('d-none')){
+        else if (!dash_cwhw.classList.contains('d-none')) {
             dash_cwhw.classList.add('d-none');   // <--new
             $('#toggle_update_cwhw').addClass('btn-outline-primary').removeClass('btn-outline-danger');
             $('#toggle_update_cwhw span').html('Update CW-HW');
             $('#toggle_update_cwhw i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
         }
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+
+<script>
+    function hw_done(student_id, checkbox_id) {
+        let hw_checkbox = document.getElementById(checkbox_id);
+        let hw_checkbox_state = hw_checkbox.checked;
+        console.log(hw_checkbox_state);
+
+        // If Date or section is changed.
+        let selected_date = $('#class-date').val();
+        let selected_section = $('#class-section').children("option:selected").val();
+        if ("{{ selected_date }}" !== selected_date || "{{ selected_section }}" !== selected_section) {
+            // Un-toggle the checkbox
+            hw_checkbox.checked = !hw_checkbox.checked;
+            $('#alert-toast-div > div').html(
+                `<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3500">
+                    <div class="toast-body p-2 px-3">
+                        <strong class="mr-auto">Date or section changed.</strong>
+                        <button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>`
+            )
+
+            $("#alert_toast").toast("show");
+            $("#alert_toast").addClass("bg-danger");
+
+            return;
+        }
+
+        $.ajax({
+            url: '{% url "students:ajax_mark_homework" %}',
+            type: "POST",
+            data: {
+                'stu_id': student_id,
+                'homework_done': hw_checkbox_state,
+                'date': "{{ selected_date|date:'Y-m-d' }}",
+                'csrfmiddlewaretoken': Cookies.get('csrftoken')
+            },
+            dataType: 'json',
+            success: function() {
+                $('#alert-toast-div > div').html(
+                    `<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="500">
+                        <div class="toast-body p-2 px-3">
+                            <strong class="mr-auto">HomeWork updated.</strong>
+                            <button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>`
+                )
+
+                $("#alert_toast").toast("show");
+                $("#alert_toast").addClass("bg-success");
+            },
+            error: function() {
+                // Un-toggle the checkbox
+                hw_checkbox_state ? hw_checkbox.checked = false : hw_checkbox.checked = true;
+                $('#alert-toast-div > div').html(
+                    `<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3500">
+                        <div class="toast-body p-2 px-3">
+                            <strong class="mr-auto">Some Error Occured</strong>
+                            <button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>`
+                )
+
+                $("#alert_toast").toast("show");
+                $("#alert_toast").addClass("bg-danger");
+            }
+        });
     }
 </script>
 {% endblock %}

@@ -15,6 +15,7 @@ urlpatterns = [
     path('students/', include('apps.students.urls')),
     path('volunteers/', include('apps.volunteers.urls')),
     path('feedbacks/', include('apps.feedbacks.urls')),
+    path('events/', include('apps.events.urls')),
 
     # Rest API URLs
     path('api/', include('home.api.urls')),

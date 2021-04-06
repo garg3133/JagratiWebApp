@@ -1,0 +1,137 @@
+{% extends 'sidebar.html' %}
+
+{% load static %}
+
+{% block title %} Jagrati | Class Schedule {% endblock %}
+
+{% block content-sidebar %}
+<!-- CLASS SCHEDULE -->
+<div class="dash-schedule col-md-8 col-lg-9 mt-3">
+    <a href="" class="d-inline-block mb-2 mb-md-0">&#x27f3; Refresh Page</a>
+    <h3 class="text-center">Class Schedule</h3>
+        <div class="row mt-5 justify-content-center align-items-center">
+            <div class="col-md-3 mb-3">
+                <label for="sch-day">Day</label>
+                <select name="day" class="custom-select d-block w-100" id="sch-day">
+                    <option value="">Select Day</option>
+                    {% for day, day_name in days %}
+                    <option value="{{ day }}">{{ day_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="sch-section">Section</label>
+                <select name="section" class="custom-select d-block " id="sch-section">
+                    <option value="">Select Section</option>
+                    {% for section in active_sections %}
+                    <option value="{{ section.section_id }}">{{ section.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="subject">Subject</label>
+                <select name="subject" class="custom-select d-block w-100" id="subject">
+                    <option value="">Select Subject</option>
+                    {% for subject_id, subject_name in subjects %}
+                    <option value="{{ subject_id }}">{{ subject_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2 mt-3">
+                <button class="btn btn-success"  type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Add new
+                  </button>
+            </div>
+        </div>
+        <div class="collapse bg-light mt-3" id="collapseExample">
+            <div class="card card-body">
+                <h5 class="card-title text-center">Add new schedule</h5>
+                <div class="row mt-2 justify-content-center align-items-center">
+                    <div class="col-md-3 mb-3">
+                        <label for="sch-day">Day</label>
+                        <select name="day" class="custom-select d-block w-100" id="sch-day">
+                            <option value="">Select Day</option>
+                            {% for day, day_name in days %}
+                            <option value="{{ day }}">{{ day_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="sch-section">Section</label>
+                        <select name="section" class="custom-select d-block w-100" id="sch-section">
+                            <option value="">Select Section</option>
+                            {% for section in all_sections %}
+                            <option value="{{ section.section_id }}">{{ section.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="subject">Subject</label>
+                        <select name="subject" class="custom-select d-block w-100" id="subject">                    
+                            <option value="">Select Subject</option>
+                            {% for subject_id, subject_name in subjects %}
+                            <option value="{{ subject_id }}">{{ subject_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="row justify-content-center align-items-center">
+                    <button type="button" class="btn btn-success m-3">Add</button>
+                    <button type="button" class="btn btn-danger">Cancel</button>
+            </div>
+        </div>  
+    </div>  
+        
+    <div class="row justify-content-center mt-5">
+        <div class="col-10 mb-2 text-center">
+            <table class="table" id="vol-att-table">
+                <thead>
+                    <tr>
+                        <th>Day</th>
+                        <th>Section</th>
+                        <th>Subject</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for data in schedule %}
+                    <tr>
+                        <td>{{ data.get_day_display }}</td>
+                        <td>{{ data.section.name }}</td>
+                        <td>{{ data.get_subject_display }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts-sidebar %}
+<!-- AJAX for filter Schedule -->
+<!-- <script>
+    $("#sch-day option:first").attr('selected', 'selected');
+
+    $("#sch-day").change(function () {
+        var sch_day = $(this).val();
+
+        $.ajax({
+            url: "{% url 'volunteers:ajax_update_schedule' %}",
+            data: {
+                'sch_day': sch_day,
+            },
+            dataType: 'json',
+            success: function (data) {
+                var options = '';
+
+                Object.entries(data).forEach(([key, value]) => {
+                    options += '<option value="' + key + '" >' + value + '</option>';
+                });
+
+                $("#sch-section").html(options);
+            }
+        });
+    });
+
+</script> -->
+{% endblock %}

@@ -5,7 +5,7 @@ from . import views
 app_name = 'students'
 urlpatterns = [
     path('', views.index, name='index'),
-    path('new/', views.new_student, name='new_student'),
+    path('add/', views.add_student, name='add_student'),
     path('profile/<int:pk>/', views.profile, name='profile'),
     path('attendance/', views.attendance, name='attendance'),
     # path('attendance/view/', views.view_attendance, name='view_attendance'),
@@ -16,5 +16,6 @@ urlpatterns = [
     # AJAX calls
     path('ajax/fetch_students/', views.ajax_fetch_students, name='ajax_fetch_students'),
     path('ajax/mark_attendance/', views.ajax_mark_attendance, name='ajax_mark_attendance'),
+    path('ajax/mark_homework/', views.ajax_mark_homework, name='ajax_mark_homework'),
 
 ]

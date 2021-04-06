@@ -5,94 +5,103 @@
 {% block title %} Jagrati | Login {% endblock %}
 
 {% block style %}
-	<link rel="stylesheet" href="{% static 'accounts/style.css' %}" type="text/css" />
-	<script src="{% static 'accounts/style.js' %}" type="text/javascript" defer></script>
-	<style>
-		.btn-google {
-			font-size: 18px;
-			line-height: 1.2;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			padding: 15px;
-			margin: 13px 0 10px;
-			width: 98%;
-			height: 50px;
-			border-radius: 5px;
-			border: 1px #21252929 solid;
-			box-shadow: 1px 1px 0px 0px #21252929;
-			transition: all 0.4s;
-			position: relative;
-			z-index: 1;
-		}
-	</style>
+<link rel="stylesheet" href="{% static 'accounts/style.css' %}" type="text/css" />
+<script src="{% static 'accounts/style.js' %}" type="text/javascript" defer></script>
+<style>
+    .btn-google {
+        font-size: 18px;
+        line-height: 1.2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 15px;
+        margin: 13px 0 10px;
+        width: 98%;
+        height: 50px;
+        border-radius: 5px;
+        border: 1px #21252929 solid;
+        box-shadow: 1px 1px 0px 0px #21252929;
+        transition: all 0.4s;
+        position: relative;
+        z-index: 1;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
+<!-- Login-Signup container starts -->
+<div class="container {% if signup_error %} right-panel-active {% endif %}" id="container">
+    <div class="form-container sign-up-container">
+        <form method="post">
+            {% csrf_token %}
+            <h1>Create Account</h1>
 
-	{% if signup_error %}
-	<div class="container right-panel-active" id="container">
-	{% else %}
-	<div class="container" id="container">
-	{% endif %}
-		<div class="form-container sign-up-container">
-			<form method="post">
-				{% csrf_token %}
-				<h1>Create Account</h1>
+            <div class="radio-input">
+                <input type="radio" name="desig" id="radio-input1" value="V" checked />
+                <label for="radio-input1" class="radio-input-label1">Volunteer</label>
+                <input type="radio" name="desig" id="radio-input2" value="F" />
+                <label for="radio-input2">Faculty</label>
+            </div>
+            <input type="email" name="email" placeholder="Email" value="{{ entered_email }}"
+                pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+                required />
+            <input type="password" name="password1" placeholder="Password" required />
+            <input type="password" name="password2" placeholder="Confirm Password" required />
+            <span class="form-error"> {{signup_error}} </span>
+            <br />
+            <button type='submit' name='submit' value='sign_up'>Sign Up</button>
+        </form>
+    </div>
+    <div class="form-container sign-in-container">
+        <form method="post">
+            {% csrf_token %}
+            <h1>Sign in</h1>
+            <a class="btn-google" href="{% url 'social:begin' 'google-oauth2' %}
+                {% if 'next' in request.GET %}
+                    ?next={{ request.GET.next }}
+                {% endif %}" role="button" style="text-transform: none;">
+                <img width="23px" style="margin-bottom: 3px; margin-right: 8px;" alt="Google"
+                    src="{% static 'accounts/icon/google.png' %}" />
+                Login with Google
+            </a>
+            <p style="margin: 5px 0;">---OR---</p>
+            <span class="form-error"> {{login_error|safe}} </span>
+            <input type="email" name="email" placeholder="Email" value="{{ enered_email }}"
+                pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+                required />
 
-				<div class="radio-input">
-					<input type="radio" name="desig" id="radio-input1" value="V" checked />
-					<label for="radio-input1" class="radio-input-label1">Volunteer</label>
-					<input type="radio" name="desig" id="radio-input2" value="F" />
-					<label for="radio-input2">Faculty</label>
-				</div>
-				<input type="email" name="email" placeholder="Email" pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" required />
-				<input type="password" name="password1" placeholder="Password" required />
-				<input type="password" name="password2" placeholder="Confirm Password" required />
-				<span class="form-error"> {{signup_error}} </span>
-				<br/>
-				<button type='submit' name='submit' value='sign_up'>Sign Up</button>
-			</form>
-		</div>
-		<div class="form-container sign-in-container">
-			<form method="post">
-				{% csrf_token %}
-				<h1>Sign in</h1>
-				<a class="btn-google"
-				   href="{% url 'social:begin' 'google-oauth2' %}
-					{% if 'next' in request.GET %}
-						?next={{ request.GET.next }}
-					{% endif %}"
-				   role="button" style="text-transform:none">
-						<img width="23px" style="margin-bottom: 3px; margin-right: 8px" alt="Google" src="{% static 'accounts/icon/google.png' %}" />
-						Login with Google
-				</a>
-				<p style="margin: 5px 0;">---OR---</p>
-				<span class="form-error"> {{login_error|safe}} </span>
-				<input type="email" pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" name="email" placeholder="Email" required />
-				<input type="password" name="password" placeholder="Password" required />
-				<a href="{% url 'accounts:password_reset' %}">Forgot your password?</a>
-				<button type='submit' name='submit' value='login'>Sign In</button>
-			</form>
-		</div>
-		<div class="overlay-container">
-			<div class="overlay">
-				<div class="overlay-panel overlay-left">
-					<h1>Welcome Back!</h1>
-					<p>To keep connected with us please login with your personal info</p>
-					<button class="ghost" id="signIn">Sign In</button>
-				</div>
-				<div class="overlay-panel overlay-right">
-					<h1>Hello, Friend!</h1>
-					<p>Enter your personal details and start journey with us</p>
-					<button class="ghost" id="signUp">Sign Up</button>
-				</div>
-			</div>
-		</div>
-	</div>
+            <!-- Div to hold the elements in single line -->
+            <div id="password_div">
 
-	<!-- {% if signup_error %}
-		<script>document.getElementById('signUp').click();</script>
-	{% endif %} -->
+                <input type="password" name="password" id='password' placeholder="Password" required>
 
+                <!-- Eye icon to toggle -->
+                <img data-toggle="tooltip" title="Show Password" id="togglePassword" src="{% static 'accounts/icon/eye.svg' %}" alt="">
+
+            </div>
+
+            <a href="{% url 'accounts:password_reset' %}">Forgot your password?</a>
+            <button type='submit' name='submit' value='login'>Sign In</button>
+        </form>
+    </div>
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <h1>Welcome Back!</h1>
+                <p>To keep connected with us please login with your personal info</p>
+                <button class="ghost" id="signIn">Sign In</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h1>Hello, Friend!</h1>
+                <p>Enter your personal details and start journey with us</p>
+                <button class="ghost" id="signUp">Sign Up</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- {% if signup_error %}
+	<script>document.getElementById('signUp').click();</script>
+{% endif %} -->
 {% endblock %}

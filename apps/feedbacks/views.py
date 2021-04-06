@@ -1,13 +1,12 @@
 from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
+from .models import Feedback, Contact
 
-from .models import Feedback
-
-# Create your views here.
 
 def index(request):
-    submitted = ''
     if request.method == 'POST':
-        anonymous_array	= request.POST.getlist('anonymousCheck')
+        anonymous_array = request.POST.getlist('anonymousCheck')
         name = request.POST['name']
         roll_no = request.POST['rollNo']
         email = request.POST['email']
@@ -26,6 +25,24 @@ def index(request):
     }
     return render(request, 'feedbacks/index.html', context)
 
+
 def feedback_submitted(request):
     return render(request, 'feedbacks/feedback_submitted.html')
 
+
+@csrf_exempt
+def contact(request):
+    if request.method == 'POST':
+        try:
+            name = request.POST['full_name']
+            phone = request.POST['phone']
+            email = request.POST['email_id']
+            msg = request.POST['msg']
+            contact_data = Contact(name=name, phone=phone, email=email, message=msg)
+            contact_data.save()
+            messages.success(request, 'We got your message, Someone from our team will shortly contact you.')
+            return redirect('home:new_index')
+        except Exception:
+            messages.error(request, 'Error, On Submitting the contact form.')
+            return redirect('home:new_index')
+    return redirect('home:new_index')

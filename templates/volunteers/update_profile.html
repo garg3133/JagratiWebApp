@@ -5,9 +5,7 @@
 {% block title %} Jagrati | Update Profile {% endblock %}
 
 {% block content-sidebar %}
-
 <!-- UPDATE PROFILE -->
-
 <div class="dash-update col-md-8 col-lg-9 mt-3">
     <a href="" class="d-inline-block mb-2 mb-md-0">&#x27f3; Refresh Page</a>
     <h3 class="text-center">Update Profile</h3>
@@ -19,7 +17,8 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="rollNo">Roll No.</label>
-                        <input name="roll_no" type="number" class="form-control" id="rollNo" value="{{ volun.roll_no }}" required>
+                        <input name="roll_no" type="number" class="form-control" id="rollNo" value="{{ volun.roll_no }}"
+                            required>
                     </div>
                     <div class="invalid-feedback">
                         Valid Roll No. is required.
@@ -29,14 +28,16 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="firstName">First name</label>
-                        <input name="first_name" type="text" class="form-control" id="firstName" value="{{ profile.first_name }}" required>
+                        <input name="first_name" type="text" class="form-control" id="firstName"
+                            value="{{ profile.first_name }}" required>
                         <div class="invalid-feedback">
                             Valid First Name is required.
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="lastName">Last name</label>
-                        <input name="last_name" type="text" class="form-control" id="lastName" value="{{ profile.last_name }}" required>
+                        <input name="last_name" type="text" class="form-control" id="lastName"
+                            value="{{ profile.last_name }}" required>
                         <div class="invalid-feedback">
                             Valid Last Name is required.
                         </div>
@@ -47,14 +48,15 @@
                     <div class="col-md-4 mb-3">
                         <label for="gender">Gender</label>
                         <select name="gender" class="custom-select d-block w-100" id="gender" required>
-                            <option value="M" {% if  profile.gender == "M" %} selected {% endif %} >Male</option>
-                            <option value="F" {% if  profile.gender == "F" %} selected {% endif %} >Female</option>
-                            <option value="O" {% if  profile.gender == "O" %} selected {% endif %} >Other</option>
+                            <option value="M" {% if profile.gender == "M" %} selected {% endif %}>Male</option>
+                            <option value="F" {% if profile.gender == "F" %} selected {% endif %}>Female</option>
+                            <option value="O" {% if profile.gender == "O" %} selected {% endif %}>Other</option>
                         </select>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="batch">Batch</label>
-                        <input name="batch" type="number" class="form-control" id="batch" value="{{ volun.batch }}" min="2005" max="{% now 'Y' %}" required>
+                        <input name="batch" type="number" class="form-control" id="batch" value="{{ volun.batch }}"
+                            min="2005" max="{% now 'Y' %}" required>
                         <div class="invalid-feedback">
                             Please enter a valid batch.
                         </div>
@@ -62,11 +64,11 @@
                     <div class="col-md-4 mb-3">
                         <label for="programme">Programme</label>
                         <select name="programme" class="custom-select d-block w-100" id="programme" required>
-                            <option value="bt" {% if  volun.programme == "bt" %} selected {% endif %} >B.Tech</option>
-                            <option value="mt" {% if  volun.programme == "mt" %} selected {% endif %} >M.Tech</option>
-                            <option value="phd" {% if  volun.programme == "phd" %} selected {% endif %} >phD</option>
-                            <option value="bd" {% if  volun.programme == "bd" %} selected {% endif %} >B.Des</option>
-                            <option value="md" {% if  volun.programme == "md" %} selected {% endif %} >M.Des</option>
+                            <option value="bt" {% if volun.programme == "bt" %} selected {% endif %}>B.Tech</option>
+                            <option value="mt" {% if volun.programme == "mt" %} selected {% endif %}>M.Tech</option>
+                            <option value="phd" {% if volun.programme == "phd" %} selected {% endif %}>phD</option>
+                            <option value="bd" {% if volun.programme == "bd" %} selected {% endif %}>B.Des</option>
+                            <option value="md" {% if volun.programme == "md" %} selected {% endif %}>M.Des</option>
                         </select>
                     </div>
                 </div>
@@ -81,49 +83,56 @@
                     </div>
                     <div class="col-md-8 mb-3">
                         <label for="contactNo">Contact No.</label>
-                        <input name="contact_no" type="tel" pattern="[0-9]{10}" class="form-control" id="contactNo" value="{{ profile.contact_no }}" required>
+                        <input name="contact_no" type="tel" pattern="[0-9]{10}" class="form-control" id="contactNo"
+                            value="{{ profile.contact_no }}" required>
                         <div class="invalid-feedback">
                             Valid Contact No. (10 Digits) is required.
                         </div>
                     </div>
                 </div>
-            
+
                 <div class="mb-3">
                     <label for="altemail">Alternate Email <span class="text-muted">(Optional)</span></label>
-                    <input name="alt_email" type="email" class="form-control" id="altemail" value="{{ profile.alt_email }}">
+                    <input name="alt_email" type="email" class="form-control" id="altemail"
+                        value="{{ profile.alt_email }}">
                 </div>
-            
+
                 <div class="mb-3">
                     <label for="address">Address</label>
-                    <input name="street_address1" type="text" class="form-control" id="address" value="{{ profile.street_address1 }}" required>
+                    <input name="street_address1" type="text" class="form-control" id="address"
+                        value="{{ profile.street_address1 }}" required>
                     <div class="invalid-feedback">
                         Please enter your address.
                     </div>
                 </div>
-            
+
                 <div class="mb-3">
                     <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
-                    <input name="street_address2" type="text" class="form-control" id="address2" value="{{ profile.street_address2 }}">
+                    <input name="street_address2" type="text" class="form-control" id="address2"
+                        value="{{ profile.street_address2 }}">
                 </div>
-            
+
                 <div class="row">
                     <div class="col-md-5 mb-3">
                         <label for="city">City</label>
-                        <input name="city" type="text" class="form-control" id="city" value="{{ profile.city }}" required>
+                        <input name="city" type="text" class="form-control" id="city" value="{{ profile.city }}"
+                            required>
                         <div class="invalid-feedback">
                             Please enter a valid city.
                         </div>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="state">State</label>
-                        <input name="state" type="text" class="form-control" id="state" value="{{ profile.state }}" required>
+                        <input name="state" type="text" class="form-control" id="state" value="{{ profile.state }}"
+                            required>
                         <div class="invalid-feedback">
                             Please provide a valid state.
                         </div>
                     </div>
                     <div class="col-md-3 mb-3">
                         <label for="pinCode">PIN Code</label>
-                        <input name="pincode" type="number" class="form-control" id="pinCode" value="{{ profile.pincode }}" required>
+                        <input name="pincode" type="number" class="form-control" id="pinCode"
+                            value="{{ profile.pincode }}" required>
                         <div class="invalid-feedback">
                             PIN code required.
                         </div>
@@ -134,24 +143,26 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="profileImage">Profile Picture <span class="text-muted">(Optional)</span></label>
-                        <input name="profile_image" type="file" id="profileImage">
+                        <input name="profile_image" type="file" id="profileImage" class="form-control-file"
+                            onchange="imageValidation()" />
                     </div>
                 </div>
 
                 <hr class="mb-4">
                 <div class="row justify-content-center mb-4">
                     <div class="col-md-6">
-                        <button name="submit" value="update-profile" class="btn btn-primary btn-lg btn-block" type="submit">Update</button>
+                        <button name="submit" value="update-profile" class="btn btn-primary btn-lg btn-block"
+                            type="submit">Update</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
 {% endblock %}
 
 {% block scripts-sidebar %}
+<!-- Script for Form Validation -->
 <script type="text/javascript">
     (function () {
         'use strict'
@@ -162,15 +173,28 @@
             // Loop over them and prevent submission
             Array.prototype.filter.call(forms, function (form) {
                 form.addEventListener('submit', function (event) {
-                if (form.checkValidity() === false) {
-                    event.preventDefault()
-                    event.stopPropagation()
-                }
-                form.classList.add('was-validated')
+                    if (form.checkValidity() === false) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
                 }, false)
             })
         }, false)
     }())
+</script>
+
+<!-- Script for Image Validation -->
+<script type="text/javascript">
+    function imageValidation() {
+        var fileInput = document.getElementById('profileImage');
+        var filePath = fileInput.value;
+        var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+        if (!allowedExtensions.exec(filePath)) {
+            alert('Please upload file having extensions .jpeg, .jpg, .png or .gif only.');
+            fileInput.value = '';
+        }
+    }
 </script>
 
 <!-- Script for Update Profile Date Pickers -->
@@ -182,5 +206,4 @@
     });
     $('#dob').datepicker("setDate", "{{ volun.dob|date:'Y-m-d' }}");
 </script>
-
 {% endblock %}
