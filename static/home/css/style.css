@@ -52,12 +52,9 @@ a:hover{
 
 /* Modifying heading font-size */
 h1 {
-	font-size: 2rem;
-}
-
-h2 {
 	font-size: 1.75rem;
 }
+
 
 
 /*HEADER STARTS*/
@@ -249,7 +246,6 @@ h2 {
 #about-us .container div{
 	max-height: 500px;
 	align-items: center;
-	justify-content: center;
 	word-spacing: .1em;
 }
 #about-us p {
@@ -262,7 +258,6 @@ h2 {
 	grid-template-columns: 1fr 1fr;
 	grid-column-gap: 1em;
 	padding: 20px 0;
-	margin-bottom: 10px;
 }
 .mission{
 	display: grid;
@@ -548,7 +543,7 @@ h2 {
 	color: white;
 }
 #donate-us h1::after{
-	content: "";
+	content: ""; 
 	display: block;
 	width: 13%;
 	margin: auto;
