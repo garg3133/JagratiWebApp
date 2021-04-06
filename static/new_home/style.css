@@ -265,7 +265,7 @@ hr {
     display: block;
     text-align: left;
     padding: 10px 7vw 10px 30px;
-    padding-right: screen-width*8;
+    padding-right: screen.width*8;
   }
   .navbar a:hover 
   {
@@ -437,7 +437,6 @@ header
   margin:auto;
   overflow: hidden;
 }
-
 #about-us{
   text-align: center;
   background-color: #fef8f5;
@@ -469,59 +468,31 @@ header
 #about-us .container div{
   max-height: 500px;
 }
-
 .vision{
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto;
-  grid-template-areas: "left right";
-  margin-bottom: 2em;
   grid-column-gap: 2em;
   padding: 20px 0;
-  margin-bottom: 1em;
 }
-
 .mission{
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto;
-  grid-template-areas: "right left";
   grid-column-gap: 1em;
   padding: 10px 0 25px;
 }
-
-.vision-left, .mission-left {
-  grid-area: left;
-  width: 100%;
+.vision div:first-child{
+  grid-column-start: 2;
+}
+.vision div:nth-child(2){
+  margin: 45px 5px;
+  grid-column-start: 1;
+  grid-row-start: 1;
+}
+.mission div:nth-child(2){
+  margin: 45px 5px;
+  grid-column-start: 2;
 }
 
-.vision-right, .mission-right {
-  grid-area: right;
-}
-
-@media screen and (max-width: 760px) {
-  .vision {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-
-    grid-template-areas:
-    "left"
-    "right";
-  }
-  .mission {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-
-    grid-template-areas:
-    "left"
-    "right";
-  }
-
-  .vision-left,
-  .mission-left {
-    margin-bottom: 2em;
-  }
-}
 
 /*------ Events Starts ------*/
 
