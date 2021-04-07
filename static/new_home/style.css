@@ -631,6 +631,14 @@ header
   color: #eb5d1e;
 }
 
+@media screen and (min-width: 768px)
+  {
+    .col-md-6{
+      display: grid;
+    }
+    
+  }
+
 /* Contact Us Ends */
 
 footer{
