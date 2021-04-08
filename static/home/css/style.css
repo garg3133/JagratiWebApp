@@ -245,6 +245,7 @@ h1 {
 }
 #about-us .container div{
 	max-height: 600px;
+	margin-bottom: 10px;
 	align-items: center;
 	word-spacing: .1em;
 }
@@ -266,7 +267,6 @@ h1 {
 	padding: 10px 0 25px;
 }
 .vision div:first-child{
-	grid-column-start: 2;
 	margin: auto auto;
 }
 .vision div:nth-child(2){
@@ -276,28 +276,6 @@ h1 {
 .mission div:first-child{
 	margin: auto auto;
 }
-/*.vision div:first-child{
-	float: right;
-	width: 50%;
-	box-sizing: border-box;
-}
-.vision div:last-child{
-	float: left;
-	width: 50%;
-	box-sizing: border-box;
-	padding: 10px;
-}
-.mission div:first-child{
-	float: left;
-	width: 50%;
-	box-sizing: border-box;
-}
-.mission div:last-child{
-	float: right;
-	width: 50%;
-	box-sizing: border-box;
-	padding: 10px;
-}*/
 
 /*Q1 starts*/
 
@@ -776,24 +754,17 @@ footer{
 	.vision p, .mission p{
 		width: 95%;
 		margin: auto;
+		margin-bottom: 1em;
 	}
-	.vision div:first-child{
+	.vision div, 
+	.mission div {
 		grid-column-start: 1;
 		grid-column-end: 3;
 		margin: auto auto;
 	}
-	.vision div:nth-child(2){
-		grid-column-end: 3;
-		grid-row-start: 2;
-	}
-	.mission div:first-child{
-		grid-column-start: 1;
-		grid-column-end: 3;
-		margin: auto auto;
-	}
-	.mission div:nth-child(2){
-		grid-column-start: 1;
-		grid-column-end: 3;
+	.vision div:nth-child(2), 
+	.mission div:nth-child(2) {
+		grid-row-start: 1;
 	}
 
 	/*Initiatives section*/
