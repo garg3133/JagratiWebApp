@@ -265,7 +265,7 @@ hr {
     display: block;
     text-align: left;
     padding: 10px 7vw 10px 30px;
-    padding-right: screen-width*8;
+    padding-right: screen.width*8;
   }
   .navbar a:hover 
   {
@@ -475,7 +475,6 @@ header
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto;
   grid-template-areas: "left right";
-  margin-bottom: 2em;
   grid-column-gap: 2em;
   padding: 20px 0;
   margin-bottom: 1em;
@@ -520,6 +519,12 @@ header
   .vision-left,
   .mission-left {
     margin-bottom: 2em;
+  }
+}
+
+@media screen and (max-width:600px) {
+  img {
+    max-width: 275px;
   }
 }
 
