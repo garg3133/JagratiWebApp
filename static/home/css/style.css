@@ -27,7 +27,7 @@ a{
 	/*display: inline-block;*/
 }
 a:hover{
-	color: #ff8c00;
+	color:white;
 }
 
 
@@ -85,7 +85,9 @@ a:hover{
 	height: 60px;
 	float: right;
 }
-
+.email:hover{
+color :orange;
+}
 /*NAV BAR STARTS*/
 
 .navbar{
