@@ -46,9 +46,14 @@ a:hover{
   ::-webkit-scrollbar-thumb:hover {
 	/* background: var(--theme-dark-color-0); */
 	/* background: #666; */
-  }
+  } 
 
 /*  Customized Scroll Bar - Chrome Only -  END */
+
+/* Modifying heading font-size */
+h1 {
+	font-size: 1.75rem;
+}
 
 
 
@@ -212,7 +217,7 @@ a:hover{
 	background-color: #1a1b1e;
 	color: #616370;
 	color: #818390;
-	font-size: 100%;
+	padding-bottom: 1em;
 }
 #about-us::before{
 	display: block;
@@ -239,7 +244,14 @@ a:hover{
 	width: 100%;
 }
 #about-us .container div{
-	max-height: 500px;
+	max-height: 600px;
+	align-items: center;
+	word-spacing: .1em;
+}
+#about-us p {
+	font-size: 1rem;
+	width: 90%;
+	margin: 0 auto;
 }
 .vision{
 	display: grid;
@@ -521,6 +533,7 @@ a:hover{
 	color: #818390;
 	background-color: #26272c;
 	background-color: #1a1b1e;
+	font-size: 1rem;
 	text-align: center;
 	padding: 10px 0;
 }
@@ -530,7 +543,7 @@ a:hover{
 	color: white;
 }
 #donate-us h1::after{
-	content: "";
+	content: ""; 
 	display: block;
 	width: 13%;
 	margin: auto;
@@ -761,7 +774,7 @@ footer{
 		width: 80%;
 	}
 	.vision p, .mission p{
-		width: 90%;
+		width: 95%;
 		margin: auto;
 	}
 	.vision div:first-child{
