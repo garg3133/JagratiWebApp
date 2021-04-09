@@ -253,17 +253,20 @@ h1 {
 	width: 90%;
 	margin: 0 auto;
 }
+#about-us .intro {
+	margin-bottom: 30px;
+}
 .vision{
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	grid-column-gap: 1em;
-	padding: 20px 0;
+	padding: 20px 0 30px;
 }
 .mission{
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	grid-column-gap: 1em;
-	padding: 10px 0 25px;
+	padding: 20px 0 30px;
 }
 .vision div:first-child{
 	grid-column-start: 2;
