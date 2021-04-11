@@ -5,83 +5,39 @@
 {% block title %} Jagrati | Gallery {% endblock %}
 
 {% block style %}
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" integrity="sha512-P5MgMn1jBN01asBgU0z60Qk4QxiXo86+wlFahKrsQf37c9cro517WzVSPPV1tDKzhku2iJ2FVgL67wG03SGnNA==" crossorigin="anonymous" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" integrity="sha512-ZKX+BvQihRJPA8CROKBhDNvoc2aDMOdAlcm7TUQY+35XYtrd3yh95QOOhsPDQY9QnKE0Wqag9y38OIgEvb88cA==" crossorigin="anonymous" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js" integrity="sha512-k2GFCTbp9rQU412BStrcD/rlwv1PYec9SNrkbQlo6RZCf75l6KcC3UwDY8H5n5hl4v77IDtIPwOk9Dqjs/mMBQ==" crossorigin="anonymous"></script>
-
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 <style type="text/css">
 
     .home-btn {
-        background-color: #ff8c00;
+        background-color: #f7f3e9;
         color: #000000;
         border: none;
         border-radius: 20px;
     }
     body{
-        background-color: #ff8c00;
+        background-color:#f7f3e9;
     }
-    .gallery-filter{
-        text-align: center;
-        width: 100%;
-    }
-    .gallery .gallery-filter{
-        padding: 0 15px;
-        text-align: center;
-        margin-bottom: 20px;
-    }
-    .gallery .gallery-filter .filter-item{
-        color: #ffffff;
-        font-size: 18px;
-        text-transform: uppercase;
-        display: inline-block;
-        margin:0 10px;
-        cursor: pointer;
-        border-bottom: 2px solid transparent;
-        line-height: 1.2;
-        transition: all 0.3s ease;
-    }
-    .gallery .gallery-filter .filter-item.active{
-        color:#343A40;
-        border-color :#343A40;
-    }
-    .gallery .gallery-item{
-        padding: 15px;
-    }
-    .gallery .gallery-item-inner img{
-        width: 100%;
-        margin-top:20px;
-    }
-    .gallery .gallery-item.show{
-        animation: fadeIn 0.5s ease;
+    img{
+        margin-bottom: 15px;
     }
 
-     @keyframes fadeIn{
-        0%{
-            opacity: 0;
-        }
-        100%{
-            opacity: 1;
-        }
-    }
-    .gallery .gallery-item.hide{
-        display: none;
-    }
-
-    @media(max-width: 991px){
-        .gallery .gallery-item{
-            width: 85%;
-        }
-    }
-    @media(max-width: 767px){
-        .gallery .gallery-item{
-            width: 100%;
-        }	
-        .gallery .gallery-filter .filter-item{
-            margin-bottom: 10px;
-        }
+    .event-name{
+        padding:40px;
+        color:#FF8C00;
     }
     
+    section{
+        margin-top:10px;
+    }
+    .heading{
+        text-decoration: underline;
+        font-size:30px;
+    }
 </style>
 {% endblock %}
 
@@ -91,130 +47,121 @@
     <div class="container">
 
         <div class="heading">
-            <h1 class="text-center">Gallery</h1>
+            <h1 data-aos='fade-up' class="text-center">Captures</h1>
         </div>
-        <br>
-        <div class="row">
-			<div class="gallery-filter">
-				<span class="filter-item active" data-filter="all">all</span>
-				<span class="filter-item" data-filter="event-1">Event 1</span>
-				<span class="filter-item" data-filter="event-2">Event 2</span>
-				<span class="filter-item" data-filter="event-3">Event 3</span>
-			</div>
-		</div>
-        <br>
-        <br>
+     
+        <br><br>
     
+        <section class="event1">
+            
+            <h2  class="text-center event-name">Event 1</h2>
+            
+    
+            <div class="row photos">          
+    
+                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
+                    <a href='{% static "home/images/01.jpg" %}' data-lightbox="photos">
+                       <img class="img-fluid" src='{% static "gallery/img/01.jpg" %}'>
+                    </a>
+                </div>
+                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
+                    <a href='{% static "home/images/01.jpg" %}' data-lightbox="photos">
+                       <img class="img-fluid" src='{% static "gallery/img/01.jpg" %}'>
+                    </a>
+                </div>
+                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
+                    <a href='{% static "home/images/01.jpg" %}' data-lightbox="photos">
+                       <img class="img-fluid" src='{% static "gallery/img/01.jpg" %}'>
+                    </a>
+                </div>
+                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
+                    <a href='{% static "home/images/01.jpg" %}' data-lightbox="photos">
+                       <img class="img-fluid" src='{% static "gallery/img/01.jpg" %}'>
+                    </a>
+                </div>
+                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
+                    <a href='{% static "home/images/01.jpg" %}' data-lightbox="photos">
+                       <img class="img-fluid" src='{% static "gallery/img/01.jpg" %}'>
+                    </a>
+                </div>
+            </div>
+    
+        </section>
 
-        <div class="row photos gallery-item event-1">
-            <div class="col-lg-4 col-md-4 col-sm-6 item gallery-item-inner">
-                <a href='{% static "home/images/01.jpg" %}' data-lightbox="photos">
-                   <img class="img-fluid" src='{% static "gallery/img/01.jpg" %}'>
-                </a>
+        
+        <section class="event2">
+            
+            <h2 class="text-center event-name">Event 2</h2>
+                
+            <div class="row photos">
+    
+                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
+                    <a href='{% static "home/images/02.jpg" %}' data-lightbox="photos">
+                        <img class="img-fluid" src='{% static "gallery/img/02.jpg" %}'>
+                    </a>
+                </div> 
+                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
+                    <a href='{% static "home/images/02.jpg" %}' data-lightbox="photos">
+                        <img class="img-fluid" src='{% static "gallery/img/02.jpg" %}'>
+                    </a>
+                </div> 
+                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
+                    <a href='{% static "home/images/02.jpg" %}' data-lightbox="photos">
+                        <img class="img-fluid" src='{% static "gallery/img/02.jpg" %}'>
+                    </a>
+                </div> 
+                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
+                    <a href='{% static "home/images/02.jpg" %}' data-lightbox="photos">
+                        <img class="img-fluid" src='{% static "gallery/img/02.jpg" %}'>
+                    </a>
+                </div> 
+                <div  data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
+                    <a href='{% static "home/images/02.jpg" %}' data-lightbox="photos">
+                        <img class="img-fluid" src='{% static "gallery/img/02.jpg" %}'>
+                    </a>
+                </div>  
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 item gallery-item-inner">
-                <a href='{% static "home/images/01.jpg" %}' data-lightbox="photos">
-                   <img class="img-fluid" src='{% static "gallery/img/01.jpg" %}'>
-                </a>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 item gallery-item-inner">
-                <a href='{% static "home/images/01.jpg" %}' data-lightbox="photos">
-                   <img class="img-fluid" src='{% static "gallery/img/01.jpg" %}'>
-                </a>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 item gallery-item-inner">
-                <a href='{% static "home/images/01.jpg" %}' data-lightbox="photos">
-                   <img class="img-fluid" src='{% static "gallery/img/01.jpg" %}'>
-                </a>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 item gallery-item-inner">
-                <a href='{% static "home/images/01.jpg" %}' data-lightbox="photos">
-                   <img class="img-fluid" src='{% static "gallery/img/01.jpg" %}'>
-                </a>
-            </div>
-        </div>
+    
+        </section>
 
 
-        <div class="row photos gallery-item event-2">
-            <div class="col-lg-4 col-md-4 col-sm-6 item gallery-item-inner">
-                <a href='{% static "home/images/02.jpg" %}' data-lightbox="photos">
-                    <img class="img-fluid" src='{% static "gallery/img/02.jpg" %}'>
-                </a>
-            </div> 
-            <div class="col-lg-4 col-md-4 col-sm-6 item gallery-item-inner">
-                <a href='{% static "home/images/02.jpg" %}' data-lightbox="photos">
-                    <img class="img-fluid" src='{% static "gallery/img/02.jpg" %}'>
-                </a>
-            </div> 
-            <div class="col-lg-4 col-md-4 col-sm-6 item gallery-item-inner">
-                <a href='{% static "home/images/02.jpg" %}' data-lightbox="photos">
-                    <img class="img-fluid" src='{% static "gallery/img/02.jpg" %}'>
-                </a>
-            </div> 
-            <div class="col-lg-4 col-md-4 col-sm-6 item gallery-item-inner">
-                <a href='{% static "home/images/02.jpg" %}' data-lightbox="photos">
-                    <img class="img-fluid" src='{% static "gallery/img/02.jpg" %}'>
-                </a>
-            </div> 
-            <div class="col-lg-4 col-md-4 col-sm-6 item gallery-item-inner">
-                <a href='{% static "home/images/02.jpg" %}' data-lightbox="photos">
-                    <img class="img-fluid" src='{% static "gallery/img/02.jpg" %}'>
-                </a>
-            </div>  
-        </div>
-
-
-
-        <div class="row photos gallery-item event-3">
-            <div class="col-lg-4 col-md-4 col-sm-6 item gallery-item-inner">
-                <a href='{% static "home/images/03.jpg" %}' data-lightbox="photos">
-                    <img class="img-fluid" src='{% static "gallery/img/03.jpg" %}'>
-                </a>
+        <section class="event3">
+            
+            <h2 class="text-center event-name">Event 3</h2>
+            
+    
+            <div class="row photos">
+    
+                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
+                    <a href='{% static "home/images/03.jpg" %}' data-lightbox="photos">
+                        <img class="img-fluid" src='{% static "gallery/img/03.jpg" %}'>
+                    </a>
+                </div>
+                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
+                    <a href='{% static "home/images/03.jpg" %}' data-lightbox="photos">
+                        <img class="img-fluid" src='{% static "gallery/img/03.jpg" %}'>
+                    </a>
+                </div>
+                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
+                    <a href='{% static "home/images/03.jpg" %}' data-lightbox="photos">
+                        <img class="img-fluid" src='{% static "gallery/img/03.jpg" %}'>
+                    </a>
+                </div>
+                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
+                    <a href='{% static "home/images/03.jpg" %}' data-lightbox="photos">
+                        <img class="img-fluid" src='{% static "gallery/img/03.jpg" %}'>
+                    </a>
+                </div>
+           
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 item gallery-item-inner">
-                <a href='{% static "home/images/03.jpg" %}' data-lightbox="photos">
-                    <img class="img-fluid" src='{% static "gallery/img/03.jpg" %}'>
-                </a>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 item gallery-item-inner">
-                <a href='{% static "home/images/03.jpg" %}' data-lightbox="photos">
-                    <img class="img-fluid" src='{% static "gallery/img/03.jpg" %}'>
-                </a>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 item gallery-item-inner">
-                <a href='{% static "home/images/03.jpg" %}' data-lightbox="photos">
-                    <img class="img-fluid" src='{% static "gallery/img/03.jpg" %}'>
-                </a>
-            </div>
-       
-        </div>
+        </section>
+        
 
     </div>    
 </div>
-
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 <script>
-    const filterContainer = document.querySelector(".gallery-filter"),
-    galleryItems = document.querySelectorAll(".gallery-item");
-
-    filterContainer.addEventListener("click", (event) =>{
-    if(event.target.classList.contains("filter-item")){
-        
-        filterContainer.querySelector(".active").classList.remove("active");
-        
-        event.target.classList.add("active");
-        const filterValue = event.target.getAttribute("data-filter");
-        galleryItems.forEach((item) =>{
-        if(item.classList.contains(filterValue) || filterValue === 'all'){
-            item.classList.remove("hide");
-            item.classList.add("show");
-        }
-        else{
-            item.classList.remove("show");
-            item.classList.add("hide");
-        }
-        });
-    }
-    });
+  AOS.init();
 </script>
 
 {% endblock %}
