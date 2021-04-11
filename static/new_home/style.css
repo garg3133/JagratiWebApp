@@ -2,14 +2,27 @@
 html
 {
   scroll-behavior: smooth;  
+  width: 100%;
+  height: auto;
+  margin: 0px;
+  padding: 0px;
 }
 
 body
 {
   font: 15px/1.5 "OpenSans" ,Helvetica ,sans-serif;
-  color: #4e4039; 
-  margin : 0; 
-  padding: 0; 
+  color: #4e4039;
+  width: 100%;
+  height: auto; 
+  margin : 0px; 
+  padding: 0px; 
+}
+
+@media screen and (max-width: 460px)
+{  
+  html, body {
+    overflow-x: hidden;
+  }
 }
 
 /*------ NAV BAR STARTS ------*/
@@ -89,6 +102,8 @@ nav
 .btn-get-started:hover 
 {
   background: #ef7f4d;
+  color: white;
+  text-decoration:none;
 }
 
 .navlink
@@ -331,26 +346,6 @@ header
   color: #a08f86;
   margin-bottom: 50px;
   font-size: 24px;
-}
-
-.btn-get-started {
-  font-family: "Raleway", sans-serif;
-  font-weight: 500;
-  font-size: 16px;
-  letter-spacing: 1px;
-  display: inline-block;
-  padding: 8px 28px;
-  border-radius: 3px;
-  transition: 0.5s;
-  margin: 10px;
-  color: #fff;
-  background: #eb5d1e;
-}
-
-.btn-get-started:hover {
-  background: #ef7f4d;
-  color: white;
-  text-decoration:none;
 }
 
 .magica
