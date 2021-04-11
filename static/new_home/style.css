@@ -633,10 +633,42 @@ header
 
 @media screen and (min-width: 768px)
   {
-    .col-md-6{
+    .grid
+    {
       display: grid;
     }
+    .bottom-card{
+      margin-left: -10px;
+    }
+  }
+
+  @media screen and (max-width: 767px)
+  {
+    .bottom-card
+    {
+      margin-top: -70px;
+    }
     
+  }
+
+  @media (max-width: 1200px) and (min-width: 768px)
+  {
+    .margins
+    {
+      margin: 15px 15px;
+    }
+    .containerly
+    {
+      width: 90%;
+    }
+    .logos{
+      padding-left: 0rem !important;
+    }
+    .socials{
+      padding-top: 0rem !important;
+      margin-left: -1.5rem !important;
+      margin-right: -1.5rem !important;
+    }
   }
 
 /* Contact Us Ends */
