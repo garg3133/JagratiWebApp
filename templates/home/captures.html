@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block title %} Jagrati | Gallery {% endblock %}
+{% block title %} Jagrati Captures &#10084; {% endblock %}
 
 {% block style %}
 
@@ -22,21 +22,21 @@
     body{
         background-color:#f7f3e9;
     }
-    img{
+    .img-fluid{
         margin-bottom: 15px;
     }
 
     .event-name{
-        padding:40px;
-        color:#FF8C00;
+        padding:40px 0px;
+        text-align: left;
     }
     
-    section{
+    .event-sections{
         margin-top:10px;
     }
-    .heading{
-        text-decoration: underline;
-        font-size:30px;
+    .captures-page-heading{
+        font-size:35px;
+        font-weight:bolder;
     }
 </style>
 {% endblock %}
@@ -46,42 +46,43 @@
 <div class="gallery" style="margin-top: 50px;margin-bottom: 50px;">
     <div class="container">
 
-        <div class="heading">
-            <h1 data-aos='fade-up' class="text-center">Captures</h1>
+        <div class="captures-page-heading">
+            <h1 data-aos='fade-up' class="text-center">CAPTURES <i class="fas fa-heart"
+                style="color: red"></i></h1>
         </div>
      
         <br><br>
     
-        <section class="event1">
+        <section class="event1 event-sections">
             
-            <h2  class="text-center event-name">Event 1</h2>
+            <h2 data-aos='fade-right' class="event-name">Event 1</h2>
             
     
             <div class="row photos">          
     
                 <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
                     <a href='{% static "home/images/01.jpg" %}' data-lightbox="photos">
-                       <img class="img-fluid" src='{% static "gallery/img/01.jpg" %}'>
+                       <img class="img-fluid" src='{% static "home/images/01.jpg" %}'>
                     </a>
                 </div>
                 <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
                     <a href='{% static "home/images/01.jpg" %}' data-lightbox="photos">
-                       <img class="img-fluid" src='{% static "gallery/img/01.jpg" %}'>
+                       <img class="img-fluid" src='{% static "home/images/01.jpg" %}'>
                     </a>
                 </div>
                 <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
                     <a href='{% static "home/images/01.jpg" %}' data-lightbox="photos">
-                       <img class="img-fluid" src='{% static "gallery/img/01.jpg" %}'>
+                       <img class="img-fluid" src='{% static "home/images/01.jpg" %}'>
                     </a>
                 </div>
                 <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
                     <a href='{% static "home/images/01.jpg" %}' data-lightbox="photos">
-                       <img class="img-fluid" src='{% static "gallery/img/01.jpg" %}'>
+                       <img class="img-fluid" src='{% static "home/images/01.jpg"" %}'>
                     </a>
                 </div>
                 <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
                     <a href='{% static "home/images/01.jpg" %}' data-lightbox="photos">
-                       <img class="img-fluid" src='{% static "gallery/img/01.jpg" %}'>
+                       <img class="img-fluid" src='{% static "home/images/01.jpg" %}'>
                     </a>
                 </div>
             </div>
@@ -89,35 +90,35 @@
         </section>
 
         
-        <section class="event2">
+        <section class="event2 event-sections">
             
-            <h2 class="text-center event-name">Event 2</h2>
+            <h2 data-aos='fade-right' class="event-name">Event 2</h2>
                 
             <div class="row photos">
     
                 <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
                     <a href='{% static "home/images/02.jpg" %}' data-lightbox="photos">
-                        <img class="img-fluid" src='{% static "gallery/img/02.jpg" %}'>
+                        <img class="img-fluid" src='{% static "home/images/02.jpg" %}'>
                     </a>
                 </div> 
                 <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
                     <a href='{% static "home/images/02.jpg" %}' data-lightbox="photos">
-                        <img class="img-fluid" src='{% static "gallery/img/02.jpg" %}'>
+                        <img class="img-fluid" src='{% static "home/images/02.jpg" %}'>
                     </a>
                 </div> 
                 <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
                     <a href='{% static "home/images/02.jpg" %}' data-lightbox="photos">
-                        <img class="img-fluid" src='{% static "gallery/img/02.jpg" %}'>
+                        <img class="img-fluid" src='{% static "home/images/02.jpg" %}'>
                     </a>
                 </div> 
                 <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
                     <a href='{% static "home/images/02.jpg" %}' data-lightbox="photos">
-                        <img class="img-fluid" src='{% static "gallery/img/02.jpg" %}'>
+                        <img class="img-fluid" src='{% static "home/images/02.jpg" %}'>
                     </a>
                 </div> 
                 <div  data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
                     <a href='{% static "home/images/02.jpg" %}' data-lightbox="photos">
-                        <img class="img-fluid" src='{% static "gallery/img/02.jpg" %}'>
+                        <img class="img-fluid" src='{% static "home/images/02.jpg" %}'>
                     </a>
                 </div>  
             </div>
@@ -125,31 +126,31 @@
         </section>
 
 
-        <section class="event3">
+        <section class="event3 event-sections">
             
-            <h2 class="text-center event-name">Event 3</h2>
+            <h2 data-aos='fade-right' class="event-name">Event 3</h2>
             
     
             <div class="row photos">
     
                 <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
                     <a href='{% static "home/images/03.jpg" %}' data-lightbox="photos">
-                        <img class="img-fluid" src='{% static "gallery/img/03.jpg" %}'>
+                        <img class="img-fluid" src='{% static "home/images/03.jpg" %}'>
                     </a>
                 </div>
                 <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
                     <a href='{% static "home/images/03.jpg" %}' data-lightbox="photos">
-                        <img class="img-fluid" src='{% static "gallery/img/03.jpg" %}'>
+                        <img class="img-fluid" src='{% static "home/images/03.jpg" %}'>
                     </a>
                 </div>
                 <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
                     <a href='{% static "home/images/03.jpg" %}' data-lightbox="photos">
-                        <img class="img-fluid" src='{% static "gallery/img/03.jpg" %}'>
+                        <img class="img-fluid" src='{% static "home/images/03.jpg"'>
                     </a>
                 </div>
                 <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
                     <a href='{% static "home/images/03.jpg" %}' data-lightbox="photos">
-                        <img class="img-fluid" src='{% static "gallery/img/03.jpg" %}'>
+                        <img class="img-fluid" src='{% static "home/images/03.jpg" %}'>
                     </a>
                 </div>
            

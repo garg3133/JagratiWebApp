@@ -29,8 +29,8 @@ def is_volunteer(user):
     return user.desig == 'v'
 
 
-def gallery_page(request):
-    return render(request, 'gallery_page.html', {'title': 'Gallery'})
+def captures(request):
+    return render(request, 'home/captures.html')
 
 
 # VIEW FUNCTIONS
