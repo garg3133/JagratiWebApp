@@ -20,14 +20,7 @@
 >
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js" integrity="sha512-k2GFCTbp9rQU412BStrcD/rlwv1PYec9SNrkbQlo6RZCf75l6KcC3UwDY8H5n5hl4v77IDtIPwOk9Dqjs/mMBQ==" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
-<style type="text/css">
-    .home-btn {
-        background-color: #f7f3e9;
-        color: #000000;
-        border: none;
-        border-radius: 20px;
-    }
-    
+<style type="text/css">    
     body {
         background-color: #f7f3e9;
     }
@@ -35,14 +28,14 @@
 {% endblock %} 
 
 {% block content %}
-<div class="gallery my-5">
+<div class="my-5">
     <div class="container">
-        <div class="captures-page-heading mb-1">
+        <div class="mb-1">
             <h1 data-aos="fade-up" class="text-center font-weight-bold">CAPTURES
                 <i class="fas fa-heart" style="color: red"></i>
             </h1>
         </div>
-        <section class="event1 mt-1">
+        <section class="mt-1">
             <h2 data-aos="fade-right" class="text-left py-4">Event 1</h2>
             <div class="row photos">
                 <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
@@ -72,7 +65,7 @@
                 </div>
             </div>
         </section>
-        <section class="event2 mt-1">
+        <section class="mt-1">
             <h2 data-aos="fade-right" class="text-left py-4">Event 2</h2>
             <div class="row photos">
                 <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
@@ -102,7 +95,7 @@
                 </div>
             </div>
         </section>
-        <section class="event3 mt-1">
+        <section class="mt-1">
             <h2 data-aos="fade-right" class="text-left py-4">Event 3</h2>
             <div class="row photos">
                 <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
@@ -129,8 +122,10 @@
         </section>
     </div>
 </div>
+{% block scripts %}
 <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 <script>
     AOS.init();
 </script>
+{% endblock %}
 {% endblock %}
