@@ -94,7 +94,6 @@
 </section>
 <!--Header Ends-->
 
-</br></br></br></br>
 
 <!-- About section starts -->
 <section id="about-us">
@@ -134,30 +133,31 @@
 <!-- About section ends -->
 
 <!--Initiatives Starts-->
-<div>
-    <center>
-        <h1 style="padding-top: 20px;" data-aos='fade-up'> Inititatives</h1>
-    </center>
-</div>
-
-<div class="card-container">
-    {% for initiative in initiatives %}
-    <div class="card" data-aos="fade-left" data-aos-duration="1500">
-        <div class="card-img">
-            <img style="height: 300px;" alt="image"
-                src="{% if initiative.thumbnail %}{{ initiative.thumbnail.url }}{% else %}{{ initiative.thumb_url }}{% endif %}">
-        </div>
-        <br>
-        <div class="card-text">
-            <h5 class="card-title">{{initiative.title}}</h5>
-            <p class="card-text">{{initiative.description}}</p>
-        </div>
+<section id="initiatives">
+    <div>
+        <center>
+            <h1 style="padding-top: 20px;" data-aos='fade-up'> Inititatives</h1>
+        </center>
     </div>
-    {% endfor %}
-</div>
+
+    <div class="card-container">
+        {% for initiative in initiatives %}
+        <div class="card" data-aos="fade-left" data-aos-duration="1500">
+            <div class="card-img">
+                <img style="height: 300px;" alt="image"
+                    src="{% if initiative.thumbnail %}{{ initiative.thumbnail.url }}{% else %}{{ initiative.thumb_url }}{% endif %}">
+            </div>
+            <br>
+            <div class="card-text">
+                <h5 class="card-title">{{initiative.title}}</h5>
+                <p class="card-text">{{initiative.description}}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
 <!--Initiatives Ends-->
 
-<br><br>
 
 <!-- Donate Us section starts -->
 <section id="donate-us">
@@ -177,7 +177,6 @@
 </section>
 <!-- Donate Us section ends -->
 
-</br></br>
 
 <!-- Contact Us section starts -->
 <section id="contact-us">
@@ -185,7 +184,6 @@
 </section>
 <!-- Contact Us section ends -->
 
-</br></br></br>
 
 <!-- Footer starts -->
 <footer>
