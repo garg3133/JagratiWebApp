@@ -637,49 +637,29 @@ header
     {
       display: grid;
     }
-    .contact-us-bottom-card{
-      margin-left: -10px;
-    }
+    
   }
 
   @media screen and (max-width: 767px)
   {
     .contact-us-bottom-card
     {
-      margin-top: -70px;
+      margin-top: -10px;
     }
     
   }
 
   @media (max-width: 1200px) and (min-width: 768px)
   {
-    .contact-us-margins
-    {
-      margin: 15px 15px;
-    }
     .containerly
     {
       width: 90%;
-    }
-    .contact-us-logos{
-      padding-left: 0rem !important;
-    }
-    .contact-us-socials{
-      padding-top: 0rem !important;
-      margin-left: -1.5rem !important;
-      margin-right: -1.5rem !important;
-    }
+    }   
   }
   @media (max-width: 576px) and (min-width: 310px)
   {
-    .contact-us-logos{
-      margin-left: -2.5rem!important;
-      margin-right: -2.5rem!important;
-    }
-      .contact-us-socials{
-      margin-top: 0rem !important;
-      margin-left: -4.5rem !important;
-      margin-right: -4.5rem !important;
+    .containerly{
+      width: 95%;
     }
   }
 
