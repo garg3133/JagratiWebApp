@@ -5,14 +5,13 @@
   
   </br></br>
   
-  <div class="row">
-  
+  <div class="row mx-0">
     <div class="col-md-6 contact-us-grid px-0">
       <div class="shadow-lg p-3 mb-0 mb-md-5 bg-white card-rounder">
-        <div class="card-body p-0 p-sm-3">
+        <div class="card-body p-0 p-sm-3 p-md-0 p-lg-3">
           <h2 class="text-cstm text-center mt-3 mb-4 pb-4">Jagrati</h2>
     
-          <div class="form-group row px-4  " data-aos="fade-down-right">
+          <div class="form-group row px-4" data-aos="fade-down-right">
             <label class="col-sm-2 col-form-label"><i class="fa fa-map-marker fa-2x icon-color" aria-hidden="true"></i> </label>
             <div class="col-sm-10">
             <p class="infoshow">
@@ -21,7 +20,7 @@
             </div>
           </div>
     
-          <div class="form-group row px-4 " data-aos="fade-down-right">
+          <div class="form-group row px-4" data-aos="fade-down-right">
             <label class="col-sm-2 col-form-label"><i class="fas fa-phone fa-2x icon-color fa-rotate-90"></i> </label>
             <div class="col-sm-10 mt-2">
             <p class="infoshow">
@@ -30,7 +29,7 @@
             </div>
           </div>
     
-          <div class="form-group row px-4 " data-aos="fade-down-left">
+          <div class="form-group row px-4" data-aos="fade-down-right">
             <label class="col-sm-2 col-form-label"><i class="fas fa-envelope fa-2x icon-color"></i> </label>
             <div class="col-sm-10 mt-2">
             <p class="infoshow">
@@ -65,12 +64,12 @@
   
     </div>
   
-    <div class="col-md-6 contact-us-grid contact-us-bottom-card px-0">
+    <div class="col-md-6 contact-us-grid contact-us-bottom-card px-0 ml-md-n2">
       <div class="shadow-lg p-3 mb-5 bg-white card-rounder">
-        <div class="card-body m-3 p-0 p-sm-3">
+        <div class="card-body m-3 p-0 p-sm-3 p-md-0 p-lg-3">
           <h2 class="text-cstm text-center mt-3 mb-4 pb-4 d-md-none">Get in Touch!</h2>
 
-          <form action={% url 'feedbacks:contact' %} method="POST" id="contact-form" onsubmit="return validateForm()">
+          <form action="{% url 'feedbacks:contact' %}" method="POST" id="contact-form" onsubmit="return validateForm()">
             <div id="error-display">  </div>
             
             <div class="form-group font-weight-bold">
