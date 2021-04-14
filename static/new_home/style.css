@@ -665,6 +665,38 @@ header
   color: #eb5d1e;
 }
 
+@media screen and (min-width: 768px)
+  {
+    .contact-us-grid
+    {
+      display: grid;
+    }
+    
+  }
+
+  @media screen and (max-width: 767px)
+  {
+    .contact-us-bottom-card
+    {
+      margin-top: -10px;
+    }
+    
+  }
+
+  @media (max-width: 1200px) and (min-width: 768px)
+  {
+    .containerly
+    {
+      width: 90%;
+    }   
+  }
+  @media (max-width: 576px) and (min-width: 310px)
+  {
+    .containerly{
+      width: 95%;
+    }
+  }
+
 /* Contact Us Ends */
 
 footer{
