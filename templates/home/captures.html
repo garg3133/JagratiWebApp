@@ -1,0 +1,131 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+
+{% block title %} Jagrati Captures &#10084; {% endblock %}
+
+{% block style %}
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css"
+    integrity="sha512-P5MgMn1jBN01asBgU0z60Qk4QxiXo86+wlFahKrsQf37c9cro517WzVSPPV1tDKzhku2iJ2FVgL67wG03SGnNA=="
+    crossorigin="anonymous"
+>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css"
+    integrity="sha512-ZKX+BvQihRJPA8CROKBhDNvoc2aDMOdAlcm7TUQY+35XYtrd3yh95QOOhsPDQY9QnKE0Wqag9y38OIgEvb88cA=="
+    crossorigin="anonymous"
+>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js" integrity="sha512-k2GFCTbp9rQU412BStrcD/rlwv1PYec9SNrkbQlo6RZCf75l6KcC3UwDY8H5n5hl4v77IDtIPwOk9Dqjs/mMBQ==" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
+<style type="text/css">    
+    body {
+        background-color: #f7f3e9;
+    }
+</style>
+{% endblock %} 
+
+{% block content %}
+<div class="my-5">
+    <div class="container">
+        <div class="mb-1">
+            <h1 data-aos="fade-up" class="text-center font-weight-bold">CAPTURES
+                <i class="fas fa-heart" style="color: red"></i>
+            </h1>
+        </div>
+        <section class="mt-1">
+            <h2 data-aos="fade-right" class="text-left py-4">Event 1</h2>
+            <div class="row photos">
+                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
+                    <a href='{% static "home/images/01.jpg" %}' data-lightbox="photos">
+                        <img class="img-fluid mb-3" src='{% static "home/images/01.jpg" %}'>
+                    </a>
+                </div>
+                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
+                    <a href='{% static "home/images/01.jpg" %}' data-lightbox="photos">
+                        <img class="img-fluid mb-3" src='{% static "home/images/01.jpg" %}'>
+                    </a>
+                </div>
+                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
+                    <a href='{% static "home/images/01.jpg" %}' data-lightbox="photos">
+                        <img class="img-fluid mb-3" src='{% static "home/images/01.jpg" %}'>
+                    </a>
+                </div>
+                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
+                    <a href='{% static "home/images/01.jpg" %}' data-lightbox="photos">
+                        <img class="img-fluid mb-3" src='{% static "home/images/01.jpg" %}'>
+                    </a>
+                </div>
+                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
+                    <a href='{% static "home/images/01.jpg" %}' data-lightbox="photos">
+                        <img class="img-fluid mb-3" src='{% static "home/images/01.jpg" %}'>
+                    </a>
+                </div>
+            </div>
+        </section>
+        <section class="mt-1">
+            <h2 data-aos="fade-right" class="text-left py-4">Event 2</h2>
+            <div class="row photos">
+                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
+                    <a href='{% static "home/images/02.jpg" %}' data-lightbox="photos">
+                        <img class="img-fluid mb-3" src='{% static "home/images/02.jpg" %}'>
+                    </a>
+                </div>
+                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
+                    <a href='{% static "home/images/02.jpg" %}' data-lightbox="photos">
+                        <img class="img-fluid mb-3" src='{% static "home/images/02.jpg" %}'>
+                    </a>
+                </div>
+                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
+                    <a href='{% static "home/images/02.jpg" %}' data-lightbox="photos">
+                        <img class="img-fluid mb-3" src='{% static "home/images/02.jpg" %}'>
+                    </a>
+                </div>
+                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
+                    <a href='{% static "home/images/02.jpg" %}' data-lightbox="photos">
+                        <img class="img-fluid mb-3" src='{% static "home/images/02.jpg" %}'>
+                    </a>
+                </div>
+                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
+                    <a href='{% static "home/images/02.jpg" %}' data-lightbox="photos">
+                        <img class="img-fluid mb-3" src='{% static "home/images/02.jpg" %}'>
+                    </a>
+                </div>
+            </div>
+        </section>
+        <section class="mt-1">
+            <h2 data-aos="fade-right" class="text-left py-4">Event 3</h2>
+            <div class="row photos">
+                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
+                    <a href='{% static "home/images/03.jpg" %}' data-lightbox="photos">
+                        <img class="img-fluid mb-3" src='{% static "home/images/03.jpg" %}'>
+                    </a>
+                </div>
+                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
+                    <a href='{% static "home/images/03.jpg" %}' data-lightbox="photos">
+                        <img class="img-fluid mb-3" src='{% static "home/images/03.jpg" %}'>
+                    </a>
+                </div>
+                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
+                    <a href='{% static "home/images/03.jpg" %}' data-lightbox="photos">
+                        <img class="img-fluid mb-3" src='{% static "home/images/03.jpg" %}'>
+                    </a>
+                </div>
+                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
+                    <a href='{% static "home/images/03.jpg" %}' data-lightbox="photos">
+                        <img class="img-fluid mb-3" src='{% static "home/images/03.jpg" %}'>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+{% block scripts %}
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script>
+    AOS.init();
+</script>
+{% endblock %}
+{% endblock %}
