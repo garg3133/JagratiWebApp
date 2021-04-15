@@ -31,7 +31,11 @@ today_day = today_date.strftime("%w")
     login_url=reverse_lazy('accounts:complete_profile')
 )
 def index(request):
-    return HttpResponse('Hello there!')
+    students = Student.objects.order_by('school_class', 'first_name', 'last_name')
+    context = {
+        'students': students
+    }
+    return render(request, 'students/students_list.html', context)
 
 
 @login_required
