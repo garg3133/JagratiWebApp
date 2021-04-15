@@ -8,7 +8,7 @@ class EventAdmin(admin.ModelAdmin):
     list_display = ('title', 'schedule', 'venue')
     search_fields = ('title', 'venue')
     ordering = ('-schedule',)
-    
+
 
 @admin.register(Team)
 class TeamAdmin(admin.ModelAdmin):
@@ -70,4 +70,3 @@ class GalleryAdmin(admin.ModelAdmin):
         return obj.event.title
     get_event_title.short_description = 'Event Title'
     get_event_title.admin_order_field = 'event__title'
-

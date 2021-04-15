@@ -21,9 +21,9 @@ def show_event(request,myid):
     event = Event.objects.filter(id=myid)
     
     all_image=Gallery.objects.filter(id=myid)
-    all_title=Gallery.objects.values('event_id','id')
-    tit = {item['event_id'] for item in all_title }
-    
+    all_title=Gallery.objects.values('event','id','capture')
+    tit = {item['event'] for item in all_title }
+    print(all_title)
     for t in tit:
         print("T: ",t)
       #  print("selected id: ",)
