@@ -213,3 +213,4 @@ def ajax_dashboard(request):
         data[sch.section.section_id] = sch.section.name
 
     return JsonResponse(data)
+
