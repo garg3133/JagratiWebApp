@@ -582,10 +582,9 @@ a:hover{
 	max-width: 90%;
 }
 
-
 .don-modal-contents .close{
 	position: absolute;
-	top: 2px;
+	top: 10px;
 	right: 15px;
 	color: #000000;
 	opacity: 0.3;
@@ -595,14 +594,16 @@ a:hover{
 	z-index: 2;
 	height: 36px;
 	width: 36px;
-	margin: 12px 30px;
+	border-radius: 50%;
+	margin: 15px 30px;
+	text-align: center;
 	background-color:  rgba(255,255,255);
 }
-
 
 .don-modal-contents .close:hover{
 	color: #ff8c00;
 	opacity: 1;
+	background-color: rgba(255,255,255,0.1);
 }
 
 @media only screen and (max-width: 400px) {
@@ -615,27 +616,45 @@ a:hover{
 	}
   }
 
+ .don-box1{
+	background-color: rgb(39, 40, 46);
+	padding: 6px;
+	border-bottom: 3px solid #ff7b00b9;
+}
+
+.don-box1 h1{
+	margin: 0;
+	padding: 17px 0 5px;
+	text-align: center;
+	font-weight: 600;
+	color:rgb(255, 140, 0);
+	text-transform: uppercase;
+
+}
+
+@media only screen and (max-width: 600px) {
+	.don-modal-contents .close {
+		font-size: 18px;
+		height: 24px;
+	    width: 24px;
+		margin: 2px 4px;
+	    border-radius: 50%;
+	}
+  }
 
 .don-box1{
-	display: flex !important;
-	align-items:center;
-	background: #ffffff;
-	padding: 3px 6px;
-	border-bottom: 1.5px solid #dbdbdb;
-
+	background-color: rgb(39, 40, 46);
+	padding: 6px;
+	border-bottom: 3px solid #ff7b00b9;
 }
 .don-box1 h1{
 	margin: 0;
+	padding: 17px 0 5px;
+	text-align: center;
 	font-weight: 600;
-	color:rgb(26, 24, 22);
+	color:rgb(255, 140, 0);
 	text-transform: uppercase;
-}
 
-.don-box1 i {
-	font-size: 30px;
-	padding: 12px 25px;
-	align-self: flex-start;
-	color: #ff8c00;
 }
 
 .grid-container {
@@ -644,42 +663,113 @@ a:hover{
     grid-auto-rows: 40px;
 	align-items: center;
 	text-align: center;
-	
+	margin-top: 24px;
+	line-height: 24px;
+	font-weight: 400;	
 }
 
 .grid-container h4 {
-	font-size: 14px;
-	text-transform: uppercase;
+	font-size: 15px;
 	color: #ff8c00;
 	justify-self: right;
 }
 
+.grid-container h4,.grid-container p {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
 .don-box2 p{
-	margin-left: 15px;
+	margin-left: 12px;
 	color: #4e4e4e;
 	font-weight: 400;
+	font-size: 18px;
 	justify-self: left;
 }
 
-.don-box2 > h2 {
-	margin-bottom: 10px;
-	font-weight: 700;
-	color: #000000;
-	letter-spacing: 0.5;
-	text-align: center;
+.don-box3 {
+	display: flex;
+	flex-direction: column;
 }
 
 .don-box3 p {
+	padding: 0 15px;
 	text-align: center;
 	color: #4e4e4e;
 	font-weight: 400;
+	max-width: 385px;
+	align-self: center;
+	justify-self: center;
 }
 
-.don-box3 em {
-	font-style: normal;
-	font-weight: bold;
+.contact-details-div {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 12px;
+	
 }
 
+.details-1 {
+	text-align: center;
+    max-width: 150px;
+    margin-bottom: 12px;
+	margin-top: 12px;
+	margin-left: 64px;
+}
+
+.details-2 {
+	text-align: center;
+    max-width: 150px;
+    margin-bottom: 12px;
+	margin-top: 12px;
+	margin-right: 64px;
+}
+
+.don-box3-p {
+	position: relative;
+}
+
+.don-box3-p::before {
+	content: "";
+	display: block;
+	width: 235px;
+	background: #000;
+	height: 1.5px;
+	position: absolute;
+	right: 50px;
+	top: 50%;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	
+}
+
+.don-box3-p::after {
+	content: "";
+	display: block;
+	width: 235px;
+	background: #000;
+	height: 1.5px;
+	position: absolute;
+	left: 50px;
+	top: 50%;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25)
+	
+}
+
+@media only screen and (max-width: 670px) {
+
+	.contact-details-div {
+		display: flex;
+		flex-direction: column;
+		flex-wrap: wrap;
+	}
+
+	.details-1, .details-2{
+     flex: 100%;
+	 margin: 12px auto;
+	}
+  }
+  
 /*CONTACT US STARTS*/
 
 #contact-us{
