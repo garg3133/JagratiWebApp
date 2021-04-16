@@ -3,15 +3,27 @@
 {% load static %}
 
 {% block title %} Jagrati | Home {% endblock %}
-
+JagratiWebApp\static\home\css
 {% block style %}
+
+    <link rel="stylesheet" type="text/css" href='{% static "home/css/#style.css" %'>
+    
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.theme.>
+                                                 
 <link rel="stylesheet" type="text/css" href='{% static "home/css/style.css" %}'>
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
     integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.theme.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.theme.min.css>
+{% endblock %}
+
 {% endblock %}
 
 {% block content %}
@@ -364,6 +376,31 @@
 </section>
 <!-- Q2 section ends -->
 
+    <!-- Donate Us Modal begins -->
+    <div id="don-modal">
+        <div class="don-modal-contents">
+            <span class="close" id="don-close">&times</span>
+            <div class="don-box1">
+                    <h2>Donate Us</h2>
+                </div>
+            <div class="container">
+                <div class="don-box2">
+                    <h3>Bank Details</h3>
+                    <h4>Account Name</h4>
+                    <p>JAGRATI</p>
+                    <h4>Account No.</h4>
+                    <p>xxxxxxxxxxx</p>
+                    <h4>IFSC Code</h4>
+                    <p>XXXXxxxxxxx</p>
+                </div>
+                <div class="don-box3">
+                    <h3>Contact Details</h3>
+                    <p><i class="fa fa-phone-square fa-2x"></i>  +91-xxxxx-xxxxx</p>
+                    <p ><a  class="email"  href="mailto: jagrati@iiitdmj.ac.in" > <i class="fa fa-envelope-o fa-2x" ></i>jagrati@iiitdmj.ac.in</a></p>
+                    <p><i class="fas fa-map-marker-alt fa-2x"></i>  PDPM IIITDM JABALPUR</p>
+                </div>
+            </div>
+
 <!-- Donate Us section starts -->
 <section id="donate-us">
     <div class="container">
@@ -375,7 +412,8 @@
         </p>
         <div data-aos="fade" data-aos-delay="500" data-aos-easing='ease-in-linear' data-aos-duration="1000"
             data-aos-anchor="#donate-us h1">
-            <button class="don-button" onclick="donate_us()">Donate</button>
+          <button class="don-button" onclick="donate_us()">Donate</button>
+          
         </div>
     </div>
 </section>
@@ -398,11 +436,27 @@
                 <h4>IFSC Code</h4>
                 <p>XXXXxxxxxxx</p>
             </div>
+
+            <!-- <div id="googleMap" data-aos="fade" data-aos-delay="100" data-aos-duration="700" data-aos-easing="ease-in-back" data-aos-anchor="#contact-us h1"></div> -->
+            <p data-aos="zoom-in" data-aos-delay="100" data-aos-duration="700"><i class="fas fa-map-marker-alt fa-2x"></i>  Pandit Dwarka Prasad Mishra Indian Institute of Information Technology, Design and Manufacturing Jabalpur</p>
+            <div>
+                <div class="con-box1" data-aos="fade-down-right">
+                    <p><i class="fa fa-phone-square fa-2x"></i>  +91-xxxxx-xxxxx</p>
+                </div>
+                
+                <div class= "con-box1" data-aos="fade-down-left" >
+                   
+                    <p> <a  class=" email"  href="mailto: jagrati@iiitdmj.ac.in" ><i class="fa fa-envelope-o fa-2x" aria-hidden="true"></i> <span>jagrati@iiitdmj.ac.in</span></a>
+                        </p>
+                       
+                </div>
+
             <div class="don-box3">
                 <h3>Contact Details</h3>
                 <p><i class="fas fa-mobile fa-2x"></i> +91-xxxxx-xxxxx</p>
-                <p><i class="fas fa-envelope fa-2x"></i> jagrati@iiitdmj.ac.in</p>
+                <p><i class="fa fa-envelope-o fa-2x"></i> jagrati@iiitdmj.ac.in</p>
                 <p><i class="fas fa-map-marker-alt fa-2x"></i> PDPM IIITDM JABALPUR</p>
+
             </div>
         </div>
     </div>
@@ -428,9 +482,15 @@
                 <p><i class="fas fa-mobile fa-2x"></i> +91-xxxxx-xxxxx</p>
             </div>
             <div class="con-box1" data-aos="fade-down-left">
-                <p><i class="fas fa-envelope fa-2x"></i> jagrati@iiitdmj.ac.in</p>
+                <p><i class="fa fa-envelope-o fa-2x"></i> jagrati@iiitdmj.ac.in</p>
             </div>
         </div>
+
+    </section>
+    <div class="con-sidenav">
+        <a href="#contact-us"><i class="fas fa-phone fa-rotate-90"></i>Contact Us</a>
+       
+
         <div class="clr"></div>
         <div class="con-box2">
             <p>
@@ -452,6 +512,7 @@
                 </a>
             </p>
         </div>
+
     </div>
 </section>
 <div class="con-sidenav">
@@ -461,7 +522,29 @@
 
 <!-- Scroll to top button --->
 <button onclick="topFunction()" id="scrollToTopButton" title="Go to top" class="ml-5"><i class="fa fa-angle-double-up"
-        aria-hidden="true" style="color: black;font-weight: bolder;"></i></button>
+                                                                                         aria-hidden="true" style="color: black;font-weight: bolder;"></i></button>
+    <!-- Footer starts -->
+    <footer>
+        <div class="container">
+            Jagrati Copyright &copy; {% now 'Y'%}
+        </div>
+    </footer>
+    <!-- Footer ends -->
+    
+    
+    <script type="text/javascript" src='{% static "home/js/myjs.js" %}'></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/glide.js"></script>
+    <script type="text/javascript" src='{% static "home/js/glide.js" %}'></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        var scrollTopButton = document.getElementById("scrollToTopButton");
+        window.onscroll = function() {scrollFunction()};
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                scrollTopButton.style.display = "block";
+            } else {
+                scrollTopButton.style.display = "none";
+            }
 
 <!-- Footer starts -->
 <footer>
@@ -483,8 +566,16 @@
             scrollTopButton.style.display = "block";
         } else {
             scrollTopButton.style.display = "none";
+
         }
     }
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
+    
+    <script>AOS.init({once: true});</script>
 
     function topFunction() {
         document.body.scrollTop = 0;
@@ -492,4 +583,5 @@
     }
 </script>
 <script>AOS.init({ once: true });</script>
+
 {% endblock %}
