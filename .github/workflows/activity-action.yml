@@ -1,0 +1,38 @@
+name: 'Activity Action'
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+
+jobs:
+  activity-action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Activity Action'
+        uses: garg3133/zulipbot-action/activity-action@activity-action
+        with:
+          token: ${{ secrets.BOT_ACCESS_TOKEN }}
+          templates-dir-path: .github/zulipbot-config/templates
+          # Label to mark the issue as assigned.
+          issue_assigned_label: "in progress"
+          # Label to prevent an issue from being checked by
+          # activity-action, resulting in no warnings or
+          # unassignement on that issue.
+          skip_issue_with_label: "keep assigned"
+          # Skip an issue from being checked by activity-action
+          # if the linked pull request contains this label.
+          skip_issue_with_pull_label: "needs review"
+          # Whether or not to remove the `issue_assgned_label`,
+          # `issue_skip_label` and assignees from closed issue.
+          clear_closed_issue: true
+          # Number of days since an issue was last updated
+          # before it is considered inactive, resulting in
+          # activity reminders.
+          days_until_warning: 10
+          # Number of days since an issue assignee was reminded
+          # to work on their inactive issue before the assignee
+          # is removed from the issue due to inactivity.
+          days_until_unassign: 4
+          # Whether or not to automatically add all reviewers
+          # of a pull request as assignees. 
+          assign_pull_to_reviewer: false
