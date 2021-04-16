@@ -29,7 +29,9 @@ a{
 a:hover{
 	color: white;
 }
-
+.email:hover{
+	color: orange;
+}
 
 /*  Customized Scroll Bar - Chrome Only  - START */
 
