@@ -24,8 +24,9 @@
 
 
 <!--Logo-->
-<center style="background-color: rgb(252,252,252)"><img src="{% static 'new_home/images/logo.png' %}"
-        style="height: 60px;"></center>
+<div class="text-center" style="background-color: rgb(252,252,252)">
+    <img src="{% static 'new_home/images/logo.png' %}" alt="logo" style="height: 60px;">
+</div>
 
 <!--Navbar Starts-->
 <nav id="sticky">
@@ -84,7 +85,6 @@
                 <h2>We are a team of dedicated students, on a path to make this world a better place!</h2>
                 <a href="#about" class="btn-get-started scrollto">Donate</a>
             </div>
-
             <div class="col-lg-6 order-1 order-lg-2 header-img" data-aos="zoom-in" data-aos-offset="400"
                 data-aos-easing="ease-in-sine">
                 <img src='{% static "new_home/images/edu.svg" %}' class="img-fluid animated" alt="">
@@ -134,10 +134,8 @@
 
 <!--Initiatives Starts-->
 <section id="initiatives">
-    <div>
-        <center>
-            <h1 style="padding-top: 20px;" data-aos='fade-up'> Inititatives</h1>
-        </center>
+    <div class="text-center">
+        <h1 style="padding-top: 20px;" data-aos='fade-up'> Inititatives</h1>
     </div>
 
     <div class="card-container">
@@ -160,7 +158,7 @@
 
 
 <!-- Donate Us section starts -->
-<section id="donate-us">
+<section id="donate-us" class="mb-3 px-3">
     <div class="cntainer">
         <!-- Icon -->
         <h1 data-aos="fade-up">Donate Us</h1>

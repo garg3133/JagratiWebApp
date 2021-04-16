@@ -12,12 +12,6 @@ body
   padding: 0; 
 }
 
-section {
-  box-sizing: border-box;
-  padding: 3em 0;
-  margin: 1em 0 1.5em 0;
-}
-
 /*------ NAV BAR STARTS ------*/
 nav
 {
@@ -90,6 +84,7 @@ nav
   margin: 10px;
   color: #fff;
   background: #eb5d1e;
+  cursor: pointer;
 }
 
 .btn-get-started:hover {
@@ -322,8 +317,8 @@ header
 #header {
   width: 100%;
   height: 70vh;
-  /* border-bottom: 2px solid #fcebe3; */
-  /* margin: 72px 0 -72px 0; */
+  border-bottom: 2px solid #fcebe3; 
+  margin: 72px 0 -72px 0;
 }
 
 #header h1 {
