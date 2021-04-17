@@ -581,69 +581,207 @@ h1 {
 	z-index: 3;
 	width: 100%;
 	height: 100%;
-	background-color: rgba(0,0,0,0.4);
+	background-color: rgba(0,0,0,0.5);
 	padding-top: 100px;
 }
 .don-modal-contents{
 	width: 80%;
 	margin: auto;
-	background-color: #ddd;
-	border: 1px #222 solid;
-	border-radius: 7px;
+	border-radius: 12px;
 	overflow: auto;
 	max-height: 65%;
+	background-color: #fafafa;
+	box-shadow: 5px 10px 18px rgba(0, 0, 0, 0.185);
+	position: relative;
 }
+
+.don-modal-contents::-webkit-scrollbar {
+	display: none;
+  }
+
+.don-modal-contents {
+	-ms-overflow-style: none; 
+	scrollbar-width: none; 
+  }
+
 .don-modal-contents .container{
 	max-width: 90%;
 }
-.don-modal-contents .container h4{
-	margin: 10px 0 5px;
-}
-.don-modal-contents h3{
-	text-transform: uppercase;
-	letter-spacing: 1px;
-	font-weight: 100;
-}
+
 .don-modal-contents .close{
 	position: absolute;
-	top: 100px;
-	right: 10%;
-	float:right;
-	color: #333;
-	font-size: 28px;
+	top: 10px;
+	right: 15px;
+	color: #000000;
+	opacity: 0.3;
+	font-size: 24px;
 	font-weight: bold;
 	cursor: pointer;
-	/*transform: translateX(-13px);*/
-	padding-right: 13px; /*instead of transform property*/
-	/*z-index: 2;*/
-	/*margin-right: 13px; */
+	z-index: 2;
+	height: 36px;
+	width: 36px;
+	border-radius: 50%;
+	margin: 15px 30px;
+	text-align: center;
+	background-color:  rgba(255,255,255);
 }
-.don-box1{
-	background-color: #666;
+
+.don-modal-contents .close:hover{
+	color: #ff8c00;
+	opacity: 1;
+	background-color: rgba(255,255,255,0.1);
 }
-.don-box1 h2{
+
+@media only screen and (max-width: 600px) {
+	.don-modal-contents .close {
+		font-size: 17px;
+		height: 24px;
+	    width: 24px;
+		margin: 2px 4px;
+	    border-radius: 50%;
+		top: 28.5px;
+	}
+  }
+
+@media only screen and (max-width: 400px) {
+	.don-modal-contents .close {
+		font-size: 17px;
+		height: 24px;
+	    width: 24px;
+		margin: 15px 1px 15px 2px;
+	    border-radius: 50%;
+		top: 17px;
+	}
+  }
+
+ .don-box1{
+	background-color: rgb(39, 40, 46);
+	padding: 6px;
+	border-bottom: 3px solid #ff7b00b9;
+}
+
+.don-box1 h1{
 	margin: 0;
 	padding: 17px 0 5px;
 	text-align: center;
-}
-.don-box1::after{
-	content: "";
-	display: block;
-	width: 16%;
-	margin: auto;
-	height: 2px;
-	background-color: #ff8c00;
-}
-.don-box2, .don-box3{
-	float: left;
-	width: 50%;
-	box-sizing: border-box;
-	text-align: center;
-}
-.don-box2 p{
-	margin: 0 0 20px;
+	font-weight: 600;
+	color:rgb(255, 140, 0);
+	text-transform: uppercase;
+
 }
 
+.grid-container {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 40px;
+	align-items: center;
+	text-align: center;
+	margin-top: 24px;
+	line-height: 24px;
+	font-weight: 400;	
+}
+
+.grid-container h4 {
+	font-size: 15px;
+	color: #ff8c00;
+	justify-self: right;
+}
+
+.grid-container h4,.grid-container p {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.don-box2 p{
+	margin-left: 12px;
+	color: #4e4e4e;
+	font-weight: 400;
+	font-size: 18px;
+	justify-self: left;
+}
+
+.don-box3 {
+	display: flex;
+	flex-direction: column;
+}
+
+.don-box3 p {
+	padding: 0 15px;
+	text-align: center;
+	color: #4e4e4e;
+	font-weight: 400;
+	max-width: 385px;
+	align-self: center;
+	justify-self: center;
+}
+
+.don-box3 .contact-details-div {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 12px;
+	
+}
+
+.contact-details-div div {
+	text-align: center;
+    max-width: 150px;
+    margin-bottom: 12px;
+	margin-top: 12px;
+	
+}
+.don-box3 .contact-details-left {
+	margin-left: 64px;
+}
+
+.don-box3 .contact-details-right {
+	margin-right: 64px;
+}
+
+.don-box3 .or {
+	position: relative;
+}
+
+.don-box3 .or::before {
+	content: "";
+	display: block;
+	width: 235px;
+	background: #000;
+	height: 1.5px;
+	position: absolute;
+	right: 50px;
+	top: 50%;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	
+}
+
+.don-box3 .or::after {
+	content: "";
+	display: block;
+	width: 235px;
+	background: #000;
+	height: 1.5px;
+	position: absolute;
+	left: 50px;
+	top: 50%;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25)
+	
+}
+
+@media only screen and (max-width: 670px) {
+
+	.don-box3 .contact-details-div {
+		display: flex;
+		flex-direction: column;
+		flex-wrap: wrap;
+	}
+
+	.don-box3 .contact-details-right, .don-box3 .contact-details-left {
+     flex: 100%;
+	 margin: 12px auto;
+	}
+  }
+  
 /*CONTACT US STARTS*/
 
 #contact-us{
