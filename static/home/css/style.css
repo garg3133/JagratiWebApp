@@ -707,26 +707,26 @@ a:hover{
 	
 }
 
-.details-1, .details-2 {
+.contact-details-div div {
 	text-align: center;
     max-width: 150px;
     margin-bottom: 12px;
 	margin-top: 12px;
 	
 }
-.details-1 {
+.don-box3 .contact-details-left {
 	margin-left: 64px;
 }
 
-.details-2 {
+.don-box3 .contact-details-right {
 	margin-right: 64px;
 }
 
-.or {
+.don-box3 .or {
 	position: relative;
 }
 
-.or::before {
+.don-box3 .or::before {
 	content: "";
 	display: block;
 	width: 235px;
@@ -739,7 +739,7 @@ a:hover{
 	
 }
 
-.or::after {
+.don-box3 .or::after {
 	content: "";
 	display: block;
 	width: 235px;
@@ -760,7 +760,7 @@ a:hover{
 		flex-wrap: wrap;
 	}
 
-	.details-1, .details-2{
+	.don-box3 .contact-details-right, .don-box3 .contact-details-left {
      flex: 100%;
 	 margin: 12px auto;
 	}
