@@ -578,6 +578,16 @@ a:hover{
 	box-shadow: 5px 10px 18px rgba(0, 0, 0, 0.185);
 	position: relative;
 }
+
+.don-modal-contents::-webkit-scrollbar {
+	display: none;
+  }
+
+.don-modal-contents {
+	-ms-overflow-style: none; 
+	scrollbar-width: none; 
+  }
+
 .don-modal-contents .container{
 	max-width: 90%;
 }
@@ -606,13 +616,25 @@ a:hover{
 	background-color: rgba(255,255,255,0.1);
 }
 
+@media only screen and (max-width: 600px) {
+	.don-modal-contents .close {
+		font-size: 17px;
+		height: 24px;
+	    width: 24px;
+		margin: 2px 4px;
+	    border-radius: 50%;
+		top: 28.5px;
+	}
+  }
+
 @media only screen and (max-width: 400px) {
 	.don-modal-contents .close {
-		font-size: 18px;
+		font-size: 17px;
 		height: 24px;
 	    width: 24px;
 		margin: 15px 1px 15px 2px;
 	    border-radius: 50%;
+		top: 17px;
 	}
   }
 
@@ -622,31 +644,6 @@ a:hover{
 	border-bottom: 3px solid #ff7b00b9;
 }
 
-.don-box1 h1{
-	margin: 0;
-	padding: 17px 0 5px;
-	text-align: center;
-	font-weight: 600;
-	color:rgb(255, 140, 0);
-	text-transform: uppercase;
-
-}
-
-@media only screen and (max-width: 600px) {
-	.don-modal-contents .close {
-		font-size: 18px;
-		height: 24px;
-	    width: 24px;
-		margin: 2px 4px;
-	    border-radius: 50%;
-	}
-  }
-
-.don-box1{
-	background-color: rgb(39, 40, 46);
-	padding: 6px;
-	border-bottom: 3px solid #ff7b00b9;
-}
 .don-box1 h1{
 	margin: 0;
 	padding: 17px 0 5px;
@@ -702,7 +699,7 @@ a:hover{
 	justify-self: center;
 }
 
-.contact-details-div {
+.don-box3 .contact-details-div {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -710,27 +707,26 @@ a:hover{
 	
 }
 
-.details-1 {
+.details-1, .details-2 {
 	text-align: center;
     max-width: 150px;
     margin-bottom: 12px;
 	margin-top: 12px;
+	
+}
+.details-1 {
 	margin-left: 64px;
 }
 
 .details-2 {
-	text-align: center;
-    max-width: 150px;
-    margin-bottom: 12px;
-	margin-top: 12px;
 	margin-right: 64px;
 }
 
-.don-box3-p {
+.or {
 	position: relative;
 }
 
-.don-box3-p::before {
+.or::before {
 	content: "";
 	display: block;
 	width: 235px;
@@ -743,7 +739,7 @@ a:hover{
 	
 }
 
-.don-box3-p::after {
+.or::after {
 	content: "";
 	display: block;
 	width: 235px;
@@ -758,7 +754,7 @@ a:hover{
 
 @media only screen and (max-width: 670px) {
 
-	.contact-details-div {
+	.don-box3 .contact-details-div {
 		display: flex;
 		flex-direction: column;
 		flex-wrap: wrap;
