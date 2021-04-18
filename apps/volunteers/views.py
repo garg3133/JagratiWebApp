@@ -10,6 +10,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 # from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 
+from accounts.models import Profile
+from apps.volunteers.models import Volunteer, VolunteerSchedule
+
 # local Django
 from accounts.models import Profile
 from home.models import Calendar, Schedule
@@ -40,9 +43,17 @@ def index(request):
 )
 def profile(request, pk):
     volunteer = get_object_or_404(Volunteer, id=pk)
+    user=request.user
+    profile = Profile.objects.filter(user=user).first()
+    if profile is not None and user.desig == 'v':
+        volun = Volunteer.objects.get(profile=profile)
+    if volun is not None:
+        volun_schs = VolunteerSchedule.objects.all().filter(volun=volun).order_by('day')
+
     context = {
         'volunteer': volunteer,
         'self_profile': volunteer.profile.user == request.user,
+        'volun_schs': volun_schs,
     }
     return render(request, 'volunteers/profile.html', context)
 
