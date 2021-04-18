@@ -612,11 +612,9 @@ header
 	background-color: rgba(0,0,0,0.5);
 	padding-top: 150px;
 }
+
 .don-modal-contents{
 	width: 45%;
-	margin: auto;
-	border-radius: 12px;
-	overflow: auto;
 	max-height: 85%;
 	background: #FEF8F5;
 	box-shadow: 5px 10px 18px rgba(0, 0, 0, 0.185);
@@ -632,48 +630,29 @@ header
 	scrollbar-width: none; 
   }
 
-.don-modal-contents .modal-container{
-	max-width: 90%;
-  margin: 0 auto;
-  
-}
-
 .don-modal-contents .close{
 	position: absolute;
 	top: 10px;
 	right: 15px;
-	color: #000000;
+	color: rgba(255, 255, 255, 0.706);
 	opacity: 0.3;
 	font-size: 27px;
 	font-weight: bold;
 	cursor: pointer;
 	z-index: 2;
-	height: 30px;
-	width: 30px;
-	border-radius: 50%;
 	margin: 15px 30px;
-	text-align: center;
-	background-color:  rgba(255,255,255);
 }
 
 .don-modal-contents .close:hover{
-	color: #ff8c00;
+	color: #ffffff;
 	opacity: 1;
-	background-color: rgb(255, 255, 255);
 }
 
 @media only screen and (max-width: 1000px) {
 
-  .don-modal-contents {
-    width: 80%;
-  }
-
   .don-modal-contents .close {
     font-size: 24px;
-    height: 27px;
-    width: 27px;
     margin: 2px 4px;
-    border-radius: 50%;
     top: 28.5px;
   }
 }
@@ -682,28 +661,19 @@ header
 
   .don-modal-contents .close {
     font-size: 24px;
-    height: 26px;
-    width: 26px;
     margin: 15px 1px 15px 2px;
-    border-radius: 50%;
     top: 17px;
   }
 }
 
  .don-box1{
 	background: rgba(236, 99, 27, 0.89);
-	padding: 6px;
   box-shadow: 0px 4px 4px 0px #00000040;
 }
 
 .don-box1 h1{
-	margin: 0;
-	padding: 17px 0 5px;
-	text-align: center;
 	font-weight: 600;
 	color: #ffffff;
-	text-transform: uppercase;
-
 }
 
 .grid-container {
@@ -736,42 +706,10 @@ header
 	justify-self: left;
 }
 
-.don-box3 {
-	display: flex;
-	flex-direction: column;
-}
-
 .don-box3 p {
-	padding: 0 15px;
-	text-align: center;
 	color: #4e4e4e;
 	font-weight: 400;
 	max-width: 385px;
-	align-self: center;
-	justify-self: center;
-}
-
-.don-box3 .contact-details-div {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	margin-bottom: 12px;
-	
-}
-
-.don-box3 .contact-details {
-	text-align: center;
-  max-width: 150px;
-  margin-bottom: 12px;
-	margin-top: 12px;
-	
-}
-.don-box3 .contact-details-left {
-	margin-left: 64px;
-}
-
-.don-box3 .contact-details-right {
-	margin-right: 64px;
 }
 
 .don-box3 .or {
@@ -804,19 +742,6 @@ header
 	
 }
 
-@media only screen and (max-width: 1200px) {
-
-	.don-box3 .contact-details-div {
-		display: flex;
-		flex-direction: column;
-		flex-wrap: wrap;
-	}
-
-	.don-box3 .contact-details {
-   flex: 100%;
-	 margin: 12px auto;
-	}
-  }
 
   /*----- Donate Us Modal Ends -----*/
 
