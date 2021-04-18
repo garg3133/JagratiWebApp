@@ -21,13 +21,6 @@ $(window).scroll(function() {
     }
 });
 
-$(window).scroll(function() {
-    if ($(window).scrollTop() > 20) {
-        $('#sticky').addClass('floatingNav');
-    } else {
-        $('#sticky').removeClass('floatingNav');
-    }
-});
 
 window.onclick = function(e){
 	// Donate us modal close
