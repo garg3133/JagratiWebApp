@@ -236,5 +236,45 @@
 
         </div>
     </div>
+
+        <!-- <div class="py-3 mt-3 text-center">
+            <h2>
+                Schedule
+            </h2>
+        </div> -->
+
+        <div class="row justify-content-center mb-5">
+        <div class="col-lg-8 border rounded shadow px-1 py-1">
+            <div class="row justify-content-center">
+                    <div class="py-1 mt-1 text-center">
+                        <h2>
+                            Schedule
+                        </h2>
+                    </div>
+                <div class="col-md-12 my-4">
+                    <div class="row justify-content-center">
+                        <div class="col-10 col-lg-10 align-self-top">
+                            <table class="table" id="vol-att-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Day</th>
+                                            <th>Section</th>
+                                            <th>Subject</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for data in volun_schs %}
+                                        <tr>
+                                            <td>{{ data.get_day_display }}</td>
+                                            <td>{{ data.schedule.section.name }}</td>
+                                            <td>{{ data.schedule.get_subject_display }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
 </div>
 {% endblock %}

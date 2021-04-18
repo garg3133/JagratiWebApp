@@ -7,7 +7,7 @@ from accounts.models import Profile
 from apps.volunteers.models import Volunteer, VolunteerSchedule
 
 def database_context(request):
-    profile = volun = volun_sch = None
+    profile = volun = volun_sch = volun_schs = None
     if request.user.is_authenticated:
         user=request.user
         profile = Profile.objects.filter(user=user).first()
@@ -15,6 +15,7 @@ def database_context(request):
             volun = Volunteer.objects.get(profile=profile)
         if volun is not None:
             volun_sch = VolunteerSchedule.objects.filter(volun=volun).first()
+            volun_schs = VolunteerSchedule.objects.all().filter(volun=volun).order_by('day')
 
         # Student's dictionary for AJAX
         # students = Student.objects.all()
@@ -61,4 +62,5 @@ def database_context(request):
         'profile': profile,
         'volun': volun,
         'volun_sch': volun_sch,
+        'volun_schs': volun_schs,
     }
