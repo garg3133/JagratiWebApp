@@ -62,7 +62,7 @@
                     <a class="nav-link" href="{% url 'accounts:login_signup' %}">Login</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link" onclick="donate_us()">Donate</a>
+                    <a href="javascript:void(0)" class="nav-link" onclick="donate_us()">Donate</a>
                 </li>
             </ul>
         </div>
@@ -384,25 +384,38 @@
 <!-- Donate Us Modal begins -->
 <div id="don-modal">
     <div class="don-modal-contents">
-        <span class="close" id="don-close">&times</span>
+        <span class="close" id="don-close"><i class="fas fa-times"></i></span>
         <div class="don-box1">
-            <h2>Donate Us</h2>
+            <h1>DONATE</h1>
         </div>
         <div class="container">
             <div class="don-box2">
-                <h3>Bank Details</h3>
-                <h4>Account Name</h4>
-                <p>JAGRATI</p>
-                <h4>Account No.</h4>
-                <p>xxxxxxxxxxx</p>
-                <h4>IFSC Code</h4>
-                <p>XXXXxxxxxxx</p>
+                <div class="grid-container">
+                    <h4>Account Name :</h4>
+                    <p>JAGRATI</p>
+                    <h4>Account No :</h4>
+                    <p>xxxxxxxxxxx</p>
+                    <h4>IFSC Code :</h4>
+                    <p>XXXXxxxxxxx</p>
+                </div>
             </div>
             <div class="don-box3">
-                <h3>Contact Details</h3>
-                <p><i class="fas fa-mobile fa-2x"></i> +91-xxxxx-xxxxx</p>
-                <p><i class="fas fa-envelope fa-2x"></i> jagrati@iiitdmj.ac.in</p>
-                <p><i class="fas fa-map-marker-alt fa-2x"></i> PDPM IIITDM JABALPUR</p>
+                <p class="or"><span>OR</span></p>
+                <p>You may also donate books, clothes, stationery items or anything else which might be useful to the
+                    kids. Contact:
+                </p>
+                <div class="contact-details-div">
+                     <div class="contact-details contact-details-left">
+                        Name <br>
+                        98726 - 829xx <br>
+                        xyxysa@iiitdmj.ac.in
+                     </div>
+                     <div class="contact-details contact-details-right">
+                        Name <br>
+                        98726 - 829xx <br>
+                        xyxysa@iiitdmj.ac.in
+                    </div>
+                </div>
             </div>
         </div>
     </div>
