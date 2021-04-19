@@ -84,7 +84,6 @@ nav
   margin: 10px;
   color: #fff;
   background: #eb5d1e;
-  cursor: pointer;
 }
 
 .btn-get-started:hover {
@@ -430,8 +429,8 @@ header
 #about-us::before{
   display: block;
   content: "";
-  /* margin-top: -25px; */
-  height: 25px;
+  margin-top: -65px;
+  height: 65px;
   visibility: hidden;
 }
 #about-us h1, #about-us h2{
@@ -582,7 +581,7 @@ header
 #donate-us::before{
   display: block;
   content: "";
-  /* margin-top: -25px; */
+  margin-top: -25px;
   height: 25px;
   visibility: hidden;
 }
@@ -601,6 +600,22 @@ header
 /*----- Donate Us Ends -----*/
 
 /* Contact Us Starts */
+#contact-us::before{
+  display: block;
+  content: "";
+  margin-top: -65px;
+  height: 65px;
+  visibility: hidden;
+}
+
+#contact-us h1::after{
+  content: "";
+  display: block;
+  width: 13%;
+  margin: auto;
+  margin-top: 2px;
+  height: 2px;
+}
 
 .containerly{
   width: 70%;

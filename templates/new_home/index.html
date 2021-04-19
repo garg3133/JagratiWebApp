@@ -43,7 +43,7 @@
 
             <a href="/new" class="child-1">Home</a>
             <a href="#about-us" class="child-2">About</a>
-            <a href="" class="child-3">Initiatives</a>
+            <a href="#initiatives" class="child-3">Initiatives</a>
             <a href="/" class="child-4">Team</a>
             <a href="#contact-us" class="child-5">Contact</a>
             <hr />
@@ -94,9 +94,8 @@
 </section>
 <!--Header Ends-->
 
-
 <!-- About section starts -->
-<section id="about-us">
+<section id="about-us" class="my-3">
     <div class="cntainer">
         <div class="intro" data-aos='fade-up'>
             <h1>About Us</h1>
@@ -133,7 +132,7 @@
 <!-- About section ends -->
 
 <!--Initiatives Starts-->
-<section id="initiatives">
+<section id="initiatives" class="my-3">
     <div class="text-center">
         <h1 style="padding-top: 20px;" data-aos='fade-up'> Inititatives</h1>
     </div>
@@ -145,7 +144,6 @@
                 <img style="height: 300px;" alt="image"
                     src="{% if initiative.thumbnail %}{{ initiative.thumbnail.url }}{% else %}{{ initiative.thumb_url }}{% endif %}">
             </div>
-            <br>
             <div class="card-text">
                 <h5 class="card-title">{{initiative.title}}</h5>
                 <p class="card-text">{{initiative.description}}</p>
@@ -177,7 +175,7 @@
 
 
 <!-- Contact Us section starts -->
-<section id="contact-us">
+<section id="contact-us" class="my-4">
     {% include 'new_home/contact.html' %}
 </section>
 <!-- Contact Us section ends -->
