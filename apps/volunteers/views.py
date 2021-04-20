@@ -30,7 +30,12 @@ User = get_user_model()
     login_url=reverse_lazy('accounts:complete_profile')
 )
 def index(request):
-    return HttpResponse('Hello there!')
+    volunteers=Volunteer.objects.order_by('profile__first_name').all()
+    context={
+        "volunteers":volunteers
+    }
+    return render(request, 'volunteers/index.html', context)  
+
 
 
 @login_required
