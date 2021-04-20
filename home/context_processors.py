@@ -1,4 +1,4 @@
-from datetime import datetime, date
+# from datetime import datetime, date
 # import json
 # from django.core.serializers.json import DjangoJSONEncoder
 # from django.forms.models import model_to_dict
@@ -6,10 +6,11 @@ from datetime import datetime, date
 from accounts.models import Profile
 from apps.volunteers.models import Volunteer, VolunteerSchedule
 
+
 def database_context(request):
     profile = volun = volun_sch = None
     if request.user.is_authenticated:
-        user=request.user
+        user = request.user
         profile = Profile.objects.filter(user=user).first()
         if profile is not None and user.desig == 'v':
             volun = Volunteer.objects.get(profile=profile)
@@ -19,7 +20,7 @@ def database_context(request):
         # Student's dictionary for AJAX
         # students = Student.objects.all()
         # stu_dict = {}
-        
+
         # for stu in students:
         # 	stu_dict[stu.id] = model_to_dict(stu)
 
@@ -28,7 +29,7 @@ def database_context(request):
         # Volunteer's dictionary for AJAX
         # volunteers = Volunteer.objects.all()
         # vol_dict = {}
-        
+
         # for vol in volunteers:
         # 	vol_dict[vol.id] = model_to_dict(vol)
 
@@ -37,7 +38,7 @@ def database_context(request):
         # Schedule dictionary for AJAX
         # schedules = Schedule.objects.all()
         # sch_dict = {}
-        
+
         # for sch in schedules:
         # 	sch_dict[sch.id] = model_to_dict(sch)
 
