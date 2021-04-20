@@ -44,7 +44,7 @@
 
     <!-- Toast -->
     <div id="alert-toast-div" class="row justify-content-center">
-		<div style="position: fixed; bottom: 64px; left: 10px; z-index: 10;">
+		<div style="position: fixed; bottom: 20px; left: 10px; z-index: 10;">
 			{% for message in messages %}
 			<div class="toast {{ message.tags }}" id="alert_toast{{ forloop.counter }}" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3500">
 				<div class="toast-body p-2 px-3">

@@ -7,18 +7,22 @@
 {% block style %}
 <!--Favicon-->
 <link rel="icon" type="text/css" href="{% static 'new_home/images/logo.png' %}">
-
-<link rel="stylesheet" href="{% static 'new_home/style.css' %}" type="text/css" />
-<script src="{% static 'new_home/style.js' %}" type="text/javascript" defer></script>
-
 <!-- Bootstrap & Downloaded CSS/JS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+     integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<!-- castome CSS -->
+<link rel="stylesheet" href="{% static 'new_home/style.css' %}" type="text/css" />
+<script src="{% static 'new_home/style.js' %}" type="text/javascript" defer></script>
+
 {% endblock %}
 
 {% block content %}
+
+
 <!--Logo-->
 <center style="background-color: rgb(252,252,252)"><img src="{% static 'new_home/images/logo.png' %}"
         style="height: 60px;"></center>
@@ -36,24 +40,39 @@
                 </div>
             </a>
 
-            <a href="/" class="child-1">Home</a>
+            <a href="/new" class="child-1">Home</a>
             <a href="#about-us" class="child-2">About</a>
             <a href="" class="child-3">Initiatives</a>
             <a href="/" class="child-4">Team</a>
-            <a href="#contact" class="child-5">Contact</a>
+            <a href="#contact-us" class="child-5">Contact</a>
             <hr />
         </div>
 
         <!--Right Navbar-->
         <div class="navbar1">
             <ul>
-                <a href="{% url 'accounts:login_signup' %}">Login</a>
-                <p href="#about" class="btn-get-started scrollto">Donate</p>
+                <a href="{% url 'accounts:login_signup' %}" class="login">Login</a>
+                <a href="#about" class="btn-get-started scrollto">Donate</a>
             </ul>
         </div>
     </div>
 </nav>
 <!--Navbar Ends-->
+
+<!-- alert section starts -->
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{message.tags}} alert-dismissible fade show mb-0" role="alert">
+            <div class="text-center">
+                <strong>{{message}}</strong>
+            </div>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+{% endif %}
+<!-- alert section ends -->
 
 <!--Header Start-->
 <section id="header" class=" align-items-center">
@@ -86,10 +105,10 @@
                 ocean does not become dirty.</p>
         </div>
         <div class="vision">
-            <div data-aos='fade-left' data-aos-delay="300" data-aos-easing='ease-in-cubic' data-aos-duration="500">
+            <div class="vision-left" data-aos='fade-left' data-aos-delay="300" data-aos-easing='ease-in-cubic' data-aos-duration="500">
                 <img src='{% static "new_home/images/ill.svg" %}'>
             </div>
-            <div data-aos='fade-right'>
+            <div class="vision-right" data-aos='fade-right'>
                 <h2>VISION</h2>
                 <p>Our vision is to promote education as a vehicle for rural development and provide it to students who
                     cannot otherwise access or afford it. By empowering children with education, we want to make sure
@@ -99,10 +118,10 @@
         </div>
         <div class="clr"></div>
         <div class="mission">
-            <div data-aos='fade-right' data-aos-delay="300" data-aos-easing='ease-in' data-aos-duration="500">
+            <div class="mission-left" data-aos='fade-right' data-aos-delay="300" data-aos-easing='ease-in' data-aos-duration="500">
                 <img src='{% static "new_home/images/study.svg" %}'>
             </div>
-            <div data-aos='fade-left'>
+            <div class="mission-right" data-aos='fade-left'>
                 <h2>MISSION</h2>
                 <p>Our mission is to eradicate illiteracy from India. We are moving towards our mission by implementing
                     this in IIIT Jabalpur, giving quality and value education to students of nearby villages. Our
@@ -158,14 +177,15 @@
 </section>
 <!-- Donate Us section ends -->
 
+</br></br>
+
 <!-- Contact Us section starts -->
-<!--<section id="contact-us">
-    <div class="cntainer">
-        <h1 data-aos="fade-up">Contact Us</h1>
-        <br>
-    </div>
-</section>-->
+<section id="contact-us">
+    {% include 'new_home/contact.html' %}
+</section>
 <!-- Contact Us section ends -->
+
+</br></br></br>
 
 <!-- Footer starts -->
 <footer>

@@ -1,7 +1,15 @@
+from django.contrib import messages
+from django.contrib.auth.decorators import (
+    login_required, user_passes_test, permission_required
+)
 from django.http import HttpResponse
-from django.shortcuts import render,get_object_or_404
-from .models import Event,Gallery
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
+
+from home.views import has_authenticated_profile
+from .models import Event, Gallery
 from math import ceil
+
 
 def index(request):
     events = Event.objects.all()
@@ -13,8 +21,31 @@ def index(request):
     return render(request,'events/index.html',params)
 
 
+@login_required
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
+# @permission_required('events.add_event', raise_exception=True)
 def add_event(request):
-    return HttpResponse('Add events page..')
+    if request.method == 'POST':
+        title = request.POST['title']
+        description = request.POST['description']
+        schedule = request.POST['schedule']
+        venue = request.POST['venue']
+        thumbnail = request.FILES.get('thumbnail')
+
+        event = Event(
+            title=title, schedule=schedule, venue=venue,
+            description=description, thumbnail=thumbnail,
+        )
+        event.save()
+
+        messages.success(request, "Event added successfully!")
+        return redirect('events:add_event')
+
+    return render(request, 'events/add_event.html')
+
 
 def show_event(request,myid):
     all_event=[]
@@ -36,5 +67,3 @@ def show_event(request,myid):
         print(event_list)
     params = {'my_event':event[0],'all_events': all_event}
     return render(request, 'events/show_event.html',params)
-
-    

@@ -5,95 +5,7 @@
 {% block title %} Jagrati | Dashboard {% endblock %}
 
 {% block style %}
-<style>
-    .main{
-        min-height: calc(100vh - 54px);   /* So that footer is at the bottom (without scroll) if screen is short*/
-    }
-
-    /* For Arrow in sidebar->dropdown mobile view */
-    .arrow{
-        border: solid black;
-        border-width: 0 3px 3px 0;
-        display: inline-block;
-        padding: 3px;
-    }
-
-    .up {
-        transform: rotate(-135deg);
-        -webkit-transform: rotate(-135deg);
-        /* transition-delay: 800ms; */
-    }
-
-    .down {
-        transform: rotate(45deg);
-        -webkit-transform: rotate(45deg);
-        /* transition-delay: 800ms; */
-    }
-
-    .sidebar {
-        position: fixed;
-        top: 71.4px;
-        bottom: 54px;
-        left: 0;
-        /* z-index: 100;  */
-        /* Behind the navbar */
-        /* padding: 28px 0 0; */
-            /* Height of navbar */
-        box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
-        overflow-y: auto;
-    }
-
-    /* .sidebar-sticky { */
-        /* position: relative; */
-        /* top: 0; */
-        /* height: calc(100vh - 48px); */
-        /* padding-top: .5rem; */
-        /* overflow-x: hidden; */
-        /* overflow-y: auto;  */
-        /* Scrollable contents if viewport is shorter than content. */
-    /* } */
-
-    /* @supports ((position: -webkit-sticky) or (position: sticky)) {
-        .sidebar-sticky {
-            position: -webkit-sticky;
-            position: sticky;
-        }
-    } */
-
-    /* .sidebar .nav-link {
-        font-weight: 500;
-        color: #333;
-    } */
-
-    /* .sidebar .nav-link.active {
-        color: #007bff;
-    } */
-
-    .sidebar-heading {
-        font-size: .75rem;
-        text-transform: uppercase;
-    }
-
-    .sidebar-img{
-        width: 100px;
-        height: 100px;
-    }
-    .sidebar-list li{
-        margin: 5px 0;
-    }
-
-    @media(max-width: 767px){
-        .sidebar{
-            position:static;
-        }
-        .main{
-            min-height: 100vh;
-        }
-        #alert-toast-div > div {
-            bottom: 10px !important;
-        }
-    }
-</style>
+<link rel="stylesheet" href="{% static 'global/css/sidebar.css' %}">
 
 {% block style-sidebar %}
 {% endblock %}
@@ -140,52 +52,75 @@
                         <a href="{% url 'volunteers:profile' volun.id %}" class="stretched-link"></a>
                     </div>
 
-                    {% if volun.desig is None %}
                     <li class="nav-item">
-                        <h5 class="mt-3">Schedule</h5>
+                        <h5 class="mt-4">Schedule</h5>
                     </li>
-                        {% if volun_sch is not None %}
-                        <li class="nav-item">
-                            <h5>Day: <span class="lead">{{ volun_sch.get_day_display }}</span></h5>
-                        </li>
-                        <li class="nav-item">
-                            <h5>Section: <span class="lead">{{ volun_sch.schedule.section.name }}</span></h5>
-                        </li>
-                        <li class="nav-item">
-                            <h5>Subject: <span class="lead">{{ volun_sch.schedule.get_subject_display }}</span></h5>
-                        </li>
-                        {% else %}
-                        <li class="nav-item">
-                            <h5>Day: <span class="lead"> -- </span></h5>
-                        </li>
-                        <li class="nav-item">
-                            <h5>Section: <span class="lead"> -- </span></h5>
-                        </li>
-                        <li class="nav-item">
-                            <h5>Subject: <span class="lead"> -- </span></h5>
-                        </li>
-                        {% endif %}
+                    {% if volun_sch is not None %}
                     <li class="nav-item">
-                        <a href="{% url 'volunteers:update_schedule' %}" class="btn btn-outline-primary mt-3">Update Schedule</a>
+                        <h5>Day: <span class="lead">{{ volun_sch.get_day_display }}</span></h5>
+                    </li>
+                    <li class="nav-item">
+                        <h5>Section: <span class="lead">{{ volun_sch.schedule.section.name }}</span></h5>
+                    </li>
+                    <li class="nav-item">
+                        <h5>Subject: <span class="lead">{{ volun_sch.schedule.get_subject_display }}</span></h5>
                     </li>
                     {% else %}
                     <li class="nav-item">
-                        <h5 class="my-5">{{ volun.desig.name }}</h5>
+                        <h5>Day: <span class="lead"> -- </span></h5>
                     </li>
                     <li class="nav-item">
-                        <a href="{% url 'volunteers:volunteers_list' %}" class="btn btn-outline-primary"> Volunteers </a>
+                        <h5>Section: <span class="lead"> -- </span></h5>
                     </li>
                     <li class="nav-item">
-                        <a href="{% url 'students:attendance' %}" class="btn btn-outline-primary"> Student Attendance </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'volunteers:attendance' %}" class="btn btn-outline-primary">Volunteer Attendance </a>
+                        <h5>Subject: <span class="lead"> -- </span></h5>
                     </li>
                     {% endif %}
 
-                    <li class="nav-item">
-                        <a href="{% url 'volunteers:update_profile' %}" class="btn btn-outline-primary"> Update Profile </a>
-                    </li>
+                    <div id="sidebar-menu" class="sidebar-menu-accordion mt-4 mb-3 mx-auto">
+                        <li>
+                            <a class="sidebar-menu-title" href="#class-management-menu" data-toggle="collapse">
+                                Manage Classes
+                                <i class="fa fa-chevron-down"></i>
+                            </a>
+                            <ul id="class-management-menu" class="collapse sidebar-submenu">
+                                <li><a href="{% url 'home:dashboard' %}">Dashboard</a></li>
+                                <li><a href="{% url 'home:class_schedule' %}">Class Schedule</a></li>
+                                <li><a href="{% url 'volunteers:volunteers_list' %}">Volunteer Schedule</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="sidebar-menu-title" href="#student-management-menu" data-toggle="collapse">
+                                Students
+                                <i class="fa fa-chevron-down"></i>
+                            </a>
+                            <ul id="student-management-menu" class="collapse sidebar-submenu">
+                                <li><a href="{% url 'students:index' %}">All Students</a></li>
+                                <li><a href="{% url 'students:attendance' %}">Student Attendance</a></li>
+                                <li><a href="{% url 'students:add_student' %}">Add new Student</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="sidebar-menu-title" href="#volunteer-management-menu" data-toggle="collapse">
+                                Volunteers
+                                <i class="fa fa-chevron-down"></i>
+                            </a>
+                            <ul id="volunteer-management-menu" class="collapse sidebar-submenu">
+                                <li><a href="{% url 'volunteers:index' %}">All Volunteers</a></li>
+                                <li><a href="{% url 'volunteers:attendance' %}">Volunteer Attendance</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="sidebar-menu-title" href="#self-management-menu" data-toggle="collapse">
+                                Self
+                                <i class="fa fa-chevron-down"></i>
+                            </a>
+                            <ul id="self-management-menu" class="collapse sidebar-submenu">
+                                <li><a href="{% url 'volunteers:update_schedule' %}">Update Schedule</a></li>
+                                <li><a href="{% url 'volunteers:update_profile' %}">Update Profile</a></li>
+                            </ul>
+                        </li>
+                    </div>
                 </ul>
             </div>
         </nav>
@@ -204,19 +139,6 @@
 
 
 {% block scripts %}
-<style>
-	footer{
-		position: fixed;
-		bottom: 0;
-		width: 100%;
-	}
-	@media(max-width: 767px){
-		footer{
-			position: static;
-		}
-	}
-</style>
-
 <!-- Script for sidebar-dropdown arrow -->
 <script>
     let dash_sidebar = document.querySelector("#dash-sidebar");

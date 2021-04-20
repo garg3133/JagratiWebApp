@@ -44,7 +44,7 @@ nav
   padding: 0;
   margin: 0;
 }
-.navbar1 ul a
+.navbar1 ul .login
 {
   color: #4e4039;
   font-family: "Open Sans", sans-serif;
@@ -52,7 +52,7 @@ nav
   padding: 20px 18px;
   transition: 0.4s;
 }
-.navbar1 ul a:hover
+.navbar1 ul .login:hover
 {
   color: #f17e01 !important;
   transition: 0.4s;
@@ -71,8 +71,8 @@ nav
   color: orange;
   transition: 0.4s;
 }
-.btn-get-started 
-{
+
+.btn-get-started {
   font-family: "Raleway", sans-serif;
   font-weight: 500;
   font-size: 16px;
@@ -86,9 +86,10 @@ nav
   background: #eb5d1e;
 }
 
-.btn-get-started:hover 
-{
+.btn-get-started:hover {
   background: #ef7f4d;
+  color: white;
+  text-decoration:none;
 }
 
 .navlink
@@ -333,26 +334,6 @@ header
   font-size: 24px;
 }
 
-.btn-get-started {
-  font-family: "Raleway", sans-serif;
-  font-weight: 500;
-  font-size: 16px;
-  letter-spacing: 1px;
-  display: inline-block;
-  padding: 8px 28px;
-  border-radius: 3px;
-  transition: 0.5s;
-  margin: 10px;
-  color: #fff;
-  background: #eb5d1e;
-}
-
-.btn-get-started:hover {
-  background: #ef7f4d;
-  color: white;
-  text-decoration:none;
-}
-
 .magica
 {
   background-image: linear-gradient(120deg, #84ffb0 0%, #8fd3f4 100%);
@@ -437,6 +418,7 @@ header
   margin:auto;
   overflow: hidden;
 }
+
 #about-us{
   text-align: center;
   background-color: #fef8f5;
@@ -468,31 +450,64 @@ header
 #about-us .container div{
   max-height: 500px;
 }
+
 .vision{
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  grid-template-areas: "left right";
   grid-column-gap: 2em;
   padding: 20px 0;
+  margin-bottom: 1em;
 }
+
 .mission{
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  grid-template-areas: "right left";
   grid-column-gap: 1em;
   padding: 10px 0 25px;
 }
-.vision div:first-child{
-  grid-column-start: 2;
-}
-.vision div:nth-child(2){
-  margin: 45px 5px;
-  grid-column-start: 1;
-  grid-row-start: 1;
-}
-.mission div:nth-child(2){
-  margin: 45px 5px;
-  grid-column-start: 2;
+
+.vision-left, .mission-left {
+  grid-area: left;
+  width: 100%;
 }
 
+.vision-right, .mission-right {
+  grid-area: right;
+}
+
+@media screen and (max-width: 760px) {
+  .vision {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+
+    grid-template-areas:
+    "left"
+    "right";
+  }
+  .mission {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+
+    grid-template-areas:
+    "left"
+    "right";
+  }
+
+  .vision-left,
+  .mission-left {
+    margin-bottom: 2em;
+  }
+}
+
+@media screen and (max-width:600px) {
+  #about-us img {
+    max-width: 250px;
+  }
+}
 
 /*------ Events Starts ------*/
 
@@ -583,6 +598,79 @@ header
 }
 
 /*----- Donate Us Ends -----*/
+
+/* Contact Us Starts */
+
+.containerly{
+  width: 70%;
+}
+
+#error-display{
+  color: red;
+  font-size: 20px;
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+.btn-cstm{
+  background-color: #eb5d1e;
+  color: white;
+  border-radius: 25px;
+}
+
+.form-control:focus {
+  border-color: #f04400;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.075) inset, 0px 0px 8px rgba(255, 100, 255, 0.5);
+}
+
+.cstm-input{
+  border-color: #ffa480;
+  border-radius: none;
+}
+
+.card-rounder{
+  border-radius: 10px !important;
+}
+
+.infoshow{
+  font-size: large;
+  font-weight: bold;
+  margin-left: 2px;
+}
+
+.icon-color{
+  color: #eb5d1e;
+}
+
+.text-cstm{
+  color: #eb5d1e;
+}
+
+@media screen and (min-width: 768px) {
+  .contact-us-grid {
+      display: grid;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .contact-us-bottom-card {
+    margin-top: -10px;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1200px) {
+  .containerly {
+    width: 90%;
+  }
+}
+
+@media screen and (min-width: 310px) and (max-width: 576px) {
+  .containerly {
+    width: 95%;
+  }
+}
+
+/* Contact Us Ends */
 
 footer{
   background-color: #fef8f5;

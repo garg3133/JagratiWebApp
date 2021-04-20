@@ -159,6 +159,7 @@
                             <tr class="text-center">
                                 <th>Name</th>
                                 <th>Class</th>
+                                <th>HomeWork</th>
                             </tr class="text-center">
                         </thead>
                         <tbody>
@@ -174,6 +175,15 @@
                                 <td class="text-monospace font-weight-lighter">{{ stu_att.student.school_class }}</td>
                                 {% endif %}
 
+                                <td>
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" name="hw_done" value="{{ stu_att.student.id }}"
+                                            class="custom-control-input" id="s{{ stu_att.id }}"
+                                            onclick="hw_done('{{ stu_att.student.id }}', 's{{ stu_att.id }}')"
+                                            {% if stu_att.hw_done %}checked{% endif %}>
+                                        <label class="custom-control-label" for="s{{ stu_att.id }}"></label>
+                                    </div>
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -415,6 +425,83 @@
             $('#toggle_update_cwhw span').html('Update CW-HW');
             $('#toggle_update_cwhw i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
         }
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+
+<script>
+    function hw_done(student_id, checkbox_id) {
+        let hw_checkbox = document.getElementById(checkbox_id);
+        let hw_checkbox_state = hw_checkbox.checked;
+        console.log(hw_checkbox_state);
+
+        // If Date or section is changed.
+        let selected_date = $('#class-date').val();
+        let selected_section = $('#class-section').children("option:selected").val();
+        if ("{{ selected_date }}" !== selected_date || "{{ selected_section }}" !== selected_section) {
+            // Un-toggle the checkbox
+            hw_checkbox.checked = !hw_checkbox.checked;
+            $('#alert-toast-div > div').html(
+                `<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3500">
+                    <div class="toast-body p-2 px-3">
+                        <strong class="mr-auto">Date or section changed.</strong>
+                        <button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>`
+            )
+
+            $("#alert_toast").toast("show");
+            $("#alert_toast").addClass("bg-danger");
+
+            return;
+        }
+
+        $.ajax({
+            url: '{% url "students:ajax_mark_homework" %}',
+            type: "POST",
+            data: {
+                'stu_id': student_id,
+                'homework_done': hw_checkbox_state,
+                'date': "{{ selected_date|date:'Y-m-d' }}",
+                'csrfmiddlewaretoken': Cookies.get('csrftoken')
+            },
+            dataType: 'json',
+            success: function() {
+                $('#alert-toast-div > div').html(
+                    `<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="500">
+                        <div class="toast-body p-2 px-3">
+                            <strong class="mr-auto">HomeWork updated.</strong>
+                            <button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>`
+                )
+
+                $("#alert_toast").toast("show");
+                $("#alert_toast").addClass("bg-success");
+            },
+            error: function() {
+                // Un-toggle the checkbox
+                hw_checkbox_state ? hw_checkbox.checked = false : hw_checkbox.checked = true;
+                $('#alert-toast-div > div').html(
+                    `<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3500">
+                        <div class="toast-body p-2 px-3">
+                            <strong class="mr-auto">Some Error Occured</strong>
+                            <button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>`
+                )
+
+                $("#alert_toast").toast("show");
+                $("#alert_toast").addClass("bg-danger");
+            }
+        });
     }
 </script>
 {% endblock %}
