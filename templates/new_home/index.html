@@ -52,7 +52,7 @@
         <div class="navbar1">
             <ul>
                 <a href="{% url 'accounts:login_signup' %}" class="login">Login</a>
-                <p class="btn-get-started scrollto" onclick="donate_us()">Donate</p>
+                <a class="btn-get-started scrollto" data-toggle="modal" data-target="#don-modal"">Donate</a>
             </ul>
         </div>
     </div>
@@ -82,7 +82,7 @@
                 data-aos-easing="ease-in-sine">
                 <h1>Welcome to <a style="color:#f17e01;" class="magica">Jagrati</a></h1>
                 <h2>We are a team of dedicated students, on a path to make this world a better place!</h2>
-                <a href="javascript:void(0)" class="btn-get-started scrollto" onclick="donate_us()">Donate</a>
+                <a href="javascript:void(0)" class="btn-get-started scrollto" data-toggle="modal" data-target="#don-modal"">Donate</a>
             </div>
 
             <div class="col-lg-6 order-1 order-lg-2 header-img" data-aos="zoom-in" data-aos-offset="400"
@@ -171,7 +171,7 @@
         </p>
         <div data-aos="fade" data-aos-delay="500" data-aos-easing='ease-in-linear' data-aos-duration="1000"
             data-aos-anchor="#donate-us h1">
-            <a href="javascript:void(0)" class="btn-get-started scrollto" onclick="donate_us()">Donate</a>
+            <a href="javascript:void(0)" class="btn-get-started scrollto" data-toggle="modal" data-target="#don-modal"">Donate</a>
         </div>
     </div>
 </section>
@@ -189,14 +189,17 @@
 
 <!-- Donate Us Modal begins -->
 
-<div id="don-modal">
-    <div class="don-modal-contents mx-auto rounded overflow-auto">
-        <span class="close text-center" id="don-close"><i class="fas fa-times"> </i></span>
-        <div class="don-box1 p-3">
-            <h1 class="text-center m-0 px-0 py-2">DONATE</h1>
-        </div>
-        <div class="container">
-            <div class="don-box2">
+<div class="modal fade" id="don-modal" tabindex="-1" role="dialog" aria-labelledby="don_modal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h3 class="w-100" id="modal-title">DONATE</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body container">
+
                 <div class="grid-container">
                     <h4>Account Name :</h4>
                     <p>JAGRATI</p>
@@ -206,24 +209,25 @@
                     <p>XXXXxxxxxxx</p>
                 </div>
 
-            </div>
-            <div class="don-box3 d-flex flex-column">
-                <p class="or my-3 align-self-center"><span>OR</span></p>
-                <p class="text-center align-self-center mx-auto">You may also donate books, clothes, stationery items or anything else which might be useful to the
-                    kids. Contact:
-                 </p>
-                 <div class="row mb-4">
-                     <div class="col-lg-6 text-center my-2">
-                        Name <br>
-                        98726 - 829xx <br>
-                        xyxysa@iiitdmj.ac.in
-                     </div>
-                     <div class="col-lg-6 text-center my-2">
-                        Name <br>
-                        98726 - 829xx <br>
-                        xyxysa@iiitdmj.ac.in
-                     </div>
-                 </div>
+                <div class="don-details d-flex flex-column">
+                    <p class="or my-3 align-self-center"><span>OR</span></p>
+                    <p class="text-center align-self-center mx-auto">You may also donate books, clothes, stationery
+                        items or anything else which might be useful to the
+                        kids. Contact:
+                    </p>
+                    <div class="row mb-2">
+                        <div class="col-lg-6 text-center my-2">
+                            Name <br>
+                            98726 - 829xx <br>
+                            xyxysa@iiitdmj.ac.in
+                        </div>
+                        <div class="col-lg-6 text-center my-2">
+                            Name <br>
+                            98726 - 829xx <br>
+                            xyxysa@iiitdmj.ac.in
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
