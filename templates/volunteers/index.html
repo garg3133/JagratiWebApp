@@ -1,0 +1,51 @@
+{% extends 'sidebar.html' %} 
+{% load static %} 
+
+{% block title %} Jagrati | Volunteers {% endblock title %} 
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href=" {% static 'volunteers/css/style.css' %}" />
+{% endblock style %} 
+
+{% block content %}
+
+<div class="vol__header">
+  <div class="fixed-bg">
+    <img src="{% static 'volunteers/images/header.jpg' %}" class="header-img" alt="Header Image" />
+  </div>
+</div>
+
+<!-- Volunteer Profile Cards -->
+<div id="Vol__Cards" class="container">
+  {% if volunteers %}
+  <div class="row justify-content-center mb-5 pt-5">
+    {% for vol in volunteers %}
+    <div class="col col-lg-3 col-md-4 col-sm-6 col-xs-12">
+      <a href="{{ vol.get_absolute_url }}" target="_blank">
+        <div class="vol__card mb-5">
+          <img src="{{ vol.profile.get_profile_image_url }}" class="card-img" alt="Profile Image" />
+          <div class="card__details">
+            {% if vol.desig %}
+            <span class="tag">{{vol.desig}}</span>
+            {% endif %}
+            <div class="name">{{ vol.profile.get_full_name }}</div>
+            <p>Roll No : {{vol.roll_no}}</p>
+            <p>Batch : {{vol.batch}}</p>
+          </div>
+        </div>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="text-center">
+    There are no active volunteer to be part of initiative.
+  </p>
+  {% endif %}
+</div>
+
+{% endblock content %} 
+
+{% block scripts %}
+<!-- Script for Volunteer Profile Cards -->
+{% endblock scripts %}
