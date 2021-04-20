@@ -581,8 +581,8 @@ header
 #donate-us::before{
   display: block;
   content: "";
-  margin-top: -25px;
-  height: 25px;
+  margin-top: -65px;
+  height: 65px;
   visibility: hidden;
 }
 #donate-us h1, #donate-us h2{
