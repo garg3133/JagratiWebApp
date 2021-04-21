@@ -10,8 +10,10 @@ from home.views import has_authenticated_profile
 from .models import Event
 
 
+
 def index(request):
     return HttpResponse('Hello World!')
+
 
 def captures(request):
     return render(request, 'events/captures.html')
