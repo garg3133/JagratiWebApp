@@ -14,7 +14,8 @@ def index(request):
     return HttpResponse('Hello World!')
 
 def captures(request):
-    return render(request,'events/captures.html')
+    return render(request, 'events/captures.html')
+
 
 @login_required
 @user_passes_test(
