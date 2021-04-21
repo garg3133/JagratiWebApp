@@ -675,7 +675,7 @@ h1 {
 	height: 2px;
 	background-color: #ff8c00;
 }
-.con-box1{
+.con-box1 p{
 	float: left;
 	width: 50%;
 	box-sizing: border-box;
