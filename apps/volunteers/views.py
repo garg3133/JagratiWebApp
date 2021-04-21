@@ -123,6 +123,19 @@ def attendance(request):
     return render(request, 'volunteers/attendance.html', context)
 
 
+def ajax_mark_attendance(request):
+    """Mark/unmark volunteer attendance."""
+    today_cal = Calendar.objects.get(date=date.today())
+    vol_id = request.GET['volun_id']
+    is_present = request.GET['is_present']
+    vol_att = VolunteerAttendance.objects.get(
+        volun__id=vol_id, cal_date=today_cal)
+    print(vol_att)
+    vol_att.present = True if is_present == 'true' else False
+    vol_att.save()
+    data = {'success': True}
+    return JsonResponse(data)
+
 @login_required
 @user_passes_test(
     has_authenticated_profile,

@@ -42,6 +42,7 @@
                                 <div class="custom-control custom-switch">
                                     <input type="checkbox" name="volunteered" value="{{ vol_att.volun.id }}"
                                         id="v{{ vol_att.id }}" class="custom-control-input"
+                                           onchange="markAttendance('{{ vol_att.volun.id }}', 'v{{ vol_att.id }}')"
                                         {% if vol_att.present %}checked{% endif %}>
                                     <label class="custom-control-label" for="v{{ vol_att.id }}"></label>
                                 </div>
@@ -111,6 +112,55 @@
         div.appendChild(input);
         add_vol_div.appendChild(div);
         // add_vol_div.innerHTML += '<div class="col-7 col-sm-4 col-lg-3 mb-3"><input name="extra-vol" type="number" class="form-control" placeholder="Roll No."></div>';
+    }
+</script>
+
+<!-- Mark/Unmark Volunteer Attendance -->
+<script>
+    function markAttendance(volun_id, checkbox_id) {
+        let att_checkbox = document.getElementById(checkbox_id);
+        let is_present = att_checkbox.checked;
+        console.log(is_present);
+        $.ajax({
+            url: "{% url 'volunteers:ajax_mark_attendance' %}",
+            data: {
+                'volun_id': volun_id,
+                'is_present': is_present,
+            },
+            dataType: 'json',
+            success: function (data, status) {
+                $('#alert-toast-div > div').html(
+                    `<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="500">
+                        <div class="toast-body p-2 px-3">
+                            <strong class="mr-auto">Attendance updated.</strong>
+                            <button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>`
+                )
+
+                $("#alert_toast").toast("show");
+                $("#alert_toast").addClass("bg-success");
+            },
+            error: function (data, status) {
+                // Un-toggle the checkbox
+                is_present ? att_checkbox.checked = false : att_checkbox.checked = true;
+                $('#alert-toast-div > div').html(
+                    `<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3500">
+                        <div class="toast-body p-2 px-3">
+                            <strong class="mr-auto">Something went wrong.</strong>
+                            <button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>`
+                )
+
+                $("#alert_toast").toast("show");
+                $("#alert_toast").addClass("bg-danger");
+            }
+        });
     }
 </script>
 {% endblock %}
