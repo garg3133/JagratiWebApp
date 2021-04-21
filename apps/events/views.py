@@ -42,4 +42,3 @@ def add_event(request):
         return redirect('events:add_event')
 
     return render(request, 'events/add_event.html')
-    
