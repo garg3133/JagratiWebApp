@@ -1,7 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth.decorators import (
-    login_required, user_passes_test, permission_required
-)
+from django.contrib.auth.decorators import (login_required, user_passes_test, permission_required)
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy

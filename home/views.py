@@ -30,6 +30,7 @@ def is_volunteer(user):
 
 # VIEW FUNCTIONS
 
+
 def index(request):
     if request.user.is_authenticated:
         return redirect('home:dashboard')
