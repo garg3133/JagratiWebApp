@@ -123,6 +123,16 @@ def attendance(request):
     return render(request, 'volunteers/attendance.html', context)
 
 
+@login_required
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
+@user_passes_test(
+    is_volunteer, redirect_field_name=None,
+    login_url=reverse_lazy('home:dashboard')
+)
+# @permissions_required
 def ajax_mark_attendance(request):
     """Mark/unmark volunteer attendance."""
     today_cal = Calendar.objects.get(date=date.today())
