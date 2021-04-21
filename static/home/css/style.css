@@ -27,11 +27,16 @@ a{
 	/*display: inline-block;*/
 }
 a:hover{
-	color: white;
+	color:white;
 }
-.email:hover{
-	color: orange;
+
+.con-box1  .contact-us-email:hover{
+	color:#ff8C00;
 }
+.don-box3 .contact-us-email:hover{
+	color:#ff8C00;
+}
+
 
 /*  Customized Scroll Bar - Chrome Only  - START */
 
@@ -620,6 +625,10 @@ h1 {
 	/*z-index: 2;*/
 	/*margin-right: 13px; */
 }
+
+
+
+
 .don-box1{
 	background-color: #666;
 }
@@ -672,7 +681,8 @@ h1 {
 	box-sizing: border-box;
 	text-align: center;
 }
-.con-box1 p{
+.con-box1 {
+	
 	margin-top: 0;
 }
 .con-box2 a{
