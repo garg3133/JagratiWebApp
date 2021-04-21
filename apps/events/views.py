@@ -10,7 +10,6 @@ from home.views import has_authenticated_profile
 from .models import Event
 
 
-
 def index(request):
     return HttpResponse('Hello World!')
 
@@ -43,3 +42,4 @@ def add_event(request):
         return redirect('events:add_event')
 
     return render(request, 'events/add_event.html')
+    
