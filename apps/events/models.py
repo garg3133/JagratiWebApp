@@ -18,7 +18,7 @@ class Event(models.Model):
         upload_to=event_thumbmail_path, null=True, blank=True)
 
     def __str__(self):
-        return self.title
+        return f'{self.title} - {self.description} - {self.schedule} - {self.venue}'
 
     @property
     def get_thumbnail_url(self):
