@@ -1,120 +1,192 @@
-<!DOCTYPE html>
-<html>
-    <head>
+{% extends 'layout.html' %}
 
-         {% load static %}
-         {% static "logo.png" as logo %}
+{% load static %}
 
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title> {% block title %}Jagrati | Students List{% endblock title%} </title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
-        
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <!-- Font Awesome CSS -->
-        <link rel="stylesheet" href="{% static 'vendor/css/fontawesome-all.min.css' %}">
-        <!-- CUSTOM CSS-->
-        <link rel="stylesheet" href="{% static 'students/students_list.css' %}" type="text/css">
+{% block title %} Jagrati | Students List {% endblock %}
 
-    </head>
-    <body>
+{% block style %}
+<style>
+    *,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
 
-        <!-- Navbar -->
-        <nav class="navbar">
-            <a class="navbar-brand" href="{% url 'students:index' %}">
-                {% load static %}
-                <img src="{{ logo }}" width="150" height="100" alt="">
-            </a>
-        </nav>
-        
-         <!-- Search Bar -->
-        <div class="search-bar">
-            <div class="row">
-                {% block filter %}
-                <form class="col-filter col-4 dropdown float-right" method="Post" action="">
-                    <select id="selected_sort" class="custom-select d-block w-100" onchange="sort()">
-                        <option>--Sort Name By--</option>
-                        <option value="asc">Ascending</option>
-                        <option value="dsc">Descending</option>
-                    </select>
-                </form>
-                <div class="col-filter col-4 dropdown float-right">
-                    <select name="selected_class" class="custom-select d-block w-100" onchange="selectClass()">
-                        <option>--Select Class--</option>
-                        <option value="1">Class 01</option>
-                        <option value="2">Class 02</option>
-                        <option value="3">Class 03</option>
-                        <option value="4">Class 04</option>
-                        <option value="5">Class 05</option>
-                        <option value="6">Class 06</option>
-                        <option value="7">Class 07</option>
-                        <option value="8">Class 08</option>
-                        <option value="9">Class 09</option>
-                        <option value="10">Class 10</option>
-                    </select>
-                </div>
-                {% endblock %}
-               <form method="get" action="" class="col-search col-4">
-                     <div class="input-group mb-3"> 
-                        <input type="text" class="form-control" placeholder="Search by name" name="query" id="query">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
+
+.navbar {
+    background: rgba(255, 140, 0, 0.55);
+}
+
+.navbar-brand {
+    display:block;
+    margin: 0 auto;
+}
+
+.search-bar {
+    display: flex;
+    padding: 10px 10px;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+
+.col-filter, .col-search {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex: 1;
+}
+
+.class, .sortName {
+    box-shadow: none;
+    border: 1.5px solid #E3E6ED;
+    background-color: #F7F8FD;
+    letter-spacing: 1px;
+    border-radius: .25rem;
+    background-color: #fff;
+    font-weight: 400;
+    line-height: 1.5;
+    font-size: 1rem;
+}
+
+.form-control {
+    border-radius: 7px;
+    border: 1.5px solid #E3E6ED;
+}
+
+input.form-control:focus {
+    box-shadow: none;
+    border: 1.5px solid #E3E6ED;
+    background-color: #F7F8FD;
+    letter-spacing: 1px
+}
+
+
+.cards {
+    padding: 30px 30px;
+    overflow: hidden;
+}
+
+.row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.card {
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0 6px 10px rgb(0 0 0 / 8%), 0 0 6px rgb(0 0 0 / 5%);
+    transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12), .3s box-shadow, .3s -webkit-transform cubic-bezier(.155, 1.105, .295, 1.12);
+    margin: 10px;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
+}
+
+@media(max-width: 990px) {
+    .card {
+        margin: 20px;
+    }
+}
+
+.rounded-body {
+    height: 100px;
+    width: 100px;
+}
+
+.card-body {
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1.25rem;
+}
+
+.card-title {
+   margin-bottom: .75rem;
+}
+
+.h5 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+                    <!-- Search bar -->
+                    <div class="row search-bar">
+                        {% block filter %}
+                        <form class="col-filter col-4 dropdown float-right" method="Post" action="">
+                            <select id="selected_sort" class="custom-select d-block w-100" onchange="sort()">
+                                <option>--Sort Name By--</option>
+                                <option value="asc">Ascending</option>
+                                <option value="dsc">Descending</option>
+                            </select>
+                        </form>
+                        <div class="col-filter col-4 dropdown float-right">
+                            <select name="selected_class" class="custom-select d-block w-100" onchange="selectClass()">
+                                <option>--Select Class--</option>
+                                <option value="1">Class 01</option>
+                                <option value="2">Class 02</option>
+                                <option value="3">Class 03</option>
+                                <option value="4">Class 04</option>
+                                <option value="5">Class 05</option>
+                                <option value="6">Class 06</option>
+                                <option value="7">Class 07</option>
+                                <option value="8">Class 08</option>
+                                <option value="9">Class 09</option>
+                                <option value="10">Class 10</option>
+                            </select>
                         </div>
-                </form>
-                </div>
-            </div>
-        </div>
+                        {% endblock %}
+                    <form method="get" action="" class="col-search col-4">
+                            <div class="input-group mb-3"> 
+                                <input type="text" class="form-control" placeholder="Search by name" name="query" id="query">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
+                                </div>
+                        </form>
+                    </div>
 
-        {% block content %}
-        
-         <!-- List Of Students -->
-        <section id="cards">
-            <div class="row">
-                {% for student in students %}
-                <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
-                        <a href="{% url 'students:profile' student.id %}" class="card">
-                            <img src="https://picsum.photos/200/200" alt="..." class="rounded-circle">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <b>{{ student.first_name }} {{ student.last_name }}</b>
-                            </h5>
-                            <p>{{ student.school_class }}</p>
+                    <!-- List Of Students -->
+                    <section id="cards">
+                        <div class="row">
+                            {% for student in students %}
+                            <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                                    <a href="{% url 'students:profile' student.id %}" class="card">
+                                        <img src="https://picsum.photos/100/100" alt="..." class="rounded-circle">
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <b>{{ student.first_name }} {{ student.last_name }}</b>
+                                        </h5>
+                                        <p>{{ student.school_class }}</p>
+                                    </div>
+                                    </a>     
+                            </div>
+                            {% endfor %}
                         </div>
-                        </a>     
-                </div>
-                {% endfor %}
-            </div>
-        </section>
-        {% endblock %}
-
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+                    </section>
+</div>
+{% endblock %}       
+        
+{% block scripts %}
     <script>
-       function redirect(name, value, url) {
-            url = url.split('/')[0] + '//' + url.split('/')[2] + '/' + url.split('/')[3] + `/${name}/` + value
-            location.href = url
-       }
-
-
-
-       function selectClass() {
-           let x = document.getElementById("class").value;
-           var url = window.location.href
-            if (x != "--Select Class--")
-                redirect('select',x,url)
-           }
-
-        function sort() {
-           let x = document.getElementById("sortName").value;
-           var url = window.location.href
-            if (x != "--Sort Name By--")
-                redirect('sort_by',x,url)
-           }
+       
     </script> 
-    </body>
-</html>
+{% endblock %}
