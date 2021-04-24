@@ -12,6 +12,7 @@ from django.urls import reverse
 from django.utils.encoding import force_bytes, force_text
 from django.utils.html import strip_tags
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.contrib.auth.password_validation import validate_password
 
 # local Django
 from apps.volunteers.models import Volunteer
@@ -93,6 +94,13 @@ def login_signup(request):
                 return render(request, "accounts/login_signup.html", context)
             if password1 and password2 and password1 != password2:
                 context['signup_error'] = "Passwords don't match"
+                return render(request, "accounts/login_signup.html", context)
+
+            # Validating Password......
+            try:
+                validate_password(password1)
+            except Exception as e:
+                context['signup_error'] = 'Use Strong Password: len>8 and must contains alphabet.'
                 return render(request, "accounts/login_signup.html", context)
 
             user = User(email=email, is_active=False)
