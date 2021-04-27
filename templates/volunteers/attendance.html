@@ -60,14 +60,8 @@
                         placeholder="Enter roll no..">
                 </div>
                 <div class="justify-content-center col-sm-3">
-                        <button type="button" class="btn btn-primary btn-block" onclick="add_volun()">Add</button>
+                        <button type="button" class="btn btn-primary btn-block" onclick="add_vol()">Add</button>
                 </div>
-            </div>
-        </div>
-
-        <div class="row justify-content-center mb-4">
-            <div class="col-5 col-sm-4 col-md-3 col-lg-2">
-                <button type="button" class="btn btn-primary btn-block" onclick="add_vol()">Add More</button>
             </div>
         </div>
     </form>
@@ -104,22 +98,6 @@
 <!-- Add Extra Volunteers in Volunteer Attendance -->
 <script>
     function add_vol() {
-        let add_vol_div = document.getElementById('add-vol');
-        let div = document.createElement("div");
-        div.className = "col-7 col-sm-4 col-lg-3 mb-3";
-        let input = document.createElement("input");
-        input.name = "extra-vol";
-        input.type = "number";
-        input.className = "form-control";
-        input.placeholder = "Roll No.";
-        div.appendChild(input);
-        add_vol_div.appendChild(div);
-        // add_vol_div.innerHTML += '<div class="col-7 col-sm-4 col-lg-3 mb-3"><input name="extra-vol" type="number" class="form-control" placeholder="Roll No."></div>';
-    }
-</script>
-
-<script>
-    function add_volun() {
 
         let table = document.getElementById('vol-att-table');
         let tableRow = document.createElement("tr");
@@ -136,6 +114,7 @@
         table.appendChild(tableRow);
     }
 </script>
+
 <!-- Mark/Unmark Volunteer Attendance -->
 <script>
     function markAttendance(volun_id, checkbox_id) {
