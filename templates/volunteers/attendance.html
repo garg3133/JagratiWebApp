@@ -53,9 +53,18 @@
                 </table>
             </div>
         </div>
-        <div class="row justify-content-center" id="add-vol">
-
+        <div class="row justify-content-center">
+            <div class="row col-sm-6 mb-2 text-center">
+                <div class="justify-content-center col-sm-9">
+                    <input type="text" id="add-volunteers" class="form-control mb-3 mx-auto"
+                        placeholder="Enter roll no..">
+                </div>
+                <div class="justify-content-center col-sm-3">
+                        <button type="button" class="btn btn-primary btn-block" onclick="add_volun()">Add</button>
+                </div>
+            </div>
         </div>
+
         <div class="row justify-content-center mb-4">
             <div class="col-5 col-sm-4 col-md-3 col-lg-2">
                 <button type="button" class="btn btn-primary btn-block" onclick="add_vol()">Add More</button>
@@ -109,6 +118,24 @@
     }
 </script>
 
+<script>
+    function add_volun() {
+
+        let table = document.getElementById('vol-att-table');
+        let tableRow = document.createElement("tr");
+
+        let td1 = document.createElement("td");
+        let td2 = document.createElement("td");
+        {#let td3 = document.createElement("td");#}
+        td1.innerText = "20202001";
+        td2.innerText = "Sagar Pandya";
+
+        tableRow.append(td1);
+        tableRow.append(td2);
+
+        table.appendChild(tableRow);
+    }
+</script>
 <!-- Mark/Unmark Volunteer Attendance -->
 <script>
     function markAttendance(volun_id, checkbox_id) {
