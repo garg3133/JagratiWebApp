@@ -1,11 +1,11 @@
 from django.contrib import messages
-from django.contrib.auth.decorators import (login_required, user_passes_test, permission_required)
+from django.contrib.auth.decorators import (login_required, user_passes_test)
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
 from home.views import has_authenticated_profile
-from .models import Event
+from .models import Event,Gallery
 
 
 def index(request):
@@ -13,7 +13,10 @@ def index(request):
 
 
 def captures(request):
-    return render(request, 'events/captures.html')
+    title = Gallery.objects.values('event_id').distinct()
+    obj = Gallery.objects.all()
+    context = {'title':title,'obj':obj}
+    return render(request, 'events/captures.html',context)
 
 
 @login_required

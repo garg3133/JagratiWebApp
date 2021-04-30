@@ -28,92 +28,24 @@
                 <i class="fas fa-heart" style="color: red"></i>
             </h1>
         </div>
-        <section class="mt-1">
-            <h2 data-aos="fade-right" class="text-left py-4">Event 1</h2>
+        
+        {% for t in title %}
+        <section class="mt-1">            
+            <h2 data-aos="fade-right" class="text-left py-4">Event {{t.event_id}}</h2>
             <div class="row photos">
-                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
-                    <a href='{% static "home/images/01.jpg" %}' data-lightbox="photos">
-                        <img class="img-fluid mb-3" src='{% static "home/images/01.jpg" %}'>
-                    </a>
-                </div>
-                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
-                    <a href='{% static "home/images/01.jpg" %}' data-lightbox="photos">
-                        <img class="img-fluid mb-3" src='{% static "home/images/01.jpg" %}'>
-                    </a>
-                </div>
-                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
-                    <a href='{% static "home/images/01.jpg" %}' data-lightbox="photos">
-                        <img class="img-fluid mb-3" src='{% static "home/images/01.jpg" %}'>
-                    </a>
-                </div>
-                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
-                    <a href='{% static "home/images/01.jpg" %}' data-lightbox="photos">
-                        <img class="img-fluid mb-3" src='{% static "home/images/01.jpg" %}'>
-                    </a>
-                </div>
-                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
-                    <a href='{% static "home/images/01.jpg" %}' data-lightbox="photos">
-                        <img class="img-fluid mb-3" src='{% static "home/images/01.jpg" %}'>
-                    </a>
-                </div>
+                {% for i in obj %}
+                   {% if i.event_id == t.event_id %}
+                    <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
+                        <a href="{{ i.photo.url}}" data-lightbox="photos">
+                            <img class="img-fluid mb-3" src="{{ i.photo.url}}">
+                        </a>
+                    </div>
+                    {%endif%}
+                {% endfor %}                       
             </div>
         </section>
-        <section class="mt-1">
-            <h2 data-aos="fade-right" class="text-left py-4">Event 2</h2>
-            <div class="row photos">
-                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
-                    <a href='{% static "home/images/02.jpg" %}' data-lightbox="photos">
-                        <img class="img-fluid mb-3" src='{% static "home/images/02.jpg" %}'>
-                    </a>
-                </div>
-                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
-                    <a href='{% static "home/images/02.jpg" %}' data-lightbox="photos">
-                        <img class="img-fluid mb-3" src='{% static "home/images/02.jpg" %}'>
-                    </a>
-                </div>
-                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
-                    <a href='{% static "home/images/02.jpg" %}' data-lightbox="photos">
-                        <img class="img-fluid mb-3" src='{% static "home/images/02.jpg" %}'>
-                    </a>
-                </div>
-                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
-                    <a href='{% static "home/images/02.jpg" %}' data-lightbox="photos">
-                        <img class="img-fluid mb-3" src='{% static "home/images/02.jpg" %}'>
-                    </a>
-                </div>
-                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
-                    <a href='{% static "home/images/02.jpg" %}' data-lightbox="photos">
-                        <img class="img-fluid mb-3" src='{% static "home/images/02.jpg" %}'>
-                    </a>
-                </div>
-            </div>
-        </section>
-        <section class="mt-1">
-            <h2 data-aos="fade-right" class="text-left py-4">Event 3</h2>
-            <div class="row photos">
-                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
-                    <a href='{% static "home/images/03.jpg" %}' data-lightbox="photos">
-                        <img class="img-fluid mb-3" src='{% static "home/images/03.jpg" %}'>
-                    </a>
-                </div>
-                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
-                    <a href='{% static "home/images/03.jpg" %}' data-lightbox="photos">
-                        <img class="img-fluid mb-3" src='{% static "home/images/03.jpg" %}'>
-                    </a>
-                </div>
-                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
-                    <a href='{% static "home/images/03.jpg" %}' data-lightbox="photos">
-                        <img class="img-fluid mb-3" src='{% static "home/images/03.jpg" %}'>
-                    </a>
-                </div>
-                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
-                    <a href='{% static "home/images/03.jpg" %}' data-lightbox="photos">
-                        <img class="img-fluid mb-3" src='{% static "home/images/03.jpg" %}'>
-                    </a>
-                </div>
-            </div>
-        </section>
-    </div>
+        {% endfor %}
+        
 </div>
 {% endblock %}
 
