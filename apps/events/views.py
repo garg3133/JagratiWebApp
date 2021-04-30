@@ -15,7 +15,7 @@ def index(request):
 def captures(request):
     title = Gallery.objects.values('event_id').distinct()
     obj = Gallery.objects.all()
-    context = {'title': title,'obj': obj}
+    context = {'title': title, 'obj': obj}
     return render(request, 'events/captures.html', context)
 
 
