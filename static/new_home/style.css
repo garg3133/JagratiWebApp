@@ -7,7 +7,7 @@ body {
   font: 15px/1.5 "OpenSans", Helvetica, sans-serif;
   color: #4e4039;
   margin: 0;
-  padding: 0;
+  padding: 0 !important;
 }
 
 /*------ NAV BAR STARTS ------*/
@@ -615,16 +615,27 @@ header {
   background-color: #ff8c00;
   color: #ffffff;
   padding: 12px 16px;
+  z-index: 1;
+  border: none;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow:  0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  
 }
 
 .modal-header .close {
   color: #ffffff;
   padding-left: 2px;
   outline: none;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25)
 }
 
 .modal-header h3 {
   margin-left: 21px;
+}
+
+.modal-body {
+  background: #FEF8F5;
 }
 
 .grid-container {
