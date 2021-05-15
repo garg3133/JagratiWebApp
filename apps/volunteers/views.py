@@ -40,11 +40,11 @@ def index(request):
 )
 def profile(request, pk):
     volunteer = get_object_or_404(Volunteer, id=pk)
-    volun_sch = VolunteerSchedule.objects.all().filter(volun=volunteer).order_by('day')
+    volun_schedule = VolunteerSchedule.objects.filter(volun=volunteer).order_by('day')
     context = {
         'volunteer': volunteer,
         'self_profile': volunteer.profile.user == request.user,
-        'volun_sch' : volun_sch,
+        'volun_schedule' : volun_schedule,
     }
     return render(request, 'volunteers/profile.html', context)
 

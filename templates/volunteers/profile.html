@@ -51,7 +51,7 @@
                         <div class="col-6 col-lg-4 mb-3 align-self-center">
                             <strong>Email: </strong>
                         </div>
-                        <div class="col-6 col-lg-8 mb-3">
+                        <div class="col-6 col-lg-8 mb-3" style="word-break: break-all;">
                             {{ volunteer.profile.user.email }}
                         </div>
                     </div>
@@ -236,13 +236,15 @@
 
         </div>
     </div>
+    <div class="my-3 text-center">
+        <h2>
+            Schedule
+        </h2>
+    </div>
     <div class="row justify-content-center mb-5">
-        <div class="col-lg-8 border rounded shadow px-5 py-4">
-            <div class="row justify-content-center">
-                <div class="py-1 mt-1 text-center">
-                    <h2>Schedule</h2>
-                </div>
-                <table class="table" id="vol-att-table">
+        <div class="col-lg-8 border rounded shadow px-sm-5 py-4">
+            <div class="table-responsive">
+                <table class="table table-borderless table-hover text-center mb-0">
                     <thead>
                         <tr>
                             <th>Day</th>
@@ -251,11 +253,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for data in volun_sch %}
+                        {% for sch in volun_schedule %}
                         <tr>
-                            <td>{{ data.get_day_display }}</td>
-                            <td>{{ data.schedule.section.name }}</td>
-                            <td>{{ data.schedule.get_subject_display }}</td>
+                            <td>{{ sch.get_day_display }}</td>
+                            <td>{{ sch.schedule.section.name }}</td>
+                            <td>{{ sch.schedule.get_subject_display }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
