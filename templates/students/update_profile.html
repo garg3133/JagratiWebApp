@@ -28,9 +28,10 @@
        opacity: 1;
 
     }
-    
+
   #profile-image-popover{
   position: relative;
+
   }
   #profile-image-popover:after{
   position: absolute;
@@ -39,10 +40,15 @@
     opacity: 1;
     color: white;
   }
+  #profile-image-popover:hover{
+    background-color: rgba(128,128,128,0.5);
+    border-radius: 50%;
+  }
   svg{
     position:absolute;
-    top: 65px;
-    left: 65px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     opacity: 0;
     text-align: center;
   }
