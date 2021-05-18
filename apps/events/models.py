@@ -15,7 +15,7 @@ class Event(models.Model):
     schedule = models.DateTimeField()
     venue = models.CharField(max_length=50)
     thumbnail = models.ImageField(
-        upload_to=event_thumbmail_path, null=True, blank=True)
+        upload_to='<event>.get_thumbnail_url', null=True, blank=True)
 
     def __str__(self):
         return self.title
@@ -26,7 +26,6 @@ class Event(models.Model):
             return self.thumbnail.url
         else:
             return settings.STATIC_URL + 'home/images/02.jpg'
-
 
 class Team(models.Model):
     team_id = models.CharField(max_length=50, unique=True)
