@@ -143,22 +143,25 @@ def attendance(request):
         context['no_class_today'] = True
         return render(request, 'students/attendance.html', context)
 
-    today_stu_sch = StudentSchedule.objects.filter(day=today_day)
+    today_stu_sch = StudentSchedule.objects.select_related(
+        'student').filter(day=today_day)
     today_stu_att = StudentAttendance.objects.filter(cal_date__date=today_date)
 
     if not today_stu_att.exists():
         # Create Empty Student Attendance Instances
+        stu_att = []
         for stu_sch in today_stu_sch:
-            stu_attendance = StudentAttendance(
-                student=stu_sch.student, cal_date=today_cal)
-            stu_attendance.save()
+            stu_att.append(StudentAttendance(
+                student=stu_sch.student, cal_date=today_cal))
+        StudentAttendance.objects.bulk_create(stu_att)
     elif today_stu_att.count() != today_stu_sch.count():
         # Some new students added in today's schedule (not necessarily present today)
+        stu_att = []
         for stu_sch in today_stu_sch:
             if not today_stu_att.filter(student=stu_sch.student).exists():
-                stu_attendance = StudentAttendance(
-                    student=stu_sch.student, cal_date=today_cal)
-                stu_attendance.save()
+                stu_att.append(StudentAttendance(
+                    student=stu_sch.student, cal_date=today_cal))
+        StudentAttendance.objects.bulk_create(stu_att)
 
     context['stu_att_today'] = StudentAttendance.objects.filter(
         cal_date=today_cal, student__school_class__range=(1, 3)).order_by(
