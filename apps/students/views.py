@@ -42,8 +42,10 @@ def index(request):
 def profile(request, pk):
     """View student profile."""
     profile = get_object_or_404(Student, id=pk)
+    student_schedule = StudentSchedule.objects.filter(student=profile).order_by('day')
     context = {
-        'profile': profile
+        'profile': profile,
+        'student_schedule' : student_schedule,
     }
     return render(request, 'students/profile.html', context)
 
