@@ -100,7 +100,7 @@ def login_signup(request):
             try:
                 validate_password(password1)
             except Exception as e:
-                context['signup_error'] = 'Use Strong Password: len>8 and must contains alphabet.'
+                context['signup_error'] = ''.join(e.messages)
                 return render(request, "accounts/login_signup.html", context)
 
             user = User(email=email, is_active=False)
