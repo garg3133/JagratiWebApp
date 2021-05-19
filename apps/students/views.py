@@ -45,7 +45,7 @@ def profile(request, pk):
     student_schedule = StudentSchedule.objects.filter(student=profile).order_by('day')
     context = {
         'profile': profile,
-        'student_schedule' : student_schedule,
+        'student_schedule': student_schedule,
     }
     return render(request, 'students/profile.html', context)
 
