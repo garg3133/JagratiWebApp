@@ -89,13 +89,13 @@
             </div>
         </div>
     </div>
-    <div class="my-3 text-center">
+    <div class="pb-3 text-center">
         <h2>
-            Schedule
+            Student Schedule
         </h2>
     </div>
     <div class="row justify-content-center mb-5">
-        <div class="col-lg-8 border rounded shadow px-sm-5 py-4">
+        <div class="col-lg-9 col-xl-8 border rounded shadow px-sm-5 py-4">
             <div class="table-responsive">
                 <table class="table table-borderless table-hover text-center mb-0">
                     <thead>
@@ -106,7 +106,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for sch in student_schedule %}
+                        {% for sch in stu_schedule %}
                         <tr>
                             <td>{{ sch.get_day_display }}</td>
                             <td>{{ sch.schedule.section.name }}</td>
