@@ -96,11 +96,11 @@ def login_signup(request):
                 context['signup_error'] = "Passwords don't match"
                 return render(request, "accounts/login_signup.html", context)
 
-            # Validating Password......
+            # Validate password strength
             try:
                 validate_password(password1)
             except Exception as e:
-                context['signup_error'] = ''.join(e.messages)
+                context['signup_error'] = ' '.join(e.messages)
                 return render(request, "accounts/login_signup.html", context)
 
             user = User(email=email, is_active=False)
