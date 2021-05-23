@@ -17,7 +17,7 @@ from openpyxl import load_workbook
 from home.models import Calendar, Schedule
 from home.views import has_authenticated_profile
 from .models import Student, StudentAttendance, StudentSchedule
-
+from .forms import StudentViewForm
 # GLOBAL VARIABLES
 today_date = date.today()
 today_day = today_date.strftime("%w")
@@ -59,27 +59,15 @@ def profile(request, pk):
 def add_student(request):
     """Add new student."""
     if request.method == 'POST':
-        first_name = request.POST['first_name']
-        last_name = request.POST['last_name']
-        gender = request.POST['gender']
-        school_class = request.POST['school_class']
-        village = request.POST['village']
-        contact_no = request.POST.get('contact_no')  # Non-required field
-        guardian_name = request.POST['guardian_name']
-        profile_image = request.FILES.get('profile_image')
-
-        student = Student(
-            first_name=first_name, last_name=last_name,
-            gender=gender, profile_image=profile_image,
-            school_class=school_class, village=village,
-            contact_no=contact_no, guardian_name=guardian_name,
-        )
-        student.save()
-
-        messages.success(request, "Student added successfully!")
+        form_data=StudentViewForm(request.POST)
+        if form_data.is_valid():
+            form_data.save()
+            messages.success(request, "Student added successfully!")
+        else:
+            messages.error(request,"Unable to create a student, try again")    
         return redirect('students:add_student')
 
-    return render(request, 'students/add_student.html', {'villages': Student.VILLAGE})
+    return render(request, 'students/add_student.html', {'villages': Student.VILLAGE,'form':StudentViewForm()})
 
 
 @login_required
@@ -96,23 +84,26 @@ def update_profile(request, pk):
     context = {
         'profile': profile,
         'villages': villages,
+        'form': StudentViewForm(),
     }
 
     if request.method == 'POST':
-        profile.first_name = request.POST['first_name']
-        profile.last_name = request.POST['last_name']
-        profile.gender = request.POST['gender']
-        profile.school_class = request.POST['school_class']
-        profile.village = request.POST['village']
-        profile.contact_no = request.POST['contact_no']
-        profile.guardian_name = request.POST['guardian_name']
-        if 'profile_image' in request.FILES:
-            # Delete the previous profile image.
-            profile.profile_image.delete(False)
-            profile.profile_image = request.FILES.get('profile_image')
-        profile.save()
+        form_data=StudentViewForm(request.POST or None ,instance=profile)
+        if form_data.is_valid():
 
-        messages.success(request, 'Profile updated successfully!')
+           if 'profile_image' in request.FILES:
+               # Delete the previous profile image.
+               profile.profile_image.delete(False)
+               
+               
+               
+           # the `form.save` will also update your newest image & path.
+           form_data.save()    
+        
+
+           messages.success(request, 'Profile updated successfully!')
+        else:
+            messages.error(request,"Unable to update profile,try again")   
         return redirect('students:profile', pk=pk)
 
     return render(request, 'students/update_profile.html', context)
