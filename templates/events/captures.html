@@ -29,18 +29,16 @@
             </h1>
         </div>
         
-        {% for t in title %}
+        {% for event_title, images in gallery_dict.items %}
         <section class="mt-1">            
-            <h2 data-aos="fade-right" class="text-left py-4">Event {{t.event_id}}</h2>
+            <h2 data-aos="fade-right" class="text-left py-4">{{event_title}}</h2>
             <div class="row photos">
-                {% for i in obj %}
-                   {% if i.event_id == t.event_id %}
-                    <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
-                        <a href="{{ i.photo.url}}" data-lightbox="photos">
-                            <img class="img-fluid mb-3" src="{{ i.photo.url}}">
+                {% for img in images %}
+                   <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
+                        <a href="{{img.photo.url}}" data-lightbox="photos">
+                            <img class="img-fluid mb-3" src="{{img.photo.url}}">
                         </a>
-                    </div>
-                    {%endif%}
+                    </div>                   
                 {% endfor %}                       
             </div>
         </section>

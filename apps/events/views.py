@@ -13,11 +13,17 @@ def index(request):
 
 
 def captures(request):
-    title = Gallery.objects.values('event_id').distinct()
-    obj = Gallery.objects.all()
-    context = {'title':title,'obj':obj}
-    return render(request, 'events/captures.html',context)
+    gallery = Gallery.objects.all()
+    gallery_dict = {}
 
+    for image in gallery:
+        if image.event.title not in gallery_dict.keys():
+            gallery_dict[image.event.title] = []
+        gallery_dict[image.event.title].append(image)    
+    
+    context = {'gallery_dict':gallery_dict}
+    return render(request, 'events/captures.html', context)
+   
 
 @login_required
 @user_passes_test(
