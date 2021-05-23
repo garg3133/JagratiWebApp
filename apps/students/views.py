@@ -55,7 +55,7 @@ def profile(request, pk):
     has_authenticated_profile,
     login_url=reverse_lazy('accounts:complete_profile')
 )
-@permission_required('students.add_student', raise_exception=True)
+# @permission_required('students.add_student', raise_exception=True)
 def add_student(request):
     """Add new student."""
     if request.method == 'POST':
@@ -75,7 +75,7 @@ def add_student(request):
     has_authenticated_profile,
     login_url=reverse_lazy('accounts:complete_profile')
 )
-@permission_required('students.change_student', raise_exception=True)
+# @permission_required('students.change_student', raise_exception=True)
 def update_profile(request, pk):
     """Update student profile."""
     profile = get_object_or_404(Student, id=pk)
