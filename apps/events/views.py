@@ -19,7 +19,7 @@ def captures(request):
     for image in gallery:
         if image.event.title not in gallery_dict.keys():
             gallery_dict[image.event.title] = []
-        gallery_dict[image.event.title].append(image)    
+        gallery_dict[image.event.title].append(image)
     context = {'gallery_dict': gallery_dict}
     return render(request, 'events/captures.html', context)
 
