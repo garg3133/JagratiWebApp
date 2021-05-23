@@ -1,17 +1,27 @@
 from django.contrib import messages
-from django.contrib.auth.decorators import (
-    login_required, user_passes_test, permission_required
-)
+from django.contrib.auth.decorators import (login_required, user_passes_test)
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
 from home.views import has_authenticated_profile
-from .models import Event
+from .models import Event, Gallery
 
 
 def index(request):
     return HttpResponse('Hello World!')
+
+
+def captures(request):
+    gallery = Gallery.objects.all()
+    gallery_dict = {}
+
+    for image in gallery:
+        if image.event.title not in gallery_dict.keys():
+            gallery_dict[image.event.title] = []
+        gallery_dict[image.event.title].append(image)
+    context = {'gallery_dict': gallery_dict}
+    return render(request, 'events/captures.html', context)
 
 
 @login_required

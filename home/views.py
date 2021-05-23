@@ -28,12 +28,8 @@ def is_volunteer(user):
     """To be used in views accessible to volunteers only."""
     return user.desig == 'v'
 
-
-def captures(request):
-    return render(request, 'home/captures.html')
-
-
 # VIEW FUNCTIONS
+
 
 def index(request):
     if request.user.is_authenticated:
