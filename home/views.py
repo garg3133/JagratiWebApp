@@ -28,8 +28,8 @@ def is_volunteer(user):
     """To be used in views accessible to volunteers only."""
     return user.desig == 'v'
 
-# VIEW FUNCTIONS
 
+# VIEW FUNCTIONS
 
 def index(request):
     if request.user.is_authenticated:

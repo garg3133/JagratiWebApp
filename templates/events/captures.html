@@ -28,22 +28,22 @@
                 <i class="fas fa-heart" style="color: red"></i>
             </h1>
         </div>
-        
+
         {% for event_title, images in gallery_dict.items %}
-        <section class="mt-1">            
-            <h2 data-aos="fade-right" class="text-left py-4">{{event_title}}</h2>
+        <section class="mt-1">
+            <h2 data-aos="fade-right" class="text-left py-4">{{ event_title }}</h2>
             <div class="row photos">
                 {% for img in images %}
-                   <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
-                        <a href="{{img.photo.url}}" data-lightbox="photos">
-                            <img class="img-fluid mb-3" src="{{img.photo.url}}">
-                        </a>
-                    </div>                   
-                {% endfor %}                       
+                <div data-aos="zoom-in" class="col-lg-4 col-md-4 col-sm-6">
+                    <a href="{{ img.photo.url }}" data-lightbox="photos">
+                        <img class="img-fluid mb-3" src="{{ img.photo.url }}" alt="gallery_image">
+                    </a>
+                </div>
+                {% endfor %}
             </div>
         </section>
         {% endfor %}
-        
+    </div>
 </div>
 {% endblock %}
 
