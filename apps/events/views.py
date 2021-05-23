@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
 from home.views import has_authenticated_profile
-from .models import Event,Gallery
+from .models import Event, Gallery
 
 
 def index(request):
@@ -23,7 +23,7 @@ def captures(request):
     
     context = {'gallery_dict':gallery_dict}
     return render(request, 'events/captures.html', context)
-   
+
 
 @login_required
 @user_passes_test(
