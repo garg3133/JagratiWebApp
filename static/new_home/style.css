@@ -429,8 +429,8 @@ header
 #about-us::before{
   display: block;
   content: "";
-  margin-top: -65px;
-  height: 65px;
+  margin-top: 0px;
+  height: 0px;
   visibility: hidden;
 }
 #about-us h1, #about-us h2{
@@ -581,8 +581,8 @@ header
 #donate-us::before{
   display: block;
   content: "";
-  margin-top: -65px;
-  height: 65px;
+  margin-top: 0px;
+  height: 0px;
   visibility: hidden;
 }
 #donate-us h1, #donate-us h2{
@@ -603,8 +603,8 @@ header
 #contact-us::before{
   display: block;
   content: "";
-  margin-top: -65px;
-  height: 65px;
+  margin-top: 0px;
+  height: 0px;
   visibility: hidden;
 }
 
