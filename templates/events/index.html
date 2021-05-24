@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+
+{% block title %} Jagrati | Events {% endblock %}
+
+{% block style %}
+<style>
+    body {
+        background-color: #f7f3e9;
+    }
+    .card-img-top {
+    width: 100%;
+    height: 20vw;
+    object-fit: cover;
+    }
+    .card{
+        margin: 8%;
+    }
+    .inner{
+        overflow: hidden;
+    }
+    .inner img{
+        transition: all 1s ease;
+    }
+    .inner:hover img{
+        transform: scale(1.1);
+    }
+</style> 
+{% endblock %}
+
+{% block content %}
+<h1 style="padding-top: 20px;" data-aos="fade-up" class="text-center font-weight-bold">EVENTS
+    <i class="fas fa-heart" style="color: red"></i>
+</h1>
+    {% if events %}
+        <div class="row no-gutters">
+            {% for event in events %}
+                <div class="col-md-4">
+                    <div class="card shadow">
+                        <div class="inner">
+                        <img src="{{event.get_thumbnail_url}}" class="card-img-top"  alt="thumbnail">
+                        </div>
+                            <div class="card-body">
+                                <p class="card-title"><b>Title:</b> {{event.title}}</p>
+                                <p class="card-text"><b>Venue:</b> {{event.venue}}</p>
+                                <p class="card-text text-truncate"><b>Description:</b> {{event.description}}</p>
+                            </div>
+                        </div>
+                    </div> 
+            {% endfor %}
+        </div>
+        {% else %}
+            <h1>No upcoming events yet.</h1>
+    {% endif %}
+{% endblock %}

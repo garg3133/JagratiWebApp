@@ -11,15 +11,9 @@ from .models import Event
 
 
 def index(request):
-    return HttpResponse('Hello World!')
-
-
-def events_all(request):
     events = Event.objects.all()
-    my_context = []
-    for event in events:
-        my_context.append(event)
-    return render(request, "events/events_all.html", {'my_context': my_context})
+    context = {'events': events, }
+    return render(request, "events/index.html", context)
 
 
 @login_required

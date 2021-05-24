@@ -107,6 +107,7 @@ def dashboard(request):
 
         # Subject Scheduled
         subject_scheduled = schedule.get_subject_display()
+        print("subject sch:", subject_scheduled)
         context['subject_scheduled'] = subject_scheduled
 
         # Students Attendance
