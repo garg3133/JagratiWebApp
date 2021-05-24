@@ -5,17 +5,18 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils.encoding import force_bytes, force_text
+from django.utils.encoding import force_bytes
 from django.utils.html import strip_tags
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.contrib.auth.password_validation import validate_password
 
 # local Django
 from apps.volunteers.models import Volunteer
-from .models import User, UserManager, Profile
+from .models import User, Profile
 from .tokens import account_activation_token
 
 
@@ -93,6 +94,13 @@ def login_signup(request):
                 return render(request, "accounts/login_signup.html", context)
             if password1 and password2 and password1 != password2:
                 context['signup_error'] = "Passwords don't match"
+                return render(request, "accounts/login_signup.html", context)
+
+            # Validate password strength
+            try:
+                validate_password(password1)
+            except Exception as e:
+                context['signup_error'] = ' '.join(e.messages)
                 return render(request, "accounts/login_signup.html", context)
 
             user = User(email=email, is_active=False)

@@ -28,7 +28,7 @@ class Section(models.Model):
 
 class Schedule(models.Model):
     # They won't ever change and will give us dropdown in Admin site
-    DAY = [(i+1, calendar.day_name[i]) for i in range(0, 7)]
+    DAY = [((i+1)%7, calendar.day_name[i]) for i in range(0, 7)]
 
     SUBJECT = (
         ('eng', "English"),

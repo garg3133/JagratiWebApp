@@ -29,10 +29,6 @@ def is_volunteer(user):
     return user.desig == 'v'
 
 
-def captures(request):
-    return render(request, 'home/captures.html')
-
-
 # VIEW FUNCTIONS
 
 def index(request):
