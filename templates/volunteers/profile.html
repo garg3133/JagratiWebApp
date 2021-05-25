@@ -19,7 +19,7 @@
 <div class="container">
     <div class="py-3 mt-3 text-center">
         <h2>
-            {% if self_profile %} Your Profile {% else %} User Profile {% endif %}
+            {% if self_profile %} Your Profile {% else %} Volunteer Profile {% endif %}
         </h2>
     </div>
 
@@ -236,9 +236,9 @@
 
         </div>
     </div>
-    <div class="my-3 text-center">
+    <div class="pb-3 text-center">
         <h2>
-            Schedule
+            {% if self_profile %} Your Schedule {% else %} Volunteer Schedule {% endif %}
         </h2>
     </div>
     <div class="row justify-content-center mb-5">
