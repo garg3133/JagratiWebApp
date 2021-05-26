@@ -89,5 +89,34 @@
             </div>
         </div>
     </div>
+    <div class="pb-3 text-center">
+        <h2>
+            Student Schedule
+        </h2>
+    </div>
+    <div class="row justify-content-center mb-5">
+        <div class="col-lg-9 col-xl-8 border rounded shadow px-sm-5 py-4">
+            <div class="table-responsive">
+                <table class="table table-borderless table-hover text-center mb-0">
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Section</th>
+                            <th>Subject</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sch in stu_schedule %}
+                        <tr>
+                            <td>{{ sch.get_day_display }}</td>
+                            <td>{{ sch.schedule.section.name }}</td>
+                            <td>{{ sch.schedule.get_subject_display }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
