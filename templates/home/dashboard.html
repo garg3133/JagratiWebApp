@@ -41,10 +41,17 @@
         <p class="text-center">{{calendar_remark}}</p>
         {% else %}
         <!-- Subject Scheduled -->
-        <div class="row justify-content-center mt-4">
-            {% if subject_scheduled %}
-            <p>Subject scheduled: <b>{{ subject_scheduled }}</b></p>
-            {% endif %}
+        <div class="row justify-content-center mt-4 mx-5">
+            <div class="col-md-9 col-lg-3 mr-lg-5 mb-3">
+                {% if subject_scheduled %}
+                <p>Subject scheduled: <b>{{ subject_scheduled }}</b></p>
+                {% endif %}
+            </div>
+            <div class="col-md-9 col-lg-3 mr-lg-5 mb-3">
+                {% if subject_scheduled %}
+                <p>Subject Taught: <b id="sub-taught">{{ subject_scheduled }}</b></p>
+                {% endif %}
+            </div>
         </div>
 
         <!-- ClassWork HomeWork -->
@@ -84,13 +91,28 @@
                 <i style="margin-left:10px !important;" class="fas fa-chevron-down"></i>
             </button>
         </div>
-
         <div class="row justify-content-center mt-3 px-3" style="background-color: #f7f7f7;">
             <div class="dash-cwhw d-none col-12">
                 <form action="{% url 'home:update_cwhw' %}" method="POST" class="mt-4">
                     {% csrf_token %}
                     <input type="hidden" name="date" value="{{ selected_date|date:'Y-m-d' }}">
                     <input type="hidden" name="section" value="{{ selected_section }}">
+                    <div class="row justify-content-center mb-2">
+                        <div class="col-md-9 col-lg-3 mr-lg-5 mb-3">
+                            <label for="subject-taught">Subject taught</label>
+                            <select name="t" class="custom-select d-block w-100" id="subject-taught" onchange="fetchSubject()" required >
+                                {% for key, value in selected_subject.items %}
+                                    {% if value == subject_scheduled %}
+                                        <option value={{key}} selected>{{ value }}</option>
+                                    {% else %}
+                                        <option value={{key}}>{{ value }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <!-- Hidden Input For Scheduled Subject -->
+                    <input type="hidden" name="extra-info-2" value="{{ subject_scheduled }}">
                     <div class="row justify-content-center mb-2">
                         <div class="col-md-9 col-lg-5 px-0 mr-lg-5 mb-3">
                             <textarea name="cw" id="update_cw" class="form-control" data-tooltip="update_cwhw" rows="6"
@@ -342,6 +364,15 @@
         $('#class-date').datepicker("setDate", "{{ selected_date|date:'Y-m-d' }}");
     else
         $('#class-date').datepicker("setDate", "{% now 'Y-m-d' %}");
+</script>
+
+<!-- Script for Subject Taught -->
+<script>
+    function fetchSubject() {
+      var subject_taught_key = document.getElementById("subject-taught").value;
+      var subject_taught_dict = {{ selected_subject|safe }}
+      document.getElementById("sub-taught").innerHTML = subject_taught_dict[subject_taught_key];
+    }
 </script>
 
 <!-- Search Filter for Student Present on Dashboard  -->
