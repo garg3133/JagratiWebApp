@@ -83,7 +83,7 @@ def dashboard(request):
         schedule_objects = Schedule.objects.all()
         query_taught = {}
         for items in schedule_objects:
-            query_taught[items.subject]=items.get_subject_display()
+            query_taught[items.subject] = items.get_subject_display()
 
         context = {
             'selected_date': query_date,
@@ -182,7 +182,6 @@ def update_cwhw(request):
         hw = request.POST['hw']
         comment = request.POST['comment']
 
-
         cw_hw = ClassworkHomework.objects.filter(
             cal_date=cal_date, section=section)
         if cw_hw.exists():
@@ -191,7 +190,7 @@ def update_cwhw(request):
             if cw or hw or comment:
                 cw_hw = ClassworkHomework(
                     cal_date=cal_date, section=section, cw='', hw='', comment='', subject_taught=subject_taught, to_be_taught=to_be_taught)
-            else :
+            else:
                 redirect_url = reverse('home:dashboard') + f'?d={date}&s={section_id}'
                 return HttpResponseRedirect(redirect_url)
 
