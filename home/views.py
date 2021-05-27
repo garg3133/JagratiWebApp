@@ -182,6 +182,7 @@ def update_cwhw(request):
         hw = request.POST['hw']
         comment = request.POST['comment']
 
+        redirect_url = reverse('home:dashboard') + f'?d={date}&s={section_id}'
         cw_hw = ClassworkHomework.objects.filter(
             cal_date=cal_date, section=section)
         if cw_hw.exists():
@@ -189,9 +190,10 @@ def update_cwhw(request):
         else:
             if cw or hw or comment:
                 cw_hw = ClassworkHomework(
-                    cal_date=cal_date, section=section, cw='', hw='', comment='', subject_taught=subject_taught, to_be_taught=to_be_taught)
+                    cal_date=cal_date, section=section, cw='', hw='',
+                    comment='', subject_taught=subject_taught,
+                    to_be_taught=to_be_taught)
             else:
-                redirect_url = reverse('home:dashboard') + f'?d={date}&s={section_id}'
                 return HttpResponseRedirect(redirect_url)
 
         if cw:
@@ -204,7 +206,6 @@ def update_cwhw(request):
         cw_hw.save()
 
         messages.success(request, 'CW_HW update successful!')
-        redirect_url = reverse('home:dashboard') + f'?d={date}&s={section_id}'
         return HttpResponseRedirect(redirect_url)
 
     return redirect('home:dashboard')
