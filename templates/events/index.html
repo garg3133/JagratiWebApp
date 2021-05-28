@@ -9,56 +9,60 @@
     body {
         background-color: #f7f3e9;
     }
-    .card-img-top {
-    width: 100%;
-    height: 40vh;
-    object-fit: fill;
-    }
-    .card{
-        margin: 8%;
-    }
-    .inner{
-        overflow: hidden;
-    }
-    .inner img{
-        transition: all 1s ease;
-    }
-    .inner:hover img{
-        transform: scale(1.1);
-    }
-    @media only screen and (max-width: 600px) {
+
     .card-img-top {
         width: 100%;
-        height: 70vh;
+        height: 16rem;
         object-fit: fill;
-        }
     }
 
-</style> 
+    .card {
+        margin: 8%;
+    }
+
+    .inner {
+        overflow: hidden;
+    }
+
+    .inner img {
+        transition: all 1s ease;
+    }
+
+    .inner:hover img {
+        transform: scale(1.1);
+    }
+
+    @media only screen and (max-width: 576px) {
+        .card-img-top {
+            max-height: 16rem;
+            height: auto;
+        }
+    }
+</style>
 {% endblock %}
 
 {% block content %}
-<h1 style="padding-top: 20px;" data-aos="fade-up" class="text-center font-weight-bold">EVENTS
-    <i class="fas fa-heart" style="color: red"></i>
-</h1>
+<div class="my-4 pt-3">
+    <h1 data-aos="fade-up" class="text-center font-weight-bold">EVENTS
+        <i class="fas fa-heart" style="color: red"></i>
+    </h1>
     {% if events %}
-        <div class="row no-gutters">
-            {% for event in events %}
-                <div class="col-md-3">
-                    <div class="card shadow">
-                        <div class="inner">
-                        <img src="{{event.get_thumbnail_url}}" class="card-img-top"  alt="thumbnail">
-                        </div>
-                            <div class="card-body">
-                                <p class="card-title"><b>Title:</b> {{event.title}}</p>
-                                <p class="card-text text-truncate"><b>Venue:</b> {{event.venue}}</p>
-                                <p class="card-text text-truncate"><b>Description:</b> {{event.description}}</p>
-                            </div>
-                        </div>
-                    </div> 
-            {% endfor %}
+    <div class="row no-gutters">
+        {% for event in events %}
+        <div class="col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center">
+            <div class="card shadow w-100">
+                <img src="{{event.get_thumbnail_url}}" class="card-img-top" alt="thumbnail">
+                <div class="card-body">
+                    <p class="card-title"><b>Title:</b> {{event.title}}</p>
+                    <p class="card-text text-truncate"><b>Venue:</b> {{event.venue}}</p>
+                    <p class="card-text text-truncate"><b>Description:</b> {{event.description}}</p>
+                </div>
+            </div>
         </div>
-        {% else %}
-            <h1>No upcoming events yet.</h1>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-center mt-4 font-italic">No events to show yet.</p>
     {% endif %}
+</div>
 {% endblock %}
