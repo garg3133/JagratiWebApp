@@ -2,6 +2,7 @@ from django.test import TestCase
 # from django.contrib.auth.models import User
 from django.urls import reverse
 from accounts.models import Profile,User
+from apps.volunteers.models import Volunteer
 
 class LoginSignupTest(TestCase):
     @classmethod
@@ -30,8 +31,39 @@ class LoginSignupTest(TestCase):
             pincode = 98743
         )
 
+        test_user2 = User.objects.create_user(email='testuser2@gmail.com', password='2HJ1vRV0Z&3iD')
+
+        test_user2.save()
+
+        # Complete profile of first user
+        test_user2.first_name = 'test1'
+        test_user2.last_name = 'user1'
+        test_user2.is_active = True
+        test_user2.auth = True
+        test_user2.save()
+        test_user2_profile = Profile.objects.create(
+            user = test_user2,
+            gender = 'M',
+            alt_email = 'altemail@gmail.com',
+            profile_image = 'fessea.JPEG',
+            street_address1 = 'awdwdaadswd',
+            street_address2 = 'awdaasdawdawd',
+            contact_no = '99999999999',
+            city = 'Paris',
+            state = 'France',
+            pincode = 98798
+        )
+        test_user2_volunteer = Volunteer.objects.create(
+            profile = test_user2_profile,
+            roll_no = 18100123,
+            dob = '2021-01-01',
+            batch = 12,
+            programme = 'awdaasdawdawd'
+        )
+
+
     def test_view_url_exists_at_desired_location(self):
-        response = self.client.get('')
+        response = self.client.get('/accounts/login/')
         self.assertEqual(response.status_code, 200)
            
     def test_view_url_accessible_by_name(self):
@@ -39,21 +71,18 @@ class LoginSignupTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_logged_in_uses_correct_template(self):
-        login = self.client.login(email='testuser1@gmail.com', password='1X<ISRUkw+tuK')
-        response = self.client.get(reverse('home:dashboard'))
-
-        # Check that we got a response "success"
-        self.assertEqual(response.status_code, 302)
+        response = self.client.get(reverse('accounts:login_signup'))
+        self.assertTemplateUsed(response, 'accounts/login_signup.html')
 
     def test_view_login_with_correct_data(self):
         response = self.client.post(reverse('accounts:login_signup'), {
-            'email' : 'testuser1@gmail.com',
-            'password' : '1X<ISRUkw+tuK',
+            'email' : 'testuser2@gmail.com',
+            'password' : '2HJ1vRV0Z&3iD',
             'submit' : 'login'
         })
         # Check it redirects correctly to login_signup
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'accounts/login_signup.html')
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/dashboard/')
 
     def test_view_login_with_incorrect_username(self):
         response = self.client.post(reverse('accounts:login_signup'), {
