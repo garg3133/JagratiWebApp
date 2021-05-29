@@ -424,9 +424,7 @@ h1 {
 	right: -10px;
 }
 #initiatives .card:hover .card1{
-	top: 10px;
-	right: 10px;
-	z-index: 0;
+	animation: delay-uprise 1.5s ease forwards;
 }
 #initiatives .card:hover h2{
 	/*top: 10px;*/
@@ -1075,5 +1073,18 @@ footer{
 	}
 	#contact-us .container{
 		width: 70%;
+	}
+}
+
+@keyframes delay-uprise{
+	from{
+		top: -10px;
+		right: -10px;
+		z-index: -1;
+	}
+	to{
+		top: 10px;
+		right: 10px;
+		z-index: 0;
 	}
 }
