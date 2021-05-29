@@ -48,8 +48,10 @@
                 {% endif %}
             </div>
             <div class="col-md-9 col-lg-3 mr-lg-5 mb-3">
-                {% if subject_scheduled %}
-                <p>Subject Taught: <b id="sub-taught">{{ subject_scheduled }}</b></p>
+                {% if cw_hw.get_subject_taught_display %}
+                <p>Subject Taught: <b>{{ cw_hw.get_subject_taught_display }}</b></p>
+                {% else %}
+                <p>Subject Taught: <b>Not Updated</b></p>
                 {% endif %}
             </div>
         </div>
@@ -100,8 +102,8 @@
                     <div class="row justify-content-center mb-2">
                         <div class="col-md-9 col-lg-3 mr-lg-5 mb-3">
                             <label for="subject-taught">Subject taught</label>
-                            <select name="t" class="custom-select d-block w-100" id="subject-taught" onchange="fetchSubject()" required >
-                                {% for key, value in selected_subject.items %}
+                            <select name="subject_taught" class="custom-select d-block w-100" id="subject-taught" required >
+                                {% for key, value in selected_subject %}
                                     {% if value == subject_scheduled %}
                                         <option value={{key}} selected>{{ value }}</option>
                                     {% else %}
@@ -364,15 +366,6 @@
         $('#class-date').datepicker("setDate", "{{ selected_date|date:'Y-m-d' }}");
     else
         $('#class-date').datepicker("setDate", "{% now 'Y-m-d' %}");
-</script>
-
-<!-- Script for Subject Taught -->
-<script>
-    function fetchSubject() {
-      var subject_taught_key = document.getElementById("subject-taught").value;
-      var subject_taught_dict = {{ selected_subject|safe }}
-      document.getElementById("sub-taught").innerHTML = subject_taught_dict[subject_taught_key];
-    }
 </script>
 
 <!-- Search Filter for Student Present on Dashboard  -->
