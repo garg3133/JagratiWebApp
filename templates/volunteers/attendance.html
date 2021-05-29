@@ -42,6 +42,7 @@
                                 <div class="custom-control custom-switch">
                                     <input type="checkbox" name="volunteered" value="{{ vol_att.volun.id }}"
                                         id="v{{ vol_att.id }}" class="custom-control-input"
+                                           onchange="markAttendance('{{ vol_att.volun.id }}', 'v{{ vol_att.id }}')"
                                         {% if vol_att.present %}checked{% endif %}>
                                     <label class="custom-control-label" for="v{{ vol_att.id }}"></label>
                                 </div>
@@ -52,18 +53,15 @@
                 </table>
             </div>
         </div>
-        <div class="row justify-content-center" id="add-vol">
-
-        </div>
-        <div class="row justify-content-center mb-4">
-            <div class="col-5 col-sm-4 col-md-3 col-lg-2">
-                <button type="button" class="btn btn-primary btn-block" onclick="add_vol()">Add More</button>
-            </div>
-        </div>
-        <div class="row justify-content-center mb-4">
-            <div class="col-md-4">
-                <button name="submit" value="vol-att" class="btn btn-primary btn-lg btn-block"
-                    type="submit">Submit</button>
+        <div class="row justify-content-center">
+            <div class="row col-sm-6 mb-2 text-center">
+                <div class="justify-content-center col-sm-9">
+                    <input type="text" id="add-volunteers" class="form-control mb-3 mx-auto"
+                        placeholder="Enter roll no..">
+                </div>
+                <div class="justify-content-center col-sm-3">
+                        <button type="button" class="btn btn-primary btn-block" onclick="add_vol()">Add</button>
+                </div>
             </div>
         </div>
     </form>
@@ -100,17 +98,69 @@
 <!-- Add Extra Volunteers in Volunteer Attendance -->
 <script>
     function add_vol() {
-        let add_vol_div = document.getElementById('add-vol');
-        let div = document.createElement("div");
-        div.className = "col-7 col-sm-4 col-lg-3 mb-3";
-        let input = document.createElement("input");
-        input.name = "extra-vol";
-        input.type = "number";
-        input.className = "form-control";
-        input.placeholder = "Roll No.";
-        div.appendChild(input);
-        add_vol_div.appendChild(div);
-        // add_vol_div.innerHTML += '<div class="col-7 col-sm-4 col-lg-3 mb-3"><input name="extra-vol" type="number" class="form-control" placeholder="Roll No."></div>';
+
+        let table = document.getElementById('vol-att-table');
+        let tableRow = document.createElement("tr");
+
+        let td1 = document.createElement("td");
+        let td2 = document.createElement("td");
+        {#let td3 = document.createElement("td");#}
+        td1.innerText = "20202001";
+        td2.innerText = "Sagar Pandya";
+
+        tableRow.append(td1);
+        tableRow.append(td2);
+
+        table.appendChild(tableRow);
+    }
+</script>
+
+<!-- Mark/Unmark Volunteer Attendance -->
+<script>
+    function markAttendance(volun_id, checkbox_id) {
+        let att_checkbox = document.getElementById(checkbox_id);
+        let is_present = att_checkbox.checked;
+        console.log(is_present);
+        $.ajax({
+            url: "{% url 'volunteers:ajax_mark_attendance' %}",
+            data: {
+                'volun_id': volun_id,
+                'is_present': is_present,
+            },
+            dataType: 'json',
+            success: function (data, status) {
+                $('#alert-toast-div > div').html(
+                    `<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="500">
+                        <div class="toast-body p-2 px-3">
+                            <strong class="mr-auto">Attendance updated.</strong>
+                            <button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>`
+                )
+
+                $("#alert_toast").toast("show");
+                $("#alert_toast").addClass("bg-success");
+            },
+            error: function (data, status) {
+                // Un-toggle the checkbox
+                is_present ? att_checkbox.checked = false : att_checkbox.checked = true;
+                $('#alert-toast-div > div').html(
+                    `<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3500">
+                        <div class="toast-body p-2 px-3">
+                            <strong class="mr-auto">Something went wrong.</strong>
+                            <button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>`
+                )
+
+                $("#alert_toast").toast("show");
+                $("#alert_toast").addClass("bg-danger");
+            }
+        });
     }
 </script>
 {% endblock %}
