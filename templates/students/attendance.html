@@ -43,7 +43,10 @@
                 <tbody>
                     {% for stu_att in stu_att_today %}
                     <tr>
-                        <td>{{ stu_att.student.get_full_name }}</td>
+                       
+                        <td><a href="{% url 'students:profile' stu_att.student.id %}" target ="_blank">{{ stu_att.student.get_full_name }}</a> 
+                        </td>
+                    
 
                         {% if stu_att.student.school_class == 13 %}
                         <td>JNV_4</td>
@@ -148,6 +151,7 @@
                 let checked = '';
 
                 Object.entries(data).forEach(([key, [stu_att_id, stu_id, name, school_class, present]]) => {
+                    const url_mask = "{% url 'students:profile' 14325 %}".replace("14325", stu_id);
                     if (present) checked = 'checked';
                     else checked = '';
 
@@ -156,7 +160,7 @@
 
                     stu_att_table +=
                         `<tr>
-                            <td>${name}</td>
+                            <td><a href="${url_mask}" target ="_blank">${name}</a></td>
                             <td>${school_class}</td>
                             <td>
                                 <div class="custom-control custom-switch">
