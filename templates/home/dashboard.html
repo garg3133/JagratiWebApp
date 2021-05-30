@@ -166,7 +166,9 @@
                             {% for stu_att in student_attendance %}
                             <tr class="text-center">
                                  <td class="text-monospace font-weight-lighter">
-                                    <a href="{% url 'students:profile' stu_att.student.id %}" target ="_blank">{{stu_att.student.get_full_name}} </a>
+                                    <a href="{% url 'students:profile' stu_att.student.id %}" target ="_blank">
+                                        {{ stu_att.student.get_full_name }}
+                                    </a>
                                 </td>
 
                                 {% if stu_att.student.school_class == 13 %}
