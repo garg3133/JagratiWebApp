@@ -730,6 +730,9 @@ h1 {
 .donateLink {
 	color: #000;
 }
+.donateLink: hover {
+	color: #ff8c00;
+}
 
 .don-box3 .contact-details-right {
 	margin-right: 64px;
@@ -811,6 +814,9 @@ h1 {
 .contactLink{
 	padding-right: 10px;
 	color: #000;
+}
+.contactLink: hover {
+	color: #ff8c00;
 }
 .con-box2 a{
 	padding: 0 10px;
