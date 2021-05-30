@@ -97,14 +97,14 @@
                             </div>
                         </div>
 
-                        <input name="{{form.profile_image}}" type="file" id="profileImage" style="display: none;"
+                        <input name="profile_image" type="file" id="profileImage" style="display: none;"
                             onchange="imageValidation()">
                     </div>
                     <div class="col-md-8 my-3">
                         <div class="row justify-content-center">
                             <div class="col-6 mb-3 align-self-center">
                                 <label for="firstName">First name</label>
-                                <input name="{{form.first_name}}" type="text" class="form-control" id="firstName"
+                                <input name="first_name" type="text" class="form-control" id="firstName"
                                     value="{{ profile.first_name }}" required>
                             </div>
                             <div class="invalid-feedback">
@@ -112,7 +112,7 @@
                             </div>
                             <div class="col-6 mb-3">
                                 <label for="lastName">Last name</label>
-                                <input name="{{form.last_name}}" type="text" class="form-control" id="lastName"
+                                <input name="last_name" type="text" class="form-control" id="lastName"
                                     value="{{ profile.last_name }}" required>
                             </div>
                             <div class="invalid-feedback">
@@ -123,7 +123,7 @@
                         <div class="row justify-content-center">
                             <div class="col-6 mb-3 align-self-center">
                                 <label for="gender">Gender</label>
-                                <select name="{{form.gender}}" class="custom-select d-block w-100" id="gender" required>
+                                <select name="gender" class="custom-select d-block w-100" id="gender" required>
                                     <option value="M" {% if profile.gender == "M" %} selected {% endif %}>Male</option>
                                     <option value="F" {% if profile.gender == "F" %} selected {% endif %}>Female</option>
                                     <option value="O" {% if profile.gender == "O" %} selected {% endif %}>Other</option>
@@ -131,7 +131,7 @@
                             </div>
                             <div class="col-6 mb-3">
                                 <label for="schoolClass">Class</label>
-                                <input name="{{form.school_class}}" type="number" class="form-control" id="schoolClass"
+                                <input name="school_class" type="number" class="form-control" id="schoolClass"
                                     value="{{ profile.school_class }}" min="1" max="15" required>
                                 <div class="invalid-feedback">
                                     Please enter a valid class.
@@ -142,7 +142,7 @@
                         <div class="row justify-content-center">
                             <div class="col-6 mb-3 align-self-center">
                                 <label for="village">Village</label>
-                                <select name="{{form.village}}" class="custom-select d-block w-100" id="village" required>
+                                <select name="village" class="custom-select d-block w-100" id="village" required>
                                     {% for village_id, village_name in villages %}
                                     <option value="{{ village_id }}" {% if profile.village == village_id %} selected {% endif %}>
                                         {{ village_name }}
@@ -155,7 +155,7 @@
                             </div>
                             <div class="col-6 mb-3">
                                 <label for="contactNo">Contact No.</label>
-                                <input name="{{form.contact_no}}" type="tel" pattern="[0-9]{10}" class="form-control"
+                                <input name="contact_no" type="tel" pattern="[0-9]{10}" class="form-control"
                                     id="contactNo" value="{{ profile.contact_no }}">
                                 <div class="invalid-feedback">
                                     Please enter valid Contact No. (10 Digits).
@@ -165,7 +165,7 @@
 
                         <div class="row mx-1 mb-1">
                             <label for="guardianName">Guardian name</label>
-                            <input name="{{form.guardian_name}}" type="text" class="form-control" id="guardianName"
+                            <input name="guardian_name" type="text" class="form-control" id="guardianName"
                                 value="{{ profile.guardian_name }}" required>
                             <div class="invalid-feedback">
                                 Please enter a Guardian name.

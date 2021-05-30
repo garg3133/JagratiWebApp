@@ -30,13 +30,13 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="firstName">First name</label>
-                        <input name="{{form.first_name}}" type="text" class="form-control" id="firstName" required />
+                        <input name="first_name" type="text" class="form-control" id="firstName"  required />
                         <div class="invalid-feedback">Valid First Name is required.</div>
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="lastName">Last name</label>
-                        <input name="{{form.last_name}}" type="text" class="form-control" id="lastName" required />
+                        <input name="last_name"  type="text" class="form-control" id="lastName" required />
                         <div class="invalid-feedback">Valid Last Name is required.</div>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                 <div class="row">
                     <div class="col-md-4 mb-3">
                         <label for="gender">Gender</label>
-                        <select name="{{form.gender}}" class="custom-select d-block w-100" id="gender" required>
+                        <select name="gender" class="custom-select d-block w-100" id="gender" required>
                             <option value="M">Male</option>
                             <option value="F">Female</option>
                             <option value="O">Other</option>
@@ -53,14 +53,14 @@
 
                     <div class="col-md-4 mb-3">
                         <label for="school_class">Class</label>
-                        <input name="{{form.school_class}}" type="number" class="form-control" id="school_class" placeholder="8"
+                        <input name="school_class" type="number" class="form-control" id="school_class" placeholder="8"
                             min="1" max="15" required />
                         <div class="invalid-feedback">Please enter a valid class.</div>
                     </div>
 
                     <div class="col-md-4 mb-3">
                         <label for="village">Village</label>
-                        <select name="{{form.village}}" class="custom-select d-block w-100" id="village" required>
+                        <select name="village" class="custom-select d-block w-100" id="village" required>
                             {% for village_id, village_name in villages %}
                             <option value="{{ village_id }}">{{ village_name }}</option>
                             {% endfor %}
@@ -71,20 +71,20 @@
                 <div class="row">
                     <div class="col-lg-6 mb-3">
                         <label for="contact_no">Contact No. <span class="text-muted">(Optional)</span></label>
-                        <input name="{{form.contact_no}}" type="tel" pattern="[0-9]{10}" class="form-control" id="contact_no" />
+                        <input name="contact_no" type="tel" pattern="[0-9]{10}" class="form-control" id="contact_no" />
                         <div class="invalid-feedback">Valid Contact No. (10 Digits) is required.</div>
                     </div>
 
                     <div class="col-lg-6 mb-3">
                         <label for="guardian_name">Guardian Name</label>
-                        <input name="{{form.guardian_name}}" type="text" class="form-control" id="guardian_name" required />
+                        <input name="guardian_name" type="text" class="form-control" id="guardian_name" required />
                         <div class="invalid-feedback">Valid Guardian Name is required.</div>
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <label for="profileImage">Profile Picture <span class="text-muted">(Optional)</span></label>
-                    <input name="{{form.profile_image}}" type="file" id="profileImage" class="form-control-file"
+                    <input name="profile_image" type="file" id="profileImage" class="form-control-file"
                         onchange="imageValidation()" />
                 </div>
 
