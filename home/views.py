@@ -80,9 +80,12 @@ def dashboard(request):
         else:
             return redirect('home:dashboard')
 
+        query_taught = Schedule.SUBJECT
+
         context = {
             'selected_date': query_date,
             'selected_section': query_section,
+            'selected_subject': query_taught,
         }
         # If calendar instance for that day is not created
         if not calendar.exists():
@@ -168,18 +171,25 @@ def update_cwhw(request):
         section_id = request.POST['section']
         section = Section.objects.get(section_id=section_id)
 
+        subject_taught = request.POST['subject_taught']
+
         # Update CW-HW
         cw = request.POST['cw']
         hw = request.POST['hw']
         comment = request.POST['comment']
 
+        redirect_url = reverse('home:dashboard') + f'?d={date}&s={section_id}'
         cw_hw = ClassworkHomework.objects.filter(
             cal_date=cal_date, section=section)
         if cw_hw.exists():
             cw_hw = cw_hw[0]
         else:
-            cw_hw = ClassworkHomework(
-                cal_date=cal_date, section=section, cw='', hw='', comment='')
+            if cw or hw or comment:
+                cw_hw = ClassworkHomework(
+                    cal_date=cal_date, section=section, cw='', hw='',
+                    comment='', subject_taught=subject_taught)
+            else:
+                return HttpResponseRedirect(redirect_url)
 
         if cw:
             cw_hw.cw += f'{cw}\n - {profile.get_full_name}, {volun.roll_no}\n\n'
@@ -191,7 +201,6 @@ def update_cwhw(request):
         cw_hw.save()
 
         messages.success(request, 'CW_HW update successful!')
-        redirect_url = reverse('home:dashboard') + f'?d={date}&s={section_id}'
         return HttpResponseRedirect(redirect_url)
 
     return redirect('home:dashboard')
