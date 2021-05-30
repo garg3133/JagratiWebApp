@@ -41,17 +41,15 @@
         <p class="text-center">{{calendar_remark}}</p>
         {% else %}
         <!-- Subject Scheduled -->
-        <div class="row justify-content-center mt-4 mx-5">
-            <div class="col-md-9 col-lg-3 mr-lg-5 mb-3">
-                {% if subject_scheduled %}
-                <p>Subject scheduled: <b>{{ subject_scheduled }}</b></p>
-                {% endif %}
+        <div class="row justify-content-center mt-4">
+            <div class="col text-center">
+                <p>Subject scheduled: <b class="d-inline-block">{{ subject_scheduled }}</b></p>
             </div>
-            <div class="col-md-9 col-lg-3 mr-lg-5 mb-3">
-                {% if cw_hw.get_subject_taught_display %}
-                <p>Subject Taught: <b>{{ cw_hw.get_subject_taught_display }}</b></p>
+            <div class="col text-center">
+                {% if cw_hw.subject_taught %}
+                <p>Subject Taught: <b class="d-inline-block">{{ cw_hw.get_subject_taught_display }}</b></p>
                 {% else %}
-                <p>Subject Taught: <b>Not Updated</b></p>
+                <p>Subject Taught: <b class="d-inline-block">Not Updated</b></p>
                 {% endif %}
             </div>
         </div>
@@ -99,22 +97,19 @@
                     {% csrf_token %}
                     <input type="hidden" name="date" value="{{ selected_date|date:'Y-m-d' }}">
                     <input type="hidden" name="section" value="{{ selected_section }}">
-                    <div class="row justify-content-center mb-2">
-                        <div class="col-md-9 col-lg-3 mr-lg-5 mb-3">
-                            <label for="subject-taught">Subject taught</label>
-                            <select name="subject_taught" class="custom-select d-block w-100" id="subject-taught" required >
-                                {% for key, value in selected_subject %}
-                                    {% if value == subject_scheduled %}
-                                        <option value={{key}} selected>{{ value }}</option>
-                                    {% else %}
-                                        <option value={{key}}>{{ value }}</option>
-                                    {% endif %}
+                    <div class="row justify-content-center mb-4">
+                        <div class="col-md-6 col-lg-4">
+                            <label for="subject-taught-select">Subject taught</label>
+                            <select name="subject_taught" class="custom-select d-block w-100" id="subject-taught-select">
+                                {% if not cw_hw.subject_taught %}
+                                <option value="" selected>--------</option>
+                                {% endif %}
+                                {% for key, value in subjects %}
+                                <option value="{{key}}" {% if key == cw_hw.subject_taught %}selected{% endif %}>{{ value }}</option>
                                 {% endfor %}
                             </select>
                         </div>
                     </div>
-                    <!-- Hidden Input For Scheduled Subject -->
-                    <input type="hidden" name="extra-info-2" value="{{ subject_scheduled }}">
                     <div class="row justify-content-center mb-2">
                         <div class="col-md-9 col-lg-5 px-0 mr-lg-5 mb-3">
                             <textarea name="cw" id="update_cw" class="form-control" data-tooltip="update_cwhw" rows="6"

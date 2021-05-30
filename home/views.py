@@ -80,12 +80,9 @@ def dashboard(request):
         else:
             return redirect('home:dashboard')
 
-        query_taught = Schedule.SUBJECT
-
         context = {
             'selected_date': query_date,
             'selected_section': query_section,
-            'selected_subject': query_taught,
         }
         # If calendar instance for that day is not created
         if not calendar.exists():
@@ -107,6 +104,9 @@ def dashboard(request):
         # Subject Scheduled
         subject_scheduled = schedule.get_subject_display()
         context['subject_scheduled'] = subject_scheduled
+
+        # All subjects
+        context['subjects'] = Schedule.SUBJECT
 
         # Students Attendance
         student_attendance = StudentAttendance.objects.filter(
@@ -178,18 +178,13 @@ def update_cwhw(request):
         hw = request.POST['hw']
         comment = request.POST['comment']
 
-        redirect_url = reverse('home:dashboard') + f'?d={date}&s={section_id}'
         cw_hw = ClassworkHomework.objects.filter(
             cal_date=cal_date, section=section)
         if cw_hw.exists():
             cw_hw = cw_hw[0]
         else:
-            if cw or hw or comment:
-                cw_hw = ClassworkHomework(
-                    cal_date=cal_date, section=section, cw='', hw='',
-                    comment='', subject_taught=subject_taught)
-            else:
-                return HttpResponseRedirect(redirect_url)
+            cw_hw = ClassworkHomework(
+                cal_date=cal_date, section=section, cw='', hw='', comment='')
 
         if cw:
             cw_hw.cw += f'{cw}\n - {profile.get_full_name}, {volun.roll_no}\n\n'
@@ -198,9 +193,16 @@ def update_cwhw(request):
         if comment:
             cw_hw.comment += f'{comment}\n - {profile.get_full_name}, {volun.roll_no}\n\n'
 
+        if cw or hw or comment:
+            cw_hw.subject_taught = subject_taught
+            messages.success(request, 'CW_HW update successful!')
+        else:
+            messages.error(
+                request, "Please enter something in CW, HW or comment.")
+
         cw_hw.save()
 
-        messages.success(request, 'CW_HW update successful!')
+        redirect_url = reverse('home:dashboard') + f'?d={date}&s={section_id}'
         return HttpResponseRedirect(redirect_url)
 
     return redirect('home:dashboard')
