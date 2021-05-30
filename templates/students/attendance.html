@@ -43,8 +43,10 @@
                 <tbody>
                     {% for stu_att in stu_att_today %}
                     <tr>
-                       <a href="{% url 'students:profile' stu_att.student.id %}" target ="_blank">
-                        <td>{{ stu_att.student.get_full_name }}</td></a> 
+                       
+                        <td><a href="{% url 'students:profile' stu_att.student.id %}" target ="_blank">{{ stu_att.student.get_full_name }}</a> 
+                        </td>
+                    
 
                         {% if stu_att.student.school_class == 13 %}
                         <td>JNV_4</td>
