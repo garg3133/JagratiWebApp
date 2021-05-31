@@ -727,10 +727,10 @@ h1 {
 	margin-left: 64px;
 }
 
-.donateLink {
+a.donateLink {
 	color: #000;
 }
-.donateLink: hover {
+a.donateLink:hover {
 	color: #ff8c00;
 }
 
@@ -811,11 +811,11 @@ h1 {
 .con-box1 p{
 	margin-top: 0;
 }
-.contactLink{
+a.contactLink{
 	padding-right: 10px;
 	color: #000;
 }
-.contactLink: hover {
+a.contactLink:hover {
 	color: #ff8c00;
 }
 .con-box2 a{
