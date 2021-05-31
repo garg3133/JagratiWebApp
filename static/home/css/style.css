@@ -426,6 +426,11 @@ h1 {
 #initiatives .card:hover .card1{
 	animation: delay-uprise 1.5s ease forwards;
 }
+
+#initiatives .card .card1{
+	animation: roll-back 1.5s ease forwards;
+}
+
 #initiatives .card:hover h2{
 	/*top: 10px;*/
 	/*right: 10px;*/
@@ -1075,7 +1080,7 @@ footer{
 		width: 70%;
 	}
 }
-
+/*KEYFRAMES STARTS*/
 @keyframes delay-uprise{
 	from{
 		top: -10px;
@@ -1086,5 +1091,18 @@ footer{
 		top: 10px;
 		right: 10px;
 		z-index: 0;
+	}
+}
+
+@keyframes roll-back{
+	from{
+		top: 10px;
+		right: 10px;
+		z-index: 0;
+	}
+	to{
+		top: -10px;
+		right: -10px;
+		z-index: -1;
 	}
 }
