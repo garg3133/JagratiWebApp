@@ -9,7 +9,9 @@ from .models import Event, Gallery
 
 
 def index(request):
-    return HttpResponse('Hello World!')
+    events = Event.objects.all()
+    context = {'events': events, }
+    return render(request, "events/index.html", context)
 
 
 def captures(request):

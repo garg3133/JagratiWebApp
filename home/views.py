@@ -105,6 +105,9 @@ def dashboard(request):
         subject_scheduled = schedule.get_subject_display()
         context['subject_scheduled'] = subject_scheduled
 
+        # All subjects
+        context['subjects'] = Schedule.SUBJECT
+
         # Students Attendance
         student_attendance = StudentAttendance.objects.filter(
             cal_date=calendar, present=True).order_by('student__school_class')
@@ -168,6 +171,8 @@ def update_cwhw(request):
         section_id = request.POST['section']
         section = Section.objects.get(section_id=section_id)
 
+        subject_taught = request.POST['subject_taught']
+
         # Update CW-HW
         cw = request.POST['cw']
         hw = request.POST['hw']
@@ -188,9 +193,15 @@ def update_cwhw(request):
         if comment:
             cw_hw.comment += f'{comment}\n - {profile.get_full_name}, {volun.roll_no}\n\n'
 
+        if cw or hw or comment:
+            cw_hw.subject_taught = subject_taught
+            messages.success(request, 'CW_HW update successful!')
+        else:
+            messages.error(
+                request, "Please enter something in CW, HW or comment.")
+
         cw_hw.save()
 
-        messages.success(request, 'CW_HW update successful!')
         redirect_url = reverse('home:dashboard') + f'?d={date}&s={section_id}'
         return HttpResponseRedirect(redirect_url)
 
