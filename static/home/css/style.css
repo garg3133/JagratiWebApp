@@ -711,7 +711,7 @@ h1 {
 .don-box3 .contact-details-div {
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: space-around;
 	margin-bottom: 12px;
 }
 
@@ -724,18 +724,16 @@ h1 {
 }
 
 .don-box3 .contact-details-left {
-	margin-left: 64px;
-}
-
-a.donateLink {
-	color: #000;
-}
-a.donateLink:hover {
-	color: #ff8c00;
+	width: 50%;
 }
 
 .don-box3 .contact-details-right {
-	margin-right: 64px;
+	width: 50%;
+}
+
+.don-box3-link:hover {
+	color: #000;
+	font-weight: bold;
 }
 
 .don-box3 .or {
@@ -811,27 +809,33 @@ a.donateLink:hover {
 .con-box1 p{
 	margin-top: 0;
 }
-a.contactLink{
-	padding-right: 10px;
-	color: #000;
+.contact-us-link {
+	display: inline-block;
+	margin-bottom: 1rem;
 }
-a.contactLink:hover {
+.contact-us-link:hover {
 	color: #ff8c00;
+	color: #000;
+	font-weight: bold;
 }
 .con-box2 a{
 	padding: 0 10px;
 }
 .con-box2 a:first-child:hover{
 	color: blue;
+	font-weight: bold;
 }
 .con-box2 a:nth-child(2):hover{
 	color: #fb3958;
+	font-weight: bold;
 }
 .con-box2 a:nth-child(3):hover{
 	color: red;
+	font-weight: bold;
 }
 .con-box2 a:last-child:hover{
 	color: white;
+	font-weight: bold;
 }
 #googleMap{
 	width: 100%;
