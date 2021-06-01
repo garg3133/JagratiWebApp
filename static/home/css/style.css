@@ -418,38 +418,26 @@ h1 {
 .card1 p{
 	padding: 44px 10px 10px;
 }
-#initiatives .card:hover{
+
+#initiatives .card:hover, .card_hover {
 	top: -10px;
 	right: -10px;
-}
-#initiatives .card:hover .card1{
-	animation: delay-uprise 1.5s ease forwards;
 }
 
 #initiatives .card .card1{
 	animation: roll-back 1.5s ease forwards;
 }
 
-#initiatives .card:hover h2{
+#initiatives .card:hover .card1, #initiatives .card .card1_hover {
+	animation: delay-uprise 1.5s ease forwards;
+}
+
+#initiatives .card:hover h2, .h_hover {
 	/*top: 10px;*/
 	/*right: 10px;*/
 	/*left: -10px;*/
 	/*bottom: -10px;*/
 	/*z-index: 1;*/
-	padding: 7px;
-	transform: rotateX(360deg) translateX(-10px) translateY(-300px);
-	background-color: transparent;
-}
-.card_hover{
-	top: -10px;
-	right: -10px;
-}
-.card1_hover{
-	top: 10px;
-	right: 10px;
-	z-index: 0;
-}
-.h_hover{
 	padding: 7px;
 	transform: rotateX(360deg) translateX(-10px) translateY(-300px);
 	background-color: transparent;
@@ -1097,7 +1085,10 @@ footer{
 		width: 70%;
 	}
 }
+
+
 /*KEYFRAMES STARTS*/
+
 @keyframes delay-uprise{
 	from{
 		top: -10px;
