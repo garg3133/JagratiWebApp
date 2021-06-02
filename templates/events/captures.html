@@ -12,6 +12,7 @@
     integrity="sha512-ZKX+BvQihRJPA8CROKBhDNvoc2aDMOdAlcm7TUQY+35XYtrd3yh95QOOhsPDQY9QnKE0Wqag9y38OIgEvb88cA=="
     crossorigin="anonymous">
 <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
+<link rel="stylesheet" href="{% static 'global/css/scroll_to_top.css' %}">
 
 <style type="text/css">
     body {
@@ -45,7 +46,13 @@
         {% endfor %}
     </div>
 </div>
+
+<button  id="scroll-to-top-button" title="Go to top">
+    <img src="{% static 'global/icon/double-up-arrow.svg' %}">
+</button>
+
 {% endblock %}
+
 
 {% block scripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
@@ -58,4 +65,5 @@
 <script>
     AOS.init();
 </script>
+<script type="text/javascript" src="{% static 'global/js/scroll_to_top.js' %}"></script>
 {% endblock %}

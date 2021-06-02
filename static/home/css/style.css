@@ -30,7 +30,6 @@ a:hover{
 	color: white;
 }
 
-
 /*  Customized Scroll Bar - Chrome Only  - START */
 
 ::-webkit-scrollbar {
@@ -46,7 +45,7 @@ a:hover{
   ::-webkit-scrollbar-thumb:hover {
 	/* background: var(--theme-dark-color-0); */
 	/* background: #666; */
-  } 
+  }
 
 /*  Customized Scroll Bar - Chrome Only -  END */
 
@@ -419,35 +418,26 @@ h1 {
 .card1 p{
 	padding: 44px 10px 10px;
 }
-#initiatives .card:hover{
+
+#initiatives .card:hover, .card_hover {
 	top: -10px;
 	right: -10px;
 }
-#initiatives .card:hover .card1{
-	top: 10px;
-	right: 10px;
-	z-index: 0;
+
+#initiatives .card .card1{
+	animation: roll-back 1.5s ease forwards;
 }
-#initiatives .card:hover h2{
+
+#initiatives .card:hover .card1, #initiatives .card .card1_hover {
+	animation: delay-uprise 1.5s ease forwards;
+}
+
+#initiatives .card:hover h2, .h_hover {
 	/*top: 10px;*/
 	/*right: 10px;*/
 	/*left: -10px;*/
 	/*bottom: -10px;*/
 	/*z-index: 1;*/
-	padding: 7px;
-	transform: rotateX(360deg) translateX(-10px) translateY(-300px);
-	background-color: transparent;
-}
-.card_hover{
-	top: -10px;
-	right: -10px;
-}
-.card1_hover{
-	top: 10px;
-	right: 10px;
-	z-index: 0;
-}
-.h_hover{
 	padding: 7px;
 	transform: rotateX(360deg) translateX(-10px) translateY(-300px);
 	background-color: transparent;
@@ -546,7 +536,7 @@ h1 {
 	color: white;
 }
 #donate-us h1::after{
-	content: ""; 
+	content: "";
 	display: block;
 	width: 13%;
 	margin: auto;
@@ -600,8 +590,8 @@ h1 {
 }
 
 .don-modal-contents {
-	-ms-overflow-style: none; 
-	scrollbar-width: none; 
+	-ms-overflow-style: none;
+	scrollbar-width: none;
 }
 
 .don-modal-contents .container{
@@ -672,7 +662,7 @@ h1 {
 	text-align: center;
 	margin-top: 24px;
 	line-height: 24px;
-	font-weight: 400;	
+	font-weight: 400;
 }
 
 .grid-container h4 {
@@ -712,7 +702,7 @@ h1 {
 .don-box3 .contact-details-div {
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: space-around;
 	margin-bottom: 12px;
 }
 
@@ -721,15 +711,20 @@ h1 {
     max-width: 150px;
     margin-bottom: 12px;
 	margin-top: 12px;
-	
+
 }
 
 .don-box3 .contact-details-left {
-	margin-left: 64px;
+	width: 50%;
 }
 
 .don-box3 .contact-details-right {
-	margin-right: 64px;
+	width: 50%;
+}
+
+.don-box3-link:hover {
+	color: #000;
+	font-weight: bold;
 }
 
 .don-box3 .or {
@@ -746,7 +741,7 @@ h1 {
 	right: 50px;
 	top: 50%;
 	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-	
+
 }
 
 .don-box3 .or::after {
@@ -759,7 +754,7 @@ h1 {
 	left: 50px;
 	top: 50%;
 	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25)
-	
+
 }
 
 @media only screen and (max-width: 670px) {
@@ -805,20 +800,33 @@ h1 {
 .con-box1 p{
 	margin-top: 0;
 }
+.contact-us-link {
+	display: inline-block;
+	margin-bottom: 1rem;
+}
+.contact-us-link:hover {
+	color: #ff8c00;
+	color: #000;
+	font-weight: bold;
+}
 .con-box2 a{
 	padding: 0 10px;
 }
 .con-box2 a:first-child:hover{
 	color: blue;
+	font-weight: bold;
 }
 .con-box2 a:nth-child(2):hover{
 	color: #fb3958;
+	font-weight: bold;
 }
 .con-box2 a:nth-child(3):hover{
 	color: red;
+	font-weight: bold;
 }
 .con-box2 a:last-child:hover{
 	color: white;
+	font-weight: bold;
 }
 #googleMap{
 	width: 100%;
@@ -1075,5 +1083,34 @@ footer{
 	}
 	#contact-us .container{
 		width: 70%;
+	}
+}
+
+
+/*KEYFRAMES STARTS*/
+
+@keyframes delay-uprise{
+	from{
+		top: -10px;
+		right: -10px;
+		z-index: -1;
+	}
+	to{
+		top: 10px;
+		right: 10px;
+		z-index: 0;
+	}
+}
+
+@keyframes roll-back{
+	from{
+		top: 10px;
+		right: 10px;
+		z-index: 0;
+	}
+	to{
+		top: -10px;
+		right: -10px;
+		z-index: -1;
 	}
 }
