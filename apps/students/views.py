@@ -59,7 +59,7 @@ def profile(request, pk):
 def add_student(request):
     """Add new student."""
     if request.method == 'POST':
-        form_data=StudentViewForm(request.POST)
+        form_data=StudentViewForm(request.POST, request.FILES)
         if form_data.is_valid():
             form_data.save()
             messages.success(request, "Student added successfully!")
@@ -94,6 +94,7 @@ def update_profile(request, pk):
            if 'profile_image' in request.FILES:
                # Delete the previous profile image.
                profile.profile_image.delete(False)
+               profile.save()
                
                
                
