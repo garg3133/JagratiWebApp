@@ -89,16 +89,28 @@ def update_profile(request, pk):
     context = {
         'profile': profile,
         'villages': villages,
+        'form': StudentModelForm(instance=profile),
     }
 
+    if 'profile_image' in request.FILES:
+        # TODO: Update profile picture using AJAX
+        profile.profile_image.delete(False)
+        profile.profile_image = request.FILES["profile_image"]
+        profile.save()
+
+        messages.success(request, "Profile picture updated.")
+        context["form"] = StudentModelForm(request.POST, instance=profile)
+        return render(request, 'students/update_profile.html', context)
+
     if request.method == 'POST':
-        form = StudentModelForm(request.POST, request.FILES, instance=profile)
+        form = StudentModelForm(request.POST, instance=profile)
         if form.is_valid():
             form.save()
-
             messages.success(request, 'Profile updated successfully!')
             return redirect('students:profile', pk=pk)
         else:
+            context["form"] = form
+            # TODO: Form errors missing
             messages.error(request, "Something went wrong. Please try again!")
 
     return render(request, 'students/update_profile.html', context)
