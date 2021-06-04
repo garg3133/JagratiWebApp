@@ -15,7 +15,7 @@ class StudentScheduleAdminForm(forms.ModelForm):
         cleaned_data['day'] = Schedule.objects.get(id=schedule.id).day
         return cleaned_data
 
-class StudentViewForm(forms.ModelForm):
+class StudentModelForm(forms.ModelForm):
     class Meta:
-        model=Student
-        fields=['first_name','last_name','gender','school_class','village','contact_no','guardian_name','profile_image']
+        model = Student
+        fields = '__all__'
