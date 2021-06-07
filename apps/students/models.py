@@ -29,7 +29,7 @@ class Student(models.Model):
     school_class = models.IntegerField()
     village = models.CharField(max_length=3, choices=VILLAGE)
     contact_no = models.CharField(max_length=13, blank=True)
-    guardian_name = models.CharField(max_length=30, blank=True)
+    guardian_name = models.CharField(max_length=30)
     restricted = models.BooleanField(default=False)
 
     def __str__(self):

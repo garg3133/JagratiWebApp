@@ -17,7 +17,7 @@ from openpyxl import load_workbook
 from home.models import Calendar, Schedule
 from home.views import has_authenticated_profile
 from .models import Student, StudentAttendance, StudentSchedule
-
+from .forms import StudentModelForm
 # GLOBAL VARIABLES
 today_date = date.today()
 today_day = today_date.strftime("%w")
@@ -42,7 +42,8 @@ def index(request):
 def profile(request, pk):
     """View student profile."""
     stu_profile = get_object_or_404(Student, id=pk)
-    stu_schedule = StudentSchedule.objects.filter(student=stu_profile).order_by('day')
+    stu_schedule = StudentSchedule.objects.filter(
+        student=stu_profile).order_by('day')
     context = {
         'profile': stu_profile,
         'stu_schedule': stu_schedule,
@@ -59,27 +60,19 @@ def profile(request, pk):
 def add_student(request):
     """Add new student."""
     if request.method == 'POST':
-        first_name = request.POST['first_name']
-        last_name = request.POST['last_name']
-        gender = request.POST['gender']
-        school_class = request.POST['school_class']
-        village = request.POST['village']
-        contact_no = request.POST.get('contact_no')  # Non-required field
-        guardian_name = request.POST['guardian_name']
-        profile_image = request.FILES.get('profile_image')
-
-        student = Student(
-            first_name=first_name, last_name=last_name,
-            gender=gender, profile_image=profile_image,
-            school_class=school_class, village=village,
-            contact_no=contact_no, guardian_name=guardian_name,
-        )
-        student.save()
-
-        messages.success(request, "Student added successfully!")
+        form = StudentModelForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Student added successfully!")
+        else:
+            # Todo: Send form data and errors back to page.
+            messages.error(request, "Something went wrong. Please try again!")
         return redirect('students:add_student')
 
-    return render(request, 'students/add_student.html', {'villages': Student.VILLAGE})
+    context = {
+        'villages': Student.VILLAGE,
+    }
+    return render(request, 'students/add_student.html', context)
 
 
 @login_required
@@ -96,24 +89,29 @@ def update_profile(request, pk):
     context = {
         'profile': profile,
         'villages': villages,
+        'form': StudentModelForm(instance=profile),
     }
 
-    if request.method == 'POST':
-        profile.first_name = request.POST['first_name']
-        profile.last_name = request.POST['last_name']
-        profile.gender = request.POST['gender']
-        profile.school_class = request.POST['school_class']
-        profile.village = request.POST['village']
-        profile.contact_no = request.POST['contact_no']
-        profile.guardian_name = request.POST['guardian_name']
-        if 'profile_image' in request.FILES:
-            # Delete the previous profile image.
-            profile.profile_image.delete(False)
-            profile.profile_image = request.FILES.get('profile_image')
+    if 'profile_image' in request.FILES:
+        # TODO: Update profile picture using AJAX
+        profile.profile_image.delete(False)
+        profile.profile_image = request.FILES["profile_image"]
         profile.save()
 
-        messages.success(request, 'Profile updated successfully!')
-        return redirect('students:profile', pk=pk)
+        messages.success(request, "Profile picture updated.")
+        context["form"] = StudentModelForm(request.POST, instance=profile)
+        return render(request, 'students/update_profile.html', context)
+
+    if request.method == 'POST':
+        form = StudentModelForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Profile updated successfully!')
+            return redirect('students:profile', pk=pk)
+        else:
+            context["form"] = form
+            # TODO: Form errors missing
+            messages.error(request, "Something went wrong. Please try again!")
 
     return render(request, 'students/update_profile.html', context)
 
