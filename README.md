@@ -8,9 +8,9 @@
     Jagrati - An initiative of IIITians
 </h1>
 
-Jagrati is an initiative by the students of **IIITDM Jabalpur** to provide free and quality education to the poor and under-privileged children of villages surrounding our institute. 
+Jagrati is an initiative by the students of **IIITDM Jabalpur** to provide free and quality education to the poor and underprivileged children of villages surrounding our institute. 
 
-Currently, we have adopted 5 villages in the vicinity of our institute, namely, Gadheri, Amanala, Chanditola, Mehgawan and Suarkol where we *provide education* to around 100 children of classes 1 through 10. Apart from providing basic education to the students in regular classes, **we also prepare the students of 4th and 5th grade for the prestigious Navodaya Vidyalaya** and other similar government-funded institutions which provides quality education to students, completely free of cost.
+Currently, we have adopted 5 villages in the vicinity of our institute, namely, Gadheri, Amanala, Chanditola, Mehgawan, and Suarkol where we *provide education* to around 100 children of classes 1 through 10. Apart from providing basic education to the students in regular classes, **we also prepare the students of 4th and 5th grade for the prestigious Navodaya Vidyalaya** and other similar government-funded institutions which provide quality education to students, completely free of cost.
 
 Apart from teaching the children, we do many other activities like **organizing Blood Donation Camps, Tree Plantation Drives, Cloth Donation, Stationery Distribution, Campaigns to spread awareness in villages, etc.**
 
@@ -26,9 +26,9 @@ Apart from teaching the children, we do many other activities like **organizing 
 Currently, we are operating in online mode to prepare students of class 5 for Navodaya Examination, 2021.
 
 ## About JagratiWebApp
-JagratiWebApp is the **official web application** for managing day-to-day operations at Jagrati, like keeping track of the content being taught in a class and homework being given to the students, taking and keeping record of student and volunteer attendance, keeping record of all the students being taught under the initiative and the volunteers contributing towards the initiative among many things.
+JagratiWebApp is the **official web application** for managing day-to-day operations at Jagrati, like keeping track of the content being taught in a class and homework being given to the students, taking and keeping a record of student and volunteer attendance, keeping a record of all the students being taught under the initiative and the volunteers contributing towards the initiative among many things.
 
-The main aim of the application is to simplify the work of volunteers by making all the information readily accessible to them like what was taught in the last class or in the last week and how many student attended those classes so that they can easily decide what should be taught on the present day and update the same in the application. Plus, it also helps in taking the attendance of students with more ease over the conventional method of manually taking note of the names of all the students present.
+The main aim of the application is to simplify the work of volunteers by making all the information readily accessible to them like what was taught in the last class or in the last week and how many students attended those classes so that they can easily decide what should be taught on the present day and update the same in the application. Plus, it also helps in taking the attendance of students with more ease over the conventional method of manually taking note of the names of all the students present.
 
 So, all in all, it is meant to help the volunteers work more effectively and efficiently and make it easy to keep track of daily activities.
 
@@ -74,7 +74,7 @@ So, all in all, it is meant to help the volunteers work more effectively and eff
 
 ## Contributing
 
-### Setting-up the project
+### Setting up the project
 
   * Download and install Python 3.7
   * Download and install Git.
@@ -87,7 +87,7 @@ So, all in all, it is meant to help the volunteers work more effectively and eff
   * Create a virtual environment `$ virtualenv env -p python3.7`  
   * Activate the env: `$ source env/bin/activate` (for linux) `> ./env/Scripts/activate` (for Windows PowerShell)
   * Install the requirements: `$ pip install -r requirements.txt`
-  * Create a new file in the root directory of the repository (`JagratiWebApp`) with name `.env` (only `.env` and not `.env.txt`) and add the following content in it:
+  * Create a new file in the root directory of the repository (`JagratiWebApp`) with the name `.env` (only `.env` and not `.env.txt`) and add the following content to it:
     ```
     EMAIL_HOST_USER = 'your-email@domain.com'
     EMAIL_HOST_PASSWORD = 'your-password'
@@ -98,26 +98,26 @@ So, all in all, it is meant to help the volunteers work more effectively and eff
     SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'google-oauth2-key'
     SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'google-oauth2-secret'
     ```  
-    or, just copy the `.env.save` file from `samples` directory to the root directory (`JagratiWebApp`) and rename it to `.env` (only `.env` and not `.env.txt`)  
+    or, just copy the `.env.save` file from the `samples` directory to the root directory (`JagratiWebApp`) and rename it to `.env` (only `.env` and not `.env.txt`)  
   
     where, 
-    * `EMAIL_HOST_USER` and `SENDER_EMAIL` is the email address of your Gmail account from which you want to send emails (By default, Django will output email contents in console. To actually send emails to real users, comment line 30 and uncomment line 31 in `Jagrati/settings/development.py`).
+    * `EMAIL_HOST_USER` and `SENDER_EMAIL` is the email address of your Gmail account from which you want to send emails (By default, Django will output email contents in the console. To actually send emails to real users, comment line 30 and uncomment line 31 in `Jagrati/settings/development.py`).
     * `EMAIL_HOST_PASSWORD` is the password for that Gmail account.
-    * `ADMINS_EMAIL` is a list of email addresses of Admins of the site (who will recieve important updates from the site like when a new user joins in).
+    * `ADMINS_EMAIL` is a list of email addresses of Admins of the site (who will receive important updates from the site like when a new user joins in).
     * `SOCIAL_AUTH_GOOGLE_OAUTH2_KEY` and `SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET` are the API keys for login/signup using Google.
 
-    **Note:** All the changes mentioned above in the `.env` template are *optional* and you do not need to change anything if you want all the email contents to be printed in the console itself and you do not wish to use login/signup through Google. The changes in the first 4 lines on `.env` file are required only if you wish to send out real emails to real people and changes in last 2 lines are required only if you wish to use login/signup through Google.
+    **Note:** All the changes mentioned above in the `.env` template are *optional* and you do not need to change anything if you want all the email contents to be printed in the console itself and you do not wish to use the login/signup through Google. The changes in the first 4 lines on the `.env` file are required only if you wish to send out real emails to real people and changes in the last 2 lines are required only if you wish to use login/signup through Google.
   * Copy `sample-db.sqlite3` from `samples` directory to the root directory (`JagratiWebApp`) and rename it to `db.sqlite3`.
-  * Make migrations `$ python manage.py makemigrations`
+  * Make migrations `$ python manage.py make migrations
   * Migrate the changes to the database `$ python manage.py migrate`
-  * Create admin `$ python manage.py createsuperuser`
+  * Create admin `$ python manage.py create superuser
   * Run the server `$ python manage.py runserver`
   
 #### 💡️ **Pro Tip:** 
   * Always keep your master branch in sync with the main repository (by running `$ git pull upstream master` on your local master branch). 
   * Always create a new branch before making any changes (`$ git checkout -b <new-branch-name>`), never ever make any changes directly on the master branch.
 
- ### Setting-up the project in docker
+ ### Setting up the project in docker
 
   * Fork the Repository.
   * Clone the repository to your local machine `$ git clone https://github.com/<your-github-username>/JagratiWebApp.git`
@@ -129,7 +129,7 @@ So, all in all, it is meant to help the volunteers work more effectively and eff
   * Copy `sample-db.sqlite3` from `samples` directory to the root directory (`JagratiWebApp`) and rename it to `db.sqlite3`.
   * Build the docker file to an image `sudo docker build -t <IMAGE_NAME> .`
   * Run the docker image `sudo docker run -p 8000:8000 <IMAGE_NAME>`
-  * The server will start at default port (8000), head over to your web browser to test.
+  * The server will start at the default port (8000), head over to your web browser to test.
 
 
 ### Contributing Guidelines 
@@ -141,7 +141,7 @@ So, all in all, it is meant to help the volunteers work more effectively and eff
   * For more extensive guidelines, kindly check the [CONTRIBUTING.md](https://github.com/garg3133/JagratiWebApp/blob/master/CONTRIBUTING.md)🤝
 
 ## Open source programs we have been a part of 🚀:
-Open source is a term that originally referred to open source software (OSS). Open source software is code that is designed to be publicly accessible—anyone can see, modify, and distribute the code as they see fit. There are a lot of open source programs held throughout the year to encourage everyone's contribution and build awesome projects. JagratiWebApp is such an open source organization and has participated in quite a few events like the following.
+Open source is a term that originally referred to open source software (OSS). Open-source software is code that is designed to be publicly accessible—anyone can see, modify, and distribute the code as they see fit. There are a lot of open-source programs held throughout the year to encourage everyone's contribution and build awesome projects. JagratiWebApp is such an open-source organization and has participated in quite a few events like the following.
 
 <table>
   <tbody>
