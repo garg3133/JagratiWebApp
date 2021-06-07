@@ -1,0 +1,185 @@
+.calendar {
+  --padding: 0 20px;
+  --border-radius: 25px;
+  --side-padding: 20px;
+  --accent-br: 30px;
+}
+
+.calendar-area {
+  display: flex;
+  flex-flow: row wrap;
+}
+.calendar {
+  width: 30%;
+  height: 100%;
+  margin: 10% 2.5%;
+}
+
+/* assigns green background to days with scheduled events */
+.calendar .greenClass {
+  background-color: #dee7de;
+  border-radius: var(--accent-br);
+}
+
+/* assigns red background to days without scheduled events */
+.calendar .redClass {
+  background-color: #fae8dd;
+  border-radius: var(--accent-br);
+}
+
+/* month and year menus */
+.calendar select {
+  background-color: #f5f6f8;
+  padding: 15px 20px;
+}
+
+.options,
+.buttons {
+  background-color: #fff;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 15px;
+}
+
+/* month and year options */
+.options {
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+  padding: 20px var(--side-padding);
+}
+
+.calendar-body {
+  background-image: linear-gradient(to bottom, #f3f4f6, #fff);
+}
+
+/* day names */
+.days {
+  background-color: #fff;
+  padding: 0 var(--side-padding) 10px;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.days > div {
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.02rem;
+  color: #3f3d56;
+}
+
+/* dates in main calendar body */
+.dates {
+  padding: 10px var(--side-padding);
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.date {
+  --height: calc(400px / 6 - var(--side-padding));
+  text-align: center;
+  height: var(--height);
+  line-height: var(--height);
+  font-weight: 600;
+  font-size: 1.02rem;
+  cursor: pointer;
+  position: relative;
+}
+
+.date span {
+  position: relative;
+  z-index: 1;
+}
+
+.date::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: var(--accent-br);
+  transition: background-color 0.3s ease;
+}
+
+/* assigns green background to days if
+1. it is not the current date
+2. if it not a blocked date
+3. if it does not have any scheduled events */
+.date:not(.current-date):not(.date-blocked):not(.redClass) {
+  background-color: #daffda;
+  border-radius: var(--accent-br);
+}
+
+/* makes days from other visible months inaccessible */
+.date-blocked {
+  color: #a8a8a8;
+  cursor: not-allowed;
+}
+
+/* highlights the current day */
+.current-date {
+  color: rgb(63, 61, 86);
+  box-shadow: 0 15px 20px -3px rgba(255, 55, 75, 0.25);
+  border: solid 2px #eb5d1e;
+  border-radius: var(--accent-br);
+  z-index: 1;
+}
+
+.buttons {
+  padding: 10px var(--side-padding) 20px;
+  border-bottom-left-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+}
+.calendar-button {
+  cursor: pointer;
+}
+
+/* for removing events from any date */
+.remove-class {
+  background-color: #f5f6f8;
+  color: #3f3d56;
+}
+.remove-class:hover {
+  box-shadow: 0 20px 30px -13px rgba(63, 61, 86, 0.45);
+  transform: translateY(-3px);
+}
+
+/* for adding events to any date */
+.add-class {
+  background-color: #3f3d56;
+  color: #fff;
+}
+
+.add-class:hover {
+  box-shadow: 0 20px 30px -13px rgba(63, 61, 86, 0.45);
+  transform: translateY(-3px);
+}
+
+body {
+  display: grid;
+  place-items: center;
+  background-color: #eaedf2;
+  height: 100vh;
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px;
+  margin: 3vmin;
+}
+select,
+button {
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 1.02rem;
+  border-radius: 20px;
+  outline: none;
+  border: 0;
+  padding: 15px 20px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+select {
+  background-image: url('/static/chevron-down.svg');
+  background-size: 24px;
+  background-repeat: no-repeat;
+  background-position: calc(100% - var(--side-padding)) center;
+}

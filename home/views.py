@@ -43,6 +43,11 @@ def new_index(request):
     initiatives = Initiative.objects.all()
     return render(request, 'new_home/index.html', {'initiatives': initiatives})
 
+def calendar(request):
+    if request.user.is_authenticated:
+        return render(request, 'calendar.html')
+    return render(request, 'calendar.html')
+
 
 @login_required
 @user_passes_test(
