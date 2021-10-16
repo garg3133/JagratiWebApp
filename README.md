@@ -101,16 +101,16 @@ So, all in all, it is meant to help the volunteers work more effectively and eff
     or, just copy the `.env.save` file from the `samples` directory to the root directory (`JagratiWebApp`) and rename it to `.env` (only `.env` and not `.env.txt`)  
   
     where, 
-    * `EMAIL_HOST_USER` and `SENDER_EMAIL` is the email address of your Gmail account from which you want to send emails (By default, Django will output email contents in the console. To actually send emails to real users, comment line 30 and uncomment line 31 in `Jagrati/settings/development.py`).
+    * `EMAIL_HOST_USER` and `SENDER_EMAIL` is the email address of your Gmail account from which you want to send emails (By default, Django will output email content into the console. To actually send emails to real users, comment line 30 and uncomment line 31 in `Jagrati/settings/development.py`).
     * `EMAIL_HOST_PASSWORD` is the password for that Gmail account.
     * `ADMINS_EMAIL` is a list of email addresses of Admins of the site (who will receive important updates from the site like when a new user joins in).
     * `SOCIAL_AUTH_GOOGLE_OAUTH2_KEY` and `SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET` are the API keys for login/signup using Google.
 
-    **Note:** All the changes mentioned above in the `.env` template are *optional* and you do not need to change anything if you want all the email contents to be printed in the console itself and you do not wish to use the login/signup through Google. The changes in the first 4 lines on the `.env` file are required only if you wish to send out real emails to real people and changes in the last 2 lines are required only if you wish to use login/signup through Google.
+    **Note:** All the changes mentioned above in the `.env` template are *optional* and you do not need to change anything if you want all the email contents to be printed in the console itself and you do not wish to use the login/signup through Google. The changes in the first 4 lines in the `.env` file are required only if you wish to send out real emails to real people and changes in the last 2 lines are required only if you wish to use login/signup through Google.
   * Copy `sample-db.sqlite3` from `samples` directory to the root directory (`JagratiWebApp`) and rename it to `db.sqlite3`.
-  * Make migrations `$ python manage.py make migrations
+  * Make migrations `$ python manage.py makemigrations`
   * Migrate the changes to the database `$ python manage.py migrate`
-  * Create admin `$ python manage.py create superuser
+  * Create admin `$ python manage.py createsuperuser`
   * Run the server `$ python manage.py runserver`
   
 #### 💡️ **Pro Tip:** 
@@ -141,7 +141,7 @@ So, all in all, it is meant to help the volunteers work more effectively and eff
   * For more extensive guidelines, kindly check the [CONTRIBUTING.md](https://github.com/garg3133/JagratiWebApp/blob/master/CONTRIBUTING.md)🤝
 
 ## Open source programs we have been a part of 🚀:
-Open source is a term that originally referred to open source software (OSS). Open-source software is code that is designed to be publicly accessible—anyone can see, modify, and distribute the code as they see fit. There are a lot of open-source programs held throughout the year to encourage everyone's contribution and build awesome projects. JagratiWebApp is such an open-source organization and has participated in quite a few events like the following.
+Open source is a term that originally referred to Open Source Software (OSS). Open source software is code that is designed to be publicly accessible -- anyone can see, modify, and distribute the code as they see fit. There are a lot of open source programs held throughout the year to encourage people to contribute to open source and build awesome projects for the community. JagratiWebApp is one such open source project and has participated in quite a few events like the following.
 
 <table>
   <tbody>
