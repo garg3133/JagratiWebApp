@@ -88,42 +88,33 @@ def attendance(request):
         context['no_class_today'] = True
         return render(request, 'volunteers/attendance.html', context)
 
-    if request.method == 'POST':
-        vol_array = request.POST.getlist('volunteered')
-        extra_vol_array = request.POST.getlist('extra-vol')
-
-        # Mark everyone's absent
-        vol_att_today = VolunteerAttendance.objects.filter(cal_date=today_cal)
-        for vol_att in vol_att_today:
-            vol_att.present = False
-            vol_att.save()
-
-        for vol_id in vol_array:
-            vol_att = VolunteerAttendance.objects.get(
-                volun__id=vol_id, cal_date=today_cal)
-            vol_att.present = True
-            vol_att.save()
-
-        for extra_vol_roll in extra_vol_array:
-            volun = Volunteer.objects.filter(roll_no=extra_vol_roll)
-            if volun.exists():
-                extra_vol_att = VolunteerAttendance.objects.filter(
-                    volun=volun[0], cal_date=today_cal)
-                if extra_vol_att.exists():
-                    extra_vol_att = extra_vol_att[0]
-                    extra_vol_att.present = True
-                else:
-                    extra_vol_att = VolunteerAttendance(
-                        volun=volun[0], cal_date=today_cal, present=True, extra=True)
-                extra_vol_att.save()
-
-        messages.success(request, 'Attendance marked successfully!')
-        return redirect('volunteers:attendance')
-
     context['today_vol_att'] = VolunteerAttendance.objects.filter(
         cal_date=today_cal).order_by('volun__roll_no')
     return render(request, 'volunteers/attendance.html', context)
 
+
+@login_required
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
+@user_passes_test(
+    is_volunteer, redirect_field_name=None,
+    login_url=reverse_lazy('home:dashboard')
+)
+# @permissions_required
+def ajax_mark_attendance(request):
+    """Mark/unmark volunteer attendance."""
+    today_cal = Calendar.objects.get(date=date.today())
+    vol_id = request.GET['volun_id']
+    is_present = request.GET['is_present']
+    vol_att = VolunteerAttendance.objects.get(
+        volun__id=vol_id, cal_date=today_cal)
+    print(vol_att)
+    vol_att.present = True if is_present == 'true' else False
+    vol_att.save()
+    data = {'success': True}
+    return JsonResponse(data)
 
 @login_required
 @user_passes_test(

@@ -15,4 +15,7 @@ urlpatterns = [
     path('profile/update/', views.update_profile, name='update_profile'),  # Not needed, update in profile/ only
     path('list/', views.volunteers_list, name='volunteers_list'),
     path('ajax/list/', views.ajax_volunteers_list, name='ajax_volunteers_list'),
+
+    # AJAX calls
+    path('ajax/mark_attendance/', views.ajax_mark_attendance, name='ajax_mark_attendance'),
 ]
