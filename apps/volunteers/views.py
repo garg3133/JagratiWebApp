@@ -124,6 +124,45 @@ def ajax_mark_attendance(request):
     has_authenticated_profile,
     login_url=reverse_lazy('accounts:complete_profile')
 )
+@user_passes_test(
+    is_volunteer, redirect_field_name=None,
+    login_url=reverse_lazy('home:dashboard')
+)
+# @permissions_required
+def ajax_add_extra_vol(request):
+    """Mark/unmark volunteer attendance."""
+    today_cal = Calendar.objects.get(date=date.today())
+    roll_no = request.GET['roll_no']
+
+    volun = Volunteer.objects.filter(roll_no=roll_no).first()
+    if not volun:
+        data = {'success': False, 'error': 'Volunteer not found.'}
+        return JsonResponse(data)
+
+    vol_att = VolunteerAttendance.objects.filter(
+        volun=volun, cal_date=today_cal)
+    if vol_att.exists():
+        data = {'success': False, 'error': 'Volunteer already present in the list.'}
+        return JsonResponse(data)
+
+    # Create a new VolunteerAttendance instance
+    VolunteerAttendance.objects.create(
+        volun=volun, cal_date=today_cal, present=True, extra=True)
+
+    data = {
+        'success': True,
+        'roll_no': volun.roll_no,
+        'name': volun.profile.get_full_name,
+        'volun_id': volun.id
+    }
+    return JsonResponse(data)
+
+
+@login_required
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
 # @permissions_required
 def volunteers_list(request):
     context = {

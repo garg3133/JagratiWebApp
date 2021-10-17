@@ -91,25 +91,6 @@
     }
 </script>
 
-<!-- Add Extra Volunteers in Volunteer Attendance -->
-<script>
-    function add_extra_vol() {
-
-        let table = document.getElementById('vol-att-table');
-        let tableRow = document.createElement("tr");
-
-        let td1 = document.createElement("td");
-        let td2 = document.createElement("td");
-        {#let td3 = document.createElement("td");#}
-        td1.innerText = "20202001";
-        td2.innerText = "Sagar Pandya";
-
-        tableRow.append(td1);
-        tableRow.append(td2);
-
-        table.appendChild(tableRow);
-    }
-</script>
 
 <!-- Mark/Unmark Volunteer Attendance -->
 <script>
@@ -142,6 +123,93 @@
             error: function (data, status) {
                 // Un-toggle the checkbox
                 is_present ? att_checkbox.checked = false : att_checkbox.checked = true;
+                $('#alert-toast-div > div').html(
+                    `<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3500">
+                        <div class="toast-body p-2 px-3">
+                            <strong class="mr-auto">Something went wrong.</strong>
+                            <button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>`
+                )
+
+                $("#alert_toast").toast("show");
+                $("#alert_toast").addClass("bg-danger");
+            }
+        });
+    }
+</script>
+
+<!-- Add Extra Volunteer in Volunteer Attendance -->
+<script>
+    function add_extra_vol() {
+        const add_extra_vol_input = document.getElementById('add-extra-vol');
+        const roll_no = add_extra_vol_input.value;
+
+        $.ajax({
+            url: "{% url 'volunteers:ajax_add_extra_vol' %}",
+            data: {
+                'roll_no': roll_no,
+            },
+            dataType: 'json',
+            success: function (data, status) {
+                console.log(data);
+                if (data.success) {
+                    add_extra_vol_input.value = "";
+
+                    // Add new volunteer to the table
+                    let table = document.getElementById('vol-att-table');
+                    let tableRow = document.createElement("tr");
+
+                    let td1 = document.createElement("td");
+                    let td2 = document.createElement("td");
+                    let td3 = document.createElement("td");
+                    td1.innerText = data.roll_no;
+                    td2.innerText = data.name;
+                    td3.innerHTML = 
+                        `<div class="custom-control custom-switch">
+                            <input type="checkbox" id="v${data.volun_id}" class="custom-control-input"
+                                onchange="markAttendance('${data.volun_id}')" checked>
+                            <label class="custom-control-label" for="v${data.volun_id}"></label>
+                        </div>`
+
+                    tableRow.append(td1);
+                    tableRow.append(td2);
+                    tableRow.append(td3);
+
+                    table.appendChild(tableRow);
+
+                    $('#alert-toast-div > div').html(
+                        `<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1500">
+                            <div class="toast-body p-2 px-3">
+                                <strong class="mr-auto">Volunteer added.</strong>
+                                <button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>`
+                    )
+
+                    $("#alert_toast").toast("show");
+                    $("#alert_toast").addClass("bg-success");
+                } else {
+                    $('#alert-toast-div > div').html(
+                        `<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3500">
+                            <div class="toast-body p-2 px-3">
+                                <strong class="mr-auto">${data.error}</strong>
+                                <button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>`
+                    )
+
+                    $("#alert_toast").toast("show");
+                    $("#alert_toast").addClass("bg-danger");
+                }
+            },
+            error: function (data, status) {
                 $('#alert-toast-div > div').html(
                     `<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3500">
                         <div class="toast-body p-2 px-3">

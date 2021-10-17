@@ -18,4 +18,5 @@ urlpatterns = [
 
     # AJAX calls
     path('ajax/mark_attendance/', views.ajax_mark_attendance, name='ajax_mark_attendance'),
+    path('ajax/add_extra_vol/', views.ajax_add_extra_vol, name='ajax_add_extra_vol'),
 ]
