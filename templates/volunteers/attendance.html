@@ -142,13 +142,20 @@
                     let td2 = document.createElement("td");
                     let td3 = document.createElement("td");
                     td1.innerText = data.roll_no;
-                    td2.innerText = data.name;
+
+                    let vol_profile_url = "{% url 'volunteers:profile' 12345 %}";
+                    let atag = document.createElement('a');
+                    atag.setAttribute('href', vol_profile_url.replace("12345", data.volun_id));
+                    atag.setAttribute('target', '_blank');
+                    atag.innerText = data.name;
+                    td2.appendChild(atag);
+
                     td3.innerHTML = 
                         `<div class="custom-control custom-switch">
                             <input type="checkbox" id="v${data.volun_id}" class="custom-control-input"
                                 onchange="markAttendance('${data.volun_id}')" checked>
                             <label class="custom-control-label" for="v${data.volun_id}"></label>
-                        </div>`
+                        </div>`;
 
                     tableRow.append(td1);
                     tableRow.append(td2);
