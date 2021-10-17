@@ -38,11 +38,10 @@
 
                         <td>
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" name="volunteered" value="{{ vol_att.volun.id }}"
-                                    id="v{{ vol_att.id }}" class="custom-control-input"
-                                        onchange="markAttendance('{{ vol_att.volun.id }}', 'v{{ vol_att.id }}')"
+                                <input type="checkbox" id="v{{ vol_att.volun.id }}" class="custom-control-input"
+                                    onchange="markAttendance('{{ vol_att.volun.id }}')"
                                     {% if vol_att.present %}checked{% endif %}>
-                                <label class="custom-control-label" for="v{{ vol_att.id }}"></label>
+                                <label class="custom-control-label" for="v{{ vol_att.volun.id }}"></label>
                             </div>
                         </td>
                     </tr>
@@ -114,8 +113,8 @@
 
 <!-- Mark/Unmark Volunteer Attendance -->
 <script>
-    function markAttendance(volun_id, checkbox_id) {
-        let att_checkbox = document.getElementById(checkbox_id);
+    function markAttendance(volun_id) {
+        let att_checkbox = document.getElementById(`v${volun_id}`);
         let is_present = att_checkbox.checked;
         console.log(is_present);
         $.ajax({
