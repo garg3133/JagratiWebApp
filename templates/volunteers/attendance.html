@@ -106,36 +106,12 @@
             },
             dataType: 'json',
             success: function (data, status) {
-                $('#alert-toast-div > div').html(
-                    `<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="500">
-                        <div class="toast-body p-2 px-3">
-                            <strong class="mr-auto">Attendance updated.</strong>
-                            <button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    </div>`
-                )
-
-                $("#alert_toast").toast("show");
-                $("#alert_toast").addClass("bg-success");
+                display_toast("Attendance updated.", 500, "success");
             },
             error: function (data, status) {
                 // Un-toggle the checkbox
                 is_present ? att_checkbox.checked = false : att_checkbox.checked = true;
-                $('#alert-toast-div > div').html(
-                    `<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3500">
-                        <div class="toast-body p-2 px-3">
-                            <strong class="mr-auto">Something went wrong.</strong>
-                            <button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    </div>`
-                )
-
-                $("#alert_toast").toast("show");
-                $("#alert_toast").addClass("bg-danger");
+                display_toast("Something went wrong.", 3500, "danger");
             }
         });
     }
@@ -180,51 +156,34 @@
 
                     table.appendChild(tableRow);
 
-                    $('#alert-toast-div > div').html(
-                        `<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1500">
-                            <div class="toast-body p-2 px-3">
-                                <strong class="mr-auto">Volunteer added.</strong>
-                                <button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                        </div>`
-                    )
-
-                    $("#alert_toast").toast("show");
-                    $("#alert_toast").addClass("bg-success");
+                    display_toast("Volunteer added.", 1500, "success");
                 } else {
-                    $('#alert-toast-div > div').html(
-                        `<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3500">
-                            <div class="toast-body p-2 px-3">
-                                <strong class="mr-auto">${data.error}</strong>
-                                <button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                        </div>`
-                    )
-
-                    $("#alert_toast").toast("show");
-                    $("#alert_toast").addClass("bg-danger");
+                    display_toast(data.error, 3500, "danger");
                 }
             },
             error: function (data, status) {
-                $('#alert-toast-div > div').html(
-                    `<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3500">
-                        <div class="toast-body p-2 px-3">
-                            <strong class="mr-auto">Something went wrong.</strong>
-                            <button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    </div>`
-                )
-
-                $("#alert_toast").toast("show");
-                $("#alert_toast").addClass("bg-danger");
+                display_toast("Something went wrong.", 3500, "danger");
             }
         });
+    }
+</script>
+
+<!-- Display toast -->
+<script>
+    function display_toast(message, time, bg) {
+        $('#alert-toast-div > div').html(
+            `<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="${time}">
+                <div class="toast-body p-2 px-3">
+                    <strong class="mr-auto">${message}</strong>
+                    <button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>`
+        )
+
+        $("#alert_toast").toast("show");
+        $("#alert_toast").addClass(`bg-${bg}`);
     }
 </script>
 {% endblock %}
