@@ -75,21 +75,23 @@ def attendance(request):
         'today_date': date.today(),
     }
 
-    if today_cal.class_scheduled:
-        if not VolunteerAttendance.objects.filter(cal_date__date=date.today()).exists():
-            # Create Empty Volunteer Attendance Instances
-            today_vol_sch = VolunteerSchedule.objects.filter(
-                day=date.today().strftime("%w"))
-            for vol_sch in today_vol_sch:
-                vol_attendance = VolunteerAttendance(
-                    volun=vol_sch.volun, cal_date=today_cal)
-                vol_attendance.save()
-    else:
+    if not today_cal.class_scheduled:
         context['no_class_today'] = True
         return render(request, 'volunteers/attendance.html', context)
 
+    if not VolunteerAttendance.objects.filter(cal_date__date=date.today()).exists():
+        # Create Empty Volunteer Attendance Instances
+        today_vol_sch = VolunteerSchedule.objects.filter(
+            day=date.today().strftime("%w"))
+        for vol_sch in today_vol_sch:
+            vol_attendance = VolunteerAttendance(
+                volun=vol_sch.volun, cal_date=today_cal)
+            # TODO: Use bulk_create command instead.
+            vol_attendance.save()
+
     context['today_vol_att'] = VolunteerAttendance.objects.filter(
         cal_date=today_cal).order_by('volun__roll_no')
+
     return render(request, 'volunteers/attendance.html', context)
 
 
@@ -115,6 +117,7 @@ def ajax_mark_attendance(request):
     vol_att.save()
     data = {'success': True}
     return JsonResponse(data)
+
 
 @login_required
 @user_passes_test(
