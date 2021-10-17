@@ -14,57 +14,52 @@
     {% if no_class_today %}
     <p class="text-center text-danger mb-3">No class is scheduled for today.</p>
     {% else %}
-    <form method="POST">
-        {% csrf_token %}
-        <div class="row justify-content-center mt-5">
-            <div class="col-sm-6 mb-2 text-center">
-                <input type="text" id="filter-volunteers" class="form-control mb-3 mx-auto" onkeyup="filterVolunteers()"
-                    placeholder="Search roll no..">
-                <table class="table" id="vol-att-table">
-                    <thead>
-                        <tr>
-                            <th>Roll No.</th>
-                            <th>Name</th>
-                            <th>Mark Present</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for vol_att in today_vol_att %}
-                        <tr>
-                            <td>{{ vol_att.volun.roll_no }}</td>
-                            <td>
-                                <a href="{% url 'volunteers:profile' vol_att.volun_id %}" target="_blank">
-                                    {{ vol_att.volun.profile.get_full_name }}
-                                </a>
-                            </td>
+    <div class="row justify-content-center mt-5">
+        <div class="col-xl-6 col-lg-8 col-sm-10 mb-2 text-center">
+            <input type="text" id="filter-volunteers" class="form-control mb-3 mx-auto" onkeyup="filterVolunteers()"
+                placeholder="Search by name or roll no...">
+            <table class="table" id="vol-att-table">
+                <thead>
+                    <tr>
+                        <th>Roll No.</th>
+                        <th>Name</th>
+                        <th>Mark Present</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for vol_att in today_vol_att %}
+                    <tr>
+                        <td>{{ vol_att.volun.roll_no }}</td>
+                        <td>
+                            <a href="{% url 'volunteers:profile' vol_att.volun_id %}" target="_blank">
+                                {{ vol_att.volun.profile.get_full_name }}
+                            </a>
+                        </td>
 
-                            <td>
-                                <div class="custom-control custom-switch">
-                                    <input type="checkbox" name="volunteered" value="{{ vol_att.volun.id }}"
-                                        id="v{{ vol_att.id }}" class="custom-control-input"
-                                           onchange="markAttendance('{{ vol_att.volun.id }}', 'v{{ vol_att.id }}')"
-                                        {% if vol_att.present %}checked{% endif %}>
-                                    <label class="custom-control-label" for="v{{ vol_att.id }}"></label>
-                                </div>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="row col-sm-6 mb-2 text-center">
-                <div class="justify-content-center col-sm-9">
-                    <input type="text" id="add-volunteers" class="form-control mb-3 mx-auto"
+                        <td>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" name="volunteered" value="{{ vol_att.volun.id }}"
+                                    id="v{{ vol_att.id }}" class="custom-control-input"
+                                        onchange="markAttendance('{{ vol_att.volun.id }}', 'v{{ vol_att.id }}')"
+                                    {% if vol_att.present %}checked{% endif %}>
+                                <label class="custom-control-label" for="v{{ vol_att.id }}"></label>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="row justify-content-center">
+                <div class="col-sm-9">
+                    <input type="text" id="add-extra-vol" class="form-control mb-3 mx-auto"
                         placeholder="Enter roll no..">
                 </div>
-                <div class="justify-content-center col-sm-3">
-                        <button type="button" class="btn btn-primary btn-block" onclick="add_vol()">Add</button>
+                <div class="col-sm-3">
+                        <button type="button" class="btn btn-primary btn-block" onclick="add_extra_vol()">Add</button>
                 </div>
             </div>
         </div>
-    </form>
+    </div>
     {% endif %}
 </div>
 {% endblock %}
@@ -82,10 +77,12 @@
 
         // Loop through all table rows, and hide those who don't match the search query
         for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[0];
-            if (td) {
-                txtValue = td.textContent || td.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            td1 = tr[i].getElementsByTagName("td")[0];
+            td2 = tr[i].getElementsByTagName("td")[1];
+            if (td1) {
+                txtValue1 = td1.textContent || td1.innerText;
+                txtValue2 = td2.textContent || td2.innerText;
+                if (txtValue1.toUpperCase().indexOf(filter) > -1 || txtValue2.toUpperCase().indexOf(filter) > -1) {
                     tr[i].style.display = "";
                 } else {
                     tr[i].style.display = "none";
@@ -97,7 +94,7 @@
 
 <!-- Add Extra Volunteers in Volunteer Attendance -->
 <script>
-    function add_vol() {
+    function add_extra_vol() {
 
         let table = document.getElementById('vol-att-table');
         let tableRow = document.createElement("tr");
