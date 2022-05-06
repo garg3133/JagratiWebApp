@@ -35,6 +35,7 @@ class Schedule(models.Model):
         ('hin', "Hindi"),
         ('mat', "Mathematics"),
         ('sci', "Science"),
+        ('ssc', "Social Science"),
         ('mab', "Mental Ability"),
     )
 
