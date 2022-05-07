@@ -19,6 +19,7 @@
   object-fit: cover;
   background-color: rgb(241, 128, 29);
 }
+
 .vol__card {
   background-color: snow;
   padding: 8px;
@@ -26,8 +27,8 @@
   border: 1px solid rgb(241, 128, 29);
   transition: all 200ms ease-in-out;
   cursor: pointer;
-  width: 240px;
-  height: 360px;
+  /* width: 240px;
+  height: 360px; */
 }
 
 .vol__card:focus,
@@ -65,4 +66,10 @@
 
 .card__details {
   padding: 16px 8px 8px 8px;
+}
+
+@media screen and (max-width: 576px) {
+  #Vol__Cards > .row {
+    max-width: 255px;
+  }
 }

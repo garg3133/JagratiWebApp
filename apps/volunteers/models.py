@@ -47,9 +47,10 @@ class Volunteer(models.Model):
         self.active = (self.active is True)
         super(Volunteer, self).save(*args, **kwargs)
 
-    def get_absolute_url(self):
-        """Returns the url to access a particular volunteer instance."""
-        return reverse('volunteers:profile', args=[str(self.id)])    
+    @property
+    def profile_url(self):
+        """Returns the url to volunteer profile."""
+        return reverse('volunteers:profile', args=[str(self.id)])
     
 @receiver(post_delete, sender=Volunteer)
 def delete_related_profile(sender, instance, **kwargs):

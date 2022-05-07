@@ -1,11 +1,12 @@
-{% extends 'sidebar.html' %} 
+{% extends 'layout.html' %} 
+
 {% load static %} 
 
-{% block title %} Jagrati | Volunteers {% endblock title %} 
+{% block title %} Jagrati | Volunteers {% endblock %} 
 
 {% block style %}
-<link rel="stylesheet" type="text/css" href=" {% static 'volunteers/css/style.css' %}" />
-{% endblock style %} 
+<link rel="stylesheet" type="text/css" href="{% static 'volunteers/css/style.css' %}" />
+{% endblock %} 
 
 {% block content %}
 
@@ -18,34 +19,32 @@
 <!-- Volunteer Profile Cards -->
 <div id="Vol__Cards" class="container">
   {% if volunteers %}
-  <div class="row justify-content-center mb-5 pt-5">
+  <div class="row justify-content-center mb-5 pt-5 mx-auto">
     {% for vol in volunteers %}
-    <div class="col col-lg-3 col-md-4 col-sm-6 col-xs-12">
-      <a href="{{ vol.get_absolute_url }}" target="_blank">
-        <div class="vol__card mb-5">
-          <img src="{{ vol.profile.get_profile_image_url }}" class="card-img" alt="Profile Image" />
-          <div class="card__details">
-            {% if vol.desig %}
-            <span class="tag">{{vol.desig}}</span>
-            {% endif %}
-            <div class="name">{{ vol.profile.get_full_name }}</div>
-            <p>Roll No : {{vol.roll_no}}</p>
-            <p>Batch : {{vol.batch}}</p>
-          </div>
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="card vol__card mb-5">
+        <img src="{{ vol.profile.get_profile_image_url }}" class="card-img" alt="Profile Image" />
+        <div class="card__details">
+          {% if vol.desig %}
+          <span class="tag">{{vol.desig}}</span>
+          {% endif %}
+          <div class="name">{{ vol.profile.get_full_name }}</div>
+          <p>Roll No : {{vol.roll_no}}</p>
+          <p>Batch : {{vol.batch}}</p>
         </div>
-      </a>
+        <a class="stretched-link" href="{{ vol.profile_url }}" target="_blank"></a>
+      </div>
     </div>
     {% endfor %}
   </div>
   {% else %}
   <p class="text-center">
-    There are no active volunteer to be part of initiative.
+    There are no active volunteer.
   </p>
   {% endif %}
 </div>
-
-{% endblock content %} 
+{% endblock %} 
 
 {% block scripts %}
 <!-- Script for Volunteer Profile Cards -->
-{% endblock scripts %}
+{% endblock %}
