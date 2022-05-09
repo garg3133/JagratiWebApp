@@ -138,7 +138,7 @@ def ajax_add_extra_vol(request):
     today_cal = Calendar.objects.get(date=date.today())
     roll_no = request.GET['roll_no']
 
-    volun = Volunteer.objects.filter(roll_no=roll_no).first()
+    volun = Volunteer.objects.filter(roll_no__iexact=roll_no).first()
     if not volun:
         data = {'success': False, 'error': 'Volunteer not found.'}
         return JsonResponse(data)
