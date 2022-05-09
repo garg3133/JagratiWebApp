@@ -4,7 +4,7 @@ from datetime import date
 # Django
 from django.contrib import messages
 from django.contrib.auth import get_user_model
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 # from django.template.loader import render_to_string
@@ -62,7 +62,7 @@ def profile(request, pk):
     is_volunteer, redirect_field_name=None,
     login_url=reverse_lazy('home:dashboard')
 )
-# @permissions_required
+@permission_required('volunteers.change_volunteerattendance', raise_exception=True)
 def attendance(request):
     today_cal = Calendar.objects.filter(date=date.today())
     # TO BE REMOVED...
@@ -108,7 +108,7 @@ def attendance(request):
     is_volunteer, redirect_field_name=None,
     login_url=reverse_lazy('home:dashboard')
 )
-# @permissions_required
+@permission_required('volunteers.change_volunteerattendance', raise_exception=True)
 def ajax_mark_attendance(request):
     """Mark/unmark volunteer attendance."""
     today_cal = Calendar.objects.get(date=date.today())
@@ -132,7 +132,7 @@ def ajax_mark_attendance(request):
     is_volunteer, redirect_field_name=None,
     login_url=reverse_lazy('home:dashboard')
 )
-# @permissions_required
+@permission_required('volunteers.change_volunteerattendance', raise_exception=True)
 def ajax_add_extra_vol(request):
     """Mark/unmark volunteer attendance."""
     today_cal = Calendar.objects.get(date=date.today())
