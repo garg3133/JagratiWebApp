@@ -61,7 +61,7 @@ class UserAdmin(BaseUserAdmin):
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('get_full_name', 'get_email', 'get_desig', 'get_auth')
-    search_fields = ('first_name', 'last_name', 'email')
+    search_fields = ('first_name', 'last_name', 'user__email')
     list_filter = ('user__desig', 'user__auth')
     ordering = ('-user__date_joined',)
 
