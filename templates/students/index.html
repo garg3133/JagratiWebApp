@@ -1,0 +1,52 @@
+{% extends 'layout.html' %} 
+
+{% load static %} 
+
+{% block title %} Jagrati | Students {% endblock %} 
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'students/css/style.css' %}" />
+{% endblock %} 
+
+{% block content %}
+
+<div class="vol__header">
+  <div class="fixed-bg">
+    <img src="{% static 'students/images/header.jpg' %}" class="header-img" alt="Header Image" />
+  </div>
+</div>
+
+<!-- Students Profile Cards -->
+<div id="Vol__Cards" class="container">
+  {% if students %}
+  <div class="row justify-content-center mb-5 pt-5 mx-auto">
+    {% for vol in students %}
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="card vol__card mb-5">
+        <img src="{{ vol.profile.get_profile_image_url }}" class="card-img" alt="Profile image" />
+        <div class="card__details">
+          {% if vol.desig %}
+          <span class="tag">{{vol.desig}}</span>
+          {% endif %}
+          <div class="name">{{ vol.get_full_name }}</div>
+          <p>Class : {{vol.school_class}}</p>
+          <p>Village : {{vol.village}}</p>
+          
+          
+        </div>
+        <a class="stretched-link" href="{{ vol.profile_url }}" target="_blank"></a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="text-center">
+    There are no active students.
+  </p>
+  {% endif %}
+</div>
+{% endblock %} 
+
+{% block scripts %}
+<!-- Script for Students Profile Cards -->
+{% endblock %}
