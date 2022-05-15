@@ -129,6 +129,22 @@ def update_profile(request, pk):
     has_authenticated_profile,
     login_url=reverse_lazy('accounts:complete_profile')
 )
+# @permission_required('students.change_student', raise_exception=True)
+def verify_profile(request, pk, verify):
+    """Mark student profile as verified/unverified."""
+    profile = get_object_or_404(Student, id=pk)
+
+    profile.verified = True if verify == 1 else False
+    profile.save()
+
+    return redirect('students:profile', pk=pk)
+
+
+@login_required
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
 # @permissions_required
 def attendance(request):
     """Student attendance page."""

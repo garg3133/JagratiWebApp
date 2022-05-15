@@ -10,6 +10,7 @@ urlpatterns = [
     path('attendance/', views.attendance, name='attendance'),
     # path('attendance/view/', views.view_attendance, name='view_attendance'),
     path('profile/update/<int:pk>/', views.update_profile, name='update_profile'),  # Not needed, update in profile/ only
+    path('profile/verify_profile/<int:pk>/<int:verify>/', views.verify_profile, name='verify_profile'),
 
     path('update_from_sheets/', views.update_from_sheets, name='update_from_sheets'),
 
