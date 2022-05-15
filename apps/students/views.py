@@ -7,12 +7,13 @@ from django.contrib.auth.decorators import (
     login_required, user_passes_test, permission_required
 )
 from django.core.files.storage import FileSystemStorage
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 
 # third-party
-from openpyxl import load_workbook
+from openpyxl import Workbook, load_workbook
+from openpyxl.styles import Font
 
 from home.models import Calendar, Schedule
 from home.views import has_authenticated_profile
@@ -315,3 +316,50 @@ def update_from_sheets(request):
         return redirect('students:index')
 
     return render(request, 'students/update_from_sheets.html')
+
+
+@login_required
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
+@permission_required('students.view_student', raise_exception=True)
+def generate_sheet(request):
+    students = Student.objects.all().order_by('school_class', 'first_name', 'last_name')
+
+    file_path = os.path.join(settings.MEDIA_ROOT, 'students', 'sheets','student_profile_data.xlsx')
+    excel = Workbook()
+    sheet = excel.active
+
+    col_width = [8, 20, 20, 8, 8, 8, 30, 20, 30, 8]
+
+    sheet.cell(row=1, column=1).value = 'id'
+    sheet.cell(row=1, column=2).value = 'first_name'
+    sheet.cell(row=1, column=3).value = 'last_name'
+    sheet.cell(row=1, column=4).value = 'gender'
+    sheet.cell(row=1, column=5).value = 'school_class'
+    sheet.cell(row=1, column=6).value = 'village'
+    sheet.cell(row=1, column=7).value = 'guardian_name'
+    sheet.cell(row=1, column=8).value = 'contact_no'
+    sheet.cell(row=1, column=9).value = 'remarks'
+    sheet.cell(row=1, column=10).value = 'verified'
+
+    for i in range(1, 11):
+        sheet.cell(row=1, column=i).font = Font(size=12, bold=True)
+        sheet.column_dimensions[chr(65+(i-1))].width=col_width[i-1]
+
+    for row, student in enumerate(students, 2): 
+        sheet.cell(row=row, column=1).value = student.id 
+        sheet.cell(row=row, column=2).value = student.first_name
+        sheet.cell(row=row, column=3).value = student.last_name
+        sheet.cell(row=row, column=4).value = student.gender
+        sheet.cell(row=row, column=5).value = student.school_class
+        sheet.cell(row=row, column=6).value = student.village
+        sheet.cell(row=row, column=7).value = student.guardian_name
+        sheet.cell(row=row, column=8).value = student.contact_no
+        sheet.cell(row=row, column=9).value = student.remarks
+        sheet.cell(row=row, column=10).value = student.verified
+
+    excel.save(file_path)
+
+    return HttpResponseRedirect(settings.MEDIA_URL + '/students/sheets/student_profile_data.xlsx')

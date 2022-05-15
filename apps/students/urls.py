@@ -13,6 +13,7 @@ urlpatterns = [
     path('profile/verify_profile/<int:pk>/<int:verify>/', views.verify_profile, name='verify_profile'),
 
     path('update_from_sheets/', views.update_from_sheets, name='update_from_sheets'),
+    path('generate_sheet/', views.generate_sheet, name='generate_sheet'),
 
     # AJAX calls
     path('ajax/fetch_students/', views.ajax_fetch_students, name='ajax_fetch_students'),
