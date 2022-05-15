@@ -268,7 +268,7 @@ def ajax_mark_homework(request):
     has_authenticated_profile,
     login_url=reverse_lazy('accounts:complete_profile')
 )
-# @permissions_required
+@permission_required('students.add_student', raise_exception=True)
 def update_from_sheets(request):
     """Create Student model instances from excel sheet."""
     if request.method == 'POST':
