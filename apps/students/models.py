@@ -52,7 +52,7 @@ class Student(models.Model):
     def get_verified_name(self):
         sign = ''
         if not self.has_complete_profile:
-            sign = '&#10071;'
+            sign = '&#10071; '
         elif not self.verified:
             sign = '&#10008; '
         else:
