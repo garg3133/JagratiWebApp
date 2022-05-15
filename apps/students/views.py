@@ -62,7 +62,13 @@ def add_student(request):
     if request.method == 'POST':
         form = StudentModelForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            student = form.save()
+
+            schedules_9th = Schedule.objects.filter(section__section_id='4')
+            for schedule in schedules_9th:
+                StudentSchedule.objects.create(
+                    student=student, day=schedule.day, schedule=schedule)
+
             messages.success(request, "Student added successfully!")
         else:
             # Todo: Send form data and errors back to page.
