@@ -65,9 +65,11 @@ def add_student(request):
             student = form.save()
 
             schedules_9th = Schedule.objects.filter(section__section_id='4')
+            stu_schedules = []
             for schedule in schedules_9th:
-                StudentSchedule.objects.create(
-                    student=student, day=schedule.day, schedule=schedule)
+                stu_schedule = StudentSchedule(student=student, day=schedule.day, schedule=schedule)
+                stu_schedules.append(stu_schedule)
+            StudentSchedule.objects.bulk_create(stu_schedules)
 
             messages.success(request, "Student added successfully!")
         else:
@@ -264,26 +266,33 @@ def update_from_sheets(request):
         sheet_obj = wb_obj.active
         max_row = sheet_obj.max_row
 
-        for i in range(3, max_row + 1):
+        for i in range(2, max_row + 1):
+            id = sheet_obj.cell(row=i, column=1).value
             first_name = sheet_obj.cell(row=i, column=2).value
             last_name = sheet_obj.cell(row=i, column=3).value
-            school_class = sheet_obj.cell(row=i, column=4).value
-            village = sheet_obj.cell(row=i, column=5).value
-            guardian_name = sheet_obj.cell(row=i, column=6).value
-            contact_no = sheet_obj.cell(row=i, column=7).value
+            gender = sheet_obj.cell(row=i, column=4).value
+            school_class = sheet_obj.cell(row=i, column=5).value
+            village = sheet_obj.cell(row=i, column=6).value
+            guardian_name = sheet_obj.cell(row=i, column=7).value
+            contact_no = str(sheet_obj.cell(row=i, column=8).value or '')
+            remarks = sheet_obj.cell(row=i, column=9).value or ''
 
-            if not Student.objects.filter(first_name=first_name, last_name=last_name, school_class=school_class,
-                                          village=village, guardian_name=guardian_name).exists():
-                student = Student(first_name=first_name, last_name=last_name, school_class=school_class,
-                                  village=village, guardian_name=guardian_name)
-                if contact_no is not None:
-                    student.contact_no = contact_no
+            # If id is already present, don't do anything (any changes to details should only be done using the portal)
+            # If id is not present, check if that student is already in the database (to avoid duplicates)
+            if (id is None and
+                not Student.objects.filter(first_name=first_name, last_name=last_name, school_class=school_class,
+                                           village=village, guardian_name=guardian_name).exists()):
+                student = Student(first_name=first_name, last_name=last_name, gender=gender, school_class=school_class,
+                                  village=village, guardian_name=guardian_name, contact_no=contact_no, remarks=remarks)
                 student.save()
-                for day, day_name in Schedule.DAY:
-                    print(day)
-                    stu_sch = StudentSchedule(student=student,
-                                              schedule=Schedule.objects.get(day=day, section__section_id='4A'))
-                    stu_sch.save()
+
+                schedules_9th = Schedule.objects.filter(section__section_id='4')
+                stu_schedules = []
+                for schedule in schedules_9th:
+                    stu_schedule = StudentSchedule(student=student, day=schedule.day, schedule=schedule)
+                    stu_schedules.append(stu_schedule)
+                StudentSchedule.objects.bulk_create(stu_schedules)
+
         # Delete the file
         os.remove(file_path)
         messages.success(request, "Data Updated Successfully")
