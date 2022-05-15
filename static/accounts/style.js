@@ -25,7 +25,7 @@ togglePassword.addEventListener('click', function (e) {
 	if(type == "password"){
 		password.setAttribute('type', "text");
 		// toggle the eye slash icon
-		togglePassword.src = "/static/accounts/icon/eye-slash.svg"
+		togglePassword.src = "/static/accounts/icon/eye.svg"
 
 		//Toggle the tooltip
 		togglePassword.title = "Hide Password"
@@ -33,7 +33,7 @@ togglePassword.addEventListener('click', function (e) {
 	else{
 		password.setAttribute('type', "password");
 		// toggle the eye slash icon
-		togglePassword.src = "/static/accounts/icon/eye.svg"
+		togglePassword.src = "/static/accounts/icon/eye-slash.svg"
 		
 		//Toggle the tooltip
 		togglePassword.title = "Show Password"
