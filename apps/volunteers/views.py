@@ -342,7 +342,15 @@ def ajax_update_schedule(request):
 
     return JsonResponse(data)
 
-
+@login_required
+@user_passes_test(
+    has_authenticated_profile, redirect_field_name=None,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
+@user_passes_test(
+    is_volunteer, redirect_field_name=None,
+    login_url=reverse_lazy('home:dashboard')
+)
 def leaderboard(request):
     cur_month = date.today().month
     cur_year = date.today().year
