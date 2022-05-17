@@ -34,14 +34,14 @@
     <div class="form-container sign-up-container">
         <form method="post">
             {% csrf_token %}
-            <h1>Create Account</h1>
+            <h1 style="margin-bottom: 20px;">Create Account</h1>
 
-            <div class="radio-input">
+            <!-- <div class="radio-input">
                 <input type="radio" name="desig" id="radio-input1" value="V" checked />
                 <label for="radio-input1" class="radio-input-label1">Volunteer</label>
                 <input type="radio" name="desig" id="radio-input2" value="F" />
                 <label for="radio-input2">Faculty</label>
-            </div>
+            </div> -->
             <input type="email" name="email" placeholder="Email" value="{{ entered_email }}"
                 pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
                 required />
@@ -76,7 +76,7 @@
                 <input type="password" name="password" id='password' placeholder="Password" required>
 
                 <!-- Eye icon to toggle -->
-                <img data-toggle="tooltip" title="Show Password" id="togglePassword" src="{% static 'accounts/icon/eye.svg' %}" alt="">
+                <img data-toggle="tooltip" title="Show Password" id="togglePassword" src="{% static 'accounts/icon/eye-slash.svg' %}" alt="">
 
             </div>
 

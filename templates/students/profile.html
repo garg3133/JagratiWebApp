@@ -82,13 +82,28 @@
 
                 </div>
             </div>
+            <div class="row justify-content-center">
+                {% if not profile.has_complete_profile %}
+                <p class="text-danger font-weight-bolder m-0">&#10071; Incomplete Profile</p>
+                {% elif not profile.verified %}
+                <p class="text-danger font-weight-bolder m-0">&#10008; Unverified Profile</p>
+                {% else %}
+                <p class="text-success font-weight-bolder m-0">&#10004; Verified Profile</p>
+                {% endif %}
+            </div>
             <div class="row justify-content-center pt-3">
+                {% if profile.has_complete_profile and not profile.verified %}
+                <a href="{% url 'students:verify_profile' pk=profile.id verify=1 %}" class="btn btn-success mx-3 my-2">Mark as verified</a>
+                {% elif profile.verified %}
+                <a href="{% url 'students:verify_profile' pk=profile.id verify=0 %}" class="btn btn-danger mx-3 my-2">Mark as unverified</a>
+                {% endif %}
                 <a href="{% url 'students:update_profile' pk=profile.id %}" class="btn btn-info mx-3 my-2">
                     Edit Profile
                 </a>
             </div>
         </div>
     </div>
+    {% comment %}
     <div class="pb-3 text-center">
         <h2>
             Student Schedule
@@ -118,5 +133,6 @@
             </div>
         </div>
     </div>
+    {% endcomment %}
 </div>
 {% endblock %}
