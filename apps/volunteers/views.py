@@ -348,6 +348,6 @@ def leaderboard(request):
     cur_year = date.today().year
     
     volunteers = VolunteerAttendance.objects.filter(cal_date__date__month=cur_month, cal_date__date__year=cur_year, present = 1) | VolunteerAttendance.objects.filter(cal_date__date__month=cur_month, cal_date__date__year=cur_year, extra = 1)
-    volunteers = volunteers.values('volun_id', 'volun__roll_no', 'volun__profile__first_name', 'volun__profile__last_name').annotate(total_attendance=Count('cal_date')).order_by('volun__roll_no')
+    volunteers = volunteers.values('volun_id', 'volun__roll_no', 'volun__profile__first_name', 'volun__profile__last_name').annotate(total_attendance=Count('cal_date')).order_by('-total_attendance')
 
     return render(request, 'volunteers/leaderboard.html', { 'volunteers': volunteers, 'cur_month': calendar.month_abbr[cur_month], 'cur_year': cur_year })
