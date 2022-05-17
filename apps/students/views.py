@@ -216,7 +216,7 @@ def ajax_fetch_students(request):
     for stu_att in stu_att_today:
         # key --> For sorting purpose.
         key = str(stu_att.student.school_class) + stu_att.student.get_full_name
-        data[key] = [stu_att.id, stu_att.student.id, stu_att.student.get_full_name,
+        data[key] = [stu_att.id, stu_att.student.id, stu_att.student.get_verified_name,
                      stu_att.student.school_class, stu_att.present]
 
     return JsonResponse(data)
