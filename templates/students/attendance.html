@@ -45,7 +45,7 @@
                     <tr>
                         <td>
                             <a href="{% url 'students:profile' stu_att.student.id %}" target ="_blank">
-                                {{ stu_att.student.get_full_name }}
+                                {{ stu_att.student.get_verified_name | safe }}
                             </a>
                         </td>
 
