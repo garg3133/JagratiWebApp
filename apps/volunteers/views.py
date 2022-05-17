@@ -1,6 +1,8 @@
 # standard library
+from calendar import calendar
 from datetime import date
 from multiprocessing import context
+import calendar
 
 # Django
 from django.db.models import Count, Sum
@@ -348,4 +350,4 @@ def leaderboard(request):
     volunteers = VolunteerAttendance.objects.filter(cal_date__date__month=cur_month, cal_date__date__year=cur_year, present = 1) | VolunteerAttendance.objects.filter(cal_date__date__month=cur_month, cal_date__date__year=cur_year, extra = 1)
     volunteers = volunteers.values('volun_id', 'volun__roll_no', 'volun__profile__first_name', 'volun__profile__last_name').annotate(total_attendance=Count('cal_date')).order_by('volun__roll_no')
 
-    return render(request, 'volunteers/leaderboard.html', { 'volunteers': volunteers })
+    return render(request, 'volunteers/leaderboard.html', { 'volunteers': volunteers, 'cur_month': calendar.month_abbr[cur_month], 'cur_year': cur_year })
