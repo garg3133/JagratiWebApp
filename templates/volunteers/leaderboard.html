@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+
+{% block title %} Jagrati | Leaderboard {% endblock %}
+
+{% block content %}
+    <nav class="navbar bg-light text-center p-0 m-0">
+        <h3 class="w-100 text-center p-2 m-0" style="background-color:#ff8c00;">
+            Volunteer Leaderboard
+        </h3>
+    </nav>
+    <table class="table table-striped text-center" id="vol-att-table">
+        <thead>
+            <tr>
+                <th>Roll No.</th>
+                <th>Name</th>
+                <th>Total Days</th>
+            </tr>
+        </thead>
+        <tbody> 
+            {% for vol in volunteers %}
+            <tr>
+                <!-- Volunteer Roll No  -->
+                <td>{{ vol.volun__roll_no }}</td>
+                <!-- Volunteer Name  -->
+                <td> 
+                    <a href="{% url 'volunteers:profile' vol.volun_id %}" target="_blank">    
+                        {{ vol.volun__profile__first_name }} 
+                            
+                        {{ vol.volun__profile__last_name }}
+                        </a>
+                </td>
+                
+                <td>{{ vol.total_attendance }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

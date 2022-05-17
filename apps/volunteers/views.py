@@ -1,7 +1,9 @@
 # standard library
 from datetime import date
+from multiprocessing import context
 
 # Django
+from django.db.models import Count, Sum
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
@@ -337,3 +339,13 @@ def ajax_update_schedule(request):
         data[sch.section.section_id] = sch.section.name
 
     return JsonResponse(data)
+
+
+def leaderboard(request):
+    cur_month = date.today().month
+    cur_year = date.today().year
+    
+    volunteers = VolunteerAttendance.objects.filter(cal_date__date__month=cur_month, cal_date__date__year=cur_year, present = 1) | VolunteerAttendance.objects.filter(cal_date__date__month=cur_month, cal_date__date__year=cur_year, extra = 1)
+    volunteers = volunteers.values('volun_id', 'volun__roll_no', 'volun__profile__first_name', 'volun__profile__last_name').annotate(total_attendance=Count('cal_date')).order_by('volun__roll_no')
+
+    return render(request, 'volunteers/leaderboard.html', { 'volunteers': volunteers })
