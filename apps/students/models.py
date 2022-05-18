@@ -44,7 +44,8 @@ class Student(models.Model):
 
     @property
     def has_complete_profile(self):
-        if self.first_name != '.' and self.last_name != '.' and '.' not in self.guardian_name and self.contact_no:
+        if (self.first_name != '.' and self.last_name != '.' and '.' not in self.guardian_name
+            and self.contact_no and self.profile_image):
             return True
         return False
 
