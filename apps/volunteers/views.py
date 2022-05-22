@@ -1,11 +1,8 @@
 # standard library
-from calendar import calendar
-from datetime import date
-from multiprocessing import context
-import calendar
+from datetime import date, timedelta
 
 # Django
-from django.db.models import Count, Sum
+from django.db.models import Count, Q
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
@@ -342,20 +339,21 @@ def ajax_update_schedule(request):
 
     return JsonResponse(data)
 
+
 @login_required
 @user_passes_test(
     has_authenticated_profile, redirect_field_name=None,
     login_url=reverse_lazy('accounts:complete_profile')
 )
-@user_passes_test(
-    is_volunteer, redirect_field_name=None,
-    login_url=reverse_lazy('home:dashboard')
-)
 def leaderboard(request):
-    cur_month = date.today().month
-    cur_year = date.today().year
+    date_from = date.today() - timedelta(days=30)
+    date_to = date.today()
     
-    volunteers = VolunteerAttendance.objects.filter(cal_date__date__month=cur_month, cal_date__date__year=cur_year, present = 1) | VolunteerAttendance.objects.filter(cal_date__date__month=cur_month, cal_date__date__year=cur_year, extra = 1)
-    volunteers = volunteers.values('volun_id', 'volun__roll_no', 'volun__profile__first_name', 'volun__profile__last_name').annotate(total_attendance=Count('cal_date')).order_by('-total_attendance')
+    volunteers = VolunteerAttendance.objects.filter(cal_date__date__range=[date_from, date_to], present=True)
+    volunteers = volunteers.values('volun_id', 'volun__roll_no', 'volun__profile__first_name',
+                                   'volun__profile__last_name').annotate(
+                                        total_attendance=Count('cal_date'),
+                                        extra=Count('cal_date', filter=Q(extra=True))
+                                    ).order_by('-total_attendance')
 
-    return render(request, 'volunteers/leaderboard.html', { 'volunteers': volunteers, 'cur_month': calendar.month_abbr[cur_month], 'cur_year': cur_year })
+    return render(request, 'volunteers/leaderboard.html', {'volunteers': volunteers})

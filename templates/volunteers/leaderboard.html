@@ -2,12 +2,12 @@
 
 {% load static %}
 
-{% block title %} Jagrati | Leaderboard {% endblock %}
+{% block title %} Jagrati | Volunteer Leaderboard {% endblock %}
 
 {% block content %}
     <nav class="navbar bg-light text-center p-0 m-0">
         <h3 class="w-100 text-center p-2 m-0" style="background-color:#ff8c00;">
-            Volunteer Leaderboard - {{ cur_month}}, {{ cur_year }}
+            Volunteer Leaderboard - Last 30 days
         </h3>
     </nav>
     <table class="table table-striped text-center" id="vol-att-table">
@@ -16,6 +16,7 @@
                 <th>Roll No.</th>
                 <th>Name</th>
                 <th>Total Days</th>
+                <th>Extra Days</th>
             </tr>
         </thead>
         <tbody> 
@@ -29,10 +30,11 @@
                         {{ vol.volun__profile__first_name }} 
                             
                         {{ vol.volun__profile__last_name }}
-                        </a>
+                    </a>
                 </td>
                 
                 <td>{{ vol.total_attendance }}</td>
+                <td>{{ vol.extra }}</td>
             </tr>
             {% endfor %}
         </tbody>

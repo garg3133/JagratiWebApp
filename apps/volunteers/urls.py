@@ -5,9 +5,9 @@ from . import views
 app_name = 'volunteers'
 urlpatterns = [
     path('', views.index, name='index'),
-    path('leaderboard/', views.leaderboard, name='leaderboard'),
     path('profile/<int:pk>/', views.profile, name='profile'),
     path('attendance/', views.attendance, name='attendance'),
+    path('leaderboard/', views.leaderboard, name='leaderboard'),
     # path('attendance/view/', views.view_attendance, name='view_attendance'),
     path('update_schedule/', views.update_schedule, name='update_schedule'),
     path('ajax/update_schedule/', views.ajax_update_schedule, name='ajax_update_schedule'),
