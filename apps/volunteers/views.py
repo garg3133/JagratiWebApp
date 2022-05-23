@@ -354,6 +354,6 @@ def leaderboard(request):
                                    'volun__profile__last_name').annotate(
                                         total_attendance=Count('cal_date'),
                                         extra=Count('cal_date', filter=Q(extra=True))
-                                    ).order_by('-total_attendance')
+                                    ).order_by('-total_attendance', '-extra')
 
     return render(request, 'volunteers/leaderboard.html', {'volunteers': volunteers})
