@@ -13,6 +13,7 @@
     <table class="table table-striped text-center" id="vol-att-table">
         <thead>
             <tr>
+                <th>#</th>
                 <th>Roll No.</th>
                 <th>Name</th>
                 <th>Total Days</th>
@@ -22,6 +23,7 @@
         <tbody> 
             {% for vol in volunteers %}
             <tr>
+                <td>{{forloop.counter}}</td>
                 <!-- Volunteer Roll No  -->
                 <td>{{ vol.volun__roll_no }}</td>
                 <!-- Volunteer Name  -->
