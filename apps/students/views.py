@@ -378,10 +378,10 @@ def leaderboard(request):
     date_to = date.today()
 
     students = StudentAttendance.objects.filter(cal_date__date__range=[date_from, date_to], present=True)
-    students = students.values('student_id', 'student__first_name',
-                                   'student__last_name', 'student__school_class', 'student__village').annotate(
-                                        total_attendance=Count('cal_date'),
-                                        total_hw_done=Count('cal_date', filter=Q(hw_done=True))
-                                    ).order_by('-total_attendance', '-total_hw_done')
+    students = students.values('student_id', 'student__first_name', 'student__last_name',
+                               'student__school_class', 'student__village').annotate(
+                                   total_attendance=Count('cal_date'),
+                                   total_hw_done=Count('cal_date', filter=Q(hw_done=True))
+                               ).order_by('-total_attendance', '-total_hw_done', 'student__school_class', 'student__first_name')
                                     
     return render(request, 'students/leaderboard.html', {'students': students})
