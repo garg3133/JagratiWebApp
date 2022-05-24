@@ -1,6 +1,9 @@
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 import os
+
+#Django
+from django.db.models import Count, Q
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import (
@@ -19,6 +22,7 @@ from home.models import Calendar, Schedule
 from home.views import has_authenticated_profile
 from .models import Student, StudentAttendance, StudentSchedule
 from .forms import StudentModelForm
+
 # GLOBAL VARIABLES
 today_date = date.today()
 today_day = today_date.strftime("%w")
@@ -363,3 +367,21 @@ def generate_sheet(request):
     excel.save(file_path)
 
     return HttpResponseRedirect(settings.MEDIA_URL + '/students/sheets/student_profile_data.xlsx')
+
+@login_required
+@user_passes_test(
+    has_authenticated_profile, redirect_field_name=None,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
+def leaderboard(request):
+    date_from = date.today() - timedelta(days=30)
+    date_to = date.today()
+
+    students = StudentAttendance.objects.filter(cal_date__date__range=[date_from, date_to], present=True)
+    students = students.values('student_id', 'student__first_name',
+                                   'student__last_name', 'student__school_class', 'student__village').annotate(
+                                        total_attendance=Count('cal_date'),
+                                        total_hw_done=Count('cal_date', filter=Q(hw_done=True))
+                                    ).order_by('-total_attendance', '-total_hw_done')
+                                    
+    return render(request, 'students/leaderboard.html', {'students': students})
