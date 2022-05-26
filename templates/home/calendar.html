@@ -1,0 +1,302 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+
+{% block title %} Jagrati | Volunteer Leaderboard {% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="d-flex flex-column justify-content-center text-center">
+            <h1>This is the calendar page</h1>
+            <div class="calendar">
+                <div class="calendar__month">
+                  <div class="cal-month__previous">&#60;</div>
+                  <div class="cal-month__current"></div>
+                  <div class="cal-month__next">&#62;</div>
+                </div>
+                <div class="calendar__head">
+                  <div class="cal-head__day"></div>
+                  <div class="cal-head__day"></div>
+                  <div class="cal-head__day"></div>
+                  <div class="cal-head__day"></div>
+                  <div class="cal-head__day"></div>
+                  <div class="cal-head__day"></div>
+                  <div class="cal-head__day"></div>
+                </div>
+                <div class="calendar__body">
+                  <div class="cal-body__week">
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                  </div>
+                  <div class="cal-body__week">
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                  </div>
+                  <div class="cal-body__week">
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                  </div>
+                  <div class="cal-body__week">
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                  </div>
+                  <div class="cal-body__week">
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                  </div>
+                  <div class="cal-body__week">
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                    <div class="cal-body__day"></div>
+                  </div>
+                </div>
+              </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block style %}
+<style>
+
+.calendar {
+  width: 350px;
+  margin: 50px auto 0;
+}
+
+.calendar__month {
+  font-size: 20px;
+  font-weight: 800;
+  padding: 10px 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cal-month__previous,
+.cal-month__next {
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+}
+  
+.cal-month__previous:hover, .cal-month__next:hover {
+    background-color: #ff8c00;
+    border-radius: 50%;
+    font-weight: 800;
+    color: #111;
+}
+
+.cal-head__day,
+.cal-body__day {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+}
+
+.cal-body__week,
+.calendar__head {
+  display: block;
+  height: 50px;
+  width: 350px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.calendar__head {
+  line-height: 50px;
+  display: flex;
+  flex-direction: row;
+}
+
+.cal-body__day {
+  color: #777;
+  line-height: 50px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.cal-day__month--current {
+  color: #111;
+}
+
+.cal-day__day--today {
+  font-weight: 800;
+  color: #ff8c00;
+}
+
+.cal-day__day--selected {
+  background-color: #ff8c00;
+  border-radius: 50%;
+  color: #111;
+}
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script type = "text/JavaScript" src = " https://MomentJS.com/downloads/moment.js"></script>
+<script>
+    class Calendar {
+  
+  constructor () {
+    this.monthDiv = document.querySelector('.cal-month__current')
+    this.headDivs = document.querySelectorAll('.cal-head__day')
+    this.bodyDivs = document.querySelectorAll('.cal-body__day')
+    this.nextDiv = document.querySelector('.cal-month__next')
+    this.prevDiv = document.querySelector('.cal-month__previous')
+  }
+  
+  init () {
+    moment.locale(window.navigator.userLanguage || window.navigator.language) 
+    
+    this.month = moment()
+    this.today = this.selected = this.month.clone()
+    this.weekDays = moment.weekdaysShort(true)
+    
+    this.headDivs.forEach((day, index) => {
+      day.innerText = this.weekDays[index]
+    })
+    
+    this.nextDiv.addEventListener('click', _ => { this.addMonth() })
+    this.prevDiv.addEventListener('click', _ => { this.removeMonth() })
+    
+    this.bodyDivs.forEach(day => {
+      day.addEventListener('click', e => {
+        const date = +e.target.innerHTML < 10 ? `0${e.target.innerHTML}` : e.target.innerHTML
+
+        if (e.target.classList.contains('cal-day__month--next')) {
+          this.selected = moment(`${this.month.add(1, 'month').format('YYYY-MM')}-${date}`)
+        } else if (e.target.classList.contains('cal-day__month--previous')) {
+          this.selected = moment(`${this.month.subtract(1, 'month').format('YYYY-MM')}-${date}`)
+        } else {
+          this.selected = moment(`${this.month.format('YYYY-MM')}-${date}`)
+        }
+
+        this.update()
+      })
+    })
+    
+    this.update()
+  }
+  
+  update () {
+    this.calendarDays = {
+      first: this.month.clone().startOf('month').startOf('week').date(),
+      last: this.month.clone().endOf('month').date()
+    }
+    
+    this.monthDays = {
+      lastPrevious: this.month.clone().subtract(1,'months').endOf('month').date(),
+      lastCurrent: this.month.clone().endOf('month').date()
+    }
+    
+    this.monthString = this.month.clone().format('MMMM YYYY')
+    
+    this.draw()
+  }
+  
+  addMonth () {
+    this.month.add(1, 'month')
+    
+    this.update()
+  }
+  
+  removeMonth () {
+    this.month.subtract(1, 'month')
+    
+    this.update()
+  }
+  
+  draw () {
+    this.monthDiv.innerText = this.monthString
+  
+    let index = 0
+
+    if (this.calendarDays.first > 1) {
+      for (let day = this.calendarDays.first; day <= this.monthDays.lastPrevious; index ++) {
+        this.bodyDivs[index].innerText = day++
+
+        this.cleanCssClasses(false, index)
+
+        this.bodyDivs[index].classList.add('cal-day__month--previous')
+      } 
+    }
+
+    let isNextMonth = false
+    for (let day = 1; index <= this.bodyDivs.length - 1; index ++) {
+      if (day > this.monthDays.lastCurrent) {
+        day = 1
+        isNextMonth = true
+      }
+
+      this.cleanCssClasses(true, index)
+
+      if (!isNextMonth) {
+        if (day === this.today.date() && this.today.isSame(this.month, 'day')) {
+          this.bodyDivs[index].classList.add('cal-day__day--today') 
+        }
+
+        if (day === this.selected.date() && this.selected.isSame(this.month, 'month')) {
+          this.bodyDivs[index].classList.add('cal-day__day--selected') 
+        }
+
+        this.bodyDivs[index].classList.add('cal-day__month--current')
+      } else {
+        this.bodyDivs[index].classList.add('cal-day__month--next')
+      }
+
+      this.bodyDivs[index].innerText = day++
+    }
+  }
+  
+  cleanCssClasses (selected, index) {
+    this.bodyDivs[index].classList.contains('cal-day__month--next') && 
+      this.bodyDivs[index].classList.remove('cal-day__month--next')
+    this.bodyDivs[index].classList.contains('cal-day__month--previous') && 
+      this.bodyDivs[index].classList.remove('cal-day__month--previous')
+    this.bodyDivs[index].classList.contains('cal-day__month--current') &&
+      this.bodyDivs[index].classList.remove('cal-day__month--current')
+    this.bodyDivs[index].classList.contains('cal-day__day--today') && 
+      this.bodyDivs[index].classList.remove('cal-day__day--today')
+    if (selected) {
+      this.bodyDivs[index].classList.contains('cal-day__day--selected') && 
+        this.bodyDivs[index].classList.remove('cal-day__day--selected') 
+    }
+  }
+}
+
+const cal = new Calendar()
+cal.init()
+</script>
+{% endblock %}

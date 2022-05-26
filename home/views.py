@@ -254,3 +254,11 @@ def class_schedule(request):
     }
 
     return render(request, 'home/class_schedule.html', context)
+
+@login_required
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
+def calendar(request):
+    return render(request, 'home/calendar.html')
