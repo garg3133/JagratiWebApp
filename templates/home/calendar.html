@@ -163,10 +163,11 @@ Volunteer Leaderboard {% endblock %} {% block content %}
         div.innerHTML = '';
         htmlDatesDiv.append(div);
     }
+    const todaysDateTemp = new Date();
     for (let i = 1; i <= d; i++) {
         let div = document.createElement('div');
         div.className = 'cal-body__day';
-        if(i === todaysDay) {
+        if(i === todaysDay && todaysMonth === todaysDateTemp.getMonth() && year === todaysDateTemp.getFullYear()) {
           div.className += ' cal-body__day--today cal-body__day--selected';
         }
         div.innerHTML = i;
@@ -175,7 +176,7 @@ Volunteer Leaderboard {% endblock %} {% block content %}
   }
   
   const htmlDatesDiv = document.querySelector('.calendar__body');
-  const htmlChangeMonth = document.querySelector('.changeMonth');
+  const htmlChangeMonth = document.querySelectorAll('.changeMonth');
   const htmlCurrMonthYear = document.querySelector(".cal-month__current");
   htmlCurrMonthYear.innerHTML = `${monthDays[todaysMonth]} ${year}`;
   
@@ -183,28 +184,31 @@ Volunteer Leaderboard {% endblock %} {% block content %}
   let numWeek = getFirstDayInMonth(todaysMonth, year);  // Day on 1st of selected month (0-6)
   createElement(numWeek, howManyDaysInMonth);
 
-  htmlChangeMonth.addEventListener('click', (e) => {  
-    if (e.target.classList.contains('cal-month__previous')) {
-      if (todaysMonth === 0) {
-        todaysMonth = 11;
-        year--;
-      } else {
-        todaysMonth--;
+  for(const changeMonthBtn of htmlChangeMonth){    
+    changeMonthBtn.addEventListener('click', function(e) {
+      if (e.target.classList.contains('cal-month__next')) {
+        if (todaysMonth === 11) {
+          todaysMonth = 0;
+          year++;
+        } else {
+          todaysMonth++;
+        }
+      } else if (e.target.classList.contains('cal-month__previous')) {
+        if (todaysMonth === 0) {
+          todaysMonth = 11;
+          year--;
+        } else {
+          todaysMonth--;
+        }
       }
-    } else if(e.target.classList.contains('cal-month__next')) {  // BUG: not executing
-      if (todaysMonth === 11) {
-        todaysMonth = 0;
-        year++;
-      } else {
-        todaysMonth++;
-      }
-    }
-    htmlDatesDiv.innerHTML = '';
-    howManyDaysInMonth = daysInMonth(todaysMonth, year);
-    numWeek = getFirstDayInMonth(todaysMonth, year);  // Day on 1st of selected month (0-6)
-    createElement(numWeek, howManyDaysInMonth);
-    htmlCurrMonthYear.innerHTML = `${monthDays[todaysMonth]} ${year}`;
-  });
+       
+      htmlDatesDiv.innerHTML = '';
+      howManyDaysInMonth = daysInMonth(todaysMonth, year);
+      numWeek = getFirstDayInMonth(todaysMonth, year);  // Day on 1st of selected month (0-6)
+      createElement(numWeek, howManyDaysInMonth);
+      htmlCurrMonthYear.innerHTML = `${monthDays[todaysMonth]} ${year}`;
+    });
+  }
 
 </script>
 
