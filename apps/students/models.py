@@ -57,7 +57,7 @@ class Student(models.Model):
 
     @property
     def profile_url(self):
-        """Returns the url to volunteer profile."""
+        """Returns the url to student profile."""
         return reverse('students:profile', args=[str(self.id)])
 
 
