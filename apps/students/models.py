@@ -33,7 +33,10 @@ class Student(models.Model):
     village = models.CharField(max_length=3, choices=VILLAGE)
     contact_no = models.CharField(max_length=13, blank=True)
     guardian_name = models.CharField(max_length=30)
+
     restricted = models.BooleanField(default=False)
+    verified = models.BooleanField(verbose_name='Profile details verified', default=False)
+    remarks = models.TextField(max_length=5000, blank=True)
 
     def __str__(self):
         return f'{self.get_full_name} ({self.school_class}) ({self.get_village}) ({self.get_profile_image_url})'
@@ -43,8 +46,27 @@ class Student(models.Model):
         return f'{self.first_name} {self.last_name}'
 
     @property
+<<<<<<< HEAD
     def get_village(self):
         return self.get_village_display()
+=======
+    def has_complete_profile(self):
+        if (self.first_name != '.' and self.last_name != '.' and '.' not in self.guardian_name
+            and self.contact_no and self.profile_image):
+            return True
+        return False
+
+    @property
+    def get_verified_name(self):
+        sign = ''
+        if not self.has_complete_profile:
+            sign = '&#10071; '
+        elif not self.verified:
+            sign = '&#10008; '
+        else:
+            sign = '&#10004; '
+        return f'{sign}{self.first_name} {self.last_name}'
+>>>>>>> 8f29ee9fd609f6f50160de310800ad5fe7eaed62
 
     @property
     def get_profile_image_url(self):

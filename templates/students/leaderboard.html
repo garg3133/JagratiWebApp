@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+
+{% block title %} Jagrati | Volunteer Leaderboard {% endblock %}
+
+{% block content %}
+    <nav class="navbar bg-light text-center p-0 m-0">
+        <h3 class="w-100 text-center p-2 m-0" style="background-color:#ff8c00;">
+            Student Leaderboard - Last 30 days
+        </h3>
+    </nav>
+    <table class="table table-striped text-center" id="vol-att-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Class</th>
+                <th>Village</th>
+                <th>Total Days</th>
+                <th>HW Done</th>
+            </tr>
+        </thead>
+        <tbody> 
+            {% for stud in students %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <!-- Volunteer Name  -->
+                <td> 
+                    <a href="{% url 'students:profile' stud.student_id %}" target="_blank">    
+                        {{ stud.student__first_name }} 
+                            
+                        {{ stud.student__last_name }}
+                    </a>
+                </td>
+
+                <td>{{ stud.student__school_class }}</td>
+                <td>{{ stud.student__village }}</td>
+                <td>{{ stud.total_attendance }}</td>
+                <td>{{ stud.total_hw_done }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

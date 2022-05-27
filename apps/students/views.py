@@ -1,23 +1,28 @@
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 import os
+
+#Django
+from django.db.models import Count, Q
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import (
     login_required, user_passes_test, permission_required
 )
 from django.core.files.storage import FileSystemStorage
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 
 # third-party
-from openpyxl import load_workbook
+from openpyxl import Workbook, load_workbook
+from openpyxl.styles import Font
 
 from home.models import Calendar, Schedule
 from home.views import has_authenticated_profile
 from .models import Student, StudentAttendance, StudentSchedule
 from .forms import StudentModelForm
+
 # GLOBAL VARIABLES
 today_date = date.today()
 today_day = today_date.strftime("%w")
@@ -67,7 +72,15 @@ def add_student(request):
     if request.method == 'POST':
         form = StudentModelForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            student = form.save()
+
+            schedules_9th = Schedule.objects.filter(section__section_id='4')
+            stu_schedules = []
+            for schedule in schedules_9th:
+                stu_schedule = StudentSchedule(student=student, day=schedule.day, schedule=schedule)
+                stu_schedules.append(stu_schedule)
+            StudentSchedule.objects.bulk_create(stu_schedules)
+
             messages.success(request, "Student added successfully!")
         else:
             # Todo: Send form data and errors back to page.
@@ -119,6 +132,22 @@ def update_profile(request, pk):
             messages.error(request, "Something went wrong. Please try again!")
 
     return render(request, 'students/update_profile.html', context)
+
+
+@login_required
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
+# @permission_required('students.change_student', raise_exception=True)
+def verify_profile(request, pk, verify):
+    """Mark student profile as verified/unverified."""
+    profile = get_object_or_404(Student, id=pk)
+
+    profile.verified = True if verify == 1 else False
+    profile.save()
+
+    return redirect('students:profile', pk=pk)
 
 
 @login_required
@@ -196,7 +225,7 @@ def ajax_fetch_students(request):
     for stu_att in stu_att_today:
         # key --> For sorting purpose.
         key = str(stu_att.student.school_class) + stu_att.student.get_full_name
-        data[key] = [stu_att.id, stu_att.student.id, stu_att.student.get_full_name,
+        data[key] = [stu_att.id, stu_att.student.id, stu_att.student.get_verified_name,
                      stu_att.student.school_class, stu_att.present]
 
     return JsonResponse(data)
@@ -249,7 +278,7 @@ def ajax_mark_homework(request):
     has_authenticated_profile,
     login_url=reverse_lazy('accounts:complete_profile')
 )
-# @permissions_required
+@permission_required('students.add_student', raise_exception=True)
 def update_from_sheets(request):
     """Create Student model instances from excel sheet."""
     if request.method == 'POST':
@@ -263,29 +292,101 @@ def update_from_sheets(request):
         sheet_obj = wb_obj.active
         max_row = sheet_obj.max_row
 
-        for i in range(3, max_row + 1):
+        for i in range(2, max_row + 1):
+            id = sheet_obj.cell(row=i, column=1).value
             first_name = sheet_obj.cell(row=i, column=2).value
             last_name = sheet_obj.cell(row=i, column=3).value
-            school_class = sheet_obj.cell(row=i, column=4).value
-            village = sheet_obj.cell(row=i, column=5).value
-            guardian_name = sheet_obj.cell(row=i, column=6).value
-            contact_no = sheet_obj.cell(row=i, column=7).value
+            gender = sheet_obj.cell(row=i, column=4).value
+            school_class = sheet_obj.cell(row=i, column=5).value
+            village = sheet_obj.cell(row=i, column=6).value
+            guardian_name = sheet_obj.cell(row=i, column=7).value
+            contact_no = str(sheet_obj.cell(row=i, column=8).value or '')
+            remarks = sheet_obj.cell(row=i, column=9).value or ''
 
-            if not Student.objects.filter(first_name=first_name, last_name=last_name, school_class=school_class,
-                                          village=village, guardian_name=guardian_name).exists():
-                student = Student(first_name=first_name, last_name=last_name, school_class=school_class,
-                                  village=village, guardian_name=guardian_name)
-                if contact_no is not None:
-                    student.contact_no = contact_no
+            # If id is already present, don't do anything (any changes to details should only be done using the portal)
+            # If id is not present, check if that student is already in the database (to avoid duplicates)
+            if (id is None and
+                not Student.objects.filter(first_name=first_name, last_name=last_name, school_class=school_class,
+                                           village=village, guardian_name=guardian_name).exists()):
+                student = Student(first_name=first_name, last_name=last_name, gender=gender, school_class=school_class,
+                                  village=village, guardian_name=guardian_name, contact_no=contact_no, remarks=remarks)
                 student.save()
-                for day, day_name in Schedule.DAY:
-                    print(day)
-                    stu_sch = StudentSchedule(student=student,
-                                              schedule=Schedule.objects.get(day=day, section__section_id='4A'))
-                    stu_sch.save()
+
+                schedules_9th = Schedule.objects.filter(section__section_id='4')
+                stu_schedules = []
+                for schedule in schedules_9th:
+                    stu_schedule = StudentSchedule(student=student, day=schedule.day, schedule=schedule)
+                    stu_schedules.append(stu_schedule)
+                StudentSchedule.objects.bulk_create(stu_schedules)
+
         # Delete the file
         os.remove(file_path)
         messages.success(request, "Data Updated Successfully")
         return redirect('students:index')
 
     return render(request, 'students/update_from_sheets.html')
+
+
+@login_required
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
+@permission_required('students.view_student', raise_exception=True)
+def generate_sheet(request):
+    students = Student.objects.all().order_by('school_class', 'first_name', 'last_name')
+
+    file_path = os.path.join(settings.MEDIA_ROOT, 'students', 'sheets','student_profile_data.xlsx')
+    excel = Workbook()
+    sheet = excel.active
+
+    col_width = [8, 20, 20, 8, 8, 8, 30, 20, 30, 8]
+
+    sheet.cell(row=1, column=1).value = 'id'
+    sheet.cell(row=1, column=2).value = 'first_name'
+    sheet.cell(row=1, column=3).value = 'last_name'
+    sheet.cell(row=1, column=4).value = 'gender'
+    sheet.cell(row=1, column=5).value = 'school_class'
+    sheet.cell(row=1, column=6).value = 'village'
+    sheet.cell(row=1, column=7).value = 'guardian_name'
+    sheet.cell(row=1, column=8).value = 'contact_no'
+    sheet.cell(row=1, column=9).value = 'remarks'
+    sheet.cell(row=1, column=10).value = 'verified'
+
+    for i in range(1, 11):
+        sheet.cell(row=1, column=i).font = Font(size=12, bold=True)
+        sheet.column_dimensions[chr(65+(i-1))].width=col_width[i-1]
+
+    for row, student in enumerate(students, 2): 
+        sheet.cell(row=row, column=1).value = student.id 
+        sheet.cell(row=row, column=2).value = student.first_name
+        sheet.cell(row=row, column=3).value = student.last_name
+        sheet.cell(row=row, column=4).value = student.gender
+        sheet.cell(row=row, column=5).value = student.school_class
+        sheet.cell(row=row, column=6).value = student.village
+        sheet.cell(row=row, column=7).value = student.guardian_name
+        sheet.cell(row=row, column=8).value = student.contact_no
+        sheet.cell(row=row, column=9).value = student.remarks
+        sheet.cell(row=row, column=10).value = student.verified
+
+    excel.save(file_path)
+
+    return HttpResponseRedirect(settings.MEDIA_URL + '/students/sheets/student_profile_data.xlsx')
+
+@login_required
+@user_passes_test(
+    has_authenticated_profile, redirect_field_name=None,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
+def leaderboard(request):
+    date_from = date.today() - timedelta(days=30)
+    date_to = date.today()
+
+    students = StudentAttendance.objects.filter(cal_date__date__range=[date_from, date_to], present=True)
+    students = students.values('student_id', 'student__first_name', 'student__last_name',
+                               'student__school_class', 'student__village').annotate(
+                                   total_attendance=Count('cal_date'),
+                                   total_hw_done=Count('cal_date', filter=Q(hw_done=True))
+                               ).order_by('-total_attendance', '-total_hw_done', 'student__school_class', 'student__first_name')
+                                    
+    return render(request, 'students/leaderboard.html', {'students': students})

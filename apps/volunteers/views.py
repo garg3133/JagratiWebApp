@@ -1,7 +1,8 @@
 # standard library
-from datetime import date
+from datetime import date, timedelta
 
 # Django
+from django.db.models import Count, Q
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
@@ -337,3 +338,22 @@ def ajax_update_schedule(request):
         data[sch.section.section_id] = sch.section.name
 
     return JsonResponse(data)
+
+
+@login_required
+@user_passes_test(
+    has_authenticated_profile, redirect_field_name=None,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
+def leaderboard(request):
+    date_from = date.today() - timedelta(days=30)
+    date_to = date.today()
+    
+    volunteers = VolunteerAttendance.objects.filter(cal_date__date__range=[date_from, date_to], present=True)
+    volunteers = volunteers.values('volun_id', 'volun__roll_no', 'volun__profile__first_name',
+                                   'volun__profile__last_name').annotate(
+                                        total_attendance=Count('cal_date'),
+                                        extra=Count('cal_date', filter=Q(extra=True))
+                                    ).order_by('-total_attendance', '-extra')
+
+    return render(request, 'volunteers/leaderboard.html', {'volunteers': volunteers})
