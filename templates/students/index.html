@@ -12,25 +12,37 @@
 
 <div class="vol__header">
   <div class="fixed-bg">
-    <img src="{% static 'students/images/header.jpg' %}" class="header-img" alt="Header Image" />
+    <img src="{% static 'students/images/headerstudents.jpg' %}" class="header-img" alt="Header Image" />
   </div>
 </div>
 
 <!-- Students Profile Cards -->
+
+<div class="d-flex justify-content-center">
+<div class="py-3 mt-3 text-center text-muted border-bottom center" style="width:82vw;">
+  <h2 class="font-weight-bold" style="font-size:3rem;text-shadow: 3px 3px 3px #b2b0b0;">
+      Students
+  </h2>
+</div>
+</div>
+
+
 <div id="Vol__Cards" class="container">
   {% if students %}
   <div class="row justify-content-center mb-5 pt-5 mx-auto">
     {% for vol in students %}
     <div class="col-12 col-sm-6 col-md-4 col-lg-3">
       <div class="card vol__card mb-5">
-        <img src="{{ vol.profile.get_profile_image_url }}" class="card-img" alt="Profile image" />
+        <!-- <img src="{{ vol.profile.get_profile_image_url }}" class="card-img" alt="Profile Image" /> -->
+        <img src="{{ vol.get_profile_image_url }}" class="card-img" alt="Profile Image" />
         <div class="card__details">
           {% if vol.desig %}
           <span class="tag">{{vol.desig}}</span>
           {% endif %}
           <div class="name">{{ vol.get_full_name }}</div>
           <p>Class : {{vol.school_class}}</p>
-          <p>Village : {{vol.village}}</p>
+          <p>Village : {{vol.get_village}}</p>
+          
           
           
         </div>

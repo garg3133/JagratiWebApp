@@ -53,6 +53,7 @@ def profile(request, pk):
         'stu_schedule': stu_schedule,
     }
     return render(request, 'students/profile.html', context)
+    
 
 
 @login_required

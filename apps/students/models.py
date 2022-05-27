@@ -7,6 +7,9 @@ from imagekit.processors import ResizeToFill
 from home.models import Calendar, Schedule
 
 
+from django.urls import reverse
+
+
 class Student(models.Model):
     GENDER = (
         ('M', 'Male'),
@@ -33,11 +36,15 @@ class Student(models.Model):
     restricted = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'{self.get_full_name} ({self.school_class})'
+        return f'{self.get_full_name} ({self.school_class}) ({self.get_village}) ({self.get_profile_image_url})'
 
     @property
     def get_full_name(self):
         return f'{self.first_name} {self.last_name}'
+
+    @property
+    def get_village(self):
+        return self.get_village_display()
 
     @property
     def get_profile_image_url(self):
@@ -47,6 +54,11 @@ class Student(models.Model):
             return settings.STATIC_URL + 'home/images/woman.png'
         else:
             return settings.STATIC_URL + 'home/images/man.png'
+
+    @property
+    def profile_url(self):
+        """Returns the url to volunteer profile."""
+        return reverse('students:profile', args=[str(self.id)])
 
 
 class StudentSchedule(models.Model):
