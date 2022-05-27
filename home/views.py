@@ -12,7 +12,8 @@ from django.urls import reverse, reverse_lazy
 from accounts.models import Profile
 from apps.misc.models import Initiative
 from apps.students.models import StudentAttendance
-from apps.volunteers.models import Volunteer, VolunteerAttendance
+from apps.volunteers.models import Volunteer, VolunteerAttendance, VolunteerSchedule
+from home.context_processors import database_context
 from .models import Calendar, ClassworkHomework, Schedule, Section
 
 
@@ -261,4 +262,6 @@ def class_schedule(request):
     login_url=reverse_lazy('accounts:complete_profile')
 )
 def calendar(request):
-    return render(request, 'home/calendar.html')
+    user = database_context(request)
+    volun_schedule = VolunteerSchedule.objects.filter(volun=user['volun']).order_by('day')
+    return render(request, 'home/calendar.html', {'volun_schedule': volun_schedule})

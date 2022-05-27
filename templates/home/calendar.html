@@ -25,6 +25,12 @@ Volunteer Leaderboard {% endblock %} {% block content %}
       </div>
       <div class="calendar__body"></div>
     </div>
+    <div class="scheduleInfo">
+      <table class="table eventTable table-bordered">
+        
+      </table>
+      <h3 class="noClassMessage">No Classes Scheduled! Take the day off and relax!</h3>
+    </div>
   </div>
 </div>
 
@@ -34,15 +40,16 @@ Volunteer Leaderboard {% endblock %} {% block content %}
 <style>
   .calendar {
     width: 350px;
-    margin: 50px auto 0;
+    margin: 50px auto 20px;
     border: 2px solid #ff8c00;
     border-radius: 5px;
   }
 
   .calendar__body {
+    padding: 5px;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    grid-gap: 0px;
+    grid-gap: 1px;
   }
 
   .calendar__month {
@@ -105,21 +112,37 @@ Volunteer Leaderboard {% endblock %} {% block content %}
     cursor: pointer;
   }
 
-  .cal-day__month--current {
-    color: #111;
-  }
-
   .cal-body__day--today {
     font-weight: 800;
     color: #ff8c00;
   }
-
+  
+  .Sunday {
+    color: #ff8c00;
+    font-weight: 800;
+  }
+  
+  {% for sch in volun_schedule %}
+  .{{ sch.get_day_display }} {
+    background-color: greenyellow;
+    border-radius: 100%;
+    color: #111;
+    font-weight: 800;
+  }
+  {% endfor %}
+  
   .cal-body__day--selected {
     background-color: #ff8c00;
     font-weight: 800;
     border-radius: 50%;
     color: #111;
   }
+
+  .eventTable{
+    max-width: 25vw;
+    margin: auto;
+  }
+
 </style>
 {% endblock %} 
 
@@ -133,21 +156,9 @@ Volunteer Leaderboard {% endblock %} {% block content %}
   let todaysWeekDay = date.getDay();
   let year = date.getFullYear();
 
-  const monthDays = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  
+  const monthDays = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
   function daysInMonth(month, year) {
     return new Date(year, month + 1, 0).getDate();
   }
@@ -170,11 +181,40 @@ Volunteer Leaderboard {% endblock %} {% block content %}
         if(i === todaysDay && todaysMonth === todaysDateTemp.getMonth() && year === todaysDateTemp.getFullYear()) {
           div.className += ' cal-body__day--today cal-body__day--selected';
         }
+        div.className += ` ${weekDays[(n+i-1)%7]}`;
         div.innerHTML = i;
         htmlDatesDiv.append(div);
       }
   }
   
+  function getScheduleForTheDay(){
+    let selectedElement = document.querySelector('.cal-body__day--selected');
+    // get the schedule of the clicked day 
+    var flag = 1;
+    {% for sch in volun_schedule %}
+      if(selectedElement.classList.contains("{{sch.get_day_display}}")) {
+        document.querySelector('.noClassMessage').style.display = 'none';
+        document.querySelector('.eventTable').style.display = 'table';
+        document.querySelector('.eventTable').innerHTML = `
+        <tr>
+        <th>Class</th>
+        <th>Subject</th>
+      </tr>
+      <tr>
+        <td>{{ sch.schedule.section.name }}</td> 
+        <td>{{ sch.schedule.get_subject_display }}</td>
+      </tr>`;
+        flag = 0;
+      }
+    {% endfor %}
+
+    if(flag === 1) {
+      document.querySelector('.noClassMessage').style.display = 'block';
+      document.querySelector('.eventTable').style.display = 'none';
+      flag = 0;
+    }
+  }
+
   const htmlDatesDiv = document.querySelector('.calendar__body');
   const htmlChangeMonth = document.querySelectorAll('.changeMonth');
   const htmlCurrMonthYear = document.querySelector(".cal-month__current");
@@ -183,7 +223,9 @@ Volunteer Leaderboard {% endblock %} {% block content %}
   let howManyDaysInMonth = daysInMonth(todaysMonth, year);
   let numWeek = getFirstDayInMonth(todaysMonth, year);  // Day on 1st of selected month (0-6)
   createElement(numWeek, howManyDaysInMonth);
+  getScheduleForTheDay();
 
+  // handle changing the month of calendar
   for(const changeMonthBtn of htmlChangeMonth){    
     changeMonthBtn.addEventListener('click', function(e) {
       if (e.target.classList.contains('cal-month__next')) {
@@ -210,6 +252,19 @@ Volunteer Leaderboard {% endblock %} {% block content %}
     });
   }
 
+  let htmlDayButton = document.querySelectorAll('.cal-body__day');
+  for(const dayBtn of htmlDayButton) {
+    dayBtn.addEventListener('click', function(e) {
+      if(e.target.classList.contains('cal-body__day')) {
+        // select the clicked date and change the color of the day button
+        for(const dayBtn of htmlDayButton) {
+          dayBtn.classList.remove('cal-body__day--selected');
+        }
+        e.target.classList.add('cal-body__day--selected');
+        getScheduleForTheDay();        
+      }
+    });
+  }
 </script>
 
 {% endblock %}
