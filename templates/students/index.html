@@ -12,7 +12,7 @@
 
 
 <div class="vol__header">
-  <div class="fixed-bg"">
+  <div class="fixed-bg">
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -45,7 +45,7 @@
 <!-- Students Profile Cards -->
 <div class="d-flex justify-content-center">
 <div class="py-3 mt-3 text-center text-muted border-bottom center" style="width:82vw;">
-  <h2 class="font-weight-bold" style="font-size:3rem;text-shadow: 3px 3px 3px #b2b0b0;">
+  <h2 class="font-weight-bold" style="font-size:3rem;color:#ff8c00">
       Students
   </h2>
 </div>
@@ -60,7 +60,7 @@
       <div class="card vol__card mb-5">
         <img src="{{ student.get_profile_image_url }}" class="card-img" alt="Profile Image" />
         <div class="card__details">
-          <div class="name">{{ student.get_full_name }}</div>
+          <div class="name">{{ student.first_name }}</div>
           <p>Class : {{student.school_class}}</p>
           <p>Village : {{student.get_village}}</p>
           

@@ -46,10 +46,9 @@ class Student(models.Model):
         return f'{self.first_name} {self.last_name}'
 
     @property
-<<<<<<< HEAD
     def get_village(self):
         return self.get_village_display()
-=======
+
     def has_complete_profile(self):
         if (self.first_name != '.' and self.last_name != '.' and '.' not in self.guardian_name
             and self.contact_no and self.profile_image):
@@ -66,7 +65,6 @@ class Student(models.Model):
         else:
             sign = '&#10004; '
         return f'{sign}{self.first_name} {self.last_name}'
->>>>>>> 8f29ee9fd609f6f50160de310800ad5fe7eaed62
 
     @property
     def get_profile_image_url(self):
