@@ -60,9 +60,6 @@
       <div class="card vol__card mb-5">
         <img src="{{ student.get_profile_image_url }}" class="card-img" alt="Profile Image" />
         <div class="card__details">
-          {% if student.desig %}
-          <span class="tag">{{student.desig}}</span>
-          {% endif %}
           <div class="name">{{ student.get_full_name }}</div>
           <p>Class : {{student.school_class}}</p>
           <p>Village : {{student.get_village}}</p>
