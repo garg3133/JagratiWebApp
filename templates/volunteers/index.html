@@ -12,7 +12,7 @@
 
 <div class="vol__header">
   <div class="fixed-bg">
-    <img src="{% static 'volunteers/images/header.jpg' %}" class="header-img" alt="Header Image" />
+    <img src="{% static 'global/images/header.jpg' %}" class="header-img" alt="Header Image" />
   </div>
 </div>
 
@@ -26,13 +26,13 @@
         <img src="{{ vol.profile.get_profile_image_url }}" class="card-img" alt="Profile Image" />
         <div class="card__details">
           {% if vol.desig %}
-          <span class="tag">{{vol.desig}}</span>
+          <span class="tag">{{ vol.desig }}</span>
           {% endif %}
           <div class="name">{{ vol.profile.get_full_name }}</div>
-          <p>Roll No : {{vol.roll_no}}</p>
-          <p>Batch : {{vol.batch}}</p>
+          <p>Roll No: {{ vol.roll_no }}</p>
+          <p>Batch: {{ vol.batch }}</p>
         </div>
-        <a class="stretched-link" href="{{ vol.profile_url }}" target="_blank"></a>
+        <a class="stretched-link" href="{{ vol.profile_url }}"></a>
       </div>
     </div>
     {% endfor %}
