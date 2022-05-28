@@ -7,7 +7,7 @@
   height: 280px;
 }
 
-#Vol__Cards a {
+#student__cards a {
   text-decoration: none;
 }
 
@@ -29,7 +29,7 @@
   cursor: pointer;
 }
 
-#Vol__Cards .tag {
+#student__cards .tag {
   padding: 4px 8px;
   border: 1px solid rgb(241, 128, 29);
 
@@ -39,14 +39,14 @@
   color: rgb(241, 128, 29);
 }
 
-#Vol__Cards .name {
+#student__cards .name {
   font-size: 16px;
   font-weight: 600;
   margin-top: 16px;
   margin-bottom: 8px;
 }
 
-#Vol__Cards p {
+#student__cards p {
   font-size: 14px;
   color: #7f8c9b;
   line-height: 150%;
@@ -60,7 +60,7 @@
 }
 
 @media screen and (max-width: 576px) {
-  #Vol__Cards > .row {
+  #student__cards > .row {
     max-width: 255px;
   }
 }
