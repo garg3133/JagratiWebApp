@@ -1,13 +1,12 @@
 from django.conf import settings
 from django.db import models
 
+from django.urls import reverse
+
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 
 from home.models import Calendar, Schedule
-
-
-from django.urls import reverse
 
 
 class Student(models.Model):
@@ -39,16 +38,13 @@ class Student(models.Model):
     remarks = models.TextField(max_length=5000, blank=True)
 
     def __str__(self):
-        return f'{self.get_full_name} ({self.school_class}) ({self.get_village}) ({self.get_profile_image_url})'
+        return f'{self.get_full_name} ({self.school_class})'
 
     @property
     def get_full_name(self):
         return f'{self.first_name} {self.last_name}'
 
     @property
-    def get_village(self):
-        return self.get_village_display()
-
     def has_complete_profile(self):
         if (self.first_name != '.' and self.last_name != '.' and '.' not in self.guardian_name
             and self.contact_no and self.profile_image):
