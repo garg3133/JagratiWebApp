@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.db import models
-
 from django.urls import reverse
 
 from imagekit.models import ProcessedImageField
@@ -72,7 +71,7 @@ class Student(models.Model):
             return settings.STATIC_URL + 'home/images/man.png'
 
     @property
-    def profile_url(self):
+    def get_profile_url(self):
         """Returns the url to student profile."""
         return reverse('students:profile', args=[str(self.id)])
 
