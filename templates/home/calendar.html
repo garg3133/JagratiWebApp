@@ -149,12 +149,28 @@ Volunteer Leaderboard {% endblock %} {% block content %}
 {% block scripts %}
 
 <script>
-  
   let date = new Date();
   let todaysDay = date.getDate();
   let todaysMonth = date.getMonth();
   let todaysWeekDay = date.getDay();
   let year = date.getFullYear();
+  
+  let fullDate = `${year}-${todaysMonth + 1}-${todaysDay}`;
+  function ajaxDate() {
+    $.ajax({
+      url: "{% url 'home:ajax_calendar' %}",
+      type: "GET",
+      data: {
+        date: fullDate,
+      },
+      dataType: "json",
+      success: function(data){
+        console.log(data);
+      }
+    });
+  }
+  ajaxDate();
+
 
   const monthDays = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];

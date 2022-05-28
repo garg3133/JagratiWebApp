@@ -1,5 +1,6 @@
 # standard library
-from datetime import datetime, date
+from calendar import day_name, monthrange, weekday
+from datetime import date, datetime
 
 # Django
 from django.contrib import messages
@@ -262,6 +263,38 @@ def class_schedule(request):
     login_url=reverse_lazy('accounts:complete_profile')
 )
 def calendar(request):
-    user = database_context(request)
-    volun_schedule = VolunteerSchedule.objects.filter(volun=user['volun']).order_by('day')
+    volun_schedule = VolunteerSchedule.objects.filter(volun__profile__user=request.user).order_by('day')
     return render(request, 'home/calendar.html', {'volun_schedule': volun_schedule})
+
+@login_required
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
+
+def ajax_calendar(request):
+    data = {}
+    date_str = request.GET.get('date', None)
+    date = datetime.strptime(date_str, '%Y-%m-%d').date()
+    general_class_schedule = Calendar.objects.filter(date__month=date.month).order_by('date')
+    volun_schedule = VolunteerSchedule.objects.filter(volun__profile__user=request.user).order_by('day')
+    noOfDaysInMonth = monthrange(date.year, date.month)[1]
+    working_days = []
+    for vs in volun_schedule:
+        working_days.append(vs.schedule.get_day_display())
+
+    for i in range(1, noOfDaysInMonth+1):
+        data[i] = ' .grey'
+
+    for gcs in general_class_schedule:
+        data[gcs.date.day] = ' .black'
+        if(gcs.class_scheduled == False):
+            data[gcs.date.day] = ' .red'
+
+    for i in range(1, noOfDaysInMonth+1):
+        if(weekday(date.year, date.month, i) == 6):
+            data[i] = ' .red'
+        if(day_name[weekday(date.year, date.month, i)] in working_days):
+            data[i] = ' .green'
+
+    return JsonResponse(data)
