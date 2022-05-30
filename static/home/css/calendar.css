@@ -157,4 +157,8 @@
   .scheduleInfoMobile {
     display: flex;
   }
+
+  .eventTableMobile {
+      max-width: 100%;
+  }
 }
