@@ -1,5 +1,16 @@
-{% extends 'layout.html' %} {% load static %} {% block title %} Jagrati |
-Volunteer Leaderboard {% endblock %} {% block content %}
+{% extends 'layout.html' %} 
+
+{% load static %} 
+
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'home/css/calendar.css' %}" />
+{% endblock %} 
+
+{% block title %} Jagrati | Calendar {% endblock %} 
+
+{% block content %}
+
 <nav class="navbar bg-light text-center p-0 m-0">
   <h2 class="w-100 text-center p-2 m-0" style="background-color: #ff8c00">
     Calendar
@@ -7,7 +18,7 @@ Volunteer Leaderboard {% endblock %} {% block content %}
 </nav>
 
 <div class="container">
-  <div class="d-flex flex-column justify-content-center text-center">
+  <div class="calAndMsgContainer">
     <div class="calendar">
       <div class="calendar__month">
         <div class="cal-month__previous changeMonth">&#60;</div>
@@ -36,127 +47,20 @@ Volunteer Leaderboard {% endblock %} {% block content %}
 
 {% endblock %}
 
-{% block style %}
-<style>
-  .calendar {
-    width: 350px;
-    margin: 50px auto 20px;
-    border: 2px solid #ff8c00;
-    border-radius: 5px;
-  }
-
-  .calendar__body {
-    padding: 5px;
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    grid-gap: 1px;
-  }
-
-  .calendar__month {
-    font-size: 20px;
-    font-weight: 800;
-    padding: 10px 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .cal-month__previous,
-  .cal-month__next {
-    cursor: pointer;
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    user-select: none;
-    margin: 0 5px;
-  }
-
-  .cal-month__previous:hover,
-  .cal-month__next:hover {
-    background-color: #ff8c00;
-    border-radius: 50%;
-    color: #111;
-  }
-
-  .cal-head__day,
-  .cal-body__day {
-    display: inline-block;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-  }
-
-  .cal-head__day {
-    padding: 5px 0;
-    font-weight: 800;
-  }
-
-  .cal-body__week,
-  .calendar__head {
-    display: block;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .calendar__head {
-    line-height: 50px;
-    border-bottom: 2px solid #ff8c00;
-  }
-
-  .cal-body__day {
-    color: #111;
-    line-height: 50px;
-    text-align: center;
-    cursor: pointer;
-  }
-
-  .cal-body__day--today {
-    font-weight: 800;
-    color: #ff8c00;
-  }
-  
-  .Sunday {
-    color: #ff8c00;
-    font-weight: 800;
-  }
-  
-  {% for sch in volun_schedule %}
-  .{{ sch.get_day_display }} {
-    background-color: greenyellow;
-    border-radius: 100%;
-    color: #111;
-    font-weight: 800;
-  }
-  {% endfor %}
-  
-  .cal-body__day--selected {
-    background-color: #ff8c00;
-    font-weight: 800;
-    border-radius: 50%;
-    color: #111;
-  }
-
-  .eventTable{
-    max-width: 25vw;
-    margin: auto;
-  }
-
-</style>
-{% endblock %} 
-
 {% block scripts %}
 
 <script>
   let date = new Date();
   let todaysDay = date.getDate();
   let todaysMonth = date.getMonth();
-  let todaysWeekDay = date.getDay();
   let year = date.getFullYear();
   
-  let fullDate = `${year}-${todaysMonth + 1}-${todaysDay}`;
-  function ajaxDate() {
+  const monthDays = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  
+  let ajaxData = '';
+
+  function ajaxCallCalendar() {
+    let fullDate = `${year}-${todaysMonth + 1}-01`;
     $.ajax({
       url: "{% url 'home:ajax_calendar' %}",
       type: "GET",
@@ -166,63 +70,62 @@ Volunteer Leaderboard {% endblock %} {% block content %}
       dataType: "json",
       success: function(data){
         console.log(data);
+        ajaxData = data;
+        createCalendarDates(data['idxOfFirstDay'], data['noOfDaysInMonth']);
       }
     });
   }
-  ajaxDate();
-
-
-  const monthDays = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
-  function daysInMonth(month, year) {
-    return new Date(year, month + 1, 0).getDate();
-  }
-
-  function getFirstDayInMonth(month, year) {
-    return new Date(year, month).getDay();
-  }
+  ajaxCallCalendar();
   
-  function createElement(n, d) {
-    for (let i = 0; i < n; i++) {
-        let div = document.createElement('div');
-        div.className = 'cal-body__day';
-        div.innerHTML = '';
-        htmlDatesDiv.append(div);
+  function createCalendarDates(idxOfFirstDayOfWeek, daysInMonth) {
+    htmlDatesDiv.innerHTML = '';
+    // fill the dates before 1st of month with blanks
+    for (let i = 0; i < idxOfFirstDayOfWeek; i++) {
+      let div = document.createElement('div');
+      div.className = 'cal-body__day';
+      div.innerHTML = '';
+      htmlDatesDiv.append(div);
     }
-    const todaysDateTemp = new Date();
-    for (let i = 1; i <= d; i++) {
-        let div = document.createElement('div');
-        div.className = 'cal-body__day';
-        if(i === todaysDay && todaysMonth === todaysDateTemp.getMonth() && year === todaysDateTemp.getFullYear()) {
-          div.className += ' cal-body__day--today cal-body__day--selected';
-        }
-        div.className += ` ${weekDays[(n+i-1)%7]}`;
-        div.innerHTML = i;
-        htmlDatesDiv.append(div);
+    
+    // fill the days of the month
+    for (let i = 1; i <= daysInMonth; i++) {
+      let div = document.createElement('div');
+      div.className = 'cal-body__day';
+      if(i === date.getDate() && todaysMonth === date.getMonth() && year === date.getFullYear()) {
+        div.className += ' cal-body__day--today cal-body__day--selected';
+        getScheduleForTheDay(i);
       }
+      div.className += ajaxData[i]['class'];
+      div.innerHTML = i;
+      htmlDatesDiv.append(div);
+    }
+    dateClickHandler();
   }
   
-  function getScheduleForTheDay(){
-    let selectedElement = document.querySelector('.cal-body__day--selected');
-    // get the schedule of the clicked day 
+  function getScheduleForTheDay(selectedDate){
+    // let selectedDate = document.querySelector('.cal-body__day--selected');
+    // console.log(selectedDate)
+    // if(selectedDate != null) {
+    //   selectedDate = selectedDate.innerHTML;
+    // }
+    // console.log(selectedDate)
     var flag = 1;
-    {% for sch in volun_schedule %}
-      if(selectedElement.classList.contains("{{sch.get_day_display}}")) {
-        document.querySelector('.noClassMessage').style.display = 'none';
-        document.querySelector('.eventTable').style.display = 'table';
-        document.querySelector('.eventTable').innerHTML = `
-        <tr>
-        <th>Class</th>
+    if(ajaxData[selectedDate]['subject'] !== 'none'){
+      flag = 0;
+      document.querySelector('.noClassMessage').style.display = 'none';
+      let table = document.querySelector('.eventTable');
+      table.style.display = 'table';
+      table.innerHTML = `
+      <tr>
         <th>Subject</th>
+        <th>Class</th>
       </tr>
       <tr>
-        <td>{{ sch.schedule.section.name }}</td> 
-        <td>{{ sch.schedule.get_subject_display }}</td>
-      </tr>`;
-        flag = 0;
-      }
-    {% endfor %}
+        <td>${ajaxData[selectedDate]['subject']}</td>
+        <td>${ajaxData[selectedDate]['section']}</td>
+      </tr>
+      `;
+    }
 
     if(flag === 1) {
       document.querySelector('.noClassMessage').style.display = 'block';
@@ -235,11 +138,6 @@ Volunteer Leaderboard {% endblock %} {% block content %}
   const htmlChangeMonth = document.querySelectorAll('.changeMonth');
   const htmlCurrMonthYear = document.querySelector(".cal-month__current");
   htmlCurrMonthYear.innerHTML = `${monthDays[todaysMonth]} ${year}`;
-  
-  let howManyDaysInMonth = daysInMonth(todaysMonth, year);
-  let numWeek = getFirstDayInMonth(todaysMonth, year);  // Day on 1st of selected month (0-6)
-  createElement(numWeek, howManyDaysInMonth);
-  getScheduleForTheDay();
 
   // handle changing the month of calendar
   for(const changeMonthBtn of htmlChangeMonth){    
@@ -259,27 +157,25 @@ Volunteer Leaderboard {% endblock %} {% block content %}
           todaysMonth--;
         }
       }
-       
-      htmlDatesDiv.innerHTML = '';
-      howManyDaysInMonth = daysInMonth(todaysMonth, year);
-      numWeek = getFirstDayInMonth(todaysMonth, year);  // Day on 1st of selected month (0-6)
-      createElement(numWeek, howManyDaysInMonth);
+      
       htmlCurrMonthYear.innerHTML = `${monthDays[todaysMonth]} ${year}`;
+      ajaxCallCalendar();
     });
   }
 
-  let htmlDayButton = document.querySelectorAll('.cal-body__day');
-  for(const dayBtn of htmlDayButton) {
-    dayBtn.addEventListener('click', function(e) {
-      if(e.target.classList.contains('cal-body__day')) {
+  // handle changing the day of calendar
+  function dateClickHandler() {
+    let htmlDayButton = document.querySelectorAll('.cal-body__day');
+    for(const dayBtn of htmlDayButton) {
+      dayBtn.addEventListener('click', function(e) {
         // select the clicked date and change the color of the day button
         for(const dayBtn of htmlDayButton) {
           dayBtn.classList.remove('cal-body__day--selected');
         }
         e.target.classList.add('cal-body__day--selected');
-        getScheduleForTheDay();        
-      }
-    });
+        getScheduleForTheDay(e.target.innerHTML);
+      });
+    }
   }
 </script>
 

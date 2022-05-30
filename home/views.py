@@ -279,22 +279,37 @@ def ajax_calendar(request):
     general_class_schedule = Calendar.objects.filter(date__month=date.month).order_by('date')
     volun_schedule = VolunteerSchedule.objects.filter(volun__profile__user=request.user).order_by('day')
     noOfDaysInMonth = monthrange(date.year, date.month)[1]
-    working_days = []
+    working_days = {}
     for vs in volun_schedule:
-        working_days.append(vs.schedule.get_day_display())
+        working_days[vs.schedule.get_day_display()] = {}
+        working_days[vs.schedule.get_day_display()]['subject'] = vs.schedule.get_subject_display()
+        working_days[vs.schedule.get_day_display()]['section'] = vs.schedule.section.name
 
     for i in range(1, noOfDaysInMonth+1):
-        data[i] = ' .grey'
+        data[i] = {}
+        data[i]['class'] = ' grey'
+        data[i]['subject'] = 'none'
+        data[i]['section'] = 'none'
 
     for gcs in general_class_schedule:
-        data[gcs.date.day] = ' .black'
-        if(gcs.class_scheduled == False):
-            data[gcs.date.day] = ' .red'
+        if(gcs.date.month == date.month and gcs.date.year == date.year):
+            data[gcs.date.day]['class'] = ' black'
+            if(gcs.class_scheduled == False):
+                data[gcs.date.day]['class'] = ' red'
 
     for i in range(1, noOfDaysInMonth+1):
-        if(weekday(date.year, date.month, i) == 6):
-            data[i] = ' .red'
-        if(day_name[weekday(date.year, date.month, i)] in working_days):
-            data[i] = ' .green'
+        weekDayIndex = weekday(date.year, date.month, i)
+        if(weekDayIndex == 6):
+            data[i]['class'] = ' red'
+        if(day_name[weekDayIndex] in working_days):
+            data[i]['class'] = ' green'
+            data[i]['subject'] = working_days[day_name[weekDayIndex]]['subject']
+            data[i]['section'] = working_days[day_name[weekDayIndex]]['section']
+    
+    data['noOfDaysInMonth'] = noOfDaysInMonth
+    data['idxOfFirstDay'] = weekday(date.year, date.month, 1) + 1
+    if data['idxOfFirstDay'] == 7:
+        data['idxOfFirstDay'] = 0
+    data['date'] = date.strftime("%Y-%m-%d")
 
     return JsonResponse(data)
