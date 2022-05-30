@@ -1,7 +1,9 @@
 .calAndMsgContainer{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+    margin-top: 10px;
+    height: 100%;
 }
 
 .calendar {
@@ -9,6 +11,9 @@
   margin: 50px auto 20px;
   border: 2px solid #ff8c00;
   border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
 }
 
 .calendar__body {
@@ -17,6 +22,27 @@
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-gap: 1px;
+}
+
+.scheduleInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    width: 100%;
+}
+
+.scheduleInfoMobile, #classInfo {
+    display: none;
+    width: 100%;
+}
+
+.noClassMessage, .noClassMessageMobile {
+    border: 2px solid #ff8c00;
+    border-radius: 10px;
+    text-align: center;
+    padding: 1rem;
 }
 
 .calendar__month {
@@ -83,8 +109,13 @@
     color: #ccc;
 }
 
-.red {
+.holiday {
     color: #ff8c00;
+    font-weight: 800;
+}
+
+.red {
+    color: red;
     font-weight: 800;
 }
 
@@ -96,6 +127,7 @@
 .cal-body__day--today {
   font-weight: 800;
   background-color: #ccc;
+  color: #111;
   border-radius: 50%;
 }
 
@@ -106,7 +138,23 @@
   color: #111;
 }
 
-.eventTable {
+.eventTable, .eventTableMobile {
   max-width: 25vw;
   margin: auto;
+}
+
+@media (max-width: 768px) {
+  .calAndMsgContainer {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+  }
+
+  .scheduleInfoDesktop {
+      display: none;
+  }
+  
+  .scheduleInfoMobile {
+    display: flex;
+  }
 }

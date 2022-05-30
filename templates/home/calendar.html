@@ -37,10 +37,36 @@
       <div class="calendar__body"></div>
     </div>
     <div class="scheduleInfo">
-      <table class="table eventTable table-bordered">
-        
-      </table>
-      <h3 class="noClassMessage">No Classes Scheduled! Take the day off and relax!</h3>
+      <div class="scheduleInfoDesktop">
+        <table class="table eventTable table-responsive table-bordered">
+          
+        </table>
+        <h3 class="noClassMessage">No Classes Scheduled! Take the day off and relax!</h3>
+      </div>
+
+      <!-- Modal -->
+      <div class="scheduleInfoMobile">
+        <div class="modal fade hidden-lg hidden-md" id="classInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Class Schedule</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <table class="table eventTableMobile table-responsive table-bordered">
+          
+                </table>
+                <h3 class="noClassMessageMobile">No Classes Scheduled! Take the day off and relax!</h3>        
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Modal Ends -->
+
     </div>
   </div>
 </div>
@@ -75,7 +101,7 @@
       }
     });
   }
-  ajaxCallCalendar();
+  ajaxCallCalendar();  // first ajax call on load of page for the first time
   
   function createCalendarDates(idxOfFirstDayOfWeek, daysInMonth) {
     htmlDatesDiv.innerHTML = '';
@@ -103,12 +129,6 @@
   }
   
   function getScheduleForTheDay(selectedDate){
-    // let selectedDate = document.querySelector('.cal-body__day--selected');
-    // console.log(selectedDate)
-    // if(selectedDate != null) {
-    //   selectedDate = selectedDate.innerHTML;
-    // }
-    // console.log(selectedDate)
     var flag = 1;
     if(ajaxData[selectedDate]['subject'] !== 'none'){
       flag = 0;
@@ -125,12 +145,24 @@
         <td>${ajaxData[selectedDate]['section']}</td>
       </tr>
       `;
+      
+      document.querySelector('.noClassMessageMobile').style.display = 'none';
+      document.querySelector('.eventTableMobile').style.display = 'table';
     }
 
     if(flag === 1) {
       document.querySelector('.noClassMessage').style.display = 'block';
       document.querySelector('.eventTable').style.display = 'none';
+      
+      document.querySelector('.noClassMessageMobile').style.display = 'block';
+      document.querySelector('.eventTableMobile').style.display = 'none';
+
       flag = 0;
+    }
+
+    document.querySelector('.eventTableMobile').innerHTML = document.querySelector('.eventTable').innerHTML;
+    if(window.innerWidth <= 768) {
+      $('#classInfo').modal('show');
     }
   }
 
@@ -168,12 +200,15 @@
     let htmlDayButton = document.querySelectorAll('.cal-body__day');
     for(const dayBtn of htmlDayButton) {
       dayBtn.addEventListener('click', function(e) {
+        console.log(e.target.classList)
         // select the clicked date and change the color of the day button
-        for(const dayBtn of htmlDayButton) {
-          dayBtn.classList.remove('cal-body__day--selected');
+        if(e.target.classList.contains('cal-body__day--today') || ajaxData[e.target.innerHTML]['class'] !== ' grey') { // makes the greyed buttons non-clickable
+          for(const dayBtn of htmlDayButton) {
+            dayBtn.classList.remove('cal-body__day--selected');
+          }
+          e.target.classList.add('cal-body__day--selected');
+          getScheduleForTheDay(e.target.innerHTML);
         }
-        e.target.classList.add('cal-body__day--selected');
-        getScheduleForTheDay(e.target.innerHTML);
       });
     }
   }

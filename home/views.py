@@ -300,11 +300,13 @@ def ajax_calendar(request):
     for i in range(1, noOfDaysInMonth+1):
         weekDayIndex = weekday(date.year, date.month, i)
         if(weekDayIndex == 6):
-            data[i]['class'] = ' red'
-        if(day_name[weekDayIndex] in working_days):
-            data[i]['class'] = ' green'
-            data[i]['subject'] = working_days[day_name[weekDayIndex]]['subject']
-            data[i]['section'] = working_days[day_name[weekDayIndex]]['section']
+            data[i]['class'] = ' holiday'
+        
+        if(data[i]['class'] == ' black'):
+            if(day_name[weekDayIndex] in working_days):
+                data[i]['class'] = ' green'
+                data[i]['subject'] = working_days[day_name[weekDayIndex]]['subject']
+                data[i]['section'] = working_days[day_name[weekDayIndex]]['section']
     
     data['noOfDaysInMonth'] = noOfDaysInMonth
     data['idxOfFirstDay'] = weekday(date.year, date.month, 1) + 1
