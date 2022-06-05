@@ -38,15 +38,16 @@
     </div>
     <div class="scheduleInfo">
       <div class="scheduleInfoDesktop">
-        <table class="table eventTable table-responsive table-bordered">
+        <h3 class="mainMessageForDay"></h3>
+        <table class="table scheduleTable table-responsive table-bordered">
           
         </table>
-        <h3 class="noClassMessage">No Classes Scheduled! Take the day off and relax!</h3>
+        <p class="extraInfo"></p>
       </div>
 
       <!-- Modal -->
       <div class="scheduleInfoMobile">
-        <div class="modal fade hidden-lg hidden-md" id="classInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal fade hidden-lg hidden-md" id="scheduleInfoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -56,10 +57,11 @@
                 </button>
               </div>
               <div class="modal-body">
-                <table class="table eventTableMobile table-responsive table-bordered m-0 w-100">
+                <h3 class="mainMessageForDayMobile"></h3>
+                <table class="table scheduleTableMobile table-responsive table-bordered m-0 w-100">
           
                 </table>
-                <h3 class="noClassMessageMobile">No Classes Scheduled! Take the day off and relax!</h3>        
+                <p class="extraInfoMobile"></p>
               </div>
             </div>
           </div>
@@ -76,142 +78,168 @@
 {% block scripts %}
 
 <script>
-  let date = new Date();
-  let todaysDay = date.getDate();
-  let todaysMonth = date.getMonth();
-  let year = date.getFullYear();
+  todayDate = "{{ today_date }}";
+  todayDateArr = todayDate.split('-');
+  currCalYear = parseInt(todayDateArr[0], 10);
+  currCalMonth = parseInt(todayDateArr[1], 10);
   
   const monthDays = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  
-  let ajaxData = '';
 
-  function ajaxCallCalendar() {
-    let fullDate = `${year}-${todaysMonth + 1}-01`;
+  // Functions to be called globally only once.
+  ajaxFetchCalendarForMonth(currCalMonth, currCalYear);
+  addMonthChangeClickHandler();
+
+  function ajaxFetchCalendarForMonth(month, year) {
     $.ajax({
-      url: "{% url 'home:ajax_calendar' %}",
+      url: "{% url 'home:ajax_fetch_calendar' %}",
       type: "GET",
       data: {
-        date: fullDate,
+        month,
+        year
       },
       dataType: "json",
-      success: function(data){
-        console.log(data);
-        ajaxData = data;
-        createCalendarDates(data['idxOfFirstDay'], data['noOfDaysInMonth']);
+      success: function(data) {
+        const calCurrMonthYear = document.querySelector(".cal-month__current");
+        calCurrMonthYear.innerHTML = `${monthDays[month-1]} ${year}`;
+        createCalendarDates(data);
+        addDateClickHandler(data);
       }
     });
   }
-  ajaxCallCalendar();  // first ajax call on load of page for the first time
   
-  function createCalendarDates(idxOfFirstDayOfWeek, daysInMonth) {
-    htmlDatesDiv.innerHTML = '';
+  function createCalendarDates(calendarDataForMonth) {
+    const indOfFirstDay = calendarDataForMonth['ind_of_first_day'];
+    const daysInMonth = calendarDataForMonth['last_day_of_month'];
+    const todayDate = calendarDataForMonth['today_date'];
+
+    const htmlDateDivWrapper = document.querySelector('.calendar__body');
+
+    htmlDateDivWrapper.innerHTML = '';
     // fill the dates before 1st of month with blanks
-    for (let i = 0; i < idxOfFirstDayOfWeek; i++) {
-      let div = document.createElement('div');
-      div.className = 'cal-body__day';
-      div.innerHTML = '';
-      htmlDatesDiv.append(div);
+    for (let i = 0; i < indOfFirstDay; i++) {
+      let dateDiv = document.createElement('div');
+      dateDiv.className = 'cal-body__day';
+      dateDiv.innerHTML = '';
+      htmlDateDivWrapper.append(dateDiv);
     }
     
     // fill the days of the month
-    for (let i = 1; i <= daysInMonth; i++) {
-      let div = document.createElement('div');
-      div.className = 'cal-body__day';
-      if(i === date.getDate() && todaysMonth === date.getMonth() && year === date.getFullYear()) {
-        div.className += ' cal-body__day--today cal-body__day--selected';
-        getScheduleForTheDay(i);
+    for (let day = 1; day <= daysInMonth; day++) {
+      let dateDiv = document.createElement('div');
+
+      dateDiv.className = `cal-body__day ${calendarDataForMonth[day]['status']}`;
+      if(calendarDataForMonth[day]['today']) {
+        dateDiv.className += ' cal-body__day--today cal-body__day--selected';
+        displayScheduleForDay(day, calendarDataForMonth[day], false);
       }
-      div.className += ajaxData[i]['class'];
-      div.innerHTML = i;
-      htmlDatesDiv.append(div);
+
+      dateDiv.innerHTML = day;
+
+      htmlDateDivWrapper.append(dateDiv);
     }
-    dateClickHandler();
   }
   
-  function getScheduleForTheDay(selectedDate){
-    var flag = 1;
-    if(ajaxData[selectedDate]['subject'] !== 'none'){
-      flag = 0;
-      document.querySelector('.noClassMessage').style.display = 'none';
-      let table = document.querySelector('.eventTable');
-      table.style.display = 'table';
-      table.innerHTML = `
-      <tr>
-        <th>Subject</th>
-        <th>Class</th>
-      </tr>
-      <tr>
-        <td>${ajaxData[selectedDate]['subject']}</td>
-        <td>${ajaxData[selectedDate]['section']}</td>
-      </tr>
-      `;
-      
-      document.querySelector('.noClassMessageMobile').style.display = 'none';
-      document.querySelector('.eventTableMobile').style.display = 'table';
+  function displayScheduleForDay(selectedDay, calDataForDay, isMobile) {
+    let classSuffixMobile = '';
+    if (isMobile) {
+      classSuffixMobile = 'Mobile';
     }
+    const mainMessageForDay = document.querySelector(`.mainMessageForDay${classSuffixMobile}`);
+    const scheduleTable = document.querySelector(`.scheduleTable${classSuffixMobile}`);
+    const extraInfo = document.querySelector(`.extraInfo${classSuffixMobile}`);
 
-    if(flag === 1) {
-      document.querySelector('.noClassMessage').style.display = 'block';
-      document.querySelector('.eventTable').style.display = 'none';
-      
-      document.querySelector('.noClassMessageMobile').style.display = 'block';
-      document.querySelector('.eventTableMobile').style.display = 'none';
+    if (calDataForDay.status === 'no_calendar') {
+      mainMessageForDay.innerHTML = 'Calendar not prepared for the day.';
+      scheduleTable.style.display = 'none';
+      extraInfo.style.display = 'none';
+    } else if (calDataForDay.status === 'class_scheduled') {
+      mainMessageForDay.innerHTML = 'Class scheduled!';
 
-      flag = 0;
-    }
-
-    document.querySelector('.eventTableMobile').innerHTML = document.querySelector('.eventTable').innerHTML;
-    if(window.innerWidth <= 768) {
-      $('#classInfo').modal('show');
-    }
-  }
-
-  const htmlDatesDiv = document.querySelector('.calendar__body');
-  const htmlChangeMonth = document.querySelectorAll('.changeMonth');
-  const htmlCurrMonthYear = document.querySelector(".cal-month__current");
-  htmlCurrMonthYear.innerHTML = `${monthDays[todaysMonth]} ${year}`;
-
-  // handle changing the month of calendar
-  for(const changeMonthBtn of htmlChangeMonth){    
-    changeMonthBtn.addEventListener('click', function(e) {
-      if (e.target.classList.contains('cal-month__next')) {
-        if (todaysMonth === 11) {
-          todaysMonth = 0;
-          year++;
-        } else {
-          todaysMonth++;
+      if (calDataForDay.schedule) {
+        scheduleTable.style.display = 'table';
+        scheduleTable.innerHTML = `
+          <tr>
+            <th>Section</th>
+            <th>Subject</th>
+          </tr>
+        `;
+        for (schedule of calDataForDay['schedule']) {
+          scheduleTable.innerHTML += `
+            <tr>
+              <td>${schedule['section']}</td>
+              <td>${schedule['subject']}</td>
+            </tr>
+          `;
         }
-      } else if (e.target.classList.contains('cal-month__previous')) {
-        if (todaysMonth === 0) {
-          todaysMonth = 11;
-          year--;
-        } else {
-          todaysMonth--;
-        }
+
+        extraInfo.style.display = 'none';
+      } else {
+        scheduleTable.style.display = 'none';
+
+        extraInfo.style.display = 'block';
+        extraInfo.innerHTML = `No schedule found...`;
       }
-      
-      htmlCurrMonthYear.innerHTML = `${monthDays[todaysMonth]} ${year}`;
-      ajaxCallCalendar();
-    });
+    } else {
+      mainMessageForDay.innerHTML = 'Class not scheduled!';
+
+      scheduleTable.style.display = 'none';
+
+      if (calDataForDay.remark) {
+        extraInfo.style.display = 'block';
+        extraInfo.innerHTML = `Remark: ${calDataForDay.remark}`;
+      } else {
+        extraInfo.style.display = 'none';
+      }
+    }
   }
 
   // handle changing the day of calendar
-  function dateClickHandler() {
-    let htmlDayButton = document.querySelectorAll('.cal-body__day');
-    for(const dayBtn of htmlDayButton) {
-      dayBtn.addEventListener('click', function(e) {
-        console.log(e.target.classList)
+  function addDateClickHandler(calendarDataForMonth) {
+    let htmlDateDivs = document.querySelectorAll('.cal-body__day');
+    for(const dateDiv of htmlDateDivs) {
+      dateDiv.addEventListener('click', function(e) {
+        const targetDateDiv = e.target;
         // select the clicked date and change the color of the day button
-        if(e.target.classList.contains('cal-body__day--today') || ajaxData[e.target.innerHTML]['class'] !== ' grey') { // makes the greyed buttons non-clickable
-          for(const dayBtn of htmlDayButton) {
-            dayBtn.classList.remove('cal-body__day--selected');
-          }
-          e.target.classList.add('cal-body__day--selected');
-          getScheduleForTheDay(e.target.innerHTML);
+        const currentlySelected = document.querySelector('.cal-body__day--selected');
+        if (currentlySelected) currentlySelected.classList.remove('cal-body__day--selected');
+        targetDateDiv.classList.add('cal-body__day--selected');
+
+        if (window.innerWidth <= 768) {
+          displayScheduleForDay(targetDateDiv.innerHTML, calendarDataForMonth[targetDateDiv.innerHTML], true);
+          $('#scheduleInfoModal').modal('show');
+        } else {
+          displayScheduleForDay(targetDateDiv.innerHTML, calendarDataForMonth[targetDateDiv.innerHTML], false);
         }
       });
     }
   }
-</script>
 
+  // handle changing the month of calendar
+  function addMonthChangeClickHandler() {
+    const htmlChangeMonthButton = document.querySelectorAll('.changeMonth');
+
+    for(const changeMonthBtn of htmlChangeMonthButton){    
+      changeMonthBtn.addEventListener('click', function(e) {
+        if (e.target.classList.contains('cal-month__next')) {
+          currCalMonth++;
+          if (currCalMonth === 13) {
+            currCalMonth = 1;
+            currCalYear++;
+          }
+        } else if (e.target.classList.contains('cal-month__previous')) {
+          currCalMonth--;
+          if (currCalMonth === 0) {
+            currCalMonth = 12;
+            currCalYear--;
+          }
+        }
+
+        const calCurrMonthYear = document.querySelector(".cal-month__current");
+        calCurrMonthYear.innerHTML = `${monthDays[currCalMonth-1]} ${currCalYear}`;
+
+        ajaxFetchCalendarForMonth(currCalMonth, currCalYear);
+      });
+    }
+  }
+</script>
 {% endblock %}

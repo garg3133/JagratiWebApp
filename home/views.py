@@ -257,61 +257,71 @@ def class_schedule(request):
 
     return render(request, 'home/class_schedule.html', context)
 
+
 @login_required
 @user_passes_test(
     has_authenticated_profile,
     login_url=reverse_lazy('accounts:complete_profile')
 )
 def calendar(request):
-    volun_schedule = VolunteerSchedule.objects.filter(volun__profile__user=request.user).order_by('day')
-    return render(request, 'home/calendar.html', {'volun_schedule': volun_schedule})
+    return render(request, 'home/calendar.html', {'today_date': date.today().strftime('%Y-%m-%d')})
+
 
 @login_required
 @user_passes_test(
     has_authenticated_profile,
     login_url=reverse_lazy('accounts:complete_profile')
 )
+def ajax_fetch_calendar(request):
+    month = int(request.GET.get('month', date.today().month))
+    year = int(request.GET.get('year', date.today().year))
+    last_day_of_month = monthrange(year, month)[1]
 
-def ajax_calendar(request):
     data = {}
-    date_str = request.GET.get('date', None)
-    date = datetime.strptime(date_str, '%Y-%m-%d').date()
-    general_class_schedule = Calendar.objects.filter(date__month=date.month).order_by('date')
-    volun_schedule = VolunteerSchedule.objects.filter(volun__profile__user=request.user).order_by('day')
-    noOfDaysInMonth = monthrange(date.year, date.month)[1]
-    working_days = {}
-    for vs in volun_schedule:
-        working_days[vs.schedule.get_day_display()] = {}
-        working_days[vs.schedule.get_day_display()]['subject'] = vs.schedule.get_subject_display()
-        working_days[vs.schedule.get_day_display()]['section'] = vs.schedule.section.name
 
-    for i in range(1, noOfDaysInMonth+1):
-        data[i] = {}
-        data[i]['class'] = ' grey'
-        data[i]['subject'] = 'none'
-        data[i]['section'] = 'none'
+    # Get class schedule for month
+    class_schedule_dict = {}
+    class_schedule = Schedule.objects.all()
+    days_in_schedule = class_schedule.values_list('day', flat=True)
+    for day in days_in_schedule:
+        day_schedule = Schedule.objects.filter(day=day)
+        day_str = str(day)
+        class_schedule_dict[day_str] = []
 
-    for gcs in general_class_schedule:
-        if(gcs.date.month == date.month and gcs.date.year == date.year):
-            data[gcs.date.day]['class'] = ' black'
-            if(gcs.class_scheduled == False):
-                data[gcs.date.day]['class'] = ' red'
+        for schedule in day_schedule:
+            class_schedule_dict[day_str].append({
+                'section': schedule.section.name,
+                'subject': schedule.get_subject_display()
+            })
 
-    for i in range(1, noOfDaysInMonth+1):
-        weekDayIndex = weekday(date.year, date.month, i)
-        if(weekDayIndex == 6):
-            data[i]['class'] = ' holiday'
-        
-        if(data[i]['class'] == ' black'):
-            if(day_name[weekDayIndex] in working_days):
-                data[i]['class'] = ' green'
-                data[i]['subject'] = working_days[day_name[weekDayIndex]]['subject']
-                data[i]['section'] = working_days[day_name[weekDayIndex]]['section']
-    
-    data['noOfDaysInMonth'] = noOfDaysInMonth
-    data['idxOfFirstDay'] = weekday(date.year, date.month, 1) + 1
-    if data['idxOfFirstDay'] == 7:
-        data['idxOfFirstDay'] = 0
-    data['date'] = date.strftime("%Y-%m-%d")
+    # Prepare data dict to be sent for requested month
+    month_calendar = Calendar.objects.filter(date__month=month, date__year=year).order_by('date')
+    for cal in month_calendar:
+        if cal.class_scheduled:
+            data[cal.date.day] = {
+                'status': 'class_scheduled',
+                'schedule': class_schedule_dict.get(cal.date.strftime('%w'), None)
+            }
+        else:
+            data[cal.date.day] = {
+                'status': 'no_class_scheduled',
+                'remark': cal.remark
+            }
+
+    for day in range(1, last_day_of_month+1):
+        if day not in data:
+            data[day] = {
+                'status': 'no_calendar'
+            }
+
+    # Mark today in calendar
+    today_date = date.today()
+    if month == today_date.month and year == today_date.year:
+        data[today_date.day]['today'] = True
+
+    # Other data
+    data['today_date'] = today_date.strftime('%Y-m-%d')
+    data['last_day_of_month'] = last_day_of_month
+    data['ind_of_first_day'] = datetime(year, month, 1).strftime('%w')
 
     return JsonResponse(data)

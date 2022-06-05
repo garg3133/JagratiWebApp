@@ -10,5 +10,5 @@ urlpatterns = [
     path('ajax/dashboard/', views.ajax_dashboard, name='ajax_dashboard'),
     path('dashboard/class_schedule/', views.class_schedule, name='class_schedule'),
     path('calendar/', views.calendar, name='calendar'),
-    path('ajax/calendar', views.ajax_calendar, name='ajax_calendar'),
+    path('ajax/fetch_calendar', views.ajax_fetch_calendar, name='ajax_fetch_calendar'),
 ]

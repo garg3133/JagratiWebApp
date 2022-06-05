@@ -38,7 +38,7 @@
     width: 100%;
 }
 
-.noClassMessage, .noClassMessageMobile {
+.mainMessageForDay, .mainMessageForDayMobile {
     border: 2px solid #ff8c00;
     border-radius: 10px;
     text-align: center;
@@ -105,7 +105,7 @@
   cursor: pointer;
 }
 
-.grey {
+.no_calendar {
     color: #ccc;
 }
 
@@ -114,12 +114,12 @@
     font-weight: 800;
 }
 
-.red {
+.no_class_scheduled {
     color: red;
     font-weight: 800;
 }
 
-.green {
+.class_scheduled {
     color: green;
     font-weight: 800;
 }
@@ -127,7 +127,7 @@
 .cal-body__day--today {
   font-weight: 800;
   background-color: #ccc;
-  color: #111;
+  /* color: #111; */
   border-radius: 50%;
 }
 
@@ -138,7 +138,7 @@
   color: #111;
 }
 
-.eventTable, .eventTableMobile {
+.scheduleTable, .scheduleTableMobile {
   max-width: 25vw;
   margin: auto;
 }
@@ -158,7 +158,7 @@
     display: flex;
   }
 
-  .eventTableMobile {
+  .scheduleTableMobile {
       max-width: 100%;
   }
 }
