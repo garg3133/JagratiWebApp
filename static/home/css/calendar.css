@@ -4,16 +4,17 @@
     grid-gap: 10px;
     margin-top: 10px;
     height: 100%;
+    padding-top: 4rem;
 }
 
 .calendar {
   width: 350px;
-  margin: 50px auto 20px;
+  margin: 0px auto;
   border: 2px solid #ff8c00;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
-  align-self: center;
+  align-self: top;
 }
 
 .calendar__body {
@@ -27,8 +28,7 @@
 .scheduleInfo {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    height: 100%;
+    justify-content: center; /* left intentionally to fix alignmnet issue when no remarks */   
     text-align: center;
     width: 100%;
 }
@@ -43,6 +43,7 @@
     border-radius: 10px;
     text-align: center;
     padding: 1rem;
+    margin-bottom: 1rem;
 }
 
 .calendar__month {
@@ -143,6 +144,12 @@
   margin: auto;
 }
 
+.extraInfo {
+  margin-top: 1rem;
+  font-style: italic;
+  text-decoration: underline;
+}
+
 @media (max-width: 768px) {
   .calAndMsgContainer {
       display: flex;
@@ -160,5 +167,11 @@
 
   .scheduleTableMobile {
       max-width: 100%;
+  }
+
+  .extraInfoMobile {
+    margin-top: 1rem;
+    font-style: italic;
+    text-decoration: underline;
   }
 }
