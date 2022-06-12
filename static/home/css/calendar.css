@@ -1,15 +1,15 @@
 .calAndMsgContainer{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 10px;
-    margin-top: 10px;
-    height: 100%;
-    padding-top: 4rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  margin-top: 10px;
+  height: 100%;
+  padding-top: 4rem;
 }
 
 .calendar {
   width: 350px;
-  margin: 0px auto;
+  margin: auto auto;
   border: 2px solid #ff8c00;
   border-radius: 5px;
   display: flex;
@@ -28,7 +28,7 @@
 .scheduleInfo {
     display: flex;
     flex-direction: column;
-    justify-content: center; /* left intentionally to fix alignmnet issue when no remarks */   
+    justify-content: center; 
     text-align: center;
     width: 100%;
 }
@@ -173,5 +173,11 @@
     margin-top: 1rem;
     font-style: italic;
     text-decoration: underline;
+  }
+}
+
+@media (max-width: 400px) {
+  .calendar {
+    width: 100%;
   }
 }

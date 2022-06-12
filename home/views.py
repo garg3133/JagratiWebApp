@@ -1,5 +1,5 @@
 # standard library
-from calendar import day_name, monthrange, weekday
+from calendar import monthrange
 from datetime import date, datetime
 
 # Django
@@ -13,8 +13,7 @@ from django.urls import reverse, reverse_lazy
 from accounts.models import Profile
 from apps.misc.models import Initiative
 from apps.students.models import StudentAttendance
-from apps.volunteers.models import Volunteer, VolunteerAttendance, VolunteerSchedule
-from home.context_processors import database_context
+from apps.volunteers.models import Volunteer, VolunteerAttendance
 from .models import Calendar, ClassworkHomework, Schedule, Section
 
 
