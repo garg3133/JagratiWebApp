@@ -266,7 +266,17 @@
         <!-- /class_scheduled -->
     {% endif %}
     <!-- /selected_date -->
+    <!-- calendar icon on bottom-right  -->
+    <a href="{% url 'home:calendar' %}">
+        <div style="position: fixed; right: 20px; bottom: 30px; z-index: 999; ">
+            <div style="background-color: #ff8c00; border-radius: 50%; width: 50px; height: 50px; display: flex; justify-content: center;">
+                <img src="{% static 'global/images/calendar.png' %}" alt="Calendar" style="width: 35px; height: 35px; margin: auto;">
+            </div>
+        </div>
+    </a>
+    <!-- calendar icon on bottom-right ends -->
 </div>
+
 {% endblock %}
 
 {% block scripts-sidebar %}

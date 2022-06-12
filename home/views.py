@@ -1,5 +1,6 @@
 # standard library
-from datetime import datetime, date
+from calendar import monthrange
+from datetime import date, datetime
 
 # Django
 from django.contrib import messages
@@ -254,3 +255,72 @@ def class_schedule(request):
     }
 
     return render(request, 'home/class_schedule.html', context)
+
+
+@login_required
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
+def calendar(request):
+    return render(request, 'home/calendar.html', {'today_date': date.today().strftime('%Y-%m-%d')})
+
+
+@login_required
+@user_passes_test(
+    has_authenticated_profile,
+    login_url=reverse_lazy('accounts:complete_profile')
+)
+def ajax_fetch_calendar(request):
+    month = int(request.GET.get('month', date.today().month))
+    year = int(request.GET.get('year', date.today().year))
+    last_day_of_month = monthrange(year, month)[1]
+
+    data = {}
+
+    # Get class schedule for month
+    class_schedule_dict = {}
+    class_schedule = Schedule.objects.all()
+    days_in_schedule = class_schedule.values_list('day', flat=True)
+    for day in days_in_schedule:
+        day_schedule = Schedule.objects.filter(day=day)
+        day_str = str(day)
+        class_schedule_dict[day_str] = []
+
+        for schedule in day_schedule:
+            class_schedule_dict[day_str].append({
+                'section': schedule.section.name,
+                'subject': schedule.get_subject_display()
+            })
+
+    # Prepare data dict to be sent for requested month
+    month_calendar = Calendar.objects.filter(date__month=month, date__year=year).order_by('date')
+    for cal in month_calendar:
+        if cal.class_scheduled:
+            data[cal.date.day] = {
+                'status': 'class_scheduled',
+                'schedule': class_schedule_dict.get(cal.date.strftime('%w'), None)
+            }
+        else:
+            data[cal.date.day] = {
+                'status': 'no_class_scheduled',
+                'remark': cal.remark
+            }
+
+    for day in range(1, last_day_of_month+1):
+        if day not in data:
+            data[day] = {
+                'status': 'no_calendar'
+            }
+
+    # Mark today in calendar
+    today_date = date.today()
+    if month == today_date.month and year == today_date.year:
+        data[today_date.day]['today'] = True
+
+    # Other data
+    data['today_date'] = today_date.strftime('%Y-m-%d')
+    data['last_day_of_month'] = last_day_of_month
+    data['ind_of_first_day'] = datetime(year, month, 1).strftime('%w')
+
+    return JsonResponse(data)
