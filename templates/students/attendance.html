@@ -19,7 +19,7 @@
             <div class="row justify-content-center">
                 <div class="col mb-4">
                     <select name="selected_class" class="custom-select d-block w-100" id="stu-att-class">
-                        <!-- <option value="all">Select Class</option> -->
+                        <option value="1-14">All Students</option>
                         <option value="1-3">Class 1-3</option>
                         <option value="4-5">Class 4-5</option>
                         <option value="1-5">Class 1-5</option>
@@ -128,10 +128,8 @@
 
 <!-- AJAX for Fetch Students -->
 <script>
-    // $("#stu-att-class option:selected").removeAttr('selected');
-    $("#stu-att-class option:first").attr('selected', 'selected');
-    $("#stu-att-class").change(function () {
-        let stu_class = $(this).val();
+    function fetchStudentsForAttendance() {
+        let stu_class = $("#stu-att-class").val();
 
         $.ajax({
             url: "{% url 'students:ajax_fetch_students' %}",
@@ -166,7 +164,7 @@
                             <td>
                                 <div class="custom-control custom-switch">
                                     <input type="checkbox" name="attended" value="${stu_id}"
-                                        class="custom-control-input" id="s${stu_att_id}" 
+                                        class="custom-control-input" id="s${stu_att_id}"
                                         onchange="attendance('${stu_id}', 's${stu_att_id}')" ${checked}>
                                     <label class="custom-control-label" for="s${stu_att_id}"></label>
                                 </div>
@@ -178,7 +176,12 @@
                 $("#stu-att-table").html(stu_att_table);
             }
         });
-    });
+    }
+    
+    // $("#stu-att-class option:selected").removeAttr('selected');
+    $("#stu-att-class option:first").attr('selected', 'selected');
+    $("#stu-att-class").ready(fetchStudentsForAttendance);
+    $("#stu-att-class").change(fetchStudentsForAttendance);
 </script>
 
 <!-- Search Filter for Student Attendance  -->
