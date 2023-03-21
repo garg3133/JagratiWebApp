@@ -24,8 +24,9 @@
 
 
 <!--Logo-->
-<center style="background-color: rgb(252,252,252)"><img src="{% static 'new_home/images/logo.png' %}"
-        style="height: 60px;"></center>
+<div class="text-center" style="background-color: rgb(252,252,252)">
+    <img src="{% static 'new_home/images/logo.png' %}" alt="logo" style="height: 60px;">
+</div>
 
 <!--Navbar Starts-->
 <nav id="sticky">
@@ -42,7 +43,7 @@
 
             <a href="/new" class="child-1">Home</a>
             <a href="#about-us" class="child-2">About</a>
-            <a href="" class="child-3">Initiatives</a>
+            <a href="#initiatives" class="child-3">Initiatives</a>
             <a href="/" class="child-4">Team</a>
             <a href="#contact-us" class="child-5">Contact</a>
             <hr />
@@ -79,16 +80,15 @@
 <!-- alert section ends -->
 
 <!--Header Start-->
-<section id="header" class=" align-items-center">
+<section id="header" class=" align-items-center my-3 py-4">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 mt-5 " data-aos="zoom-in" data-aos-offset="100"
                 data-aos-easing="ease-in-sine">
                 <h1>Welcome to <a style="color:#f17e01;" class="magica">Jagrati</a></h1>
                 <h2>We are a team of dedicated students, on a path to make this world a better place!</h2>
-                <a href="#about" class="btn-get-started scrollto">Donate</a>
+                <a href="#donate-us" class="btn-get-started scrollto">Donate</a>
             </div>
-
             <div class="col-lg-6 order-1 order-lg-2 header-img" data-aos="zoom-in" data-aos-offset="400"
                 data-aos-easing="ease-in-sine">
                 <img src='{% static "new_home/images/edu.svg" %}' class="img-fluid animated" alt="classroom">
@@ -98,10 +98,8 @@
 </section>
 <!--Header Ends-->
 
-</br></br></br></br>
-
 <!-- About section starts -->
-<section id="about-us">
+<section id="about-us" class="my-3 mx-auto py-4">
     <div class="cntainer">
         <div class="intro" data-aos='fade-up'>
             <h1>About Us</h1>
@@ -138,58 +136,54 @@
 <!-- About section ends -->
 
 <!--Initiatives Starts-->
-<div>
-    <center>
+<section id="initiatives" class="my-3 mx-auto py-4">
+    <div class="text-center">
         <h1 style="padding-top: 20px;" data-aos='fade-up'> Inititatives</h1>
-    </center>
-</div>
-
-<div class="card-container">
-    {% for initiative in initiatives %}
-    <div class="card" data-aos="fade-left" data-aos-duration="1500">
-        <div class="card-img">
-            <img style="height: 300px;" alt="image"
-                src="{% if initiative.thumbnail %}{{ initiative.thumbnail.url }}{% else %}{{ initiative.thumb_url }}{% endif %}">
-        </div>
-        <br>
-        <div class="card-text">
-            <h5 class="card-title">{{initiative.title}}</h5>
-            <p class="card-text">{{initiative.description}}</p>
-        </div>
     </div>
-    {% endfor %}
-</div>
+
+    <div class="card-container">
+        {% for initiative in initiatives %}
+        <div class="card" data-aos="fade-left" data-aos-duration="1500">
+            <div class="card-img">
+                <img style="height: 300px;" alt="image"
+                    src="{% if initiative.thumbnail %}{{ initiative.thumbnail.url }}{% else %}{{ initiative.thumb_url }}{% endif %}">
+            </div>
+            <div class="card-text">
+                <h5 class="card-title">{{initiative.title}}</h5>
+                <p class="card-text">{{initiative.description}}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
 <!--Initiatives Ends-->
 
-<br><br>
 
 <!-- Donate Us section starts -->
-<section id="donate-us">
+<section id="donate-us" class="my-3 mx-auto py-4">
     <div class="cntainer">
         <!-- Icon -->
-        <h1 data-aos="fade-up">Donate Us</h1>
-        <br>
+        <h1 data-aos="fade-up" class="mb-2">Donate Us</h1>
+        
         <p data-aos="zoom-in" data-aos-delay="100" data-aos-duration="700" data-aos-anchor="#donate-us h1"><em>We make a
                 living by what we get.<br> We make a life by what we give.</em> <br><br>At Jagrati, we promote education
             in villages and help these little kids to find their passion and shape their lives.
         </p>
         <div data-aos="fade" data-aos-delay="500" data-aos-easing='ease-in-linear' data-aos-duration="1000"
             data-aos-anchor="#donate-us h1">
-            <a href="#about" class="btn-get-started scrollto">Donate</a>
+            <a href="#donate-us" class="btn-get-started scrollto">Donate</a>
         </div>
     </div>
 </section>
 <!-- Donate Us section ends -->
 
-</br></br>
 
 <!-- Contact Us section starts -->
-<section id="contact-us">
+<section id="contact-us" class="my-3 mx-auto py-4">
     {% include 'new_home/contact.html' %}
 </section>
 <!-- Contact Us section ends -->
 
-</br></br></br>
 
 <!-- Footer starts -->
 <footer>
