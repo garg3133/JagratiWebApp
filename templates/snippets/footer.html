@@ -11,8 +11,17 @@
 
 <!-- Footer starts -->
 <footer>
-    <div class="container">
-        Jagrati Copyright &copy; {% now 'Y'%}
+    <div class="mx-5">
+        <div class="footer text-white text-center clearfix">
+            <div class="float-lg-left pt-1 pb-2 py-lg-0">
+                &copy; <a class="text-decoration-none" href="{% url 'home:index' %}" style="color:#ff8c00;">Jagrati</a>; {% now 'Y'%}
+            </div>
+            <div class="float-lg-right">
+                Made with <span class="text-danger">&hearts;</span> by
+                <a style="color: #ff8c00;" href="https://github.com/garg3133">Priyansh Garg</a> and other
+                <a style="color: #ff8c00;" href="https://github.com/garg3133/JagratiWebApp/graphs/contributors">OSS contributors</a>.
+            </div>
+        </div>
     </div>
 </footer>
 <!-- Footer ends -->
