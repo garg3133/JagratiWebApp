@@ -1,7 +1,7 @@
 ﻿certifi==2020.12.5
 cffi==1.14.4
 chardet==4.0.0
-cryptography==3.3.2
+cryptography==39.0.1
 defusedxml==0.7.0rc2
 Django==2.2.28
 django-appconf==1.0.4
