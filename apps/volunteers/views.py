@@ -345,6 +345,7 @@ def ajax_update_schedule(request):
     has_authenticated_profile, redirect_field_name=None,
     login_url=reverse_lazy('accounts:complete_profile')
 )
+@permission_required('volunteers.view_volunteerattendance', raise_exception=True)
 def leaderboard(request):
     date_from = date.today() - timedelta(days=30)
     date_to = date.today()
