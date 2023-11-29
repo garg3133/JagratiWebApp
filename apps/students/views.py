@@ -35,6 +35,7 @@ today_day = today_date.strftime("%w")
     has_authenticated_profile,
     login_url=reverse_lazy('accounts:complete_profile')
 )
+@permission_required('students.delete_student', raise_exception=True)
 def index(request):
     students = Student.objects.order_by('school_class', 'first_name', 'last_name')
     context = {
