@@ -23,10 +23,6 @@ from home.views import has_authenticated_profile
 from .models import Student, StudentAttendance, StudentSchedule
 from .forms import StudentModelForm
 
-# GLOBAL VARIABLES
-today_date = date.today()
-today_day = today_date.strftime("%w")
-
 
 # VIEWS FUNCTIONS
 
@@ -158,6 +154,8 @@ def verify_profile(request, pk, verify):
 # @permissions_required
 def attendance(request):
     """Student attendance page."""
+    today_date = date.today()
+
     today_cal = Calendar.objects.filter(date=today_date)
     # TO BE REMOVED...
     # Update today's date in Calendar if not already there
@@ -178,7 +176,7 @@ def attendance(request):
         return render(request, 'students/attendance.html', context)
 
     today_stu_sch = StudentSchedule.objects.select_related(
-        'student').filter(day=today_day)
+        'student').filter(day=today_date.strftime("%w"))
     today_stu_att = StudentAttendance.objects.filter(cal_date__date=today_date)
 
     if not today_stu_att.exists():
@@ -212,7 +210,7 @@ def attendance(request):
 # @permissions_required
 def ajax_fetch_students(request):
     """Fetch students based on class-group selected on student attendance page."""
-    today_cal = Calendar.objects.get(date=today_date)
+    today_cal = Calendar.objects.get(date=date.today())
     data = {}
     stu_class = request.GET.get('stu_class', None)
     class_range_min, class_range_max = stu_class.split('-')
@@ -242,7 +240,7 @@ def ajax_mark_attendance(request):
     stu_id = request.GET['std_id']
     is_present = request.GET['is_present']
     stu_att = StudentAttendance.objects.get(
-        student__id=stu_id, cal_date=today_date)
+        student__id=stu_id, cal_date=date.today())
     stu_att.present = True if is_present == 'true' else False
     stu_att.save()
     data = {'success': True}
