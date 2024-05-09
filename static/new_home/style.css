@@ -429,8 +429,8 @@ header
 #about-us::before{
   display: block;
   content: "";
-  margin-top: -25px;
-  height: 25px;
+  margin-top: 0px;
+  height: 0px;
   visibility: hidden;
 }
 #about-us h1, #about-us h2{
@@ -581,8 +581,8 @@ header
 #donate-us::before{
   display: block;
   content: "";
-  margin-top: -25px;
-  height: 25px;
+  margin-top: 0px;
+  height: 0px;
   visibility: hidden;
 }
 #donate-us h1, #donate-us h2{
@@ -600,6 +600,22 @@ header
 /*----- Donate Us Ends -----*/
 
 /* Contact Us Starts */
+#contact-us::before{
+  display: block;
+  content: "";
+  margin-top: 0px;
+  height: 0px;
+  visibility: hidden;
+}
+
+#contact-us h1::after{
+  content: "";
+  display: block;
+  width: 13%;
+  margin: auto;
+  margin-top: 2px;
+  height: 2px;
+}
 
 .containerly{
   width: 70%;
