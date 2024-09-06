@@ -67,7 +67,7 @@ class VolunteerScheduleAdmin(admin.ModelAdmin):
 @admin.register(VolunteerAttendance)
 class VolunteerAttendanceAdmin(admin.ModelAdmin):
     list_display = ('cal_date', 'get_roll', 'get_name', 'present', 'extra')
-    search_fields = ('cal_date', 'volun__roll_no',
+    search_fields = ('volun__roll_no',
                      'volun__profile__first_name', 'volun__profile__last_name')
     list_filter = ('volun__batch', 'present', 'extra')
     ordering = ('-cal_date', '-volun__batch', 'volun__roll_no')
