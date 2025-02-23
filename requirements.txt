@@ -12,7 +12,7 @@ django-imagekit==4.0.2
 djangorestframework==3.11.2
 et-xmlfile==1.0.1
 flake8==3.9.1
-idna==2.10
+idna==3.7
 jdcal==1.4.1
 mccabe==0.6.1
 oauthlib==3.1.0
